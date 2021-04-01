@@ -1,0 +1,9 @@
+.MuiPaper-root{
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 0%), 0px 4px 5px 0px rgb(0 0 0 / 0%), 0px 1px 10px 0px rgb(0 0 0 / 0%)!important
+}
+.MuiAppBar-root{
+  background-color: #2d3475c7!important;
+}
+.makeStyles-content-15{
+  padding:10px!important;
+}
