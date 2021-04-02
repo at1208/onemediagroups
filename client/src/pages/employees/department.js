@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import { createDepartment } from '../../actions/department';
 import Alert from '@material-ui/lab/Alert';
- 
+
 import CancelIcon from '@material-ui/icons/Cancel';
 
 
@@ -68,7 +68,6 @@ if(!openForm){
           <Grid container justify="flex-end" >
              <Grid item xs={12} sm={4} md={4}>
               <Button
-                 variant="contained"
                  color="primary"
                  onClick={() => setOpenForm(false)}
                  className={classes.close}

@@ -1,12 +1,11 @@
 import React from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 
-
-const LeaveRequests = () => {
+const Activities = () => {
   return <>
-          <DashboardLayout>
-          </DashboardLayout>
+           <DashboardLayout>
+
+           </DashboardLayout>
          </>
 }
-
-export default LeaveRequests;
+export default Activities;

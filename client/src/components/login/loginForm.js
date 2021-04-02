@@ -72,7 +72,8 @@ const LoginForm = () => {
      .then((value) => {
        setLogin({...login, isLoading:false, success: value.message })
          authenticate(value, () => {
-           history.push("/dashboard")
+           window.location.href="/dashboard"
+           // history.push("/dashboard")
          })
      })
      .catch((err) => {

@@ -12,10 +12,6 @@ const projectSchema = mongoose.Schema({
         min:5,
         max:320
       },
-      logo:{
-        data:Buffer,
-        content_type:String
-      },
       team_leader:{
         type:ObjectId,
         ref:"Employee"
@@ -34,10 +30,6 @@ const projectSchema = mongoose.Schema({
         type:String,
         enum:["Low","Medium","High"],
         default:"Low"
-      },
-      uploaded_file:{
-        data:Buffer,
-        content_type:String
       },
       del_flag:{
         type:Boolean,

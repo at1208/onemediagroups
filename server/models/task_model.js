@@ -49,9 +49,6 @@ const taskSchema = mongoose.Schema({
         type:Date,
         required:true
       },
-      completed_at:{
-        type:Date
-      },
       del_flag:{
         type:Boolean,
         default:false

@@ -174,11 +174,9 @@ if(!openForm){
         </Grid>
 } else{
 return <>
-
   <Grid container spacing={3} justify="flex-end">
         <Grid item  md={4} sm={4} xs={12}>
           <Button
-           variant="contained"
            onClick={() => setOpenForm(false)}
            className={classes.close}
            color="primary">
@@ -189,7 +187,7 @@ return <>
   <br /><br /><br />
   <Grid container spacing={3} justify="center">
     <Grid item xs={12} md={10}>
-       <Card className={classes.cardRoot} variant="outlined">
+       <Card className={classes.cardRoot}>
        {employee.success && <Alert severity="success">{employee.success}</Alert>}
        {employee.error && <Alert severity="error">{employee.error}</Alert>}
        <br />
@@ -313,7 +311,7 @@ return <>
           <Grid container justify="center" spacing={3}>
             <Grid item xs={12} md={6}>
               <br />
-              <Button variant="contained" color="primary" type="submit" fullWidth>Send Invitation</Button>
+              <Button variant="contained" color="primary" type="submit" fullWidth disabled={employee.isLoading}>Send Invitation</Button>
             </Grid>
           </Grid>
 

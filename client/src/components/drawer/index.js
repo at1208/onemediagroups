@@ -182,62 +182,69 @@ const useStyles = makeStyles((theme) => ({
 
 
         <List>
-          <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
+          <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
+            <ListItemIcon> </ListItemIcon>
             <ListItemText primary="Dashboard" />
+          </ListItem>
+
+          <ListItem button  selected={currentTab("/chats/general")} onClick={() => history.push("/chats/general")}>
+            <ListItemIcon> </ListItemIcon>
+            <ListItemText primary="Chats" />
           </ListItem>
 
 
           <ListItem button onClick={handleOpenEmployee} className='mt-3'>
                       <ListItemIcon>
-                        <PeopleAltIcon />
+
                       </ListItemIcon>
                       <ListItemText primary="Employees"  />
                       {openEmployeeCollapse ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
              <List component="div" disablePadding className={classes.collapseList}>
-                   <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
+                   <ListItem button   selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
                      <ListItemIcon> </ListItemIcon>
                      <ListItemText primary='All Employees' />
                    </ListItem>
 
-                   {/*<ListItem button key={987} selected={currentTab("/leave-requests")} onClick={() => history.push("/leave-requests")}>
-                     <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
-                     <ListItemText primary='Leave Requests' />
+                   <ListItem button   selected={currentTab("/department")} onClick={() => history.push("/department")}>
+                     <ListItemIcon> </ListItemIcon>
+                     <ListItemText primary='Departments' />
                    </ListItem>
 
-                   <ListItem button key={7652} selected={currentTab("/holidays")} onClick={() => history.push("/holidays")}>
-                     <ListItemIcon><LabelImportantIcon /></ListItemIcon>
-                     <ListItemText primary='Holidays' />
-                   </ListItem>*/}
-
-                   <ListItem button key={543} selected={currentTab("/department")} onClick={() => history.push("/department")}>
+                   <ListItem button   selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
                      <ListItemIcon> </ListItemIcon>
-                     <ListItemText primary='Department' />
-                   </ListItem>
-
-                   <ListItem button key={31232} selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
-                     <ListItemIcon> </ListItemIcon>
-                     <ListItemText primary='Designation' />
+                     <ListItemText primary='Designations' />
                    </ListItem>
 
              </List>
           </Collapse>
 
-          <ListItem button key={31232} selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
-            <ListItemIcon><ContactsIcon /></ListItemIcon>
+
+
+          <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
+            <ListItemIcon> </ListItemIcon>
+            <ListItemText primary="Projects" />
+          </ListItem>
+
+          <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
+            <ListItemIcon> </ListItemIcon>
+            <ListItemText primary="Tasks" />
+          </ListItem>
+
+          <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
+            <ListItemIcon> </ListItemIcon>
             <ListItemText primary="Contacts" />
           </ListItem>
 
 
-          <ListItem button key={311} selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
-            <ListItemIcon><LocalActivityIcon /></ListItemIcon>
+          <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
+            <ListItemIcon> </ListItemIcon>
             <ListItemText primary="Activities" />
           </ListItem>
 
-          <ListItem button key={423}  onClick={() => signout(() => history.push("/"))}>
-            <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+          <ListItem button    onClick={() => signout(() => window.location.href="/")}>
+            <ListItemIcon> </ListItemIcon>
             <ListItemText primary="Signout" />
           </ListItem>
         </List>

@@ -79,6 +79,7 @@ module.exports.create_employee =  async (req, res) => {
      const employee = new Employee();
          employee.first_name = first_name,
          employee.last_name = last_name,
+         employee.address = address,
          employee.employee_id = employee_id,
          employee.role = role,
          employee.date_of_joining = newDate.getTime(),
@@ -315,10 +316,10 @@ module.exports.signin = (req, res) => {
        }else if (result === true) {
            const token = jwt.sign({ _id: employee._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
            res.cookie('token', token, { expiresIn: '7d' });
-           const { _id, first_name, email } = employee;
+           const { _id, first_name,last_name, email } = employee;
            return res.json({
                token,
-               employee: { _id, first_name, email  }
+               employee: { _id, first_name, last_name, email  }
            });
        }else {
          res.status(400).json({

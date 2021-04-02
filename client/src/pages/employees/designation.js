@@ -64,11 +64,10 @@ if(!openForm){
           </Grid>
 }
   return <>
- 
+
           <Grid container justify="flex-end" >
              <Grid item xs={12} sm={4} md={4}>
               <Button
-                 variant="contained"
                  onClick={() => setOpenForm(false)}
                  className={classes.close}
                  color="primary">

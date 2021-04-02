@@ -3,83 +3,61 @@ const { errorHandler } = require("../utils/dbErrorHandler");
 const formidable = require('formidable');
 const fs = require('fs');
 
-module.exports.create_project = (req, res) => {
-  let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'image could not upload'
-        });
-    }
+module.exports.create_project = async (req, res) => {
 
-   const {  name,
-            description,
-            team_leader,
-            team_members,
-            start_date,
-            end_date,
-            priority
-         } = fields;
+     const {  name,
+              description,
+              team_leader,
+              team_members,
+              start_date,
+              end_date,
+              priority
+           } = req.body;
 
-      if(!name){
-        return res.status(400).json({
-          error: "name is required"
-        })
-      }
-
-      if(!team_leader){
-        return res.status(400).json({
-          error: "team leader is required"
-        })
-      }
-
-      if(!team_members){
-        return res.status(400).json({
-          error: "team members is required"
-        })
-      }
-
-      if(!start_date){
-        return res.status(400).json({
-          error: "start date is required"
-        })
-      }
-
-      const project = new Project();
-
-
-      if (files.logo) {
-        if (files.logo.size > 10000000) {
-            return res.status(400).json({
-                error: 'File should be less then 1mb in size'
-            });
+        if(!name){
+          return res.status(400).json({
+            error: "name is required"
+          })
         }
-          project.logo.data = fs.readFileSync(files.logo.path);
-          project.logo.content_type = files.logo.type;
-      }
 
-      if (files.uploaded_file) {
-        if (files.uploaded_file.size > 30000000) {
-            return res.status(400).json({
-                error: 'File should be less then 3mb in size'
-            });
+        if(!team_leader){
+          return res.status(400).json({
+            error: "team leader is required"
+          })
         }
-          project.uploaded_file.data = fs.readFileSync(files.uploaded_file.path);
-          project.uploaded_file.content_type = files.uploaded_file.type;
-      }
 
-      await project.save((err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    error: errorHandler(err)
-                });
-            }
-            res.status(200).json({
-              message:"New Project successfully created"
-            })
-        })
-    })
+        if(!team_members){
+          return res.status(400).json({
+            error: "team members is required"
+          })
+        }
+
+        if(!start_date){
+          return res.status(400).json({
+            error: "start date is required"
+          })
+        }
+
+        const project = new Project();
+        project.name = name;
+        project.description = description;
+        project.team_members = team_members;
+        project.team_leader = team_leader;
+        project.start_date = start_date;
+        project.end_date = end_date;
+        project.priority = priority;
+
+        await project.save((err, result) => {
+              if (err) {
+                  return res.status(400).json({
+                      error: errorHandler(err)
+                  });
+              }
+              res.status(200).json({
+                message:"New Project successfully created"
+              })
+          })
+
 }
 
 module.exports.update_project = (req, res) => {
