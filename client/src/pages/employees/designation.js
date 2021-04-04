@@ -18,7 +18,19 @@ const useStyles = makeStyles((theme) => ({
    close:{
      position:"absolute",
      right:'5%'
-   }
+   },
+   button:{
+     textTransform: "none",
+     backgroundColor:"#3f51b5",
+     width:"100%",
+     color:"white",
+     fontWeight:800,
+     height:"40px",
+     fontSize:"15px",
+     '&:hover': {
+               backgroundColor:"#3f51b5"
+         },
+   },
 }));
 
 
@@ -52,12 +64,11 @@ const AddDesignation = () => {
 
 if(!openForm){
    return  <Grid container justify="flex-end" >
-             <Grid item xs={12} sm={4} md={4}>
+             <Grid item xs={12} sm={3} md={3}>
               <Button
-                 variant="contained"
+                 className={classes.button}
                  onClick={() => setOpenForm(true)}
-                 color="primary"
-                 fullWidth>
+                  >
                  Add Designation
               </Button>
              </Grid>

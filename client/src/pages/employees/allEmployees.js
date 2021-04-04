@@ -27,11 +27,23 @@ import { createEmployee } from '../../actions/employee';
 import { onBoard } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import EmployeeList from './employeeList';
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"30px 10px 30px 10px"
+   },
+   button:{
+     textTransform: "none",
+     backgroundColor:"#3f51b5",
+     width:"100%",
+     color:"white",
+     fontWeight:800,
+     height:"40px",
+     fontSize:"15px",
+     '&:hover': {
+               backgroundColor:"#3f51b5"
+         },
    },
    formControl: {
    minWidth: 120,
@@ -162,12 +174,10 @@ const AddEmployee = () => {
 
 if(!openForm){
    return <Grid container spacing={3} justify="flex-end">
-           <Grid item  md={4} sm={4} xs={12}>
+           <Grid item  md={3} sm={3} xs={12}>
              <Button
-              variant="contained"
-              onClick={() => setOpenForm(true)}
-              fullWidth
-              color="primary">
+              className={classes.button}
+              onClick={() => setOpenForm(true)}>
                Add Employee
              </Button>
            </Grid>
@@ -329,6 +339,7 @@ const AllEmployees = () => {
   return <>
            <DashboardLayout>
               {AddEmployee()}
+              <EmployeeList />
            </DashboardLayout>
          </>
 }

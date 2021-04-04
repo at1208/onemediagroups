@@ -11,7 +11,8 @@ import Onboard from '../pages/onboard';
 import Activities from '../pages/activities';
 import Projects from '../pages/projects';
 import Tasks from '../pages/tasks';
-import Chats from '../pages/chats';
+import ChannelChats from '../pages/chats';
+import Chats from '../pages/chats/chats';
 import Private from '../components/protectedRoutes/privateRoute';
 
 
@@ -26,7 +27,8 @@ const Router = () => {
            <Private path="/activities" exact component={Activities} />
            <Private path="/projects" exact component={Projects} />
            <Private path="/tasks" exact component={Tasks} />
-           <Private path="/chats/:channel" exact component={Chats} />
+           <Private path="/chats" exact component={Chats} />
+           <Private path="/chats/:channel" exact component={ChannelChats} />
            <Route path="/reset" exact component={Reset} />
            <Route path="/auth/onboard/:token" exact component={Onboard} />
           </>

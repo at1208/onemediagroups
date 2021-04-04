@@ -11,11 +11,9 @@ import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
   form:{
-    padding:"12px 7px 12px 7px",
-    margin:"5px"
-  },
-  login:{
-    minWidth:'130px'
+    padding:"20px 7px 20px 7px",
+    margin:"5px",
+    minHeight:"300px"
   },
   root:{
     display: "table",
@@ -33,6 +31,21 @@ const useStyles = makeStyles({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
+  },
+  button:{
+    textTransform: "none",
+    backgroundColor:"#3f51b5",
+    width:"100%",
+    color:"white",
+    fontWeight:800,
+    height:"40px",
+    fontSize:"15px",
+    '&:hover': {
+              backgroundColor:"#3f51b5"
+        },
+  },
+  alertCard:{
+    height:"40px"
   }
 });
 
@@ -89,41 +102,43 @@ const LoginForm = () => {
                container
                justify="center"
                >
-                <Grid item xs={12} sm={6} md={4}
-
-                >
+                <Grid item xs={12} sm={6} md={4}>
                  <Card variant="outlined" className={classes.form}>
-                 {login.success && <Alert severity="success">{login.success}</Alert>}
-                 {login.error && <Alert severity="error">{login.error}</Alert>}
+                   <div className={classes.alertCard}>
+                     {login.success && <Alert severity="success">{login.success}</Alert>}
+                     {login.error && <Alert severity="error">{login.error}</Alert>}
+                   </div>
                    <br />
                    <form onSubmit={handleSubmit}>
-                    <TextField
-                     type="text"
-                     variant="outlined"
-                     fullWidth
-                     size="small"
-                     label="Email"
-                     disabled={login.isLoading}
-                     onChange={handleChange("email")}
-                     value={login.credentials.email}/>
-                    <br /><br />
-                    <TextField
-                     type="password"
-                     variant="outlined"
-                     fullWidth
-                     size="small"
-                     label="Password"
-                     disabled={login.isLoading}
-                     onChange={handleChange("password")}
-                     value={login.credentials.password}/>
-                    <br /><br />
-                    <Grid container justify='center'>
-                      <Grid item sm={6} md={8} xs={12}>
-                        <Button
-                         variant="contained"
-                         color="primary"
+                    <Grid container justify="center" spacing={3}>
+                      <Grid xs={10} sm={12} md={10} item>
+                        <TextField
+                         type="text"
+                         variant="outlined"
                          fullWidth
-                         className={classes.login}
+                         size="small"
+                         label="Email"
+                         disabled={login.isLoading}
+                         onChange={handleChange("email")}
+                         value={login.credentials.email} />
+                      </Grid>
+                      <Grid xs={10} sm={12} md={10} item>
+                        <TextField
+                         type="password"
+                         variant="outlined"
+                         fullWidth
+                         size="small"
+                         label="Password"
+                         disabled={login.isLoading}
+                         onChange={handleChange("password")}
+                         value={login.credentials.password} />
+                      </Grid>
+                    </Grid>
+                    <br />
+                    <Grid container justify='center'>
+                      <Grid item sm={5} md={5} xs={10}>
+                        <Button
+                         className={classes.button}
                          type="submit"
                          disabled={login.isLoading}>Login</Button>
                       </Grid>

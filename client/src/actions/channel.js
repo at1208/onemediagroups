@@ -1,10 +1,10 @@
 import axios from "../utils/axios";
-import cookie from 'js-cookie';
+// import cookie from 'js-cookie';
 
-export function createEmployee(credentials) {
+export function createChannel(credentials) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/create/employee", credentials)
+      .post("/create/channel", credentials)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -17,10 +17,11 @@ export function createEmployee(credentials) {
   });
 }
 
-export function getEmployee() {
+
+export function getChannels(credentials) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/employees")
+      .get(`/get/channels/${credentials}`)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

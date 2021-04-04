@@ -11,6 +11,8 @@ const projectRouter = require("./routers/project_router");
 const departmentRouter = require("./routers/department_router");
 const taskRouter = require("./routers/task_router");
 const designationRouter = require("./routers/designation_router");
+const channelRouter = require("./routers/channel_router");
+const channelChatRouter = require("./routers/channel_chat_router");
 
 app.use(cors({origin: "http://localhost:3000"}));
 
@@ -23,7 +25,8 @@ app.use("/api", projectRouter);
 app.use("/api", departmentRouter);
 app.use("/api", taskRouter);
 app.use("/api", designationRouter);
-
+app.use("/api", channelRouter);
+app.use("/api", channelChatRouter);
 
 mongoose
     .connect(process.env.DATABASE, {

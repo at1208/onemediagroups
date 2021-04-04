@@ -82,7 +82,11 @@ const employeeSchema = mongoose.Schema({
       type:String,
       min:4,
       max:100
-    }
+    },
+    channels:[{
+      type:ObjectId,
+      ref:"Channel"
+    }]
 },{ timestamps:true });
 
 module.exports = mongoose.model('Employee', employeeSchema);
