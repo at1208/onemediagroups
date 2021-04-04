@@ -14,6 +14,8 @@ import { getChannels } from '../../actions/channel';
 import { useHistory } from 'react-router-dom';
 import { getChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
+import { useTheme, useMediaQuery } from '@material-ui/core';
+
 const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
 const email = isAuth() && isAuth().email;
@@ -69,7 +71,30 @@ button:{
    backgroundColor:"rgb(107 116 162 / 4%)"
  },
  sendmsg:{
+   [theme.breakpoints.down("xs")]:{
+      position:"fixed",
+      bottom:"0%",
+      left:"15%",
+      right:"0%",
+   },
+   [theme.breakpoints.up("sm")]:{
+      position:"fixed",
+      bottom:"0%",
+      left:"15%",
+      right:"4%",
+   },
+   [theme.breakpoints.up("md")]:{
+      position:"fixed",
+      bottom:"4%",
+      left:"18%",
+      right:"25%",
+   },
+   zIndex:10,
+   backgroundColor:"white",
    padding:"10px"
+ },
+ channelName:{
+   padding:"1px"
  }
 }));
 
@@ -77,7 +102,11 @@ button:{
 const Chats = ({ match: { params: { channel } }, match: { url }, location }) => {
   const token = getCookie("token");
   const history = useHistory();
+  const theme = useTheme();
   const classes = useStyles();
+  const matches = useMediaQuery('(min-width:961px)');
+
+
   var messageContainer = React.useRef();
   const [online, setOnline] = React.useState();
   const [typing, setTyping ] = React.useState({ status: false, msg: "" });
@@ -225,12 +254,11 @@ const chatsList = chats.map((item, i) => {
           </div>
 })
 
-
   return <>
            <DashboardLayout>
-
            <Grid container justify="center" spacing={3}>
              <Grid item sm={12} md={8} lg={9} xs={12}>
+                <Typography variant="h5" align="center" className={classes.channelName}><b>#{channel}</b></Typography>
                 <Card className={classes.chatDisplay} >
                 {chatsList}
                 <div style={{ float:"left", clear: "both" }} ref={(el) => messageContainer = el}>
@@ -264,14 +292,14 @@ const chatsList = chats.map((item, i) => {
                    </Grid>
                 </form>
              </Grid>
-             <Grid item xs={12} md={3} sm={12} lg={3}>
-                <Card className={classes.cardRoot}>
-                   <CreateChannelForm pageReload={(status) => setReload(status)}/>
-                   <br /><br />
-                     <Typography variant="h6" align="center">Subscribed Channels</Typography>
-                   {channelsList}
-                </Card>
-             </Grid>
+             {matches && <Grid item xs={12} md={3} sm={12} lg={3}>
+                            <Card className={classes.cardRoot}>
+                               <CreateChannelForm pageReload={(status) => setReload(status)}/>
+                               <br /><br />
+                                 <Typography variant="h6" align="center">Subscribed Channels</Typography>
+                               {channelsList}
+                            </Card>
+                         </Grid>}
            </Grid>
            </DashboardLayout>
          </>

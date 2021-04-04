@@ -103,7 +103,7 @@ const LoginForm = () => {
                justify="center"
                >
                 <Grid item xs={12} sm={6} md={4}>
-                 <Card variant="outlined" className={classes.form}>
+                 <Card  className={classes.form}>
                    <div className={classes.alertCard}>
                      {login.success && <Alert severity="success">{login.success}</Alert>}
                      {login.error && <Alert severity="error">{login.error}</Alert>}
