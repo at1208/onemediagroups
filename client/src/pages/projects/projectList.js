@@ -42,7 +42,6 @@ const ProjectList = () => {
   }, [])
 
   const projectLists = projects.map((proj, i) => {
-    console.log(proj)
     return <>
            <Grid item xs={12} sm={4} md={3}>
              <Card className={classes.cardRoot}>

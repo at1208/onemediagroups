@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
                  <Grid container justify="center" spacing={2}>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.first_name + " " + detail.last_name}
                       label="Employee Name"
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.email}
                       label="Email"
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.gender}
                       label="Gender"
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                    <Autocomplete
-
+                      size="small"
                       onChange={(event, newValue) => {
                         if(newValue){
                           // setEmployee({...employee, department: newValue._id});
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                        <Autocomplete
-
+                          size="small"
                           onChange={(event, newValue) => {
                             if(newValue){
                               // setEmployee({...employee, department: newValue._id});
@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       label="Role"
                       value={detail.role}
@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.address}
                       label="Address"
@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.phone_number}
                       label="Phone number"
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.status}
                       label="Status"
@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
                    </Grid>
                    <Grid item sm={6} xs={12} md={6}>
                       <TextField
-
+                      size="small"
                       variant="outlined"
                       value={detail.date_of_joining}
                       label="Date of join"

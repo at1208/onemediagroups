@@ -101,6 +101,7 @@ if(!openForm){
                   <form onSubmit={handleSubmit}>
                     <Grid container justify="center" key={1}>
                      <TextField
+                      size="small"
                       onChange={handleChange}
                       value={designation.designationName}
                       label="Designation name"

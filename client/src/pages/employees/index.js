@@ -213,6 +213,7 @@ return <>
              onChange={handleChange("first_name")}
              value={employee.first_name}
              fullWidth
+             size="small"
              label="First name"/>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -221,6 +222,7 @@ return <>
              onChange={handleChange("last_name")}
              value={employee.last_name}
              fullWidth
+             size="small"
              label="Last name"/>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -230,7 +232,7 @@ return <>
                    setEmployee({...employee, department: newValue._id});
                  }
                 }}
-
+               size="small"
                renderTags={(val,e) => console.log(val, e)}
                options={allDepartments || ""}
                getOptionLabel={(option) => option.department_name}
@@ -245,7 +247,7 @@ return <>
                   setEmployee({...employee, designation: newValue._id});
                 }
                }}
-
+               size="small"
                options={allDesignations}
                getOptionLabel={(option) => option.designation_name}
                style={{ width: "100%" }}
@@ -255,12 +257,12 @@ return <>
           <Grid item xs={12} md={6}>
             <Autocomplete
                options={role}
+               size="small"
                onChange={(e, val) => {
                  if(val){
                      setEmployee({...employee, role: val.title });
                  }
                }}
-
                getOptionLabel={(option) => option.title}
                style={{ width: "100%" }}
                renderInput={(params) => <TextField {...params} label="Role" variant="outlined"  value={employee.role}/>}
@@ -271,6 +273,7 @@ return <>
             onChange={handleChange("email")}
             value={employee.email}
             variant="outlined"
+            size="small"
             fullWidth
             label="Email"/>
           </Grid>
@@ -281,8 +284,8 @@ return <>
                       setEmployee({...employee, gender: val.title });
                   }
                 }}
-
                options={gender}
+               size="small"
                getOptionLabel={(option) => option.title}
                style={{ width: "100%" }}
                renderInput={(params) => <TextField {...params} label="Gender" variant="outlined"   valye={employee.gender}/>}
@@ -296,6 +299,7 @@ return <>
               label="Joining date"
               value={employee.date_of_joining}
               type="date"
+              size="small"
               defaultValue="1999-05-24"
               className={classes.textField}
               InputLabelProps={{
@@ -308,6 +312,7 @@ return <>
             <MuiPhoneNumber
               defaultCountry={'in'}
               variant="outlined"
+              size="small"
               value={employee.phone_number}
               fullWidth
               onChange={handleChange("phone_number")}/>
@@ -315,6 +320,7 @@ return <>
 
           <Grid item xs={12} md={6}>
             <TextField
+              size="small"
               onChange={handleChange("address")}
               value={employee.address}
               variant="outlined"

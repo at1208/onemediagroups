@@ -124,7 +124,8 @@ const Project = () => {
        const [openForm, setOpenForm] = React.useState(false);
 
        if(!openForm){
-         return <Grid container spacing={3} justify="flex-end">
+         return <>
+             <Grid container spacing={3} justify="flex-end">
                  <Grid item  md={3} sm={3} xs={12}>
                    <Button
                     className={classes.button}
@@ -133,6 +134,9 @@ const Project = () => {
                    </Button>
                  </Grid>
               </Grid>
+              <br />
+              <ProjectList />
+              </>
        }else{
   return <>
            <Grid container spacing={3} justify="flex-end">
@@ -159,6 +163,7 @@ const Project = () => {
                     <Grid item xs={12} sm={12} md={12}>
                       <TextField
                        fullWidth
+                       size="small"
                        onChange={handleChange("name")}
                        variant="outlined"
                        label="Project name" />
@@ -166,6 +171,7 @@ const Project = () => {
                     <Grid item xs={12} sm={12} md={12}>
                       <TextField
                        fullWidth
+                       size="small"
                        multiline
                        rows={3}
                        onChange={handleChange("description")}
@@ -181,6 +187,7 @@ const Project = () => {
                             }
                           }}
                          options={employees}
+                         size="small"
                          getOptionLabel={(option) => option.first_name + " " + option.last_name}
                          style={{ width: "100%" }}
                          renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
@@ -188,7 +195,8 @@ const Project = () => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                       <Autocomplete
-                          multiple
+                        multiple
+                        size="small"
                          onChange={(e, val) => {
                            if(val){
                              let filterValue = val.map((member, i) => {
@@ -206,6 +214,7 @@ const Project = () => {
                     <Grid item xs={12} sm={12} md={12}>
                     <TextField
                       variant="outlined"
+                      size="small"
                       id="date"
                       label="Start date"
                       type="date"
@@ -219,6 +228,7 @@ const Project = () => {
                     <Grid item xs={12} sm={12} md={12}>
                     <TextField
                       variant="outlined"
+                      size="small"
                       id="date"
                       label="End date"
                       type="date"
@@ -251,7 +261,6 @@ const Project = () => {
   return <>
           <DashboardLayout>
             {AddProject()}
-            <ProjectList />
           </DashboardLayout>
          </>
 }
