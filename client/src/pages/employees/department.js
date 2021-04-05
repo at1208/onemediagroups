@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import { createDepartment } from '../../actions/department';
 import Alert from '@material-ui/lab/Alert';
+import DepartmentList from './departmentList';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -63,7 +64,8 @@ const AddDepartment = () => {
     }
 
 if(!openForm){
-  return   <Grid container justify="flex-end" >
+  return   <>
+          <Grid container justify="flex-end" >
              <Grid item xs={12} sm={3} md={3}>
               <Button
                  className={classes.button}
@@ -73,6 +75,9 @@ if(!openForm){
               </Button>
              </Grid>
           </Grid>
+          <br />
+          <DepartmentList />
+          </>
 } else{
   return <>
 

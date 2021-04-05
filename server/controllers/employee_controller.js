@@ -347,3 +347,22 @@ module.exports.all_employee = (req, res) => {
      })
    })
 }
+
+module.exports.single_employee = (req, res) => {
+  const { id } = req.params;
+  Employee.findById({ _id: id })
+   .populate("department", "department_name")
+   .populate("designation", "designation_name")
+   .populate("channels", "channel_name")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture")
+   .exec((err, result) => {
+     if(err){
+       return res.status(400).json({
+         error:err
+       })
+     }
+     res.status(200).json({
+        employees: result
+     })
+   })
+}

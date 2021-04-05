@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createDesignation } from '../../actions/designation';
 import Alert from '@material-ui/lab/Alert';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import DesignationList from './designationList';
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
@@ -63,7 +63,8 @@ const AddDesignation = () => {
     }
 
 if(!openForm){
-   return  <Grid container justify="flex-end" >
+   return  <>
+          <Grid container justify="flex-end" >
              <Grid item xs={12} sm={3} md={3}>
               <Button
                  className={classes.button}
@@ -73,6 +74,9 @@ if(!openForm){
               </Button>
              </Grid>
           </Grid>
+          <br />
+          <DesignationList />
+          </>
 }
   return <>
 

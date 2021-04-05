@@ -4,7 +4,6 @@ const formidable = require('formidable');
 const fs = require('fs');
 
 module.exports.create_project = async (req, res) => {
-
      const {  name,
               description,
               team_leader,
@@ -16,25 +15,25 @@ module.exports.create_project = async (req, res) => {
 
         if(!name){
           return res.status(400).json({
-            error: "name is required"
+            error: "Project name is required"
           })
         }
 
         if(!team_leader){
           return res.status(400).json({
-            error: "team leader is required"
+            error: "Team leader is required"
           })
         }
 
         if(!team_members){
           return res.status(400).json({
-            error: "team members is required"
+            error: "Team members is required"
           })
         }
 
         if(!start_date){
           return res.status(400).json({
-            error: "start date is required"
+            error: "Start date is required"
           })
         }
 
@@ -59,6 +58,7 @@ module.exports.create_project = async (req, res) => {
           })
 
 }
+
 
 module.exports.update_project = (req, res) => {
   const { _id } = req.params;

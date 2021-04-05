@@ -14,10 +14,10 @@ const employeeSchema = mongoose.Schema({
         type:String,
         default:null
     },
-    document_verification:{
-        type:Boolean,
-        default:false
-    },
+    // document_verification:{
+    //     type:Boolean,
+    //     default:false
+    // },
     gender:{
         type:String,
         enum:["MALE", "FEMALE"],
@@ -51,10 +51,10 @@ const employeeSchema = mongoose.Schema({
         type: ObjectId,
         ref : "Designation"
     },
-    isActive:{
-        type:Boolean,
-        default:false
-    },
+    // isActive:{
+    //     type:Boolean,
+    //     default:false
+    // },
     email:{
         type:String,
         unique:true,
@@ -69,10 +69,10 @@ const employeeSchema = mongoose.Schema({
         data:Buffer,
         content_type:String
     },
-    document:{
-      data:Buffer,
-      content_type:String
-    },
+    // document:{
+    //   data:Buffer,
+    //   content_type:String
+    // },
     status:{
       type:String,
       enum:['INVITED', 'JOINED', 'LEFT'],

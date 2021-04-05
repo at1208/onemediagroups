@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { getChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
 import { useTheme, useMediaQuery } from '@material-ui/core';
-import Connecting from "./connecting";
+import Offline from "./offline";
 const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
 const email = isAuth() && isAuth().email;
@@ -260,7 +260,7 @@ const chatsList = chats.map((item, i) => {
 
   return <>
            <DashboardLayout>
-           <Connecting status={connected} />
+           <Offline status={connected} />
            <Grid container justify="center" spacing={3}>
              <Grid item sm={12} md={8} lg={9} xs={12}>
                 <Typography variant="h5" align="center" className={classes.channelName}><b>#{channel}</b></Typography>

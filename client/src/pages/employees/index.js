@@ -323,9 +323,9 @@ return <>
           </Grid>
 
           <Grid container justify="center" spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <br />
-              <Button variant="contained" color="primary" type="submit" fullWidth disabled={employee.isLoading}>Send Invitation</Button>
+              <Button className={classes.button} type="submit" disabled={employee.isLoading}>Send Invitation</Button>
             </Grid>
           </Grid>
 

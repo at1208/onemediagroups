@@ -1,8 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import Private from '../components/protectedRoutes/privateRoute';
 import Login from '../pages/login';
 import Dashboard from '../pages/dashboard';
 import AllEmployees from '../pages/employees/';
+import EmployeeDetail from '../pages/employees/employeeDetail';
 import Department from '../pages/employees/department';
 import Designation from '../pages/employees/designation';
 import Contact from '../pages/contact';
@@ -13,7 +15,7 @@ import Projects from '../pages/projects';
 import Tasks from '../pages/tasks';
 import ChannelChats from '../pages/chats';
 import Chats from '../pages/chats/chats';
-import Private from '../components/protectedRoutes/privateRoute';
+
 
 
 const Router = () => {
@@ -21,6 +23,7 @@ const Router = () => {
            <Route path="/" exact component={Login} />
            <Private path="/dashboard" exact component={Dashboard} />
            <Private path="/all-employees" exact component={AllEmployees} />
+           <Private path="/employee-detail/:id" exact component={EmployeeDetail} />
            <Private path="/department" exact component={Department} />
            <Private path="/designation" exact component={Designation} />
            <Private path="/contact" exact component={Contact} />

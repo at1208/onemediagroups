@@ -6,11 +6,13 @@ const { create_employee,
         accept_onboard_invitation,
         update_employee,
         all_employee,
+        single_employee,
         signin  } = require("../controllers/employee_controller");
 
 //ADMIN
 router.post("/create/employee",  create_employee);
 router.post("/onboard/employee/:employee_id", onboard_employee);
+router.get("/single/employees/:id", single_employee);
 router.get("/all/employees", all_employee);
 
 //EMPLOYEE
