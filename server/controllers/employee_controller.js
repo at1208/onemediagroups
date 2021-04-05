@@ -74,7 +74,7 @@ module.exports.create_employee =  async (req, res) => {
      }
      date_of_joining.split("-");
      var newDate = new Date( date_of_joining[0], date_of_joining[1] - 1, date_of_joining[2]);
-     const employee_id = "EMP" + new Date().getFullYear() + pad(await Employee.countDocuments()+1, 4);
+     const employee_id = "EMP" + new Date().getFullYear() + pad(await Employee.countDocuments()+2, 4);
 
      const employee = new Employee();
          employee.first_name = first_name,
@@ -331,7 +331,11 @@ module.exports.signin = (req, res) => {
 
 
 module.exports.all_employee = (req, res) => {
-  Employee.find({ isActive: true })
+  Employee.find()
+   .populate("department", "department_name")
+   .populate("designation", "designation_name")
+   .populate("channels", "channel_name")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({

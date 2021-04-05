@@ -13,7 +13,13 @@ const jwt = require("jsonwebtoken");
 
 
 async function saveChat(msg){
-   await ChannelChat(msg.msg).save();
+  let result;
+  try {
+      result = await ChannelChat(msg.msg).save();
+      return result;
+  } catch (e) {
+    return e
+  }
 }
 
 io.use(function(socket, next){

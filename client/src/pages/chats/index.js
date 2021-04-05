@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { getChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
 import { useTheme, useMediaQuery } from '@material-ui/core';
-
+import Connecting from "./connecting";
 const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
 const email = isAuth() && isAuth().email;
@@ -105,8 +105,6 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:961px)');
-
-
   var messageContainer = React.useRef();
   const [online, setOnline] = React.useState();
   const [typing, setTyping ] = React.useState({ status: false, msg: "" });
@@ -114,6 +112,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   const [chats, setChats] = React.useState([]);
   const [channels, setChannels] = React.useState([]);
   const [reload, setReload] = React.useState(false);
+  const [connected, setConnected] = React.useState(true);
 
   function getChannelId(term) {
        return term.search.split("").slice(4).join("");
@@ -148,6 +147,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
     socket.on("newJoined", (val) => {
       console.log(val)
     })
+
   }, [])
 
   React.useEffect(() => {
@@ -174,6 +174,10 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
        })
   }, [url])
 
+
+setInterval(() => {
+  setConnected(socket.connected)
+}, 10000)
 
   const currentTab = path => {
      if(path === history.location.pathname){
@@ -256,6 +260,7 @@ const chatsList = chats.map((item, i) => {
 
   return <>
            <DashboardLayout>
+           <Connecting status={connected} />
            <Grid container justify="center" spacing={3}>
              <Grid item sm={12} md={8} lg={9} xs={12}>
                 <Typography variant="h5" align="center" className={classes.channelName}><b>#{channel}</b></Typography>

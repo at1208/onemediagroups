@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
  }
 }));
 
-const AddEmployee = () => {
+function Employees(){
    const classes = useStyles();
    const [employee, setEmployee] = React.useState({
         first_name:"",
@@ -173,7 +173,8 @@ const AddEmployee = () => {
   ]
 
 if(!openForm){
-   return <Grid container spacing={3} justify="flex-end">
+   return <>
+       <Grid container spacing={3} justify="flex-end">
            <Grid item  md={3} sm={3} xs={12}>
              <Button
               className={classes.button}
@@ -182,6 +183,9 @@ if(!openForm){
              </Button>
            </Grid>
         </Grid>
+        <br />
+        <EmployeeList />
+        </>
 } else{
 return <>
   <Grid container spacing={3} justify="flex-end">
@@ -330,7 +334,6 @@ return <>
       </Card>
     </Grid>
   </Grid>
-
   </>
  }
 }
@@ -338,8 +341,7 @@ return <>
 const AllEmployees = () => {
   return <>
            <DashboardLayout>
-              {AddEmployee()}
-              <EmployeeList />
+               <Employees />
            </DashboardLayout>
          </>
 }

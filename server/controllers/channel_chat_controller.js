@@ -2,17 +2,18 @@ const ChannelChat = require("../models/channel_chat_model");
 const { errorHandler } = require("../utils/dbErrorHandler");
 
 module.exports.create_channel_chat = async (req, res) => {
-  const  { message, senderId, channelId, timestamp } = req.body;
-     try {
-        await ChannelChat({ message, senderId, channelId, timestamp }).save();
-          res.json({
-            message:"New message is created successfully"
-          });
-     } catch (e) {
-        return res.status(400).json({
-          error: e
-        })
-     }
+  // const  { message, senderId, channelId, timestamp } = req.body;
+  //    try {
+  //       let chat = await ChannelChat({ message, senderId, channelId, timestamp }).save();
+  //       // console.log(chat)
+  //         res.json({
+  //           message:"New message is created successfully"
+  //         });
+  //    } catch (e) {
+  //       return res.status(400).json({
+  //         error: e
+  //       })
+  //    }
 }
 
 module.exports.get_channel_chats = async (req, res) => {
