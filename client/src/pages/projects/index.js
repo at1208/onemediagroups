@@ -7,6 +7,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { createProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
 import Alert from '@material-ui/lab/Alert';
+import ProjectList from './projectList';
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
@@ -249,7 +250,8 @@ const Project = () => {
 
   return <>
           <DashboardLayout>
-           {AddProject()}
+            {AddProject()}
+            <ProjectList />
           </DashboardLayout>
          </>
 }

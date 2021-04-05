@@ -9,7 +9,7 @@ const projectSchema = mongoose.Schema({
       },
       description:{
         type:String,
-        min:5,
+        min:80,
         max:320
       },
       team_leader:{

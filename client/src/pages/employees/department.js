@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createDepartment } from '../../actions/department';
 import Alert from '@material-ui/lab/Alert';
 import DepartmentList from './departmentList';
-
 import CancelIcon from '@material-ui/icons/Cancel';
 
 

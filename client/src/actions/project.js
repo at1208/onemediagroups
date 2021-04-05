@@ -15,3 +15,20 @@ export function createProject(credentials) {
       });
   });
 }
+
+
+export function getProjects() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("/all/project")
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
