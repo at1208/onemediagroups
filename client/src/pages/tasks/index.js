@@ -9,6 +9,7 @@ import { getEmployee } from '../../actions/employee';
 import { createTask } from '../../actions/task';
 import { isAuth } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
+import TaskList from './taskList';
 const id = isAuth() && isAuth()._id;
 
 const useStyles = makeStyles((theme) => ({
@@ -119,19 +120,23 @@ const Tasks = () => {
         })
    }
 
-   const AddTask = () => {
+function Task() {
        const [openForm, setOpenForm] = React.useState(false);
 
        if(!openForm){
-         return <Grid container spacing={3} justify="flex-end">
-                 <Grid item  md={3} sm={3} xs={12}>
-                   <Button
-                     className={classes.button}
-                     onClick={() => setOpenForm(true)}>
-                     Create Project
-                   </Button>
+         return <>
+                 <Grid container spacing={3} justify="flex-end">
+                   <Grid item  md={3} sm={3} xs={12}>
+                     <Button
+                       className={classes.button}
+                       onClick={() => setOpenForm(true)}>
+                       Create Task
+                     </Button>
+                   </Grid>
                  </Grid>
-              </Grid>
+                 <br />
+                 <TaskList />
+                </>
        }else{
   return <>
            <Grid container spacing={3} justify="flex-end">
@@ -255,7 +260,7 @@ const Tasks = () => {
 
   return <>
           <DashboardLayout>
-             {AddTask()}
+             <Task />
           </DashboardLayout>
          </>
 }

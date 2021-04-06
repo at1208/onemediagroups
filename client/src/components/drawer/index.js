@@ -2,11 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import { Drawer, Badge, Typography, Avatar } from '@material-ui/core/';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -30,9 +29,35 @@ import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import ViewDayIcon from '@material-ui/icons/ViewDay';
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "../../vendor/perfect-scrollbar.css";
+import styled from "styled-components/macro";
+
 import { signout } from '../../actions/auth';
 
 const drawerWidth = 240;
+
+const Scrollbar = styled(PerfectScrollbar)`
+  /* background-color: 'blue'; */
+  /* border-right: 1px solid rgba(0, 0, 0, 0.12); */
+`;
+
+const SidebarFooterBadge = styled(Badge)`
+  margin-right: "10px";
+  span {
+    background-color: "blue";
+    border: 1.5px solid "black";
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+  }
+`;
+
+const SidebarFooter = styled.div`
+  background-color: "blue" !important;
+  padding:"10px";
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,6 +111,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
+    [theme.breakpoints.down('sm')]: {
+      width: '0px'
+    },
   },
   toolbar: {
     display: 'flex',
@@ -97,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
+    overflowX:"scroll",
     padding: theme.spacing(3),
   },
   icons:{
@@ -166,7 +195,6 @@ const useStyles = makeStyles((theme) => ({
           <Typography variant="h6" noWrap className={classes.appname}>
             AppName
           </Typography>
-
         </Toolbar>
       </AppBar>
       <Drawer
@@ -182,82 +210,82 @@ const useStyles = makeStyles((theme) => ({
           }),
         }}
       >
-        <div className={classes.toolbar}>
-          {open && <Typography variant="h6" noWrap>
 
-          </Typography>}
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.menutext} /> : <ChevronLeftIcon className={classes.menutext} />}
-          </IconButton>
-        </div>
-        <Divider />
+      <div className={classes.toolbar}>
+        {open && <Typography variant="h6" noWrap>
+        </Typography>}
+        {<IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.menutext} /> : <ChevronLeftIcon className={classes.menutext} />}
+        </IconButton>}
+      </div>
+      <Divider />
+      <Scrollbar>
+      <List disablePadding>
+      <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
+        <ListItemIcon><i className="la la-dashboard" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+        <ListItemText primary="Dashboard" className={classes.menutext} />
+      </ListItem>
 
-
-        <List>
-          <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
-            <ListItemIcon><i className="la la-dashboard" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-            <ListItemText primary="Dashboard" className={classes.menutext} />
-          </ListItem>
-
-          <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
-            <ListItemIcon><i className="la la-comments" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-            <ListItemText primary="Chats" className={classes.menutext}/>
-          </ListItem>
-
-
-          <ListItem button onClick={handleOpenEmployee} className='mt-3'>
-                      <ListItemIcon><i className="la la-user" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                      <ListItemText primary="Employees" className={classes.menutext} />
-                      {openEmployeeCollapse ? <ExpandLess className={classes.menutext} /> : <ExpandMore className={classes.menutext} />}
-          </ListItem>
-          <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
-             <List component="div" disablePadding className={classes.collapseList}>
-                   <ListItem button   selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
-                     <ListItemIcon><i className="la la-users" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                     <ListItemText primary='All Employees' className={classes.menutext}/>
-                   </ListItem>
-
-                   <ListItem button   selected={currentTab("/department")} onClick={() => history.push("/department")}>
-                     <ListItemIcon><i class="las la-building" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                     <ListItemText primary='Departments' className={classes.menutext}/>
-                   </ListItem>
-
-                   <ListItem button   selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
-                     <ListItemIcon><i class="las la-passport" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                     <ListItemText primary='Designations' className={classes.menutext}/>
-                   </ListItem>
-
-             </List>
-          </Collapse>
+      <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
+        <ListItemIcon><i className="la la-comments" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+        <ListItemText primary="Chats" className={classes.menutext}/>
+      </ListItem>
 
 
+      <ListItem button onClick={handleOpenEmployee} className='mt-3'>
+                  <ListItemIcon><i className="la la-user" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+                  <ListItemText primary="Employees" className={classes.menutext} />
+                  {openEmployeeCollapse ? <ExpandLess className={classes.menutext} /> : <ExpandMore className={classes.menutext} />}
+      </ListItem>
+      <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
+         <List component="div" disablePadding className={classes.collapseList}>
+               <ListItem button   selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
+                 <ListItemIcon><i className="la la-users" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
+                 <ListItemText primary='All Employees' className={classes.menutext}/>
+               </ListItem>
 
-          <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
-            <ListItemIcon><i className="la la-rocket" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-            <ListItemText primary="Projects" className={classes.menutext} />
-          </ListItem>
+               <ListItem button   selected={currentTab("/department")} onClick={() => history.push("/department")}>
+                 <ListItemIcon><i class="las la-building" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
+                 <ListItemText primary='Departments' className={classes.menutext}/>
+               </ListItem>
 
-          <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
-            <ListItemIcon><i className="la la-tasks" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-            <ListItemText primary="Tasks" className={classes.menutext} />
-          </ListItem>
+               <ListItem button   selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
+                 <ListItemIcon><i class="las la-passport" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
+                 <ListItemText primary='Designations' className={classes.menutext}/>
+               </ListItem>
 
-          <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
-            <ListItemIcon><i className="la la-book" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-            <ListItemText primary="Contacts" className={classes.menutext} />
-          </ListItem>
+         </List>
+      </Collapse>
 
 
-          <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
-            <ListItemIcon> <i className="la la-bell" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-            <ListItemText primary="Activities" className={classes.menutext} />
-          </ListItem>
 
-          <ListItem button    onClick={() => signout(() => window.location.href="/")}>
-            <ListItemIcon> </ListItemIcon>
-            <ListItemText primary="Signout" className={classes.menutext} />
-          </ListItem>
-        </List>
+      <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
+        <ListItemIcon><i className="la la-rocket" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+        <ListItemText primary="Projects" className={classes.menutext} />
+      </ListItem>
+
+      <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
+        <ListItemIcon><i className="la la-tasks" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+        <ListItemText primary="Tasks" className={classes.menutext} />
+      </ListItem>
+
+      <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
+        <ListItemIcon><i className="la la-book" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+        <ListItemText primary="Contacts" className={classes.menutext} />
+      </ListItem>
+
+
+      <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
+        <ListItemIcon> <i className="la la-bell" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
+        <ListItemText primary="Activities" className={classes.menutext} />
+      </ListItem>
+
+      <ListItem button    onClick={() => signout(() => window.location.href="/")}>
+        <ListItemIcon> </ListItemIcon>
+        <ListItemText primary="Signout" className={classes.menutext} />
+      </ListItem>
+      </List>
+    </Scrollbar>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

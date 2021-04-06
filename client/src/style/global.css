@@ -11,14 +11,10 @@
   padding:10px!important;
 }
 .MuiDrawer-paper{
-  background-color:#101531!important
+  background-color:#101531!important;
+  border:0px solid white!important;
 }
 
-::-webkit-scrollbar {
-    display: none;
-}
 .makeStyles-content-19{
   padding: 0px;
 }
-
- 
