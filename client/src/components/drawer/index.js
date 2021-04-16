@@ -32,6 +32,9 @@ import ViewDayIcon from '@material-ui/icons/ViewDay';
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../../vendor/perfect-scrollbar.css";
 import styled from "styled-components/macro";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import { Sliders, MessageSquare, Users, User, Layers, Target } from 'react-feather';
 
 import { signout } from '../../actions/auth';
 
@@ -80,10 +83,10 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    backgroundColor:"#101531",
+    // backgroundColor:"#101531",
     marginRight: 36,
     "&:hover":{
-      backgroundColor:"#101531"
+      // backgroundColor:"#101531"
     }
   },
   hide: {
@@ -133,12 +136,23 @@ const useStyles = makeStyles((theme) => ({
   },
   menutext:{
     color:"#e0e0e0",
+    fontWeight:"300",
+    fontSize:"15px!important"
   },
   collapseList:{
     // backgroundColor:"lightgrey"
   },
   appname:{
     color:"black"
+  },
+  menuIcon:{
+    color:"black"
+  },
+  sidebarIcons:{
+    color:"grey"
+  },
+  direc:{
+    color:"#e0e0e0"
   }
 }));
 
@@ -147,6 +161,7 @@ const useStyles = makeStyles((theme) => ({
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const matches = useMediaQuery('(min-width:600px)');
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
 
 
@@ -154,7 +169,12 @@ const useStyles = makeStyles((theme) => ({
      setOpenEmployeeCollapse(!openEmployeeCollapse);
   }
 
-
+   React.useEffect(() => {
+       if(matches){
+         return setOpen(true)
+       }
+       setOpen(false)
+   }, [matches])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -190,7 +210,7 @@ const useStyles = makeStyles((theme) => ({
               [classes.hide]: open,
             })}
           >
-            <MenuIcon className={classes.menutext} />
+            <MenuIcon className={classes.menuIcon} />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.appname}>
             AppName
@@ -214,44 +234,44 @@ const useStyles = makeStyles((theme) => ({
       <div className={classes.toolbar}>
         {open && <Typography variant="h6" noWrap>
         </Typography>}
-        {<IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.menutext} /> : <ChevronLeftIcon className={classes.menutext} />}
+        {!matches && <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.direc} /> : <ChevronLeftIcon className={classes.direc} />}
         </IconButton>}
       </div>
       <Divider />
       <Scrollbar>
       <List disablePadding>
       <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
-        <ListItemIcon><i className="la la-dashboard" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-        <ListItemText primary="Dashboard" className={classes.menutext} />
+        <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
       </ListItem>
 
       <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
-        <ListItemIcon><i className="la la-comments" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-        <ListItemText primary="Chats" className={classes.menutext}/>
+        <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Chats</Typography></ListItemText>
       </ListItem>
 
 
       <ListItem button onClick={handleOpenEmployee} className='mt-3'>
-                  <ListItemIcon><i className="la la-user" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                  <ListItemText primary="Employees" className={classes.menutext} />
-                  {openEmployeeCollapse ? <ExpandLess className={classes.menutext} /> : <ExpandMore className={classes.menutext} />}
+                  <ListItemIcon><User className={classes.sidebarIcons} /></ListItemIcon>
+                  <ListItemText ><Typography className={classes.menutext}>Employees</Typography></ListItemText>
+                  {openEmployeeCollapse ? <ExpandLess className={classes.direc} /> : <ExpandMore className={classes.direc} />}
       </ListItem>
       <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
                <ListItem button   selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
-                 <ListItemIcon><i className="la la-users" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                 <ListItemText primary='All Employees' className={classes.menutext}/>
+                 <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+                <ListItemText ><Typography className={classes.menutext}>All Employees</Typography></ListItemText>
                </ListItem>
 
                <ListItem button   selected={currentTab("/department")} onClick={() => history.push("/department")}>
-                 <ListItemIcon><i class="las la-building" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                 <ListItemText primary='Departments' className={classes.menutext}/>
+                 <ListItemIcon><Layers className={classes.sidebarIcons} /></ListItemIcon>
+                  <ListItemText ><Typography className={classes.menutext}>Department</Typography></ListItemText>
                </ListItem>
 
                <ListItem button   selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
-                 <ListItemIcon><i class="las la-passport" style={{ fontSize:"26px" , color:"#e0e0e0" }}></i></ListItemIcon>
-                 <ListItemText primary='Designations' className={classes.menutext}/>
+                 <ListItemIcon><Target className={classes.sidebarIcons} /></ListItemIcon>
+                  <ListItemText ><Typography className={classes.menutext}>Designation</Typography></ListItemText>
                </ListItem>
 
          </List>
@@ -259,7 +279,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-      <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
+    {/*  <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
         <ListItemIcon><i className="la la-rocket" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
         <ListItemText primary="Projects" className={classes.menutext} />
       </ListItem>
@@ -278,11 +298,11 @@ const useStyles = makeStyles((theme) => ({
       <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
         <ListItemIcon> <i className="la la-bell" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
         <ListItemText primary="Activities" className={classes.menutext} />
-      </ListItem>
+      </ListItem>*/}
 
       <ListItem button    onClick={() => signout(() => window.location.href="/")}>
         <ListItemIcon> </ListItemIcon>
-        <ListItemText primary="Signout" className={classes.menutext} />
+        <ListItemText ><Typography className={classes.menutext}>Signout</Typography></ListItemText>
       </ListItem>
       </List>
     </Scrollbar>

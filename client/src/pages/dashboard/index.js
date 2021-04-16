@@ -6,7 +6,7 @@ import { Grid, Card, Typography } from '@material-ui/core';
 const Dashboard = () => {
   return <>
           <DashboardLayout>
-            <Grid container justify="flex-start" spacing={3}>
+            {/*<Grid container justify="flex-start" spacing={3}>
               <Grid item sm={4} xs={12} md={4}>
                 <Card>
                   <Typography variant="h6" align="center">
@@ -28,8 +28,8 @@ const Dashboard = () => {
                 </Typography>
                 </Card>
               </Grid>
-               
-            </Grid>
+
+            </Grid>*/}
           </DashboardLayout>
          </>
 }
