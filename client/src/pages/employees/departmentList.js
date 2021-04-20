@@ -29,21 +29,16 @@ import {
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
 } from "@material-ui/icons";
-import { getEmployee } from '../../actions/employee';
+import { getDepartments } from '../../actions/department';
 import moment from 'moment';
 
 
 
 
 const headCells = [
-    { id: "employee_id", numeric: false, disablePadding: false, label: "Employee ID" },
-    { id: "employee_name", numeric: false, disablePadding: true, label: "Employee Name" },
-    { id: "department", numeric: false, disablePadding: false, label: "Department" },
-    { id: "designation", numeric: false, disablePadding: false, label: "Designation" },
-    { id: "status", numeric: false, disablePadding: false, label: "Status" },
-    { id: "date_of_joining", numeric: false, disablePadding: false, label: "Date Of Join" },
-    { id: "date_of_joining", numeric: false, disablePadding: false, label: "View Details" },
-
+    { id: "department_name", numeric: false, disablePadding: true, label: "Department Name" },
+    { id: "created_at", numeric: false, disablePadding: false, label: "Created At" },
+    { id: "View", numeric: false, disablePadding: false, label: "View" },
 ];
 
 function EnhancedTableHead(props) {
@@ -82,22 +77,18 @@ function EnhancedTable() {
   const [showEmployee, setShowEmployee] = React.useState(false);
 
   React.useEffect(() => {
-     getEmployee()
+     getDepartments()
        .then( response => {
-         if(response && response.employees){
-           let employeeData = response.employees.map((item) => {
-             let { first_name, last_name, employee_id, status, designation, department, date_of_joining, _id} = item;
+         if(response && response.departments){
+           let departmentData = response.departments.map((item) => {
+             let { department_name, createdAt, _id} = item;
              return {
                 _id,
-                employee_name: first_name + " " + last_name,
-                employee_id,
-                status,
-                designation: designation.designation_name,
-                department: department.department_name,
-                date_of_joining
+                 department_name,
+                 createdAt
              }
            })
-           setRows(employeeData)
+           setRows(departmentData)
          }
        })
        .catch((err) => {
@@ -154,34 +145,27 @@ function EnhancedTable() {
             <TableBody>
               { rows
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.department_name);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.employee_name)}
+                      onClick={(event) => handleClick(event, row.department_name)}
                       role="checkbox"
                       tabIndex={-1}
-                      key={row.employee_name}
-
+                      key={row._id}
                     >
                       <TableCell padding="checkbox">
-
                       </TableCell>
-
-                      <TableCell align="left">{row.employee_id}</TableCell>
                       <TableCell
                         component="th"
                         id={labelId}
                         scope="row"
                         padding="none"
                       >
-                        {row.employee_name}
+                    {row.department_name}
                       </TableCell>
-                      <TableCell align="left">{row.department}</TableCell>
-                      <TableCell align="left">{row.designation}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">{  moment(row.date_of_joining).format('Do MMMM  YYYY')}</TableCell>
+                      <TableCell align="left">{  moment(row.createdAt).format('Do MMMM  YYYY')}</TableCell>
                       <TableCell align="left"> <Button onClick={() => history.push(`/employee-detail/${row._id}`)}><VisibilityIcon /></Button></TableCell>
 
                     </TableRow>

@@ -22,10 +22,10 @@ const Router = () => {
    return <>
            <Route path="/" exact component={Login} />
            <Private path="/dashboard" exact component={Dashboard} />
-           <Private path="/all-employees" exact component={AllEmployees} />
+           <Route path="/all-employees" exact component={AllEmployees} />
            <Private path="/employee-detail/:id" exact component={EmployeeDetail} />
-           <Private path="/department" exact component={Department} />
-           <Private path="/designation" exact component={Designation} />
+           <Route path="/department" exact component={Department} />
+           <Route path="/designation" exact component={Designation} />
            <Private path="/contact" exact component={Contact} />
            <Private path="/activities" exact component={Activities} />
            <Private path="/projects" exact component={Projects} />

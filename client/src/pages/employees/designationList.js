@@ -29,20 +29,16 @@ import {
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
 } from "@material-ui/icons";
-import { getEmployee } from '../../actions/employee';
+import { getDesignations } from '../../actions/designation';
 import moment from 'moment';
 
 
 
 
 const headCells = [
-    { id: "employee_id", numeric: false, disablePadding: false, label: "Employee ID" },
-    { id: "employee_name", numeric: false, disablePadding: true, label: "Employee Name" },
-    { id: "department", numeric: false, disablePadding: false, label: "Department" },
-    { id: "designation", numeric: false, disablePadding: false, label: "Designation" },
-    { id: "status", numeric: false, disablePadding: false, label: "Status" },
-    { id: "date_of_joining", numeric: false, disablePadding: false, label: "Date Of Join" },
-    { id: "date_of_joining", numeric: false, disablePadding: false, label: "View Details" },
+  { id: "designation_name", numeric: false, disablePadding: true, label: "Designation Name" },
+  { id: "created_at", numeric: false, disablePadding: false, label: "Created At" },
+  { id: "View", numeric: false, disablePadding: false, label: "View" },
 
 ];
 
@@ -82,24 +78,21 @@ function EnhancedTable() {
   const [showEmployee, setShowEmployee] = React.useState(false);
 
   React.useEffect(() => {
-     getEmployee()
-       .then( response => {
-         if(response && response.employees){
-           let employeeData = response.employees.map((item) => {
-             let { first_name, last_name, employee_id, status, designation, department, date_of_joining, _id} = item;
-             return {
-                _id,
-                employee_name: first_name + " " + last_name,
-                employee_id,
-                status,
-                designation: designation.designation_name,
-                department: department.department_name,
-                date_of_joining
-             }
-           })
-           setRows(employeeData)
-         }
-       })
+    getDesignations()
+      .then( response => {
+        if(response && response.designations){
+          let designationsData = response.designations.map((item) => {
+            let { designation_name, createdAt, _id} = item;
+            console.log(item)
+            return {
+               _id,
+                designation_name,
+                createdAt
+            }
+          })
+          setRows(designationsData)
+        }
+      })
        .catch((err) => {
          console.log(err)
        })
@@ -152,41 +145,34 @@ function EnhancedTable() {
           >
             <EnhancedTableHead />
             <TableBody>
-              { rows
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.employee_name)}
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.employee_name}
-
+            { rows
+              .map((row, index) => {
+                const isItemSelected = isSelected(row.designations_name);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.designation_name)}
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row._id}
+                  >
+                    <TableCell padding="checkbox">
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
                     >
-                      <TableCell padding="checkbox">
+                  {row.designation_name}
+                    </TableCell>
+                    <TableCell align="left">{  moment(row.createdAt).format('Do MMMM  YYYY')}</TableCell>
+                    <TableCell align="left"> <Button onClick={() => history.push(`/employee-detail/${row._id}`)}><VisibilityIcon /></Button></TableCell>
 
-                      </TableCell>
-
-                      <TableCell align="left">{row.employee_id}</TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.employee_name}
-                      </TableCell>
-                      <TableCell align="left">{row.department}</TableCell>
-                      <TableCell align="left">{row.designation}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">{  moment(row.date_of_joining).format('Do MMMM  YYYY')}</TableCell>
-                      <TableCell align="left"> <Button onClick={() => history.push(`/employee-detail/${row._id}`)}><VisibilityIcon /></Button></TableCell>
-
-                    </TableRow>
-                  );
-                })}
+                  </TableRow>
+                );
+              })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
