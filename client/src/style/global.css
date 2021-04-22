@@ -18,3 +18,17 @@
 .makeStyles-content-19{
   padding: 0px;
 }
+
+
+
+@media (max-width:767px) {
+  img{
+    max-width: 500px
+  }
+}
+
+@media (min-width:767px) {
+  img{
+    max-width: 600px
+  }
+}

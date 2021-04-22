@@ -33,9 +33,10 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import "../../vendor/perfect-scrollbar.css";
 import styled from "styled-components/macro";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import MessagesDropdown from './messageDropdown';
+import NotificationDropdown from './notificationDropdown';
+import UserDropdown from './userDropdown';
 import { Sliders, MessageSquare, Users, User, Layers, Target } from 'react-feather';
-
 import { signout } from '../../actions/auth';
 
 const drawerWidth = 240;
@@ -153,6 +154,9 @@ const useStyles = makeStyles((theme) => ({
   },
   direc:{
     color:"#e0e0e0"
+  },
+  grow:{
+    flex:1
   }
 }));
 
@@ -163,10 +167,14 @@ const useStyles = makeStyles((theme) => ({
   const [open, setOpen] = React.useState(true);
   const matches = useMediaQuery('(min-width:600px)');
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
-
+  const [openContentCollapse, setOpenContentCollapse] = React.useState(true);
 
   function handleOpenEmployee(){
      setOpenEmployeeCollapse(!openEmployeeCollapse);
+  }
+
+  function handleOpenContent(){
+     setOpenContentCollapse(!openContentCollapse);
   }
 
    React.useEffect(() => {
@@ -215,6 +223,11 @@ const useStyles = makeStyles((theme) => ({
           <Typography variant="h6" noWrap className={classes.appname}>
             AppName
           </Typography>
+          <div className={classes.grow}>
+          </div>
+          <MessagesDropdown />
+          <NotificationDropdown />
+          <UserDropdown />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -279,6 +292,24 @@ const useStyles = makeStyles((theme) => ({
 
 
 
+      <ListItem button onClick={handleOpenContent} className='mt-3'>
+                  <ListItemIcon><User className={classes.sidebarIcons} /></ListItemIcon>
+                  <ListItemText ><Typography className={classes.menutext}>Content</Typography></ListItemText>
+                  {openContentCollapse ? <ExpandLess className={classes.direc} /> : <ExpandMore className={classes.direc} />}
+      </ListItem>
+      <Collapse in={openContentCollapse} timeout="auto" unmountOnExit>
+         <List component="div" disablePadding className={classes.collapseList}>
+               <ListItem button   selected={currentTab("/content/create")} onClick={() => history.push("/content/create")}>
+                 <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+                <ListItemText ><Typography className={classes.menutext}>Create Blog</Typography></ListItemText>
+               </ListItem>
+
+
+
+         </List>
+      </Collapse>
+
+
     {/*  <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
         <ListItemIcon><i className="la la-rocket" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
         <ListItemText primary="Projects" className={classes.menutext} />
@@ -300,10 +331,6 @@ const useStyles = makeStyles((theme) => ({
         <ListItemText primary="Activities" className={classes.menutext} />
       </ListItem>*/}
 
-      <ListItem button    onClick={() => signout(() => window.location.href="/")}>
-        <ListItemIcon> </ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Signout</Typography></ListItemText>
-      </ListItem>
       </List>
     </Scrollbar>
       </Drawer>

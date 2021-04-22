@@ -1,8 +1,10 @@
 const Employee = require("../models/employee_model");
+const Channel = require("../models/channel_model");
 const { errorHandler } = require("../utils/dbErrorHandler");
 const { send_email } = require("../utils/send_email");
 const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 
@@ -145,8 +147,9 @@ module.exports.onboard_employee = (req, res) => {
      })
 }
 
-module.exports.accept_onboard_invitation = (req, res) => {
+module.exports.accept_onboard_invitation = async (req, res) => {
     const { token, password } = req.body;
+    const channelId = await Channel.findOne({ channel_name: "general" })
 
     if(!password){
       return res.status(400).json({
@@ -174,9 +177,10 @@ module.exports.accept_onboard_invitation = (req, res) => {
                  })
                }
 
+
              bcrypt.genSalt(10, function(err, salt) {
                  bcrypt.hash(password, salt, function(err, hashedPassword) {
-                   Employee.findByIdAndUpdate({_id: result._id}, { password: hashedPassword, isActive:true, status:"JOINED" }, { new: true })
+                   Employee.findByIdAndUpdate({_id: result._id}, { password: hashedPassword, isActive:true, status:"JOINED", channels:[channelId._id] }, { new: true })
                      .exec((err, response) => {
                        if(err){
                          return res.status(400).json({
@@ -307,6 +311,7 @@ module.exports.signin = (req, res) => {
          error: "Employee with given email does not exit."
         })
       }
+      console.log(employee)
       // now compare the given password with db's password
        let result = await bcrypt.compare(password, employee.password);
        if(result === false){
@@ -366,3 +371,22 @@ module.exports.single_employee = (req, res) => {
      })
    })
 }
+
+
+exports.requireSignin = expressJwt({
+    secret: process.env.JWT_SECRET, // req.user
+    algorithms: ['sha1', 'RS256', 'HS256']
+});
+
+exports.authMiddleware = (req, res, next) => {
+    const authUserId = req.user._id;
+    Employee.findById({ _id: authUserId }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'Employee not found'
+            });
+        }
+        req.profile = user;
+        next();
+    });
+};

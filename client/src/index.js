@@ -5,9 +5,10 @@ import './style/global.css';
 import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
 import './utils/socketio';
 
+
 ReactDOM.render(
   <React.StrictMode>
-     <App />
+       <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

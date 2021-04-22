@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const app = require("./service").app;
 const server = require('./service').server;
 require('dotenv').config();
+require('./runScript')
 
 const employeeRouter = require("./routers/employee_router");
 const projectRouter = require("./routers/project_router");
@@ -13,6 +14,9 @@ const taskRouter = require("./routers/task_router");
 const designationRouter = require("./routers/designation_router");
 const channelRouter = require("./routers/channel_router");
 const channelChatRouter = require("./routers/channel_chat_router");
+const categoryRouter = require("./routers/category_router");
+const blogRouter = require("./routers/blog_router");
+const domainRouter = require("./routers/domain_router");
 
 app.use(cors({origin: "http://localhost:3000"}));
 
@@ -27,6 +31,9 @@ app.use("/api", taskRouter);
 app.use("/api", designationRouter);
 app.use("/api", channelRouter);
 app.use("/api", channelChatRouter);
+app.use("/api", categoryRouter);
+app.use("/api", blogRouter);
+app.use("/api", domainRouter);
 
 mongoose
     .connect(process.env.DATABASE, {
@@ -39,6 +46,7 @@ mongoose
     .catch(err => {
         console.log(err, "mongo_error");
     });
+
 
 
 

@@ -22,25 +22,24 @@ import { Bell, Home, UserPlus, Server } from "react-feather";
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
     width: 300px;
-    ${(props) => props.theme.shadows[1]};
-    border: 1px solid ${(props) => props.theme.palette.divider};
+    border: 1px solid grey;
   }
 `;
 
 const Indicator = styled(Badge)`
   .MuiBadge-badge {
-    background: ${(props) => props.theme.header.indicator.background};
-    color: ${(props) => props.theme.palette.common.white};
+    background: dodgerblue;
+    color: white;
   }
 `;
 
 const Avatar = styled(MuiAvatar)`
-  background: ${(props) => props.theme.palette.primary.main};
+  background: dodgerblue;
 `;
 
 const NotificationHeader = styled(Box)`
   text-align: center;
-  border-bottom: 1px solid ${(props) => props.theme.palette.divider};
+  border-bottom: 1px solid black;
 `;
 
 function Notification({ title, description, Icon }) {
@@ -82,7 +81,7 @@ function NotificationsDropdown() {
       <Tooltip title="Notifications">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
           <Indicator badgeContent={7}>
-            <Bell />
+            <Bell style={{ color:"grey" }}/>
           </Indicator>
         </IconButton>
       </Tooltip>

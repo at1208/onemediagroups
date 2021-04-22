@@ -7,11 +7,7 @@ import {
   MenuItem,
   IconButton,
 } from "@material-ui/core";
- 
-
-
-// import { signOut } from "..//actions/authActions";
-
+import { signout } from '../../actions/auth';
 
 
 function UserDropdown() {
@@ -40,7 +36,7 @@ function UserDropdown() {
           onClick={toggleMenu}
           color="inherit"
         >
-          <Power />
+          <Power style={{ color:"grey" }}/>
         </IconButton>
       </Tooltip>
       <Menu
@@ -50,7 +46,7 @@ function UserDropdown() {
         onClose={closeMenu}
       >
         <MenuItem onClick={closeMenu}>Profile</MenuItem>
-        <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+        <MenuItem onClick={() => signout(() => window.location.href="/")}>Sign out</MenuItem>
       </Menu>
     </React.Fragment>
   );

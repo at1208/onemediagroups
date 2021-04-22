@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+
 import { withRouter } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
@@ -15,6 +16,9 @@ import { useHistory } from 'react-router-dom';
 import { getChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
 import { useTheme, useMediaQuery } from '@material-ui/core';
+import ReactQuill from 'react-quill';
+import renderHTML from 'react-render-html';
+
 import Offline from "./offline";
 const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
@@ -25,6 +29,7 @@ const id = isAuth() && isAuth()._id;
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
+     width:"100%",
      padding:"30px 10px 30px 10px",
      // minHeight:"80vh",
      // backgroundColor:'#01264c!important'
@@ -34,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
    },
    chatDisplay:{
    padding:"10px 10px 10px 10px",
+      backgroundColor:"rgb(107 116 162 / 4%)",
    overflowY: 'scroll',
    minHeight:"60vh",
    maxHeight:"60vh"
@@ -66,9 +72,18 @@ button:{
  },
  message:{
    fontSize:"14px",
+   width:"100%",
+   marginLeft:"10px",
    fontFamily:"sans-serif",
-   padding:"6px 3px 6px 3px",
-   backgroundColor:"rgb(107 116 162 / 4%)"
+   // paddingLeft:"2%",
+   // padding:"6px 3px 6px 3px",
+   // backgroundColor:"rgb(107 116 162 / 4%)"
+ },
+ singleMessage:{
+  // margin:"3px 3px 3px 3px",
+   padding:"10px",
+   margin:"10px",
+   backgroundColor: "white"
  },
  sendmsg:{
    [theme.breakpoints.down("xs")]:{
@@ -89,7 +104,7 @@ button:{
       left:"18%",
       right:"25%",
    },
-   zIndex:10,
+   zIndex:1,
    backgroundColor:"white",
    padding:"10px"
  },
@@ -141,7 +156,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
         setTyping({ status: true, msg: msg.msg });
         setTimeout(() => {
           setTyping({ status: false, msg: "" });
-        }, 1000)
+        }, 2000)
     });
 
     socket.on("newJoined", (val) => {
@@ -161,7 +176,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   }, [reload])
 
   React.useEffect(() => {
-    messageContainer.scrollIntoView({ behavior: "smooth" })
+    messageContainer.scrollIntoView();
   }, [chats])
 
   React.useEffect(() => {
@@ -219,7 +234,7 @@ const handleSubmit = (e) => {
 
 const handleChange = (e) => {
     socket.emit("typing", { first_name,last_name, email, senderId:id}, {room:getChannelId(location)})
-    setMsg({...msg, message: e.target.value, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date() });
+    setMsg({...msg, message: e, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date() });
 }
 
 const channelsList = channels.map((item, i) => {
@@ -234,55 +249,115 @@ const channelsList = channels.map((item, i) => {
 })
 
 const chatsList = chats.map((item, i) => {
-  return  <div key={i}>
+  return  <div key={i} className={classes.singleMessage}>
              <Grid container justify="flex-start" spacing={2}>
                <Grid item xs={3} md={1} sm={2}>
-                  <Grid container justify="center">
-                    <img src="/user.png" width={45} height={45} />
+                  <Grid container justify="flex-start">
+                    <img src="/user.png" width={40} height={40} />
                   </Grid>
                </Grid>
                <Grid item xs={9} md={9} sm={10}>
                   <Grid container justify="flex-start">
-                    <Grid item xs={12} md={2} sm={3}>
+                    <Grid item xs={12} md={12} sm={12}>
                       <Typography variant="body1" className={classes.senderName}>{item.senderName}</Typography>
                     </Grid>
-                    <Grid item xs={12} md={10} sm={9}>
+                    <Grid item xs={12} md={12} sm={12}>
                      <Typography className={classes.time} variant="caption">{moment(item.timestamp).format('MMMM Do YYYY, h:mm a')}</Typography>
                     </Grid>
                   </Grid>
-                 <div className={classes.message}>
-                    {item.message}
-                 </div>
+
                </Grid>
+               <div className={classes.message}>
+                  {renderHTML(item.message)}
+               </div>
              </Grid>
           </div>
 })
 
+
+
+
+ function apiPostNewsImage(img) {
+          return 'https://scontent.fdel1-2.fna.fbcdn.net/v/t1.6435-9/88339928_553781082162452_485602196625293312_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=PdNmWOFS-J0AX_3f440&_nc_ht=scontent.fdel1-2.fna&oh=1ad2b4a3c414c722c3c9e95636179cd2&oe=60A560DC'
+        // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
+    }
+
+    function imageHandler() {
+        const input = document.createElement('input');
+
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async () => {
+            const file = input.files[0];
+            const formData = new FormData();
+
+            formData.append('image', file);
+
+            // Save current cursor state
+            const range = this.quill.getSelection(true);
+
+            // Insert temporary loading placeholder image
+            this.quill.insertEmbed(range.index, 'image', `${window.location.origin}/images/loaders/placeholder.gif`);
+
+            // Move cursor to right side of image (easier to continue typing)
+            this.quill.setSelection(range.index + 1);
+
+            const res = await apiPostNewsImage(formData); // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
+
+            // Remove placeholder image
+            this.quill.deleteText(range.index, 1);
+
+            // Insert uploaded image
+            // this.quill.insertEmbed(range.index, 'image', res.body.image);
+            this.quill.insertEmbed(range.index, 'image', res);
+        };
+    }
+
+
+    const modules = useMemo(() => ({
+      toolbar: {
+          container: [
+              [{ header: [1, 2, 3,4, 5, 6] }],
+              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['link', 'image'],
+              ['code-block']
+          ],
+          handlers: {
+              image: imageHandler
+          }
+      }
+     }), [])
+
+
+
   return <>
            <DashboardLayout>
            <Offline status={connected} />
-           <Grid container justify="center" spacing={3}>
+           <Grid container justify="center" spacing={6}>
              <Grid item sm={12} md={8} lg={9} xs={12}>
                 <Typography variant="h5" align="center" className={classes.channelName}><b>#{channel}</b></Typography>
-                <Card className={classes.chatDisplay} >
+
+                <Card className={classes.chatDisplay}>
                 {chatsList}
-                <div style={{ float:"left", clear: "both" }} ref={(el) => messageContainer = el}>
+                <div ref={(el) => messageContainer = el}>
                 </div>
                 </Card>
+                <Typography variant="body2" align="center">{typing.status && typing.msg}</Typography>
                 <br /> <br />
                 <form onSubmit={handleSubmit}>
-                  <Typography variant="body1">{typing.status && typing.msg}</Typography>
                      <Grid container justify="center">
-                       <Grid item sm={12} md={9} xs={12}>
+                       <Grid item sm={12} md={12} xs={12}>
                          <Card className={classes.sendmsg} >
                            <Grid item sm={12} md={12} sm={12}>
-                             <TextField
-                                multiline={true}
-                                label="Message"
-                                fullWidth
-                                value={msg.message}
-                                onChange={handleChange} />
-                                 <br /><br />
+
+                           <ReactQuill
+                             value={msg.message}
+                             modules={modules}
+                             onChange={handleChange} />
+
                            </Grid>
                            <Grid item sm={12} md={12} xs={12}>
                               <Button

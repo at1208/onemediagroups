@@ -7,6 +7,9 @@ const projectSchema = mongoose.Schema({
         min:2,
         max:32
       },
+      domain:{
+        type:String
+      },
       description:{
         type:String,
         min:80,
