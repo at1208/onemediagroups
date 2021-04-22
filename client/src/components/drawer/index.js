@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
   menutext:{
     color:"#e0e0e0",
     fontWeight:"300",
-    fontSize:"15px!important"
+    fontSize:"14px"
   },
   collapseList:{
     // backgroundColor:"lightgrey"
@@ -254,6 +254,12 @@ const useStyles = makeStyles((theme) => ({
       <Divider />
       <Scrollbar>
       <List disablePadding>
+
+      <ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
+        <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Profile</Typography></ListItemText>
+      </ListItem>
+
       <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
         <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
@@ -303,33 +309,30 @@ const useStyles = makeStyles((theme) => ({
                  <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Create Blog</Typography></ListItemText>
                </ListItem>
-
-
-
          </List>
       </Collapse>
 
 
-    {/*  <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
-        <ListItemIcon><i className="la la-rocket" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-        <ListItemText primary="Projects" className={classes.menutext} />
+      <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
+         <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Projects</Typography></ListItemText>
       </ListItem>
 
       <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
-        <ListItemIcon><i className="la la-tasks" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-        <ListItemText primary="Tasks" className={classes.menutext} />
+       <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+      <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
       </ListItem>
 
       <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
-        <ListItemIcon><i className="la la-book" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-        <ListItemText primary="Contacts" className={classes.menutext} />
+         <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Contacts</Typography></ListItemText>
       </ListItem>
 
 
       <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
-        <ListItemIcon> <i className="la la-bell" style={{ fontSize:"29px" , color:"#e0e0e0" }}></i></ListItemIcon>
-        <ListItemText primary="Activities" className={classes.menutext} />
-      </ListItem>*/}
+       <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+         <ListItemText ><Typography className={classes.menutext}>Activities</Typography></ListItemText>
+      </ListItem>
 
       </List>
     </Scrollbar>

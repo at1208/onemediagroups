@@ -45,7 +45,7 @@ function UserDropdown() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>Profile</MenuItem>
+        <MenuItem onClick={() => history.push("/profile")}>Profile</MenuItem>
         <MenuItem onClick={() => signout(() => window.location.href="/")}>Sign out</MenuItem>
       </Menu>
     </React.Fragment>

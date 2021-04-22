@@ -11,6 +11,7 @@
   padding:10px!important;
 }
 .MuiDrawer-paper{
+  /* background-color: rgb(37, 54, 80)!important; */
   background-color:#101531!important;
   border:0px solid white!important;
 }
