@@ -1,8 +1,9 @@
 import React from 'react';
 import { getProjects } from '../../actions/project';
-import { Grid, Card, Typography } from '@material-ui/core';
+import { Grid, Card, Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import ProjectCard from '../../components/project/projectCard';
+import { red, green, orange } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
@@ -24,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
                backgroundColor:"#3f51b5"
          },
    },
+   projectContainer:{
+     padding:"15px"
+   }
 }));
 
 
@@ -43,27 +47,20 @@ const ProjectList = () => {
 
   const projectLists = projects.map((proj, i) => {
     return <>
-           <Grid item xs={12} sm={4} md={3}>
-             <Card className={classes.cardRoot}>
-               <Typography
-                variant="h6"
-                >
-                {proj.name}
-               </Typography>
-               <Typography
-                variant="body2">
-                {proj.description}
-               </Typography>
-             </Card>
-           </Grid>
+             <Grid item xs={12} sm={4} md={4} lg={4}>
+               <ProjectCard
+                 title={proj.name}
+                 description={proj.description}
+                 />
+             </Grid>
            </>
   })
 
-  return <>
-           <Grid container justify="center" spacing={3} align="center">
+  return <div className={classes.projectContainer}>
+           <Grid container justify="center" spacing={3}>
                {projectLists}
            </Grid>
-         </>
+         </div>
 }
 
 export default ProjectList;

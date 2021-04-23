@@ -38,5 +38,19 @@ module.exports.get_channels_by_user = async (req, res) => {
       error: errorHandler(e)
     })
   }
+}
 
+module.exports.get_channel_details = (req, res) => {
+  const { channelId } = req.params;
+    Channel.findById({ _id: channelId })
+     .populate("admins", "first_name last_name email")
+     .populate("members", "first_name last_name email")
+    .exec((err, result) => {
+      if(err){
+        res.status(400).json({
+          error: err
+        })
+      }
+      res.json(result)
+    })
 }

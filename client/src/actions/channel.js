@@ -33,3 +33,20 @@ export function getChannels(credentials) {
       });
   });
 }
+
+
+export function getChannelsDetails(channelId) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/get/channels/details/${channelId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

@@ -11,10 +11,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 import { getCookie, isAuth } from '../../actions/auth';
 import moment from 'moment';
-import { getChannels } from '../../actions/channel';
+import { getChannels, getChannelsDetails } from '../../actions/channel';
 import { useHistory } from 'react-router-dom';
 import { getChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
+import ChannelMembers from '../../components/channel/channelMembers';
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import renderHTML from 'react-render-html';
@@ -128,6 +129,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   const [channels, setChannels] = React.useState([]);
   const [reload, setReload] = React.useState(false);
   const [connected, setConnected] = React.useState(true);
+  const [channelMembers, setChannelMembers] = React.useState();
 
   function getChannelId(term) {
        return term.search.split("").slice(4).join("");
@@ -189,6 +191,16 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
        })
   }, [url])
 
+  React.useEffect(() => {
+    getChannelsDetails(getChannelId(location))
+      .then( response => {
+         setChannelMembers(response)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
 
 setInterval(() => {
   setConnected(socket.connected)
@@ -200,6 +212,7 @@ setInterval(() => {
      }
      return false;
   }
+
 
 
 
@@ -375,7 +388,9 @@ const chatsList = chats.map((item, i) => {
              {matches && <Grid item xs={12} md={3} sm={12} lg={3}>
                             <Card className={classes.cardRoot}>
                                <CreateChannelForm pageReload={(status) => setReload(status)}/>
-                               <br /><br />
+                               <br />
+                               <ChannelMembers pageReload={(status) => setReload(status)} members={channelMembers}/>
+                               <br />
                                  <Typography variant="h6" align="center">Subscribed Channels</Typography>
                                {channelsList}
                             </Card>

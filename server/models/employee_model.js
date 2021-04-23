@@ -14,10 +14,6 @@ const employeeSchema = mongoose.Schema({
         type:String,
         default:null
     },
-    // document_verification:{
-    //     type:Boolean,
-    //     default:false
-    // },
     gender:{
         type:String,
         enum:["MALE", "FEMALE","NO"],
@@ -69,10 +65,10 @@ const employeeSchema = mongoose.Schema({
         data:Buffer,
         content_type:String
     },
-    // document:{
-    //   data:Buffer,
-    //   content_type:String
-    // },
+    resetPasswordLink: {
+        data: String,
+        default: ''
+    },
     status:{
       type:String,
       enum:['INVITED', 'JOINED', 'LEFT'],

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Private from '../components/protectedRoutes/privateRoute';
+import Auth from '../components/protectedRoutes/authRoute';
 import Login from '../pages/login';
 import Dashboard from '../pages/dashboard';
 import AllEmployees from '../pages/employees/';
@@ -21,7 +22,7 @@ import Profile from '../pages/profile';
 
 const Router = () => {
    return <>
-           <Route path="/" exact component={Login} />
+           <Auth path="/" exact component={Login} />
            <Private path="/dashboard" exact component={Dashboard} />
            <Route path="/all-employees" exact component={AllEmployees} />
            <Private path="/employee-detail/:id" exact component={EmployeeDetail} />
@@ -35,8 +36,8 @@ const Router = () => {
            <Private path="/chats" exact component={Chats} />
            <Private path="/profile" exact component={Profile} />
            <Private path="/chats/:channel" exact component={ChannelChats} />
-           <Route path="/reset" exact component={Reset} />
-           <Route path="/auth/onboard/:token" exact component={Onboard} />
+           <Auth path="/reset" exact component={Reset} />
+           <Auth path="/auth/onboard/:token" exact component={Onboard} />
           </>
 }
 export default Router;
