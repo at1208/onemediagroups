@@ -15,3 +15,19 @@ export function createTask(credentials) {
       });
   });
 }
+
+export function taskCountByProject(project_id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`task/count/${project_id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

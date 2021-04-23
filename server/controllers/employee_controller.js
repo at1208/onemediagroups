@@ -466,3 +466,18 @@ exports.resetPassword = (req, res) => {
         });
     }
 };
+
+module.exports.contact_number = (req, res) => {
+  const { query } = req.body;
+   Employee.find()
+     .populate("designation", "designation_name")
+     .select("phone_number first_name last_name email")
+     .exec((err, result) => {
+         if(err){
+           return res.status(400).json({
+             error: err
+           })
+         }
+         res.json(result)
+     })
+}

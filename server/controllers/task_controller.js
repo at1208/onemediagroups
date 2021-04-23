@@ -115,3 +115,22 @@ module.exports.all_task = (req, res) => {
      })
    })
 }
+
+module.exports.task_count_by_project = (req, res) => {
+  const { project_id } = req.params;
+  Task.find({ project_id })
+    .select("status")
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      let open = result.filter((task) => task.status == "Open");
+      let done = result.filter((task) => task.status == "Done");
+      res.json({
+        open: open.length,
+        done: done.length
+      })
+    })
+}

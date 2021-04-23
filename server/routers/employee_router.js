@@ -7,6 +7,7 @@ const { create_employee,
         update_employee,
         all_employee,
         single_employee,
+        contact_number,
         signin  } = require("../controllers/employee_controller");
 
 //ADMIN
@@ -19,5 +20,6 @@ router.get("/all/employees", all_employee);
 router.post("/accept/onboard/invitation", accept_onboard_invitation);
 router.patch("/update/employee/:_id", update_employee);
 router.post("/signin", signin);
+router.get("/employee/contact-number", contact_number);
 
 module.exports = router;
