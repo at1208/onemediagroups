@@ -10,26 +10,26 @@ const useStyles = makeStyles({
   },
   button:{
     textTransform: "none",
-    backgroundColor:"dodgerblue",
+    backgroundColor:"lightblue",
     // width:"100px",
     color:"white",
     // borderRadius:"20px",
     fontWeight:500,
-    fontSize:"13px",
+    fontSize:"12px",
     '&:hover': {
-              backgroundColor:"dodgerblue"
+              backgroundColor:"lightblue"
         },
   },
   selected:{
     textTransform: "none",
-    backgroundColor:"darkblue",
+    backgroundColor:"cadetblue",
     // width:"100px",
     // borderRadius:"20px",
     color:"white",
     fontWeight:500,
     fontSize:"13px",
     '&:hover': {
-              backgroundColor:"darkblue"
+              backgroundColor:"cadetblue"
         },
   }
 });

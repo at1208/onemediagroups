@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
-import { Grid, Card, TextField, Button, Typography, Divider } from '@material-ui/core';
+import { Grid, Card, TextField, Button, Typography, Divider,  Avatar  } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -266,7 +266,7 @@ const chatsList = chats.map((item, i) => {
              <Grid container justify="flex-start" spacing={2}>
                <Grid item xs={3} md={1} sm={2}>
                   <Grid container justify="flex-start">
-                    <img src="/user.png" width={40} height={40} />
+                    <Avatar alt={item.senderName} src=" " width={40} height={40} />
                   </Grid>
                </Grid>
                <Grid item xs={8} md={10} sm={9}>

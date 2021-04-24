@@ -36,7 +36,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MessagesDropdown from './messageDropdown';
 import NotificationDropdown from './notificationDropdown';
 import UserDropdown from './userDropdown';
-import { Sliders, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap } from 'react-feather';
+import { Sliders, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home } from 'react-feather';
 import { signout } from '../../actions/auth';
 
 const drawerWidth = 240;
@@ -225,7 +225,6 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
-          <MessagesDropdown />
           <NotificationDropdown />
           <UserDropdown />
         </Toolbar>
@@ -255,15 +254,16 @@ const useStyles = makeStyles((theme) => ({
       <Scrollbar>
       <List disablePadding>
 
+      <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
+        <ListItemIcon><Home className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
+      </ListItem>
+
       <ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
         <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Profile</Typography></ListItemText>
       </ListItem>
 
-      <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
-        <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
-      </ListItem>
 
       <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
          <ListItemIcon><GridIcon className={classes.sidebarIcons} /></ListItemIcon>

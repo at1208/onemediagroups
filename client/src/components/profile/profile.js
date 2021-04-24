@@ -1,10 +1,8 @@
 import React from "react";
 import styled, { withTheme } from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-
-
-
 import { red, green, blue } from "@material-ui/core/colors";
+
 
 import {
   Avatar as MuiAvatar,
@@ -84,36 +82,23 @@ function Details() {
   return (
     <Card mb={6}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Profile Details
-        </Typography>
-
-        <Spacer mb={4} />
-
         <Centered>
-          <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
+          <Avatar alt=" " src=" " />
           <Typography variant="body2" component="div" gutterBottom>
             <Box fontWeight="fontWeightMedium">Lucy Lavender</Box>
             <Box fontWeight="fontWeightRegular">Lead Developer</Box>
           </Typography>
-
-          <Button mr={2} variant="contained" size="small">
-            Follow
-          </Button>
-          <Button mr={2} variant="contained" color="primary" size="small">
-            Message
-          </Button>
         </Centered>
       </CardContent>
     </Card>
   );
 }
 
- 
+
 
 function About() {
   return (
-    <Card mb={6}>
+    <Card>
       <CardContent>
         <Typography variant="h6" gutterBottom>
           About
@@ -121,38 +106,14 @@ function About() {
 
         <Spacer mb={4} />
 
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <Home />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            Lives in{" "}
-            <Link href="https://material-app.bootlab.io/">
-              San Fransisco, SA
-            </Link>
-          </Grid>
-        </Grid>
-        <Grid container direction="row" alignItems="center" mb={2}>
-          <Grid item>
-            <AboutIcon>
-              <Briefcase />
-            </AboutIcon>
-          </Grid>
-          <Grid item>
-            Works at{" "}
-            <Link href="https://material-app.bootlab.io/">Material UI</Link>
-          </Grid>
-        </Grid>
         <Grid container direction="row" alignItems="center">
-          <Grid item>
+          <Grid item mr={1}>
             <AboutIcon>
               <MapPin />
             </AboutIcon>
           </Grid>
           <Grid item>
-            Lives in <Link href="https://material-app.bootlab.io/">Boston</Link>
+            Lives in  Delhi
           </Grid>
         </Grid>
       </CardContent>
@@ -162,24 +123,13 @@ function About() {
 
 
 
-
-
 function Profile() {
   return (
     <React.Fragment>
-      <Typography variant="h4" gutterBottom display="inline">
-        Profile
-      </Typography>
-
-      <Divider my={3} />
-
-      <Grid container spacing={6}>
+      <Grid container spacing={6} justify="flex-start">
         <Grid item xs={12} lg={4} xl={3}>
           <Details />
           <About />
-        </Grid>
-        <Grid item xs={12} lg={8} xl={9}>
-
         </Grid>
       </Grid>
     </React.Fragment>

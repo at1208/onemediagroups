@@ -5,10 +5,12 @@ const projectSchema = mongoose.Schema({
       name:{
         type:String,
         min:2,
+        lowercase:true,
         max:32
       },
       domain:{
-        type:String
+        type:String,
+        default:null
       },
       description:{
         type:String,

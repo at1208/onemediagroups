@@ -81,6 +81,7 @@ module.exports.create_employee =  async (req, res) => {
      const employee = new Employee();
          employee.first_name = first_name,
          employee.last_name = last_name,
+         employee.full_name = first_name + " " + last_name,
          employee.address = address,
          employee.employee_id = employee_id,
          employee.role = role,

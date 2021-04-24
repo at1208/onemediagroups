@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt');
                                   first_name:"Admin",
                                   last_name:"Bro",
                                   email: "admin",
-                                  gender:"NO",
+                                  gender:"MALE",
                                   role:"ADMIN",
                                   date_of_joining: new Date(),
                                   phone_number:"admin",

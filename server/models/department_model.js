@@ -4,6 +4,8 @@ const {ObjectId} = mongoose.Schema;
 const departmentSchema = mongoose.Schema({
     department_name:{
         type:String,
+        lowercase:true,
+        trim:true,
         unique:true,
         required:true
     },

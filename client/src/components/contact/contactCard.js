@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Button, Divider, Card, Typography } from '@material-ui/core';
+import { Grid, Button, Divider, Card, Typography, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -17,10 +17,10 @@ const ContactCard = ({ name, phone, email }) => {
   return <div className={classes.root}>
           <Card className={classes.cardRoot}>
             <Grid container justify="flex-start">
-              <Grid item xs={3} sm={2} md={2} lg={2}>
-                <img src="/user.png" width={40} height={40} />
+              <Grid item xs={3} sm={3} md={3} lg={3}>
+                <Avatar alt={name} src=" " width={40} height={40} />
               </Grid>
-              <Grid item xs={8} sm={8} md={8} lg={8}>
+              <Grid item xs={9} sm={9} md={9} lg={9}>
                 <Typography variant="body1">
                   {name}
                 </Typography>

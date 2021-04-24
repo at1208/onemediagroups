@@ -8,15 +8,38 @@ const employeeSchema = mongoose.Schema({
     },
     first_name:{
         type:String,
+        trim:true,
+        lowercase:true,
         required:true
     },
     last_name: {
         type:String,
+        trim:true,
+        lowercase:true,
         default:null
+    },
+    full_name:{
+      type:String,
+      default:null
+    },
+    bio:{
+      type:String,
+      max:200,
+      default:null
+    },
+    username:{
+      type:String,
+      trim:true,
+      unique:true,
+      default:null
+    },
+    headshot_url:{
+      type:String,
+      default:null
     },
     gender:{
         type:String,
-        enum:["MALE", "FEMALE","NO"],
+        enum:["MALE", "FEMALE"],
         required:true
     },
     role:{
@@ -33,7 +56,6 @@ const employeeSchema = mongoose.Schema({
         type: Date,
         required : true
     },
-
     phone_number:{
         type:String,
         unique:true,
@@ -60,10 +82,6 @@ const employeeSchema = mongoose.Schema({
         type:String,
         default:null
     },
-    picture:{
-        data:Buffer,
-        content_type:String
-    },
     resetPasswordLink: {
         data: String,
         default: ''
@@ -81,7 +99,11 @@ const employeeSchema = mongoose.Schema({
     channels:[{
       type:ObjectId,
       ref:"Channel"
-    }]
+    }],
+    linkedIn_url:{
+      type:String,
+      default:null
+    }
 },{ timestamps:true });
 
 module.exports = mongoose.model('Employee', employeeSchema);
