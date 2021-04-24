@@ -36,7 +36,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MessagesDropdown from './messageDropdown';
 import NotificationDropdown from './notificationDropdown';
 import UserDropdown from './userDropdown';
-import { Sliders, MessageSquare, Users, User, Layers, Target } from 'react-feather';
+import { Sliders, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap } from 'react-feather';
 import { signout } from '../../actions/auth';
 
 const drawerWidth = 240;
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
   menutext:{
     color:"#e0e0e0",
     fontWeight:"300",
-    fontSize:"14px"
+    fontSize:"13px"
   },
   collapseList:{
     // backgroundColor:"lightgrey"
@@ -150,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     color:"black"
   },
   sidebarIcons:{
-    color:"grey"
+    color:"grey",
   },
   direc:{
     color:"#e0e0e0"
@@ -265,6 +265,16 @@ const useStyles = makeStyles((theme) => ({
         <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
       </ListItem>
 
+      <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
+         <ListItemIcon><GridIcon className={classes.sidebarIcons} /></ListItemIcon>
+        <ListItemText ><Typography className={classes.menutext}>Projects</Typography></ListItemText>
+      </ListItem>
+
+      <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
+       <ListItemIcon><Briefcase className={classes.sidebarIcons} /></ListItemIcon>
+      <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
+      </ListItem>
+
       <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
         <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Chats</Typography></ListItemText>
@@ -306,31 +316,23 @@ const useStyles = makeStyles((theme) => ({
       <Collapse in={openContentCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
                <ListItem button   selected={currentTab("/content/create")} onClick={() => history.push("/content/create")}>
-                 <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+                 <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Create Blog</Typography></ListItemText>
                </ListItem>
          </List>
       </Collapse>
 
 
-      <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
-         <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Projects</Typography></ListItemText>
-      </ListItem>
 
-      <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
-       <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
-      <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
-      </ListItem>
 
       <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
-         <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+         <ListItemIcon><Mail className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Contacts</Typography></ListItemText>
       </ListItem>
 
 
       <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
-       <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
+       <ListItemIcon><Zap className={classes.sidebarIcons} /></ListItemIcon>
          <ListItemText ><Typography className={classes.menutext}>Activities</Typography></ListItemText>
       </ListItem>
 
