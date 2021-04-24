@@ -17,8 +17,9 @@ const channelChatRouter = require("./routers/channel_chat_router");
 const categoryRouter = require("./routers/category_router");
 const blogRouter = require("./routers/blog_router");
 const domainRouter = require("./routers/domain_router");
+const bloguserRouter = require("./routers/bloguser_router");
 
-app.use(cors({origin: "http://localhost:3000"}));
+app.use(cors({origin: ["http://localhost:3000"]}));
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -34,6 +35,7 @@ app.use("/api", channelChatRouter);
 app.use("/api", categoryRouter);
 app.use("/api", blogRouter);
 app.use("/api", domainRouter);
+app.use("/api", bloguserRouter);
 
 mongoose
     .connect(process.env.DATABASE, {
@@ -46,10 +48,6 @@ mongoose
     .catch(err => {
         console.log(err, "mongo_error");
     });
-
-
-
-
 
 const port = process.env.PORT || 8000;
 server.listen(port, () => {
