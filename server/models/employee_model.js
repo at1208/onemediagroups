@@ -24,7 +24,8 @@ const employeeSchema = mongoose.Schema({
         enum:[
             'EMPLOYEE',
             'ADMIN',
-            'SUPERADMIN'
+            'CONTRACTOR',
+            'INTERN'
         ],
         default:'EMPLOYEE'
     },
@@ -47,10 +48,6 @@ const employeeSchema = mongoose.Schema({
         type: ObjectId,
         ref : "Designation"
     },
-    // isActive:{
-    //     type:Boolean,
-    //     default:false
-    // },
     email:{
         type:String,
         unique:true,

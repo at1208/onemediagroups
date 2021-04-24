@@ -140,7 +140,6 @@ module.exports.task_count_by_project = (req, res) => {
 
 module.exports.filter_task = (req, res) => {
    // query = { project: "", assignee:"", follwer:"", status:"" }
-   console.log(req.body)
 var query = {};
 var payload = req.body;
 

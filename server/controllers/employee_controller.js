@@ -468,8 +468,13 @@ exports.resetPassword = (req, res) => {
 };
 
 module.exports.contact_number = (req, res) => {
-  const { query } = req.body;
-   Employee.find()
+    //role: EMPLOYEE / CONTRACTOR/ INTERN
+    console.log(req.body)
+    var query = {};
+    var payload = req.body;
+    if (payload.role) query.role = {$in : payload.role};
+
+   Employee.find(query)
      .populate("designation", "designation_name")
      .select("phone_number first_name last_name email")
      .exec((err, result) => {

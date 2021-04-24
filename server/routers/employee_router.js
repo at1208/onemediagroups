@@ -20,6 +20,6 @@ router.get("/all/employees", all_employee);
 router.post("/accept/onboard/invitation", accept_onboard_invitation);
 router.patch("/update/employee/:_id", update_employee);
 router.post("/signin", signin);
-router.get("/employee/contact-number", contact_number);
+router.post("/employee/contact-number", contact_number);
 
 module.exports = router;
