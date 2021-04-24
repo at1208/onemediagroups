@@ -77,7 +77,7 @@ const Contact = () => {
                 size="small"
                 fullWidth
                 onClick={() => query.role == "CONTRACTOR" ? setQuery({ role: ""}) : setQuery({ role: "CONTRACTOR"})}
-                className={query.role == "CONTRACTOR" ?classes.selected:classes.button}>Contactors</Button>
+                className={query.role == "CONTRACTOR" ?classes.selected:classes.button}>Contractors</Button>
             </Grid>
           </Grid>
           <br />
