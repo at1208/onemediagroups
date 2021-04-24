@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import {
   Checkbox,
   Grid,
+  Box,
   IconButton,
   Link,
   Breadcrumbs  ,
@@ -26,6 +27,7 @@ import {
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
+  RemoveRedEye as RemoveRedEyeIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
 } from "@material-ui/icons";
@@ -37,8 +39,8 @@ import moment from 'moment';
 
 const headCells = [
   { id: "designation_name", numeric: false, disablePadding: true, label: "Designation Name" },
-  { id: "created_at", numeric: false, disablePadding: false, label: "Created At" },
-  { id: "View", numeric: false, disablePadding: false, label: "View" },
+
+  { id: "View", numeric: true, disablePadding: false, label: "View" },
 
 ];
 
@@ -167,14 +169,20 @@ function EnhancedTable() {
                     >
                   {row.designation_name}
                     </TableCell>
-                    <TableCell align="left">{  moment(row.createdAt).format('Do MMMM  YYYY')}</TableCell>
-                    <TableCell align="left"> <Button onClick={() => history.push(`/employee-detail/${row._id}`)}><VisibilityIcon /></Button></TableCell>
+
+                    <TableCell align="right">
+                      <Box mr={0}>
+                        <IconButton aria-label="details" onClick={() => history.push(`/employee-detail/${row._id}`)}>
+                          <RemoveRedEyeIcon />
+                        </IconButton>
+                      </Box>
+                    </TableCell>
 
                   </TableRow>
                 );
               })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow style={{ height: (dense ? 33 : 33) * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -197,9 +205,11 @@ function EnhancedTable() {
 
 function AdvancedTable() {
   return (
-    <>
-      <EnhancedTable />
-    </>
+    <Grid container justify="center">
+      <Grid item xs={12} md={10} sm={10} lg={10}>
+        <EnhancedTable />
+      </Grid>
+    </Grid>
   );
 }
 

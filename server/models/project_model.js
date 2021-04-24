@@ -9,7 +9,8 @@ const projectSchema = mongoose.Schema({
         max:32
       },
       domain:{
-        type:String,
+        type:ObjectId,
+        ref:"Domain",
         default:null
       },
       description:{

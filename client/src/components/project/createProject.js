@@ -10,6 +10,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { createProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
+import { getDomains  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
 
 
@@ -44,13 +45,24 @@ const ChannelForm = ({  }) => {
      description:"",
      team_leader:"",
      team_members:"",
+     domain:"",
      start_date:"",
      end_date:"",
      error:"",
      success:"",
      isLoading:false
   })
+  const [domains, setDomains] = React.useState();
 
+  React.useEffect(() => {
+       getDomains()
+       .then(response => {
+         setDomains(response)
+       })
+       .catch(err => {
+         console.log(err)
+       })
+  }, [])
 
   const handleClickOpen = () => {
    setOpen(true);
@@ -185,6 +197,19 @@ const ChannelForm = ({  }) => {
                               style={{ width: "100%" }}
                               renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
                             />
+                         </Grid>
+                         <Grid item xs={12} sm={12} md={12}>
+                         <Autocomplete
+                            onChange={(event, newValue) => {
+                              if(newValue){
+                                   setProject({...project, domain: newValue._id})
+                              }
+                             }}
+                            options={domains}
+                            getOptionLabel={(option) => option.name}
+                            style={{ width: "100%" }}
+                            renderInput={(params) => <TextField {...params} label="Domain" variant="outlined"/>}
+                          />
                          </Grid>
                          <Grid item xs={12} sm={12} md={12}>
                            <Autocomplete

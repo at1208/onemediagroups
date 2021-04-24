@@ -4,7 +4,7 @@ import Private from '../components/protectedRoutes/privateRoute';
 import Auth from '../components/protectedRoutes/authRoute';
 import Login from '../pages/login';
 import Dashboard from '../pages/dashboard';
-import AllEmployees from '../pages/employees/';
+import AllEmployees from '../pages/employees/employee';
 import EmployeeDetail from '../pages/employees/employeeDetail';
 import Department from '../pages/employees/department';
 import Designation from '../pages/employees/designation';

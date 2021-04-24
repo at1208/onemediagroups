@@ -6,6 +6,7 @@ const fs = require('fs');
 module.exports.create_project = async (req, res) => {
      const {  name,
               description,
+              domain,
               team_leader,
               team_members,
               start_date,
@@ -39,6 +40,7 @@ module.exports.create_project = async (req, res) => {
 
         const project = new Project();
         project.name = name;
+        project.domain = domain;
         project.description = description;
         project.team_members = team_members;
         project.team_leader = team_leader;
