@@ -42,11 +42,13 @@ const employeeSchema = mongoose.Schema({
     },
     department: {
         type: ObjectId,
-        ref: "Department"
+        ref: "Department",
+        default:null
     },
     designation:{
         type: ObjectId,
-        ref : "Designation"
+        ref : "Designation",
+        default:null
     },
     email:{
         type:String,

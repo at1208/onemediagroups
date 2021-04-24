@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import {
   Checkbox,
   Grid,
+  Box,
   IconButton,
   Link,
   Breadcrumbs  ,
@@ -27,6 +28,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
   Delete as DeleteIcon,
+  RemoveRedEye as RemoveRedEyeIcon,
   FilterList as FilterListIcon,
 } from "@material-ui/icons";
 import { getEmployee } from '../../actions/employee';
@@ -41,8 +43,7 @@ const headCells = [
     { id: "department", numeric: false, disablePadding: false, label: "Department" },
     { id: "designation", numeric: false, disablePadding: false, label: "Designation" },
     { id: "status", numeric: false, disablePadding: false, label: "Status" },
-    { id: "date_of_joining", numeric: false, disablePadding: false, label: "Date Of Join" },
-    { id: "date_of_joining", numeric: false, disablePadding: false, label: "View Details" },
+    { id: "detail", numeric: true, disablePadding: false, label: "Detail" },
 
 ];
 
@@ -85,6 +86,7 @@ function EnhancedTable() {
      getEmployee()
        .then( response => {
          if(response && response.employees){
+            console.log(response)
            let employeeData = response.employees.map((item) => {
              let { first_name, last_name, employee_id, status, designation, department, date_of_joining, _id} = item;
              return {
@@ -92,11 +94,11 @@ function EnhancedTable() {
                 employee_name: first_name + " " + last_name,
                 employee_id,
                 status,
-                designation: designation.designation_name,
-                department: department.department_name,
-                date_of_joining
+                designation: designation && designation.designation_name,
+                department: department && department.department_name,
              }
            })
+
            setRows(employeeData)
          }
        })
@@ -181,8 +183,15 @@ function EnhancedTable() {
                       <TableCell align="left">{row.department}</TableCell>
                       <TableCell align="left">{row.designation}</TableCell>
                       <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">{  moment(row.date_of_joining).format('Do MMMM  YYYY')}</TableCell>
-                      <TableCell align="left"> <Button onClick={() => history.push(`/employee-detail/${row._id}`)}><VisibilityIcon /></Button></TableCell>
+                      <TableCell align="right">
+                      <Box mr={0}>
+                        <IconButton aria-label="details" onClick={() => history.push(`/employee-detail/${row._id}`)}>
+                          <RemoveRedEyeIcon />
+                        </IconButton>
+                      </Box>
+
+
+                      </TableCell>
 
                     </TableRow>
                   );

@@ -243,7 +243,6 @@ function EnhancedTable({ tasks }) {
                       <TableCell align="left">{row.project}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-
                           <IconButton aria-label="details">
                             <RemoveRedEyeIcon />
                           </IconButton>
