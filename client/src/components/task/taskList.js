@@ -273,7 +273,7 @@ function EnhancedTable({ tasks }) {
   );
 }
 
-function OrderList({ taskList }) {
+function TaskListing({ taskList }) {
   return (
     <React.Fragment>
       <Grid container spacing={6}>
@@ -285,4 +285,4 @@ function OrderList({ taskList }) {
   );
 }
 
-export default OrderList;
+export default TaskListing;

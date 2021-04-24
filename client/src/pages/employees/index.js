@@ -2,6 +2,7 @@ import React from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import CreateEmployee from '../../components/employee/createEmployee';
 import EmployeeList from '../../components/employee/employeeList';
+import EmployeeFilter from '../../components/employee/employeeFilter';
 import { Grid} from '@material-ui/core';
 
 
@@ -20,6 +21,8 @@ const AllEmployees = () => {
   return <>
            <DashboardLayout>
               {AddEmployee()}
+              <br />
+              {/*<EmployeeFilter />*/}
               <br />
               <EmployeeList />
            </DashboardLayout>
