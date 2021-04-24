@@ -4,6 +4,7 @@ import {
   Checkbox,
   Grid,
   Box,
+  Chip,
   IconButton,
   Link,
   Breadcrumbs  ,
@@ -181,8 +182,18 @@ function EnhancedTable() {
                         {row.employee_name}
                       </TableCell>
                       <TableCell align="left">{row.department}</TableCell>
-                      <TableCell align="left">{row.designation}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
+                      <TableCell align="left"><Chip size="small" label={row.designation || "None"} color="primary" /></TableCell>
+                      <TableCell align="left">
+                      {
+                        row.status == "INVITED" && (<Chip size="small" label={"Invited"} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.status == "JOINED" && (<Chip size="small" label={"Joined"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.status == "LEFT" && (<Chip size="small" label={"Left"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      </TableCell>
                       <TableCell align="right">
                       <Box mr={0}>
                         <IconButton aria-label="details" onClick={() => history.push(`/employee-detail/${row._id}`)}>

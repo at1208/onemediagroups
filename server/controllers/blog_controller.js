@@ -43,3 +43,31 @@ if(body.length <300){
       })
     });
 };
+
+
+
+module.exports.filter_blog = (req, res) => {
+   // query = { postedBy: "", status:"", approval:"", domain:"" }
+   console.log(req.body)
+var query = {};
+var payload = req.body;
+
+if (payload.postedBy) query.postedBy = {$in : payload.postedBy};
+if (payload.status) query.status = {$in : payload.status};
+if (payload.approval) query.approval = {$in : payload.approval};
+if (payload.domain) query.domain = {$in : payload.domain};
+
+  Blog.find(query)
+     .populate("domain", "name")
+     .populate("categories", "name")
+     .populate("postedBy", "first_name last_name")
+     .select("title postedBy status approval")
+     .exec((err, result) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       res.json(result)
+   })
+}

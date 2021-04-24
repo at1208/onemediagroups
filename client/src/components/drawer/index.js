@@ -36,7 +36,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MessagesDropdown from './messageDropdown';
 import NotificationDropdown from './notificationDropdown';
 import UserDropdown from './userDropdown';
-import { Sliders, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home } from 'react-feather';
+import { Sliders, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home, BookOpen } from 'react-feather';
 import { signout } from '../../actions/auth';
 
 const drawerWidth = 240;
@@ -290,7 +290,7 @@ const useStyles = makeStyles((theme) => ({
          <List component="div" disablePadding className={classes.collapseList}>
                <ListItem button   selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
                  <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>All Employees</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext}>All Employee</Typography></ListItemText>
                </ListItem>
 
                <ListItem button   selected={currentTab("/department")} onClick={() => history.push("/department")}>
@@ -319,10 +319,13 @@ const useStyles = makeStyles((theme) => ({
                  <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Create Blog</Typography></ListItemText>
                </ListItem>
+
+               <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
+                 <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
+                <ListItemText ><Typography className={classes.menutext}>All Blog</Typography></ListItemText>
+               </ListItem>
          </List>
       </Collapse>
-
-
 
 
       <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>

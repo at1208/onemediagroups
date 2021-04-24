@@ -22,3 +22,19 @@ export function createBlog(credentials, token) {
       });
   });
 }
+
+export function filterBlog(credentials) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/blog/filter`, credentials)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

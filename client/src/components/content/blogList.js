@@ -25,22 +25,16 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-
 import { green, orange, red } from "@material-ui/core/colors";
-
 import {
   Add as AddIcon,
   Archive as ArchiveIcon,
   FilterList as FilterListIcon,
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
-
 import { spacing } from "@material-ui/system";
-
 const Divider = styled(MuiDivider)(spacing);
-
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
-
 const Paper = styled(MuiPaper)(spacing);
 
 
@@ -81,12 +75,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "task_name", alignment: "left", label: "Task name" },
-  { id: "assignee", alignment: "left", label: "Assignee" },
-  { id: "reporter", alignment: "left", label: "Reporter" },
+  { id: "title", alignment: "left", label: "Blog Title" },
   { id: "status", alignment: "left", label: "Status" },
-  { id: "project", alignment: "left", label: "Project" },
-  { id: "actions", alignment: "right", label: "Detail" },
+  { id: "approval", alignment: "left", label: "Approval Status" },
+  { id: "domain", alignment: "left", label: "Domain" },
+  { id: "postedBy", alignment: "right", label: "Posted By" },
+  { id: "detail", alignment: "right", label: "Detail" },
 ];
 
 
@@ -131,7 +125,7 @@ function EnhancedTableHead(props) {
 
 
 
-function EnhancedTable({ tasks }) {
+function EnhancedTable({ blogs }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
   const [selected, setSelected] = React.useState([]);
@@ -146,7 +140,7 @@ function EnhancedTable({ tasks }) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = tasks.map((n) => n.id);
+      const newSelecteds = blogs.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -185,7 +179,7 @@ function EnhancedTable({ tasks }) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, tasks.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, blogs.length - page * rowsPerPage);
 
   return (
     <div>
@@ -202,14 +196,15 @@ function EnhancedTable({ tasks }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={tasks.length}
+              rowCount={blogs.length}
             />
             <TableBody>
-              {stableSort(tasks, getComparator(order, orderBy))
+              {stableSort(blogs, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
+
 
                   return (
                     <TableRow
@@ -217,25 +212,31 @@ function EnhancedTable({ tasks }) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={`${row.task_name}-${index}`}
+                      key={`${row.title}-${index}`}
                       selected={isItemSelected}
                     >
-                      <TableCell align="left">{row.task_name}</TableCell>
-                      <TableCell align="left"><Chip size="small" label={row.assignee} color="primary" /></TableCell>
-                      <TableCell align="left"><Chip size="small" label={row.reporter} color="primary" /></TableCell>
-                      <TableCell>
+                      <TableCell align="left">{row.title}</TableCell>
+                      <TableCell align="left">
                       {
-                        row.status == "Open" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                        row.status == true && (<Chip size="small" label={"Active"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.status == "Closed" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                        row.status == false && (<Chip size="small" label={"Inactive"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
-                      {
-                        row.status == "Done" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                      }
-
                       </TableCell>
-                      <TableCell align="left">{row.project}</TableCell>
+                      <TableCell align="left">
+                      {
+                        row.approval == "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.approval == "APPROVED" && (<Chip size="small" label={"Approved"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.approval == "NOT APPROVED" && (<Chip size="small" label={"Not Approved"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      </TableCell>
+                      <TableCell align="left">{row.domain.name}</TableCell>
+                      <TableCell align="right">{row.postedBy.first_name + " " + row.postedBy.last_name}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton aria-label="details">
@@ -257,7 +258,7 @@ function EnhancedTable({ tasks }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={tasks.length}
+          count={blogs.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -268,12 +269,12 @@ function EnhancedTable({ tasks }) {
   );
 }
 
-function TaskListing({ taskList }) {
+function TaskListing({ blogs }) {
   return (
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable tasks={taskList}/>
+          <EnhancedTable blogs={blogs}/>
         </Grid>
       </Grid>
     </React.Fragment>

@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     padding:"10px"
   },
   openChip:{
-    backgroundColor:"rgb(255, 152, 0)"
-   // backgroundColor:"rgb(64, 122, 214)"
+    // backgroundColor:"rgb(255, 152, 0)"
+   backgroundColor:"dodgerblue"
   },
   doneChip:{
    backgroundColor:'rgb(76, 175, 80)'

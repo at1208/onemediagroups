@@ -18,15 +18,17 @@ import ChannelChats from '../pages/chats';
 import Chats from '../pages/chats/chats';
 import CreateContent from '../pages/content/create';
 import Profile from '../pages/profile';
+import AllBlogs from '../pages/content/allBlogs';
 
 
 const Router = () => {
    return <>
            <Auth path="/" exact component={Login} />
            <Private path="/dashboard" exact component={Dashboard} />
-           <Route path="/all-employees" exact component={AllEmployees} />
+           <Private path="/all-employees" exact component={AllEmployees} />
            <Private path="/employee-detail/:id" exact component={EmployeeDetail} />
            <Private path="/content/create" exact component={CreateContent} />
+           <Private path="/content/blogs" exact component={AllBlogs} />
            <Private path="/department" exact component={Department} />
            <Private path="/designation" exact component={Designation} />
            <Private path="/contact" exact component={Contact} />

@@ -37,7 +37,7 @@ const blogSchema = mongoose.Schema({
       categories: [{ type: ObjectId, ref: 'Category', required: true }],
       postedBy: {
         type: ObjectId,
-        ref: 'User'
+        ref: 'Employee'
       },
       domain: {
         type: ObjectId,
@@ -48,9 +48,9 @@ const blogSchema = mongoose.Schema({
         default: false
       },
       approval:{
-        type:Boolean,
-        default:false
+        type:String,
+        enum:["WAITING", "APPROVED", "NOT APPROVED"],
+        default:"WAITING"
       }
-
 })
 module.exports = mongoose.model("Blog", blogSchema);

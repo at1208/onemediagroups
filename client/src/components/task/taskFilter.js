@@ -182,11 +182,8 @@ const TaskFilter = ({ tasks }) => {
                   </Select>
                 </FormControl>
              </Grid>
-             <Grid item xs={12} sm={3} md={3} lg={3}>
+             <Grid item xs={12} sm={2} md={2} lg={2}>
                 <Grid container justify="center" spacing={1} className={classes.btnContainer}>
-                   <Grid xs={6} sm={4} md={4} lg={4}>
-                       <Button  size="small"  variant="contained" color="primary" type="submit">Search</Button>
-                   </Grid>
                    <Grid xs={6} sm={4} md={4} lg={4}>
                        <Button  size="small" variant="contained" color="primary" onClick={handleClick}>Reset</Button>
                    </Grid>

@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 const Contact = () => {
     const classes = useStyles();
     const [query, setQuery] = useState({
-      role:""
+      role:"EMPLOYEE"
     })
     const [contacts, setContacts] = useState([]);
 
