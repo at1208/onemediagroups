@@ -83,6 +83,7 @@ const ChannelForm = ({ pageReload }) => {
         setReload(!reload);
       })
       .catch((err) => {
+        console.log(err)
         setChannel({...channel, isLoading:false, error: err.error});
       })
   }

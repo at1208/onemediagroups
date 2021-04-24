@@ -75,7 +75,7 @@ const ChannelForm = ({ pageReload, members }) => {
 
   }
 
-  console.log(members)
+ 
     return  <>
              <Grid container justify="center">
              <AvatarGroup max={3} onClick={handleClickOpen}>
