@@ -134,3 +134,41 @@ module.exports.task_count_by_project = (req, res) => {
       })
     })
 }
+
+
+//project assignee follower owner title status
+
+module.exports.filter_task = (req, res) => {
+   // query = { project: "", assignee:"", follwer:"", status:"" }
+   console.log(req.body)
+var query = {};
+var payload = req.body;
+
+if (payload.project_id) query.project_id = {$in : payload.project_id};
+if (payload.assignee) query.assignee = {$in : payload.assignee};
+if (payload.follower) query.follower = {$in : payload.follower};
+if (payload.status) query.status = {$in : payload.status};
+
+    Task.find(query)
+    .populate("project_id", "name")
+    .populate("assignee", "first_name last_name")
+    .populate("follower", "first_name last_name")
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      let data = result.map((task) => {
+        return {
+          task_name:task.title,
+          description: task.description,
+          assignee: task.assignee.first_name + " " + task.assignee.last_name,
+          reporter: task.follower.first_name + " " + task.follower.last_name,
+          status: task.status,
+          project:task.project_id.name
+        }
+      })
+      res.json(data)
+    })
+}

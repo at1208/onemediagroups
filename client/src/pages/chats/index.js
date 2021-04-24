@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-
 import { withRouter } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
@@ -19,7 +18,7 @@ import ChannelMembers from '../../components/channel/channelMembers';
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import renderHTML from 'react-render-html';
-
+import MessageActions from '../../components/channel/action'
 import Offline from "./offline";
 const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
@@ -111,7 +110,8 @@ button:{
  },
  channelName:{
    padding:"1px"
- }
+ },
+
 }));
 
 
@@ -269,7 +269,7 @@ const chatsList = chats.map((item, i) => {
                     <img src="/user.png" width={40} height={40} />
                   </Grid>
                </Grid>
-               <Grid item xs={9} md={9} sm={10}>
+               <Grid item xs={8} md={10} sm={9}>
                   <Grid container justify="flex-start">
                     <Grid item xs={12} md={12} sm={12}>
                       <Typography variant="body1" className={classes.senderName}>{item.senderName}</Typography>
@@ -278,7 +278,11 @@ const chatsList = chats.map((item, i) => {
                      <Typography className={classes.time} variant="caption">{moment(item.timestamp).format('MMMM Do YYYY, h:mm a')}</Typography>
                     </Grid>
                   </Grid>
-
+               </Grid>
+               <Grid item xs={1} md={1} sm={1}>
+                  <Grid container justify="flex-end">
+                    <MessageActions />
+                  </Grid>
                </Grid>
                <div className={classes.message}>
                   {renderHTML(item.message)}

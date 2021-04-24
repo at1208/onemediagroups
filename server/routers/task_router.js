@@ -6,7 +6,8 @@ const { create_task,
         delete_task,
         all_task,
         single_task,
-        task_count_by_project
+        task_count_by_project,
+        filter_task
       } = require("../controllers/task_controller");
 
 
@@ -19,6 +20,6 @@ router.patch("/delete/task/:_id", delete_task);
 router.get("/all/task", all_task);
 router.get("/single/task/:_id", single_task);
 router.get("/task/count/:project_id", task_count_by_project);
-
+router.post("/task/filter", filter_task);
 
 module.exports = router;

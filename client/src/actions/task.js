@@ -31,3 +31,19 @@ export function taskCountByProject(project_id) {
       });
   });
 }
+
+export function filterTask(credentials) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`task/filter`, credentials)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

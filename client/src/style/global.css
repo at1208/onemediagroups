@@ -19,7 +19,10 @@
 .makeStyles-content-19{
   padding: 0px;
 }
-
+.MuiMenu-list{
+  border:1px solid #e8eaf6;
+  border-radius: 5px;
+}
 
 
 @media (max-width:767px) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Button, Card, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,9 +9,9 @@ import { getEmployee } from '../../actions/employee';
 import { createTask } from '../../actions/task';
 import { isAuth } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
-import TaskList from './taskList';
+import TaskFilter from '../../components/task/taskFilter';
 import CreateTask from '../../components/task/createTask';
-
+import TaskList from '../../components/task/taskList';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,25 +43,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Tasks = () => {
    const classes = useStyles();
+   const [tasks, setTasks] = useState([]);
+   const [taskList, setTaskList] = useState([]);
 
+   useEffect(() => {
+     setTaskList(tasks);
+   }, [tasks])
 
-
-function Task() {
-  return <>
-          <Grid container spacing={3} justify="flex-end">
-            <Grid item  md={3} sm={3} xs={12}>
-               <CreateTask />
+  function TaskCreation() {
+    return <>
+            <Grid container spacing={3} justify="flex-end">
+              <Grid item  md={3} sm={3} xs={12}>
+                 <CreateTask />
+              </Grid>
             </Grid>
-          </Grid>
-          <br />
-          <TaskList />
-         </>
-   }
-
+           </>
+     }
 
   return <>
           <DashboardLayout>
-             <Task />
+            <TaskCreation />
+            <br />
+            <TaskFilter tasks={(tasks) => setTasks(tasks)}/>
+            <br />
+            <TaskList taskList={taskList} />
           </DashboardLayout>
          </>
 }
