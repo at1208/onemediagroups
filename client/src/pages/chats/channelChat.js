@@ -128,7 +128,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   var messageContainer = React.useRef();
   const [online, setOnline] = React.useState();
   const [typing, setTyping ] = React.useState({ status: false, msg: "" });
-  const [msg, setMsg] = React.useState ({  message: "", senderName: "", senderEmail: "", senderId: "", timestamp:"", channelId:"" });
+  const [msg, setMsg] = React.useState ({  message: "", senderName: "", senderEmail: "", senderId: "", timestamp:"", channelId:"", readBy: [] });
   const [chats, setChats] = React.useState([]);
   const [channels, setChannels] = React.useState([]);
   const [reload, setReload] = React.useState(false);
@@ -158,6 +158,15 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
        setChats((prev) => [...prev, msg.msg.msg ]);
     })
 
+    // socket.on(id, (data) => {
+    //   setChannels(data.unread)
+    // })
+
+    // socket.on("private", (unread) => {
+    //   console.log(unread)
+    //    setChannels(unread);
+    // })
+
     socket.on("typingResponse", (msg) => {
         setTyping({ status: true, msg: msg.msg });
         setTimeout(() => {
@@ -179,7 +188,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
      .catch((err) => {
        console.log(err)
      })
-  }, [reload])
+  }, [reload, location])
 
   React.useEffect(() => {
     messageContainer.scrollIntoView();
@@ -246,6 +255,7 @@ const handleSubmit = (e) => {
       message: "",
       senderName: "",
       senderEmail: "",
+      readBy:"",
       senderId: "",
       channelId: "",
       timestamp: ""
@@ -254,8 +264,9 @@ const handleSubmit = (e) => {
 
 const handleChange = (e) => {
     socket.emit("typing", { first_name,last_name, email, senderId:id}, {room:getChannelId(location)})
-    setMsg({...msg, message: e, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date() });
+    setMsg({...msg, message: e, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date(), readBy: [] });
 }
+
 
 const channelsList = channels.map((item, i) => {
       return <div key={i}>
@@ -277,8 +288,9 @@ const channelsList = channels.map((item, i) => {
 
 
 async function readChat(chatId, userId){
-    await readChannelChats(chatId, userId)
+      chatId && await readChannelChats(chatId, userId)
 }
+
 const chatsList = chats.map((item, i) => {
       if(!(item && item.readBy && item.readBy.includes(id))){
          readChat(item._id, id)
