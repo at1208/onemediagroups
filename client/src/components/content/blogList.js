@@ -269,7 +269,7 @@ function EnhancedTable({ blogs }) {
   );
 }
 
-function TaskListing({ blogs }) {
+function BlogListing({ blogs }) {
   return (
     <React.Fragment>
       <Grid container spacing={6}>
@@ -281,4 +281,4 @@ function TaskListing({ blogs }) {
   );
 }
 
-export default TaskListing;
+export default BlogListing;

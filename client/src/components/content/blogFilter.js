@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const TaskFilter = ({ blogs }) => {
+const BlogFilter = ({ blogs }) => {
     const classes = useStyles();
     const [employees, setEmployees] = useState([]);
     const [domains, setDomains] = useState([]);
@@ -181,4 +181,4 @@ const TaskFilter = ({ blogs }) => {
          </>
 }
 
-export default TaskFilter;
+export default BlogFilter;

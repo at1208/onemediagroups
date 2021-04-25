@@ -73,7 +73,7 @@ close:{
 }));
 
 
-const ChannelForm = ({  }) => {
+const CreateEmployee = ({  }) => {
   const [open, setOpen] = React.useState(false);
   const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
@@ -354,4 +354,4 @@ const ChannelForm = ({  }) => {
             </>
 }
 
-export default ChannelForm;
+export default CreateEmployee;

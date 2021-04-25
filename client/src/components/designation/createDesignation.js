@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const ChannelForm = ({  }) => {
+const CreateDesignation = ({  }) => {
   const classes = useStyles();
     const [open, setOpen] = React.useState(false);
   const [openForm, setOpenForm] = React.useState(false);
@@ -139,4 +139,4 @@ const ChannelForm = ({  }) => {
             </>
 }
 
-export default ChannelForm;
+export default CreateDesignation;

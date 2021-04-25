@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const TaskFilter = ({ tasks }) => {
+const EmployeeFilter = ({ tasks }) => {
     const classes = useStyles();
     const [employees, setEmployees] = useState([]);
     const [projects, setProjects] = useState([]);
@@ -195,4 +195,4 @@ const TaskFilter = ({ tasks }) => {
          </>
 }
 
-export default TaskFilter;
+export default EmployeeFilter;

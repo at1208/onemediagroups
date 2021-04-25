@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ChannelForm = ({  }) => {
+const CreateTask = ({  }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [openForm, setOpenForm] = React.useState(false);
@@ -258,4 +258,4 @@ const ChannelForm = ({  }) => {
             </>
 }
 
-export default ChannelForm;
+export default CreateTask;
