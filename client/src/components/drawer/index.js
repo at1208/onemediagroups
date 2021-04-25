@@ -317,12 +317,12 @@ const useStyles = makeStyles((theme) => ({
          <List component="div" disablePadding className={classes.collapseList}>
                <ListItem button   selected={currentTab("/content/create")} onClick={() => history.push("/content/create")}>
                  <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>Create Blog</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext}>Create blog</Typography></ListItemText>
                </ListItem>
 
                <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
                  <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>All Blog</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext}>All blogs</Typography></ListItemText>
                </ListItem>
          </List>
       </Collapse>

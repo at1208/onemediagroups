@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
-import { Grid, Card, TextField, Button, Typography, Divider,  Avatar  } from '@material-ui/core';
+import { Grid, Card, TextField, Button, Typography, Divider,  Avatar, Badge  } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -12,7 +12,7 @@ import { getCookie, isAuth } from '../../actions/auth';
 import moment from 'moment';
 import { getChannels, getChannelsDetails } from '../../actions/channel';
 import { useHistory } from 'react-router-dom';
-import { getChannelChats } from '../../actions/channelchat';
+import { getChannelChats, readChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
 import ChannelMembers from '../../components/channel/channelMembers';
 import { useTheme, useMediaQuery } from '@material-ui/core';
@@ -111,7 +111,11 @@ button:{
  channelName:{
    padding:"1px"
  },
-
+ singleMessageNotReadYet:{
+   backgroundColor:"#fffaea",
+   padding:"10px",
+   margin:"10px",
+ }
 }));
 
 
@@ -170,7 +174,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   React.useEffect(() => {
    getChannels(id)
      .then((value) => {
-       setChannels(value.channels)
+       setChannels(value)
      })
      .catch((err) => {
        console.log(err)
@@ -213,6 +217,9 @@ setInterval(() => {
      return false;
   }
 
+  const defaultProps = {
+    color: 'secondary'
+  };
 
 
 
@@ -256,12 +263,26 @@ const channelsList = channels.map((item, i) => {
                   selected={currentTab(`/chats/${item.channel_name}`)}
                   button
                   onClick={() => history.push(`/chats/${item.channel_name}?id=${item._id}`)}>
-                 <ListItemText className={classes.channelName} primary={`#${item.channel_name}`} alignItems="center"/>
+                  <Grid container>
+                    <Grid item xs={10} sm={10} md={10} className={classes.channelName}>
+                      <Typography variant="body1">{`#${item.channel_name}`}</Typography>
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2}>
+                     <Badge badgeContent={item.unread} {...defaultProps} />
+                    </Grid>
+                  </Grid>
                </ListItem>
             </div>
 })
 
+
+async function readChat(chatId, userId){
+    await readChannelChats(chatId, userId)
+}
 const chatsList = chats.map((item, i) => {
+      if(!(item && item.readBy && item.readBy.includes(id))){
+         readChat(item._id, id)
+      }
   return  <div key={i} className={classes.singleMessage}>
              <Grid container justify="flex-start" spacing={2}>
                <Grid item xs={3} md={1} sm={2}>

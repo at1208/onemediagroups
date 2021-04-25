@@ -29,7 +29,9 @@ module.exports.get_channel_chats = async (req, res) => {
   if(!chats) return res.status(404).json([]);
   const chatList =  chats.map((item, i) => {
        return {
+           _id:item._id,
            channelId: item.channelId,
+           readBy: item.readBy,
            message: item.message,
            senderEmail: item.senderId.email,
            senderName: item.senderId.first_name + " " + item.senderId.last_name,
@@ -42,4 +44,36 @@ module.exports.get_channel_chats = async (req, res) => {
         error:e
       })
     }
+}
+
+
+module.exports.read_channel_chat = async (req, res) => {
+     const { chatId, userId } = req.params;
+     try {
+       let chat = await ChannelChat.findOne({ _id: chatId });
+       if(!chat) return res.status(400).json({ error: "Chat not found"});
+        let check = chat.readBy.includes(userId);
+        if(!check) {
+           chat.readBy.push(userId)
+           await chat.save()
+        }
+        res.json(chat)
+     } catch (e) {
+       res.status(400).json({
+         error: "Server error"
+       })
+     }
+}
+
+module.exports.get_unread_chat_count_by_channel = async (req, res) => {
+     const { channelId, userId } = req.params;
+     try {
+        let chats = await ChannelChat.find({ channelId });
+        let unreadchats = chats.filter(item => !item.readBy.includes(userId))
+         res.json(unreadchats.length)
+     } catch (e) {
+       res.status(400).json({
+         error: "Server error"
+       })
+     }
 }

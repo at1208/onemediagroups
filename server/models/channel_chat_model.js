@@ -6,6 +6,10 @@ const channelChatSchema = mongoose.Schema({
         type:String,
         required:true
       },
+      readBy:[{
+        type:ObjectId,
+        ref:"Employee"
+      }],
       senderId: {
         type:ObjectId,
         ref:"Employee",

@@ -50,3 +50,19 @@ export function getChannelsDetails(channelId) {
       });
   });
 }
+
+export function getUnreadChatCountByChannel(channelId, userId) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/get_unread_chat_count_by_channel/${channelId}${userId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

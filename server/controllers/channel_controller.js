@@ -1,4 +1,5 @@
 const Channel = require("../models/channel_model");
+const ChannelChat = require("../models/channel_chat_model");
 const Employee = require('../models/employee_model');
 const { errorHandler } = require("../utils/dbErrorHandler");
 
@@ -32,7 +33,21 @@ module.exports.get_channels_by_user = async (req, res) => {
   try {
      let channels = await Employee.findById({ _id: userId }).select("channels").populate("channels","channel_name");
      if(channels.length == 0) return res.status(404).json({ error: "Channels doestn't exists"});
-     res.json(channels)
+
+        // for(channel of channels){
+        //   console.log(channel)
+        // }
+      let data = [];
+      for(channel of channels.channels){
+
+        let chats = await ChannelChat.find({ channelId: channel._id });
+        let unreadchats = chats.filter(item => !item.readBy.includes(userId));
+        const { channel_name, _id } = channel;
+        let obj = { channel_name, _id,  unread: channel.unread = unreadchats.length }
+        data.push(obj);
+      }
+
+     res.json(data)
   } catch (e) {
     res.status(400).json({
       error: errorHandler(e)

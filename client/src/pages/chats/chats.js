@@ -1,7 +1,9 @@
 import React from 'react';
-import { Grid, Card, Typography } from '@material-ui/core';
+import { Grid, Card, Typography, Badge, Box } from '@material-ui/core';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import ListItem from '@material-ui/core/ListItem';
+ 
+
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { getChannels } from '../../actions/channel';
@@ -53,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+const defaultProps = {
+  color: 'secondary'
+};
+
+
 function Chats(){
   const history = useHistory();
   const classes = useStyles();
@@ -61,7 +68,7 @@ function Chats(){
   React.useEffect(() => {
    getChannels(id)
      .then((value) => {
-       setChannels(value.channels)
+       setChannels(value)
      })
      .catch((err) => {
        console.log(err)
@@ -77,11 +84,20 @@ function Chats(){
 
   const channelsList = channels.map((item, i) => {
         return <div key={i}>
+
                 <ListItem
                     selected={currentTab(`/chats/${item.channel_name}`)}
                     button
                     onClick={() => history.push(`/chats/${item.channel_name}?id=${item._id}`)}>
-                   <ListItemText className={classes.channelName} primary={`#${item.channel_name}`} alignItems="center"/>
+                    <Grid container>
+                      <Grid item xs={10} sm={10} md={10} className={classes.channelName}>
+                        <Typography variant="body1">{`#${item.channel_name}`}</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} md={2}>
+                       <Badge badgeContent={item.unread} {...defaultProps} />
+                      </Grid>
+                    </Grid>
+
                  </ListItem>
               </div>
   })
