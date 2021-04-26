@@ -47,6 +47,8 @@ module.exports.create_project = async (req, res) => {
         project.start_date = start_date;
         project.end_date = end_date;
         project.priority = priority;
+        project.createdBy = req.user._id,
+        project.updatedBy = req.user._id
 
         await project.save((err, result) => {
               if (err) {
@@ -62,86 +64,67 @@ module.exports.create_project = async (req, res) => {
 }
 
 
-module.exports.update_project = (req, res) => {
-  const { _id } = req.params;
-  let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'image could not upload'
-        });
-    }
-
+module.exports.update_project = async (req, res) => {
+   const { _id } = req.params;
    const {  name,
             description,
+            domain,
             team_leader,
             team_members,
             start_date,
             end_date,
-            priority
-         } = fields;
+            priority,
+         } = req.body;
 
-    Project.findOne({ _id })
+   Project.findById({ _id })
       .exec((err, project) => {
         if(err){
           return res.status(400).json({
             error: err
           })
         }
-        if(name){
-           project.name = name
-        }
-        if(description){
-           project.description = description
-        }
-        if(team_leader){
-           project.team_leader = team_leader
-        }
-        if(team_members){
-           project.team_members = team_members
-        }
-        if(start_date){
-           project.start_date = start_date
-        }
-        if(end_date){
-           project.end_date = end_date
-        }
-        if(priority){
-           project.priority = priority
+
+        if(!project){
+          return res.status(404).json({
+            error: "Project not found"
+          })
         }
 
-      if (files.logo) {
-        if (files.logo.size > 10000000) {
-            return res.status(400).json({
-                error: 'File should be less then 1mb in size'
-            });
-        }
-          project.logo.data = fs.readFileSync(files.logo.path);
-          project.logo.content_type = files.logo.type;
+      if(name){
+        project.name = name;
+      }
+      if(domain){
+        project.domain = domain;
+      }
+      if(description){
+        project.description = description;
+      }
+      if(team_leader){
+        project.team_leader = team_leader;
+      }
+      if(team_members){
+        project.team_members = team_members;
+      }
+      if(start_date){
+        project.start_date = start_date;
+      }
+      if(end_date){
+        project.end_date = end_date;
+      }
+      if(priority){
+          project.priority = priority;
       }
 
-      if (files.uploaded_file) {
-        if (files.uploaded_file.size > 30000000) {
-            return res.status(400).json({
-                error: 'File should be less then 3mb in size'
-            });
-        }
-          project.uploaded_file.data = fs.readFileSync(files.uploaded_file.path);
-          project.uploaded_file.content_type = files.uploaded_file.type;
-      }
-        project.save((err, result) => {
-           if (err) {
-               return res.status(400).json({
-                   error: errorHandler(err)
-               });
-           }
-           res.status(200).json({
-             message: "Project details updated successfully."
-           })
-        });
-      })
-    })
+       project.updatedBy = req.user._id;
+       project.save((err, result) => {
+         if(err){
+           error: err
+         }
+         res.json({
+           message:"Project successfully updated"
+         })
+       })
+   })
 }
 
 
@@ -162,6 +145,11 @@ module.exports.delete_project = (req, res) => {
 
 module.exports.all_project = (req, res) => {
   Project.find({ del_flag: false })
+  .populate("domain", "name")
+  .populate("team_leader", "full_name first_name last_name headshot_url")
+  .populate("team_members", "full_name first_name last_name headshot_url")
+  .populate("createdBy", "full_name first_name last_name headshot_url")
+  .populate("updatedBy", "full_name first_name last_name headshot_url")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({
@@ -173,6 +161,8 @@ module.exports.all_project = (req, res) => {
      })
    })
 }
+
+
 
 module.exports.single_project = (req, res) => {
    const { _id } = req.params;

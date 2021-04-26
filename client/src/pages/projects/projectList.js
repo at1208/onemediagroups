@@ -1,5 +1,6 @@
 import React from 'react';
 import { getProjects } from '../../actions/project';
+import { getCookie } from '../../actions/auth';
 import { Grid, Card, Typography, Chip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ProjectCard from '../../components/project/projectCard';
@@ -33,10 +34,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ProjectList = () => {
   const [projects, setProjects] = React.useState([]);
+  const token = getCookie("token")
   const classes = useStyles();
 
   React.useEffect(() => {
-    getProjects()
+    getProjects(token)
       .then((value) => {
         setProjects(value.projects)
       })
@@ -45,10 +47,12 @@ const ProjectList = () => {
       })
   }, [])
 
+  console.log(projects)
   const projectLists = projects.map((proj, i) => {
     return <>
              <Grid item xs={12} sm={4} md={4} lg={4}>
                <ProjectCard
+                 project={proj}
                  project_id={proj._id}
                  title={proj.name}
                  description={proj.description}

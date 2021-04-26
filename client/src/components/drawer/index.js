@@ -225,7 +225,7 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
-          <NotificationDropdown />
+
           <UserDropdown />
         </Toolbar>
       </AppBar>
@@ -259,10 +259,10 @@ const useStyles = makeStyles((theme) => ({
         <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
       </ListItem>
 
-      <ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
+      {/*<ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
         <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Profile</Typography></ListItemText>
-      </ListItem>
+      </ListItem>*/}
 
 
       <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>

@@ -312,7 +312,6 @@ module.exports.signin = (req, res) => {
          error: "Employee with given email does not exit."
         })
       }
-      console.log(employee)
       // now compare the given password with db's password
        let result = await bcrypt.compare(password, employee.password);
        if(result === false){

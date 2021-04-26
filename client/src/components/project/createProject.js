@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { createProject } from '../../actions/project';
+import { getCookie } from '../../actions/auth';
 import { getEmployee } from '../../actions/employee';
 import { getDomains  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const ChannelForm = ({  }) => {
   const [open, setOpen] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
+  const token = getCookie("token")
   const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
   const [project, setProject] = React.useState({
@@ -117,7 +119,7 @@ const ChannelForm = ({  }) => {
      setProject({ ...project,
        isLoading:true,
      })
-     createProject(project)
+     createProject(project, token)
        .then((value) => {
          setProject({ ...project,
            name:"",

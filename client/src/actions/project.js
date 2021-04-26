@@ -1,9 +1,15 @@
 import axios from "../utils/axios";
 
-export function createProject(credentials) {
+export function createProject(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/create/project", credentials)
+      .post("/create/project", credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -17,10 +23,16 @@ export function createProject(credentials) {
 }
 
 
-export function getProjects() {
+export function getProjects(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/project")
+      .get("/all/project", {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

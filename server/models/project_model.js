@@ -40,6 +40,15 @@ const projectSchema = mongoose.Schema({
       del_flag:{
         type:Boolean,
         default:false
+      },
+      createdBy:{
+        type:ObjectId,
+        ref:"Employee",
+        required:true
+      },
+      updatedBy:{
+        type:ObjectId,
+        ref:"Employee"
       }
 
 },{ timestamps: true })
