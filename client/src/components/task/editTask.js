@@ -2,6 +2,7 @@ import React from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import {  Grid,
           Button,
+          Box,
           Card,
           TextField,
           Dialog,
@@ -20,6 +21,9 @@ import { isAuth, getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import {
+  RemoveRedEye as RemoveRedEyeIcon,
+} from "@material-ui/icons";
 
 const id = isAuth() && isAuth()._id;
 
@@ -53,13 +57,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateTask = ({  }) => {
+const EditTask = ({ editTask }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [openForm, setOpenForm] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
+
+  console.log(editTask)
 
   const handleClickOpen = () => {
    setOpen(true);
@@ -148,14 +154,11 @@ const CreateTask = ({  }) => {
 
     return  <>
              <Grid container justify="center">
-               <Button
-                variant="contained"
-                className={classes.button}
-                onClick={handleClickOpen}
-                color="primary"
-                >
-                 Create Task
-               </Button>
+             <Box>
+               <IconButton aria-label="details"   onClick={handleClickOpen}>
+                 <RemoveRedEyeIcon />
+               </IconButton>
+             </Box>
              </Grid>
              <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
@@ -171,15 +174,13 @@ const CreateTask = ({  }) => {
                   <IconButton
                     aria-label="close"
                     onClick={handleClose}
-                    className={classes.closeButton}
-                  >
+                    className={classes.closeButton}>
                     <CloseIcon />
                   </IconButton>
                 ) : null}
               </DialogTitle>
               <Grid container justify="center" spacing={3}>
                 <Grid item sm={12} md={12} xs={12}>
-
                   <div className={classes.errorContainer}>
                    {task.success && <Alert severity="success">{task.success}</Alert>}
                    {task.error && <Alert severity="error">{task.error}</Alert>}
@@ -190,6 +191,7 @@ const CreateTask = ({  }) => {
                        <Grid item xs={12} sm={12} md={12}>
                          <TextField
                           fullWidth
+                          value={editTask.task_name}
                           onChange={handleChange("title")}
                           variant="outlined"
                           label="Title" />
@@ -200,6 +202,7 @@ const CreateTask = ({  }) => {
                           multiline
                           rows={3}
                           onChange={handleChange("description")}
+                          value={editTask.description}
                           variant="outlined"
                           label="Description" />
                        </Grid>
@@ -281,4 +284,4 @@ const CreateTask = ({  }) => {
             </>
 }
 
-export default CreateTask;
+export default EditTask;

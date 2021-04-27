@@ -25,22 +25,17 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-
+import EditTask from './editTask'
 import { green, orange, red } from "@material-ui/core/colors";
-
 import {
   Add as AddIcon,
   Archive as ArchiveIcon,
   FilterList as FilterListIcon,
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
-
 import { spacing } from "@material-ui/system";
-
 const Divider = styled(MuiDivider)(spacing);
-
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
-
 const Paper = styled(MuiPaper)(spacing);
 
 
@@ -86,7 +81,7 @@ const headCells = [
   { id: "reporter", alignment: "left", label: "Reporter" },
   { id: "status", alignment: "left", label: "Status" },
   { id: "project", alignment: "left", label: "Project" },
-  { id: "actions", alignment: "right", label: "Detail" },
+  { id: "actions", alignment: "center", label: "Action" },
 ];
 
 
@@ -237,11 +232,7 @@ function EnhancedTable({ tasks }) {
                       </TableCell>
                       <TableCell align="left">{row.project}</TableCell>
                       <TableCell padding="none" align="right">
-                        <Box mr={2}>
-                          <IconButton aria-label="details">
-                            <RemoveRedEyeIcon />
-                          </IconButton>
-                        </Box>
+                        <EditTask editTask={row} />
                       </TableCell>
                     </TableRow>
                   );
@@ -271,8 +262,8 @@ function EnhancedTable({ tasks }) {
 function TaskListing({ taskList }) {
   return (
     <React.Fragment>
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
+      <Grid container spacing={6} justify="center">
+        <Grid item xs={12} md={11} sm={11} lg={11}>
           <EnhancedTable tasks={taskList}/>
         </Grid>
       </Grid>

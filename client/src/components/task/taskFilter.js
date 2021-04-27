@@ -3,6 +3,7 @@ import { Grid, Card, TextField, Button, Typography, Divider } from '@material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getProjects } from '../../actions/project';
+import { getCookie } from '../../actions/auth';
 import { getEmployee } from '../../actions/employee';
 import { filterTask } from '../../actions/task';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -33,9 +34,10 @@ const TaskFilter = ({ tasks }) => {
     const [projects, setProjects] = useState([]);
     const [values, setValues] = useState({project: "",assignee:"", follower:"", owner:""});
     const [query, setQuery] = useState({project_id: "",assignee:"", follower:"", owner:"", status:""})
+    const token = getCookie("token");
 
     useEffect(() => {
-        getProjects()
+        getProjects(token)
           .then(response => {
                setProjects(response.projects)
           })
@@ -45,7 +47,7 @@ const TaskFilter = ({ tasks }) => {
     }, [])
 
     useEffect(() => {
-       getEmployee()
+       getEmployee(token)
          .then(response => {
             setEmployees(response.employees)
          })
@@ -55,7 +57,7 @@ const TaskFilter = ({ tasks }) => {
     }, [])
 
     useEffect(() => {
-      filterTask(query)
+      filterTask(query, token)
         .then(response => {
           tasks(response)
         })
@@ -67,7 +69,7 @@ const TaskFilter = ({ tasks }) => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-     filterTask(query)
+     filterTask(query, token)
        .then(response => {
          tasks(response)
        })
@@ -111,7 +113,6 @@ const TaskFilter = ({ tasks }) => {
   }
 
    return <>
-          <Card className={classes.cardRoot}>
             <form onSubmit={handleSubmit}>
            <Grid container spacing={2} justify="center">
              <Grid item xs={12} sm={2} md={2} lg={2}>
@@ -183,15 +184,14 @@ const TaskFilter = ({ tasks }) => {
                 </FormControl>
              </Grid>
              <Grid item xs={12} sm={2} md={2} lg={2}>
-                <Grid container justify="center" spacing={1} className={classes.btnContainer}>
-                   <Grid xs={6} sm={4} md={4} lg={4}>
+                <Grid container justify="flex-start" spacing={1} className={classes.btnContainer}>
+                   <Grid xs={12} sm={12} md={12} lg={12}>
                        <Button  size="small" variant="contained" color="primary" onClick={handleClick}>Reset</Button>
                    </Grid>
                 </Grid>
              </Grid>
            </Grid>
            </form>
-          </Card>
          </>
 }
 

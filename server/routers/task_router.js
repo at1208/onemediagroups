@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { requireSignin, authMiddleware } = require('../controllers/employee_controller');
 
 const { create_task,
         update_task,
@@ -14,12 +15,12 @@ const { create_task,
 const { create_task_validator } = require('../validators/task_validator');
 const { run_validation }  = require('../validators/index');
 
-router.post("/create/task", create_task_validator, run_validation, create_task);
-router.patch("/update/task/:_id", update_task);
-router.patch("/delete/task/:_id", delete_task);
-router.get("/all/task", all_task);
-router.get("/single/task/:_id", single_task);
-router.get("/task/count/:project_id", task_count_by_project);
-router.post("/task/filter", filter_task);
+router.post("/create/task", requireSignin, authMiddleware, create_task_validator, run_validation, create_task);
+router.patch("/update/task/:_id", requireSignin, authMiddleware, update_task);
+router.patch("/delete/task/:_id", requireSignin, authMiddleware, delete_task);
+router.get("/all/task", requireSignin, authMiddleware, all_task);
+router.get("/single/task/:_id", requireSignin, authMiddleware, single_task);
+router.get("/task/count/:project_id",requireSignin, authMiddleware, task_count_by_project);
+router.post("/task/filter",requireSignin, authMiddleware, filter_task);
 
 module.exports = router;

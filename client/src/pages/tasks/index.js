@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
-import { Grid, Button, Card, TextField } from '@material-ui/core';
+import { Grid, Button, Card, TextField, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -50,19 +50,22 @@ const Tasks = () => {
      setTaskList(tasks);
    }, [tasks])
 
-  function TaskCreation() {
-    return <>
-            <Grid container spacing={3} justify="flex-end">
-              <Grid item  md={3} sm={3} xs={12}>
-                 <CreateTask />
-              </Grid>
-            </Grid>
-           </>
-     }
+
 
   return <>
           <DashboardLayout>
-            <TaskCreation />
+            <Grid container justify="space-between">
+               <Grid item  md={9} sm={9} xs={12}>
+                 <Box pl={3}>
+                   <Typography variant="h5">
+                      Tasks
+                   </Typography>
+                 </Box>
+               </Grid>
+               <Grid item  md={3} sm={3} xs={12}>
+                <CreateTask />
+               </Grid>
+            </Grid>
             <br />
             <TaskFilter tasks={(tasks) => setTasks(tasks)}/>
             <br />

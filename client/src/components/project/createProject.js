@@ -177,7 +177,7 @@ const CreateProject = ({  }) => {
                 className={classes.button}
                 onClick={handleClickOpen}
                 color="primary">
-                 Create Project
+                 Add Project
                </Button>
              </Grid>
              <Dialog open={open} onClose={handleClose} disableBackdropClick>
