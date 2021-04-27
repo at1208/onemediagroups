@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { create, filter_blog } = require('../controllers/blog_controller');
+const { create, filter_blog, single_blog } = require('../controllers/blog_controller');
 
 // validators
 const { run_validation } = require('../validators');
@@ -9,7 +9,7 @@ const { requireSignin, authMiddleware } = require('../controllers/employee_contr
 
 
 router.post('/blog',  requireSignin, authMiddleware, blogCreateValidator, run_validation, create);
-router.post('/blog/filter', filter_blog);
-
+router.post('/blog/filter', requireSignin, authMiddleware, filter_blog);
+router.get('/blog/single/:id', requireSignin, authMiddleware, single_blog);
 
 module.exports = router;

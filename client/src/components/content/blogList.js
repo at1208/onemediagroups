@@ -1,6 +1,7 @@
 
 import React from "react";
 import styled from "styled-components/macro";
+import { useHistory } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import {
   Box,
@@ -131,6 +132,7 @@ function EnhancedTable({ blogs }) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const history = useHistory();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -205,7 +207,6 @@ function EnhancedTable({ blogs }) {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-
                   return (
                     <TableRow
                       hover
@@ -239,7 +240,7 @@ function EnhancedTable({ blogs }) {
                       <TableCell align="right">{row.postedBy.first_name + " " + row.postedBy.last_name}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="details">
+                          <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>
                             <RemoveRedEyeIcon />
                           </IconButton>
                         </Box>

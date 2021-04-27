@@ -79,3 +79,20 @@ if (payload.domain) query.domain = {$in : payload.domain};
        res.json(result)
    })
 }
+
+
+module.exports.single_blog = (req, res) => {
+ const { id } = req.params;
+   Blog.findById({ _id: id })
+     .populate("categories", "name slug")
+     .populate("postedBy", "full_name")
+     .populate("domain", "name url")
+     .exec((err, result) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       res.json(result)
+     })
+}

@@ -3,6 +3,7 @@ import { Grid, Card, TextField, Button, Typography, Divider } from '@material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getDomains } from '../../actions/domain';
+import { getCookie } from '../../actions/auth';
 import { getEmployee } from '../../actions/employee';
 import { filterBlog } from '../../actions/blog';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -31,11 +32,12 @@ const BlogFilter = ({ blogs }) => {
     const classes = useStyles();
     const [employees, setEmployees] = useState([]);
     const [domains, setDomains] = useState([]);
+    const token = getCookie("token")
     const [values, setValues] = useState({postedBy: "", domain:""});
     const [query, setQuery] = useState({postedBy: "",status:"", approval:"", domain:""})
 
     useEffect(() => {
-        getDomains()
+        getDomains(token)
           .then(response => {
                setDomains(response)
           })
@@ -45,7 +47,7 @@ const BlogFilter = ({ blogs }) => {
     }, [])
 
     useEffect(() => {
-       getEmployee()
+       getEmployee(token)
          .then(response => {
             setEmployees(response.employees)
          })
@@ -55,7 +57,7 @@ const BlogFilter = ({ blogs }) => {
     }, [])
 
     useEffect(() => {
-      filterBlog(query)
+      filterBlog(query, token)
         .then(response => {
           blogs(response)
         })
@@ -67,7 +69,7 @@ const BlogFilter = ({ blogs }) => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-     filterBlog(query)
+     filterBlog(query, token)
        .then(response => {
          blogs(response)
        })
