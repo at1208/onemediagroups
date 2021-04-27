@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ProjectList = () => {
+const ProjectList = ({ edit }) => {
   const [projects, setProjects] = React.useState([]);
   const token = getCookie("token")
   const classes = useStyles();
@@ -47,18 +47,16 @@ const ProjectList = () => {
       })
   }, [])
 
-  console.log(projects)
-  const projectLists = projects.map((proj, i) => {
-    return <>
-             <Grid item xs={12} sm={4} md={4} lg={4}>
-               <ProjectCard
-                 project={proj}
-                 project_id={proj._id}
-                 title={proj.name}
-                 description={proj.description}
-                 />
-             </Grid>
-           </>
+
+  const projectLists = projects.map((project, i) => {
+    return <Grid item xs={12} sm={4} md={12} lg={4} key={i}>
+             <ProjectCard
+               project={project}
+               edit={edit}
+               />
+           </Grid>
+
+
   })
 
   return <div className={classes.projectContainer}>

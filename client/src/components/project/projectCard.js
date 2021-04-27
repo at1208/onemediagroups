@@ -21,6 +21,8 @@ import { AvatarGroup as MuiAvatarGroup } from "@material-ui/lab";
 import { makeStyles } from '@material-ui/core/styles';
 import { spacing } from "@material-ui/system";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const Card = styled(MuiCard)(spacing);
 const CardContent = styled(MuiCardContent)`
@@ -61,8 +63,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Project({ image, title, description, chip, project_id, project }) {
+function Project({ image, title, description, chip, project_id, project, edit }) {
     const [taskCount, setTaskCount] = useState();
+    const [anchorEl, setAnchorEl] = useState(null);
     const classes = useStyles();
 
     useEffect(() => {
@@ -75,7 +78,14 @@ function Project({ image, title, description, chip, project_id, project }) {
          })
     }, []);
 
-console.log(project)
+    const handleClickMenu = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMenu = (name)  => {
+       edit(project)
+      setAnchorEl(null);
+    };
 
   return (
     <Card mb={6}>
@@ -88,22 +98,34 @@ console.log(project)
          </Typography>
          </Grid>
          <Grid item xs={1} sm={1} md={1}>
-            <MoreVertIcon />
+         <MoreVertIcon aria-controls="simple-menu" aria-haspopup="true" onClick={handleClickMenu}/>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+          >
+            <MenuItem onClick={() => handleCloseMenu("edit")}>Edit</MenuItem>
+            <MenuItem onClick={() => handleCloseMenu("delete")}>Delete</MenuItem>
+          </Menu>
          </Grid>
        </Grid>
-
         {taskCount && <Grid container spacing={3} className={classes.chipContainer}>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Open task  <b>{taskCount.open}</b></>} className={classes.openChip} />
+            <Chip label={<>Open task {taskCount.open}</>} className={classes.openChip} />
           </Grid>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Done task  <b>{taskCount.done}</b></>} className={classes.doneChip} />
+            <Chip label={<>Done task {taskCount.done}</>} className={classes.doneChip} />
+          </Grid>
+          <Grid item xs={4} sm={4} md={4} lg={4}>
+            <Chip label={<>Priority {project.priority}</>} className={classes.doneChip} />
           </Grid>
         </Grid>}
         <Typography mb={4} component="body1">
           {project.description}
         </Typography>
-          <br />
+          <br /><br />
           <Grid container justify="flex-start">
             <Grid item sm={3} xs={4} md={3}>
               <Box pl={1}>
@@ -125,7 +147,7 @@ console.log(project)
            <br />
            <Divider />
           <Box pl={1}>
-           <a href={project.domain.name}>{project.domain.name}</a>
+           <a href={project.domain.name}>Learn more</a>
           </Box>
 
 

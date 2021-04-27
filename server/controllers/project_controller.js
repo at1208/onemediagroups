@@ -145,12 +145,12 @@ module.exports.delete_project = (req, res) => {
 
 module.exports.all_project = (req, res) => {
   Project.find({ del_flag: false })
-  .populate("domain", "name")
-  .populate("team_leader", "full_name first_name last_name headshot_url")
-  .populate("team_members", "full_name first_name last_name headshot_url")
-  .populate("createdBy", "full_name first_name last_name headshot_url")
-  .populate("updatedBy", "full_name first_name last_name headshot_url")
-   .exec((err, result) => {
+    .populate("domain", "name")
+    .populate("team_leader", "full_name first_name last_name headshot_url")
+    .populate("team_members", "full_name first_name last_name headshot_url")
+    .populate("createdBy", "full_name first_name last_name headshot_url")
+    .populate("updatedBy", "full_name first_name last_name headshot_url")
+    .exec((err, result) => {
      if(err){
        return res.status(400).json({
          error:err
@@ -167,6 +167,11 @@ module.exports.all_project = (req, res) => {
 module.exports.single_project = (req, res) => {
    const { _id } = req.params;
    Project.findById({ _id })
+     .populate("domain", "name")
+     .populate("team_leader", "full_name first_name last_name headshot_url")
+     .populate("team_members", "full_name first_name last_name headshot_url")
+     .populate("createdBy", "full_name first_name last_name headshot_url")
+     .populate("updatedBy", "full_name first_name last_name headshot_url")
      .exec((err, result) => {
        if(err){
          return res.status(400).json({

@@ -12,7 +12,8 @@ const bcrypt = require('bcrypt');
   if(!adminUser){
     adminUser = await Employee({  employee_id: "admin",
                                   first_name:"Admin",
-                                  last_name:"Ji",
+                                  full_name:"Admin Buddy",
+                                  last_name:"Buddy",
                                   email: "admin",
                                   gender:"MALE",
                                   role:"ADMIN",

@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { createProject } from '../../actions/project';
 import { getCookie } from '../../actions/auth';
+import { getSingleProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
 import { getDomains  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateProject = ({  }) => {
+const EditProject = ({ status, modal, editProject }) => {
   const [open, setOpen] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
   const token = getCookie("token")
@@ -103,15 +104,44 @@ const CreateProject = ({  }) => {
 
   };
 
-  React.useEffect(() => {
-      getEmployee()
-        .then((value) => {
-          setEmployees(value.employees)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }, [])
+    React.useEffect(() => {
+        getEmployee()
+          .then((value) => {
+            setEmployees(value.employees)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+    }, [])
+
+    React.useEffect(() => {
+       status(open)
+    },[open])
+
+    React.useEffect(() => {
+      setOpen(modal)
+    },[modal])
+
+   React.useEffect(() => {
+      if(editProject){
+        getSingleProject(editProject._id, token)
+         .then(value => {
+           console.log(value)
+
+            setProject({...project, name: value.project.name,
+                 description: value.project.description,
+                 team_leader: value.project.team_leader,
+                 team_members: value.project.team_members,
+                 domain: value.project.domain,
+                 start_date:value.project.start_date,
+                 end_date:value.project.end_date
+             })
+         })
+         .catch(err => {
+           console.log(err)
+         })
+      }
+  }, [open])
 
 
 
@@ -171,15 +201,6 @@ const CreateProject = ({  }) => {
 
 
     return  <>
-             <Grid container justify="center">
-               <Button
-                variant="contained"
-                className={classes.button}
-                onClick={handleClickOpen}
-                color="primary">
-                 Create Project
-               </Button>
-             </Grid>
              <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
               <form onSubmit={handleSubmit}>
@@ -212,6 +233,7 @@ const CreateProject = ({  }) => {
                          <Grid item xs={12} sm={12} md={12}>
                            <TextField
                             fullWidth
+                            value={project.name}
                             onChange={handleChange("name")}
                             variant="outlined"
                             label="Project name" />
@@ -221,6 +243,7 @@ const CreateProject = ({  }) => {
                             fullWidth
                             multiline
                             rows={4}
+                            value={project.description}
                             onChange={handleChange("description")}
                             variant="outlined"
                             label="Description" />
@@ -277,7 +300,7 @@ const CreateProject = ({  }) => {
                            type="date"
                            fullWidth
                            onChange={handleChange("start_date")}
-                           defaultValue={null}
+                           defaultValue={project.start_date}
                            className={classes.textField}
                            InputLabelProps={{
                              shrink: true,
@@ -291,7 +314,7 @@ const CreateProject = ({  }) => {
                            label="End date"
                            type="date"
                            onChange={handleChange("end_date")}
-                           defaultValue={null}
+                           defaultValue={project.end_date}
                            className={classes.textField}
                            InputLabelProps={{
                              shrink: true,
@@ -317,4 +340,4 @@ const CreateProject = ({  }) => {
             </>
 }
 
-export default CreateProject;
+export default EditProject;

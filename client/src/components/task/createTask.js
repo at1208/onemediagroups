@@ -144,7 +144,7 @@ const CreateTask = ({  }) => {
                  Create Task
                </Button>
              </Grid>
-             <Dialog open={open} onClose={handleClose} >
+             <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
               <form onSubmit={handleSubmit}>
               <DialogContent>

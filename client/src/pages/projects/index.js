@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Button, Card, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import { getEmployee } from '../../actions/employee';
 import Alert from '@material-ui/lab/Alert';
 import ProjectList from './projectList';
 import CreateProject from '../../components/project/createProject';
-
+import EditProject from '../../components/project/editProject'
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"20px 15px 20px 15px"
@@ -39,11 +39,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
 const Project = () => {
    const classes = useStyles();
    const [employees, setEmployees] = React.useState([]);
+   const [edit, setEdit] = useState({
+     open: false,
+     project:""
+   });
 
    React.useEffect(() => {
        getEmployee()
@@ -55,21 +57,18 @@ const Project = () => {
          })
    }, [])
 
-
-   const AddProject = () => {
-       return <>
-              <Grid container spacing={3} justify="flex-end">
-                 <Grid item  md={3} sm={3} xs={12}>
-                   <CreateProject />
-                 </Grid>
-              </Grid>
-            </>
-   }
-
   return <>
           <DashboardLayout>
-            {AddProject()}
-            <ProjectList />
+            <Grid container justify="space-between">
+               <Grid item  md={9} sm={9} xs={12}>
+               </Grid>
+               <Grid item  md={3} sm={3} xs={12}>
+                 <CreateProject />
+               </Grid>
+            </Grid>
+            <br />
+            <ProjectList edit={(value) => setEdit({...edit, open: true, project: value })}/>
+            <EditProject editProject={edit.project} status={status => setEdit({...edit, open: status })} modal={edit.open}/>
           </DashboardLayout>
          </>
 }
