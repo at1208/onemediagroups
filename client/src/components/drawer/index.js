@@ -275,7 +275,7 @@ const useStyles = makeStyles((theme) => ({
       <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
       </ListItem>
 
-      <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
+      {/*<ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
         <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Chats</Typography></ListItemText>
       </ListItem>
@@ -304,7 +304,7 @@ const useStyles = makeStyles((theme) => ({
                </ListItem>
 
          </List>
-      </Collapse>
+      </Collapse>*/}
 
 
 
@@ -317,18 +317,28 @@ const useStyles = makeStyles((theme) => ({
          <List component="div" disablePadding className={classes.collapseList}>
                <ListItem button   selected={currentTab("/content/create")} onClick={() => history.push("/content/create")}>
                  <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>Create blog</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext}>Write Blog</Typography></ListItemText>
                </ListItem>
 
                <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
                  <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>All blogs</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext}>All Blogs</Typography></ListItemText>
+               </ListItem>
+
+               <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
+                 <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
+                <ListItemText ><Typography className={classes.menutext}>Categories</Typography></ListItemText>
+               </ListItem>
+
+               <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
+                 <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
+                <ListItemText ><Typography className={classes.menutext}>Domains</Typography></ListItemText>
                </ListItem>
          </List>
       </Collapse>
 
 
-      <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
+      {/*<ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
          <ListItemIcon><Mail className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Contacts</Typography></ListItemText>
       </ListItem>
@@ -337,7 +347,7 @@ const useStyles = makeStyles((theme) => ({
       <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
        <ListItemIcon><Zap className={classes.sidebarIcons} /></ListItemIcon>
          <ListItemText ><Typography className={classes.menutext}>Activities</Typography></ListItemText>
-      </ListItem>
+      </ListItem>*/}
 
       </List>
     </Scrollbar>

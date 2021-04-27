@@ -246,7 +246,7 @@ const CreateTask = ({  }) => {
                             renderInput={(params) => <TextField {...params} label="Reporter" variant="outlined" />}
                           />
                        </Grid>
-                       <Grid item xs={12} sm={12} md={12}>
+                       {/*<Grid item xs={12} sm={12} md={12}>
                        <TextField
                          variant="outlined"
                          id="date"
@@ -259,7 +259,7 @@ const CreateTask = ({  }) => {
                          InputLabelProps={{
                            shrink: true,
                          }} />
-                       </Grid>
+                       </Grid>*/}
 
                      </Grid>
                      </form>

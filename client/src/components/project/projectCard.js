@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 import { taskCountByProject } from '../../actions/task';
+import { getCookie } from '../../actions/auth';
 import {
   Avatar,
   Breadcrumbs as MuiBreadcrumbs,
@@ -63,13 +64,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Project({ image, title, description, chip, project_id, project, edit }) {
+function Project({ image,  project, edit }) {
     const [taskCount, setTaskCount] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
     const classes = useStyles();
+    const token = getCookie("token")
 
     useEffect(() => {
-       taskCountByProject(project_id)
+       taskCountByProject(project._id, token)
          .then(value => {
             setTaskCount(value)
          })
@@ -83,7 +85,9 @@ function Project({ image, title, description, chip, project_id, project, edit })
     };
 
     const handleCloseMenu = (name)  => {
-       edit(project)
+      if(name == "edit"){
+         edit(project)
+      }
       setAnchorEl(null);
     };
 
@@ -113,13 +117,13 @@ function Project({ image, title, description, chip, project_id, project, edit })
        </Grid>
         {taskCount && <Grid container spacing={3} className={classes.chipContainer}>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Open task {taskCount.open}</>} className={classes.openChip} />
+            <Chip label={<>Open {taskCount.open}</>} className={classes.openChip} />
           </Grid>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Done task {taskCount.done}</>} className={classes.doneChip} />
+            <Chip label={<>Done {taskCount.done}</>} className={classes.doneChip} />
           </Grid>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Priority {project.priority}</>} className={classes.doneChip} />
+            <Chip label={<>{project.priority}</>} className={classes.doneChip} />
           </Grid>
         </Grid>}
         <Typography mb={4} component="body1">

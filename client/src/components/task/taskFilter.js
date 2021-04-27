@@ -113,6 +113,7 @@ const TaskFilter = ({ tasks }) => {
   }
 
    return <>
+           <Card className={classes.cardRoot}>
             <form onSubmit={handleSubmit}>
            <Grid container spacing={2} justify="center">
              <Grid item xs={12} sm={2} md={2} lg={2}>
@@ -192,6 +193,7 @@ const TaskFilter = ({ tasks }) => {
              </Grid>
            </Grid>
            </form>
+           </Card>
          </>
 }
 

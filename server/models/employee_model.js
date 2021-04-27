@@ -96,6 +96,10 @@ const employeeSchema = mongoose.Schema({
       min:4,
       max:100
     },
+    author:{
+      type:Boolean,
+      default:false
+    },
     channels:[{
       type:ObjectId,
       ref:"Channel"

@@ -68,7 +68,6 @@ const Tasks = () => {
             </Grid>
             <br />
             <TaskFilter tasks={(tasks) => setTasks(tasks)}/>
-            <br />
             <TaskList taskList={taskList} />
           </DashboardLayout>
          </>

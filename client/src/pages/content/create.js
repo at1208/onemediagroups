@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import styled from "styled-components/macro";
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Card, Button,Typography, Divider, TextField } from '@material-ui/core';
 import ReactQuill from 'react-quill';
@@ -9,8 +10,10 @@ import { getCookie, removeLocalStorage  } from '../../actions/auth';
 import { getCategories  } from '../../actions/category';
 import { getDomains  } from '../../actions/domain';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
+import { spacing } from "@material-ui/system";
 
-
+const CloudUpload = styled(MuiCloudUpload)(spacing);
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"30px 10px 30px 10px",
@@ -223,6 +226,18 @@ const blogTitleFromLS = () => {
                       </Button>
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} lg={3}>
+                    <input
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      id="raised-button-file"
+                      type="file"
+                    />
+                    <label htmlFor="raised-button-file">
+                      <Button variant="contained" color="primary" component="span">
+                        <CloudUpload mr={1} /> Upload Feature IMG
+                      </Button>
+                    </label>
+                    <br />  <br />
                     <Autocomplete
                       multiple
                        onChange={(event, newValue) => {

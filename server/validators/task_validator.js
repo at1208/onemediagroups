@@ -24,10 +24,5 @@ exports.create_task_validator = [
     check('title')
         .not()
         .isEmpty()
-        .withMessage('Task title is required'),
-
-    check('deadline')
-        .not()
-        .isEmpty()
-        .withMessage('Deadline is required')
+        .withMessage('Task title is required')
 ];

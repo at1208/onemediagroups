@@ -1,6 +1,6 @@
 const Blog = require('../models/blog_model');
 const Category = require('../models/category_model');
-const User = require('../models/employee_model');
+const Employee = require('../models/employee_model');
 const slugify = require('slugify');
 const stripHtml = require('string-strip-html');
 const { errorHandler } = require('../utils/dbErrorHandler');
@@ -32,15 +32,23 @@ if(body.length <300){
     blog.postedBy = req.user._id;
     blog.categories = categories;
 
-    blog.save((err, result) => {
+    blog.save(async (err, result) => {
       if(err){
         return res.status(400).json({
           error: errorHandler(err)
         })
       }
-      res.json({
-        message:"Blog is sent for review"
-      })
+      let author = await Employee.findById({_id: req.user._id})
+         if(author && author.author){
+           return res.json({
+             message:"Blog is sent for review"
+           })
+         }
+          author.author = true;
+          await author.save()
+          res.json({
+            message:"Blog is sent for review"
+          })
     });
 };
 

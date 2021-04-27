@@ -46,8 +46,7 @@ const taskSchema = mongoose.Schema({
         }
       }],
       deadline:{
-        type:Date,
-        required:true
+        type:Date
       },
       del_flag:{
         type:Boolean,

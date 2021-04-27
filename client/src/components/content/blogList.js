@@ -218,10 +218,10 @@ function EnhancedTable({ blogs }) {
                       <TableCell align="left">{row.title}</TableCell>
                       <TableCell align="left">
                       {
-                        row.status == true && (<Chip size="small" label={"Active"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                        row.status == true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.status == false && (<Chip size="small" label={"Inactive"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                        row.status == false && (<Chip size="small" label={"INACTIVE"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
                       </TableCell>
                       <TableCell align="left">
@@ -229,10 +229,10 @@ function EnhancedTable({ blogs }) {
                         row.approval == "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.approval == "APPROVED" && (<Chip size="small" label={"Approved"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                        row.approval == "APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.approval == "NOT APPROVED" && (<Chip size="small" label={"Not Approved"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                        row.approval == "NOT APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
                       </TableCell>
                       <TableCell align="left">{row.domain.name}</TableCell>

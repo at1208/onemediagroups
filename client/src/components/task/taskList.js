@@ -263,7 +263,7 @@ function TaskListing({ taskList }) {
   return (
     <React.Fragment>
       <Grid container spacing={6} justify="center">
-        <Grid item xs={12} md={11} sm={11} lg={11}>
+        <Grid item xs={12} md={12} sm={12} lg={12}>
           <EnhancedTable tasks={taskList}/>
         </Grid>
       </Grid>
