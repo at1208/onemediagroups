@@ -1,20 +1,39 @@
 const Category = require('../models/category_model');
 const slugify = require('slugify');
+const { errorHandler } = require("../utils/dbErrorHandler");
 
 
-exports.create = (req, res) => {
-    const { name } = req.body;
+exports.create = async (req, res) => {
+    const { name, domain } = req.body;
     let slug = slugify(name).toLowerCase();
 
-    let category = new Category({ name, slug });
+      let findCategory = await Category.findOne({
+        $and:[
+          { name: { $eq: name } },
+          { domain: { $eq: domain } }
+        ]
+      });
+      if(findCategory){
+        return res.status(400).json({
+          error: "Category already exist in given domain"
+        })
+      }
+    let category = new Category();
+        category.name = name;
+        category.slug = slug;
+        category.domain = domain;
+        category.createdBy = req.user._id;
+        domain.updatedBy = req.user._id;
 
     category.save((err, data) => {
         if (err) {
             return res.status(400).json({
-                error: err
+                error: errorHandler(err)
             });
         }
-        res.json(data);
+        res.json({
+          message: "Successfully created a new category"
+        });
     });
 };
 

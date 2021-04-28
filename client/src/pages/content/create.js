@@ -62,7 +62,7 @@ const blogTitleFromLS = () => {
   const [domains, setDomains] = React.useState();
 
   React.useEffect(() => {
-     getCategories()
+     getCategories(token)
        .then(response => {
          setCategories(response)
        })
@@ -70,7 +70,7 @@ const blogTitleFromLS = () => {
          console.log(err)
        })
 
-       getDomains()
+       getDomains(token)
        .then(response => {
          setDomains(response)
        })

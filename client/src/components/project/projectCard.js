@@ -134,14 +134,14 @@ function Project({ image,  project, edit }) {
             <Grid item sm={3} xs={4} md={3}>
               <Box pl={1}>
                 <small>Team Lead</small>
-                <Avatar alt={project.team_leader.full_name} src="" />
+                <Avatar alt={project.team_leader && project.team_leader.full_name} src="" />
               </Box>
             </Grid>
             <Grid item sm={9} xs={8} md={9}>
               <Box pl={1}>
                  <small>Team members</small>
                 <AvatarGroup max={3}>
-                 <Avatar alt={project.team_members[0].full_name} src="" />
+                 <Avatar alt={project.team_members && project.team_members[0] && project.team_members[0].full_name} src="" />
                  <Avatar alt="Avatar" src="/static/img/avatars/avatar-2.jpg" />
                  <Avatar alt="Avatar" src="/static/img/avatars/avatar-3.jpg" />
                 </AvatarGroup>

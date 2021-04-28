@@ -237,7 +237,7 @@ function EnhancedTable({ blogs }) {
                       }
                       </TableCell>
                       <TableCell align="left">{row.domain.name}</TableCell>
-                      <TableCell align="right">{row.postedBy.first_name + " " + row.postedBy.last_name}</TableCell>
+                      <TableCell align="right">{row.postedBy && row.postedBy.full_name || "Deleted user"}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>

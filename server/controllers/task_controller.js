@@ -162,8 +162,8 @@ if (payload.status) query.status = {$in : payload.status};
         return {
           task_name:task.title,
           description: task.description,
-          assignee: task.assignee.first_name + " " + task.assignee.last_name,
-          reporter: task.follower.first_name + " " + task.follower.last_name,
+          assignee: task.assignee && task.assignee.full_name || "Deleted user",
+          reporter: task.follower && task.follower.full_name || "Deleted user",
           status: task.status,
           project:task.project_id.name
         }

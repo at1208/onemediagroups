@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
 
 const categorySchema = new mongoose.Schema(
     {
@@ -9,10 +10,22 @@ const categorySchema = new mongoose.Schema(
             required: true,
             max: 32
         },
+        domain:{
+           type:ObjectId,
+           ref:"Domain",
+           required:true
+        },
         slug: {
-            type: String,
-            unique: true,
-            index: true
+            type: String
+        },
+        createdBy:{
+          type:ObjectId,
+          ref:"Employee",
+          required:true
+        },
+        updatedBy:{
+          type:ObjectId,
+          ref:"Employee"
         }
     },
     { timestamps: true }

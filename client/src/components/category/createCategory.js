@@ -16,6 +16,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { createProject } from '../../actions/project';
+import { createCategory } from '../../actions/category';
 import { getCookie } from '../../actions/auth';
 import { getEmployee } from '../../actions/employee';
 import { getDomains  } from '../../actions/domain';
@@ -55,27 +56,21 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateCategory = ({  }) => {
   const [open, setOpen] = React.useState(false);
-  const [employees, setEmployees] = React.useState([]);
   const token = getCookie("token")
   const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
-  const [project, setProject] = React.useState({
-     name:"",
-     description:"",
-     team_leader:"",
-     team_members:"",
-     domain:"",
-     start_date:"",
-     end_date:"",
-     error:"",
-     success:"",
-     isLoading:false
-  })
   const [domains, setDomains] = React.useState();
+  const [category, setCategory] = React.useState({
+     name: "",
+     domain:"",
+     success:"",
+     error:""
+  });
 
   React.useEffect(() => {
        getDomains()
        .then(response => {
+         console.log(response)
          setDomains(response)
        })
        .catch(err => {
@@ -83,89 +78,34 @@ const CreateCategory = ({  }) => {
        })
   }, [])
 
-  const handleClickOpen = () => {
-   setOpen(true);
-  };
+    const handleClickOpen = () => {
+     setOpen(true);
+    };
 
 
-  const handleClose = () => {
-   setOpen(false);
-   setProject({ ...project,
-     name:"",
-     description:"",
-     team_leader:"",
-     team_members:"",
-     start_date:"",
-     end_date:"",
-     success:"",
-     error:""
-   })
-
-  };
-
-  React.useEffect(() => {
-      getEmployee()
-        .then((value) => {
-          setEmployees(value.employees)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }, [])
+    const handleClose = () => {
+      setOpen(false);
+      setCategory({...category,
+        success: "",
+        error: "",
+        name:"",
+        domain:"" })
+    };
 
 
-
-  const priority = [
-    { title: "High" },
-    { title: "Low" },
-  ]
-
-  const handleChange = type => e => {
-      switch (type) {
-         case "name":
-           setProject({...project, name: e.target.value })
-           break;
-         case "description":
-              setProject({...project, description: e.target.value })
-           break;
-         case "start_date":
-              setProject({...project, start_date: e.target.value })
-           break;
-         case "end_date":
-              setProject({...project, end_date: e.target.value })
-           break;
-         case "priority":
-               setProject({...project, priority: e.target.value })
-            break;
-        default:
-
-      }
+  const handleChange = e => {
+    setCategory({...category, name: e.target.value })
   }
 
   const handleSubmit = (e) => {
      e.preventDefault();
-     setProject({ ...project,
-       isLoading:true,
-     })
-     createProject(project, token)
+
+     createCategory(category, token)
        .then((value) => {
-         setProject({ ...project,
-           name:"",
-           description:"",
-           team_leader:"",
-           team_members:"",
-           start_date:"",
-           end_date:"",
-           success:value.message,
-           error:""
-         })
+         setCategory({...category, success: value.message, error: "", name:"", domain:"" })
        })
        .catch((err) => {
-         setProject({ ...project,
-           success:"",
-           isLoading:false,
-           error:err.error
-         })
+         setCategory({...category, error: err.error, success: ""  })
        })
   }
 
@@ -189,7 +129,7 @@ const CreateCategory = ({  }) => {
                  onClose={handleClose}
                  disableTypography
                  className={classes.root}>
-                <Typography variant="h6">Add a new project</Typography>
+                <Typography variant="h6">Add a new category</Typography>
                   {open ? (
                     <IconButton
                       aria-label="close"
@@ -203,64 +143,23 @@ const CreateCategory = ({  }) => {
                 <Grid container justify="center" spacing={3}>
                   <Grid item sm={12} md={12} xs={12}>
                      <div className={classes.errorContainer}>
-                      {project.success && <Alert severity="success">{project.success}</Alert>}
-                      {project.error && <Alert severity="error">{project.error}</Alert>}
+                      {category.success && <Alert severity="success">{category.success}</Alert>}
+                      {category.error && <Alert severity="error">{category.error}</Alert>}
                      </div>
                      <br />
-
                        <Grid container spacing={3}>
                          <Grid item xs={12} sm={12} md={12}>
                            <TextField
                             fullWidth
-                            onChange={handleChange("name")}
+                            onChange={handleChange}
                             variant="outlined"
-                            label="Project name" />
-                         </Grid>
-                         <Grid item xs={12} sm={12} md={12}>
-                           <TextField
-                            fullWidth
-                            multiline
-                            rows={4}
-                            onChange={handleChange("description")}
-                            variant="outlined"
-                            label="Description" />
-                         </Grid>
-
-                         <Grid item xs={12} sm={12} md={12}>
-                           <Autocomplete
-                              onChange={(e, val) => {
-                                 if(val){
-                                   setProject({...project, team_leader: val._id })
-                                 }
-                               }}
-                              options={employees}
-                              getOptionLabel={(option) => option.first_name + " " + option.last_name}
-                              style={{ width: "100%" }}
-                              renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
-                            />
-                         </Grid>
-                         <Grid item xs={12} sm={12} md={12}>
-                         <Autocomplete
-                           multiple
-                            onChange={(e, val) => {
-                              if(val){
-                                let filterValue = val.map((member, i) => {
-                                  return member._id
-                                })
-                                setProject({...project, team_members: filterValue });
-                              }
-                             }}
-                            options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
-                            style={{ width: "100%" }}
-                            renderInput={(params) => <TextField {...params} label="Team members" variant="outlined" />}
-                          />
+                            label="Category name" />
                          </Grid>
                          <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
                             onChange={(event, newValue) => {
                               if(newValue){
-                                   setProject({...project, domain: newValue._id})
+                                   setCategory({...category, domain: newValue._id})
                               }
                              }}
                             options={domains}
@@ -269,37 +168,10 @@ const CreateCategory = ({  }) => {
                             renderInput={(params) => <TextField {...params} label="Domain" variant="outlined"/>}
                           />
                          </Grid>
-                         <Grid item xs={12} sm={6} md={6}>
-                         <TextField
-                           variant="outlined"
-                           id="date"
-                           label="Start date"
-                           type="date"
-                           fullWidth
-                           onChange={handleChange("start_date")}
-                           defaultValue={null}
-                           className={classes.textField}
-                           InputLabelProps={{
-                             shrink: true,
-                           }} />
-                         </Grid>
-                         <Grid item xs={12} sm={6} md={6}>
-                         <TextField
-                           variant="outlined"
-                           id="date"
-                           fullWidth
-                           label="End date"
-                           type="date"
-                           onChange={handleChange("end_date")}
-                           defaultValue={null}
-                           className={classes.textField}
-                           InputLabelProps={{
-                             shrink: true,
-                           }} />
-                         </Grid>
-                         </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
+                <br />
               </DialogContent>
               <DialogActions>
                 <Grid container justify="center">

@@ -15,10 +15,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { createProject } from '../../actions/project';
 import { getCookie } from '../../actions/auth';
-import { getEmployee } from '../../actions/employee';
-import { getDomains  } from '../../actions/domain';
+import { getDomains, createDomain  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
 
 
@@ -55,117 +53,61 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateCategory = ({  }) => {
   const [open, setOpen] = React.useState(false);
-  const [employees, setEmployees] = React.useState([]);
   const token = getCookie("token")
   const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
-  const [project, setProject] = React.useState({
-     name:"",
-     description:"",
-     team_leader:"",
-     team_members:"",
-     domain:"",
-     start_date:"",
-     end_date:"",
-     error:"",
-     success:"",
-     isLoading:false
-  })
-  const [domains, setDomains] = React.useState();
 
-  React.useEffect(() => {
-       getDomains()
-       .then(response => {
-         setDomains(response)
-       })
-       .catch(err => {
-         console.log(err)
-       })
-  }, [])
-
-  const handleClickOpen = () => {
-   setOpen(true);
-  };
-
-
-  const handleClose = () => {
-   setOpen(false);
-   setProject({ ...project,
-     name:"",
-     description:"",
-     team_leader:"",
-     team_members:"",
-     start_date:"",
-     end_date:"",
+  const [domain, setDomain] = React.useState({
+     name: "",
+     url:"",
      success:"",
      error:""
-   })
-
-  };
-
-  React.useEffect(() => {
-      getEmployee()
-        .then((value) => {
-          setEmployees(value.employees)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }, [])
+  });
 
 
 
-  const priority = [
-    { title: "High" },
-    { title: "Low" },
-  ]
+    const handleClickOpen = () => {
+     setOpen(true);
+    };
 
-  const handleChange = type => e => {
-      switch (type) {
+
+    const handleClose = () => {
+      setOpen(false);
+      setDomain({...domain,
+        success: "",
+        error: "",
+        name:"",
+        url:"" })
+    };
+
+
+  const handleChange = name => e => {
+       switch (name) {
          case "name":
-           setProject({...project, name: e.target.value })
+        setDomain({...domain,
+          name: e.target.value })
            break;
-         case "description":
-              setProject({...project, description: e.target.value })
-           break;
-         case "start_date":
-              setProject({...project, start_date: e.target.value })
-           break;
-         case "end_date":
-              setProject({...project, end_date: e.target.value })
-           break;
-         case "priority":
-               setProject({...project, priority: e.target.value })
-            break;
-        default:
 
-      }
+         case "url":
+        setDomain({...domain,
+          url: e.target.value })
+           break;
+         default:
+
+       }
+
   }
 
   const handleSubmit = (e) => {
      e.preventDefault();
-     setProject({ ...project,
-       isLoading:true,
-     })
-     createProject(project, token)
+
+     createDomain(domain, token)
        .then((value) => {
-         setProject({ ...project,
-           name:"",
-           description:"",
-           team_leader:"",
-           team_members:"",
-           start_date:"",
-           end_date:"",
-           success:value.message,
-           error:""
-         })
+         setDomain({...domain, success: value.message, error: "", name:"", url:"" })
        })
        .catch((err) => {
-         setProject({ ...project,
-           success:"",
-           isLoading:false,
-           error:err.error
-         })
+          console.log(err)
+         setDomain({...domain, error: err.error, success: ""  })
        })
   }
 
@@ -177,7 +119,7 @@ const CreateCategory = ({  }) => {
                 className={classes.button}
                 onClick={handleClickOpen}
                 color="primary">
-                 Add Domain
+                Add Domain
                </Button>
              </Grid>
              <Dialog open={open} onClose={handleClose} disableBackdropClick>
@@ -189,7 +131,7 @@ const CreateCategory = ({  }) => {
                  onClose={handleClose}
                  disableTypography
                  className={classes.root}>
-                <Typography variant="h6">Add a new project</Typography>
+                <Typography variant="h6">Add a new domain</Typography>
                   {open ? (
                     <IconButton
                       aria-label="close"
@@ -203,103 +145,30 @@ const CreateCategory = ({  }) => {
                 <Grid container justify="center" spacing={3}>
                   <Grid item sm={12} md={12} xs={12}>
                      <div className={classes.errorContainer}>
-                      {project.success && <Alert severity="success">{project.success}</Alert>}
-                      {project.error && <Alert severity="error">{project.error}</Alert>}
+                      {domain.success && <Alert severity="success">{domain.success}</Alert>}
+                      {domain.error && <Alert severity="error">{domain.error}</Alert>}
                      </div>
                      <br />
-
                        <Grid container spacing={3}>
                          <Grid item xs={12} sm={12} md={12}>
                            <TextField
                             fullWidth
                             onChange={handleChange("name")}
                             variant="outlined"
-                            label="Project name" />
+                            label="Domain name" />
                          </Grid>
                          <Grid item xs={12} sm={12} md={12}>
                            <TextField
                             fullWidth
-                            multiline
-                            rows={4}
-                            onChange={handleChange("description")}
+                            placeholder="http://example.com"
+                            onChange={handleChange("url")}
                             variant="outlined"
-                            label="Description" />
-                         </Grid>
-
-                         <Grid item xs={12} sm={12} md={12}>
-                           <Autocomplete
-                              onChange={(e, val) => {
-                                 if(val){
-                                   setProject({...project, team_leader: val._id })
-                                 }
-                               }}
-                              options={employees}
-                              getOptionLabel={(option) => option.first_name + " " + option.last_name}
-                              style={{ width: "100%" }}
-                              renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
                             />
                          </Grid>
-                         <Grid item xs={12} sm={12} md={12}>
-                         <Autocomplete
-                           multiple
-                            onChange={(e, val) => {
-                              if(val){
-                                let filterValue = val.map((member, i) => {
-                                  return member._id
-                                })
-                                setProject({...project, team_members: filterValue });
-                              }
-                             }}
-                            options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
-                            style={{ width: "100%" }}
-                            renderInput={(params) => <TextField {...params} label="Team members" variant="outlined" />}
-                          />
-                         </Grid>
-                         <Grid item xs={12} sm={12} md={12}>
-                         <Autocomplete
-                            onChange={(event, newValue) => {
-                              if(newValue){
-                                   setProject({...project, domain: newValue._id})
-                              }
-                             }}
-                            options={domains}
-                            getOptionLabel={(option) => option.name}
-                            style={{ width: "100%" }}
-                            renderInput={(params) => <TextField {...params} label="Domain" variant="outlined"/>}
-                          />
-                         </Grid>
-                         <Grid item xs={12} sm={6} md={6}>
-                         <TextField
-                           variant="outlined"
-                           id="date"
-                           label="Start date"
-                           type="date"
-                           fullWidth
-                           onChange={handleChange("start_date")}
-                           defaultValue={null}
-                           className={classes.textField}
-                           InputLabelProps={{
-                             shrink: true,
-                           }} />
-                         </Grid>
-                         <Grid item xs={12} sm={6} md={6}>
-                         <TextField
-                           variant="outlined"
-                           id="date"
-                           fullWidth
-                           label="End date"
-                           type="date"
-                           onChange={handleChange("end_date")}
-                           defaultValue={null}
-                           className={classes.textField}
-                           InputLabelProps={{
-                             shrink: true,
-                           }} />
-                         </Grid>
-                         </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
+                <br />
               </DialogContent>
               <DialogActions>
                 <Grid container justify="center">
