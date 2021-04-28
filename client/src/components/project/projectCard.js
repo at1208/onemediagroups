@@ -151,7 +151,7 @@ function Project({ image,  project, edit }) {
            <br />
            <Divider />
           <Box pl={1}>
-           <a href={project.domain.name}>Learn more</a>
+           <a href={project.domain && project.domain.name}>Learn more</a>
           </Box>
 
 

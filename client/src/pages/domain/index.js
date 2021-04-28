@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Typography, Box } from '@material-ui/core';
 import CreateDomain from '../../components/domain/createDomain';
+import DomainFilter from '../../components/domains/domainFilter';
+import DomainList from '../../components/domains/domainList';
 
 const Domains = () => {
+  const [domains, setDomains] = useState([]);
+  const [domainList, setDomainList] = useState([]);
+
+  useEffect(() => {
+    setDomainList(domains);
+  }, [domains])
+
+
   return <>
             <DashboardLayout>
             <Grid container justify="space-between">
@@ -18,6 +28,9 @@ const Domains = () => {
                  <CreateDomain />
                </Grid>
             </Grid>
+            <br />
+            <DomainFilter domains={(domain) => setDomains(domain)}/>
+            <DomainList domainList={domainList} />
             </DashboardLayout>
          </>
 }

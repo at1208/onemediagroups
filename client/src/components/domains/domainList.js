@@ -76,12 +76,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "title", alignment: "left", label: "Blog Title" },
-  { id: "status", alignment: "left", label: "Status" },
-  { id: "approval", alignment: "left", label: "Approval Status" },
-  { id: "domain", alignment: "left", label: "Domain" },
-  { id: "postedBy", alignment: "right", label: "Posted By" },
-  { id: "detail", alignment: "right", label: "Detail" },
+  { id: "name", alignment: "left", label: "Domain name" },
+  { id: "url", alignment: "left", label: "URL" },
+  { id: "createdBy", alignment: "right", label: "Created By" },
+  { id: "updatedBy", alignment: "right", label: "Updated By" },
 ];
 
 
@@ -126,13 +124,15 @@ function EnhancedTableHead(props) {
 
 
 
-function EnhancedTable({ blogs }) {
+function EnhancedTable({ domains }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const history = useHistory();
+
+  console.log(domains)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -142,7 +142,7 @@ function EnhancedTable({ blogs }) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = blogs.map((n) => n.id);
+      const newSelecteds = domains.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -181,7 +181,7 @@ function EnhancedTable({ blogs }) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, blogs.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, domains.length - page * rowsPerPage);
 
   return (
     <div>
@@ -198,10 +198,10 @@ function EnhancedTable({ blogs }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={blogs.length}
+              rowCount={domains.length}
             />
             <TableBody>
-              {stableSort(blogs, getComparator(order, orderBy))
+              {stableSort(domains, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
@@ -216,35 +216,11 @@ function EnhancedTable({ blogs }) {
                       key={`${row.title}-${index}`}
                       selected={isItemSelected}
                     >
-                      <TableCell align="left">{row.title}</TableCell>
-                      <TableCell align="left">
-                      {
-                        row.status == true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.status == false && (<Chip size="small" label={"INACTIVE"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      </TableCell>
-                      <TableCell align="left">
-                      {
-                        row.approval == "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.approval == "APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.approval == "NOT APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      </TableCell>
-                      <TableCell align="left">{ row.domain && row.domain.name || "Deleted"}</TableCell>
-                      <TableCell align="right">{row.postedBy && row.postedBy.full_name || "Deleted user"}</TableCell>
-                      <TableCell padding="none" align="right">
-                        <Box mr={2}>
-                          <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>
-                            <RemoveRedEyeIcon />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
+                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="left">{row.url}</TableCell>
+
+                      <TableCell align="right">{row.createdBy.full_name}</TableCell>
+                      <TableCell align="right">{row.updatedBy.full_name || "Deleted user"}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -259,7 +235,7 @@ function EnhancedTable({ blogs }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={blogs.length}
+          count={domains.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -270,16 +246,16 @@ function EnhancedTable({ blogs }) {
   );
 }
 
-function BlogListing({ blogs }) {
+function DomainListing({ domainList }) {
   return (
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable blogs={blogs}/>
+          <EnhancedTable domains={domainList}/>
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default BlogListing;
+export default DomainListing;

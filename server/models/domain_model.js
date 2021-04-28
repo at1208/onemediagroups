@@ -20,10 +20,12 @@ const domainSchema = new mongoose.Schema(
         },
         createdBy:{
           type:ObjectId,
+          ref:"Employee",
           required:true
         },
         updatedBy:{
-          type:ObjectId
+          type:ObjectId,
+          ref:"Employee",
         }
     },
     { timestamps: true }

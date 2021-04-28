@@ -25,6 +25,29 @@ exports.create = (req, res) => {
     });
 };
 
+
+module.exports.filter_domain = (req, res) => {
+   // query = { url: "", name:"" }
+var query = {};
+var payload = req.body;
+
+if (payload.name) query.name = {$in : payload.name};
+
+  Domain.find(query)
+     .populate("domain", "name url")
+     .populate("createdBy", "full_name")
+     .populate("updatedBy", "full_name")
+     .exec((err, result) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       res.json(result)
+   })
+}
+
+
 exports.list = (req, res) => {
     Domain.find({}).exec((err, data) => {
         if (err) {

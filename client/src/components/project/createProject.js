@@ -74,7 +74,7 @@ const CreateProject = ({  }) => {
   const [domains, setDomains] = React.useState();
 
   React.useEffect(() => {
-       getDomains()
+       getDomains(token)
        .then(response => {
          setDomains(response)
        })
@@ -104,7 +104,7 @@ const CreateProject = ({  }) => {
   };
 
   React.useEffect(() => {
-      getEmployee()
+      getEmployee(token)
         .then((value) => {
           setEmployees(value.employees)
         })
@@ -234,7 +234,7 @@ const CreateProject = ({  }) => {
                                  }
                                }}
                               options={employees}
-                              getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                              getOptionLabel={(option) => option.full_name}
                               style={{ width: "100%" }}
                               renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
                             />
@@ -251,7 +251,7 @@ const CreateProject = ({  }) => {
                               }
                              }}
                             options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                            getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Team members" variant="outlined" />}
                           />
