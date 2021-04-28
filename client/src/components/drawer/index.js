@@ -325,12 +325,12 @@ const useStyles = makeStyles((theme) => ({
                 <ListItemText ><Typography className={classes.menutext}>All Blogs</Typography></ListItemText>
                </ListItem>
 
-               <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
+               <ListItem button   selected={currentTab("/categories")} onClick={() => history.push("/categories")}>
                  <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Categories</Typography></ListItemText>
                </ListItem>
 
-               <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
+               <ListItem button   selected={currentTab("/domains")} onClick={() => history.push("/domains")}>
                  <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Domains</Typography></ListItemText>
                </ListItem>

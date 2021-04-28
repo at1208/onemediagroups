@@ -20,7 +20,8 @@ import CreateContent from '../pages/content/create';
 import Profile from '../pages/profile';
 import AllBlogs from '../pages/content/allBlogs';
 import BlogDetail from '../pages/content/blogDetail';
-
+import Category from '../pages/category';
+import Domain from '../pages/domain';
 
 const Router = () => {
    return <>
@@ -37,6 +38,8 @@ const Router = () => {
            <Private path="/activities" exact component={Activities} />
            <Private path="/projects" exact component={Projects} />
            <Private path="/tasks" exact component={Tasks} />
+           <Private path="/categories" exact component={Category} />
+           <Private path="/domains" exact component={Domain} />
            <Private path="/chats" exact component={SelectChannel} />
            <Private path="/profile" exact component={Profile} />
            <Private path="/chats/:channel" exact component={ChannelChats} />
