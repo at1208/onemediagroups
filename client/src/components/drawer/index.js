@@ -275,7 +275,7 @@ const useStyles = makeStyles((theme) => ({
       <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
       </ListItem>
 
-      {/*<ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
+      <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
         <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Chats</Typography></ListItemText>
       </ListItem>
@@ -304,7 +304,7 @@ const useStyles = makeStyles((theme) => ({
                </ListItem>
 
          </List>
-      </Collapse>*/}
+      </Collapse>
 
 
 

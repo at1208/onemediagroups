@@ -340,7 +340,7 @@ module.exports.all_employee = (req, res) => {
    .populate("department", "department_name")
    .populate("designation", "designation_name")
    .populate("channels", "channel_name")
-   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining full_name")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({
@@ -359,7 +359,7 @@ module.exports.single_employee = (req, res) => {
    .populate("department", "department_name")
    .populate("designation", "designation_name")
    .populate("channels", "channel_name")
-   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture full_name")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({

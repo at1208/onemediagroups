@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { createProject } from '../../actions/project';
 import { getCookie } from '../../actions/auth';
-import { getSingleProject } from '../../actions/project';
+import { getSingleProject, updateProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
 import { getDomains  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
@@ -75,7 +75,7 @@ const EditProject = ({ status, modal, editProject }) => {
   const [domains, setDomains] = React.useState();
 
   React.useEffect(() => {
-       getDomains()
+       getDomains(token)
        .then(response => {
          setDomains(response)
        })
@@ -124,22 +124,29 @@ const EditProject = ({ status, modal, editProject }) => {
 
    React.useEffect(() => {
       if(editProject){
-        getSingleProject(editProject._id, token)
-         .then(value => {
-           console.log(value)
 
-            setProject({...project, name: value.project.name,
-                 description: value.project.description,
-                 team_leader: value.project.team_leader,
-                 team_members: value.project.team_members,
-                 domain: value.project.domain,
-                 start_date:value.project.start_date,
-                 end_date:value.project.end_date
-             })
+        setProject({...project, name: editProject.name,
+             description: editProject.description,
+             team_leader: editProject.team_leader,
+             team_members: editProject.team_members,
+             domain: editProject.domain
          })
-         .catch(err => {
-           console.log(err)
-         })
+
+
+        // getSingleProject(editProject._id, token)
+        //  .then(value => {
+        //     setProject({...project, name: value.project.name,
+        //          description: value.project.description,
+        //          team_leader: value.project.team_leader,
+        //          team_members: value.project.team_members,
+        //          domain: value.project.domain,
+        //          start_date:value.project.start_date,
+        //          end_date:value.project.end_date
+        //      })
+        //  })
+        //  .catch(err => {
+        //    console.log(err)
+        //  })
       }
   }, [open])
 
@@ -177,7 +184,7 @@ const EditProject = ({ status, modal, editProject }) => {
      setProject({ ...project,
        isLoading:true,
      })
-     createProject(project, token)
+     updateProject(editProject._id, project, token)
        .then((value) => {
          setProject({ ...project,
            name:"",
@@ -198,6 +205,8 @@ const EditProject = ({ status, modal, editProject }) => {
          })
        })
   }
+
+
 
 
     return  <>
@@ -256,15 +265,17 @@ const EditProject = ({ status, modal, editProject }) => {
                                    setProject({...project, team_leader: val._id })
                                  }
                                }}
+                              defaultValue={project.team_leader}
                               options={employees}
-                              getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                              getOptionLabel={(option) => option.full_name}
                               style={{ width: "100%" }}
-                              renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
+                              renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined"/>}
                             />
                          </Grid>
                          <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
                            multiple
+                            defaultValue={project.team_members}
                             onChange={(e, val) => {
                               if(val){
                                 let filterValue = val.map((member, i) => {
@@ -274,25 +285,27 @@ const EditProject = ({ status, modal, editProject }) => {
                               }
                              }}
                             options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                            getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Team members" variant="outlined" />}
                           />
                          </Grid>
                          <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
+                         defaultValue={project.domain}
                             onChange={(event, newValue) => {
                               if(newValue){
                                    setProject({...project, domain: newValue._id})
                               }
                              }}
+
                             options={domains}
                             getOptionLabel={(option) => option.name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Domain" variant="outlined"/>}
                           />
                          </Grid>
-                         <Grid item xs={12} sm={6} md={6}>
+                         {/*<Grid item xs={12} sm={6} md={6}>
                          <TextField
                            variant="outlined"
                            id="date"
@@ -319,7 +332,7 @@ const EditProject = ({ status, modal, editProject }) => {
                            InputLabelProps={{
                              shrink: true,
                            }} />
-                         </Grid>
+                         </Grid>*/}
                          </Grid>
                   </Grid>
                 </Grid>

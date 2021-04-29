@@ -32,11 +32,11 @@ module.exports.create_project = async (req, res) => {
           })
         }
 
-        if(!start_date){
-          return res.status(400).json({
-            error: "Start date is required"
-          })
-        }
+        // if(!start_date){
+        //   return res.status(400).json({
+        //     error: "Start date is required"
+        //   })
+        // }
 
         const project = new Project();
         project.name = name;

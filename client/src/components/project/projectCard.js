@@ -19,6 +19,7 @@ import {
   Typography as MuiTypography,
 } from "@material-ui/core";
 import { AvatarGroup as MuiAvatarGroup } from "@material-ui/lab";
+import DeleteDialog from './deleteModal';
 import { makeStyles } from '@material-ui/core/styles';
 import { spacing } from "@material-ui/system";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -110,8 +111,14 @@ function Project({ image,  project, edit }) {
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={() => handleCloseMenu("edit")}>Edit</MenuItem>
-            <MenuItem onClick={() => handleCloseMenu("delete")}>Delete</MenuItem>
+              <MenuItem onClick={() => handleCloseMenu("edit")}>
+                <Button size="small"   color="primary">
+                  Edit
+                </Button>
+              </MenuItem>
+              <MenuItem>
+                <DeleteDialog id={project._id}/>
+              </MenuItem>
           </Menu>
          </Grid>
        </Grid>

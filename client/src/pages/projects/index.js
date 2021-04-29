@@ -9,7 +9,7 @@ import { getEmployee } from '../../actions/employee';
 import Alert from '@material-ui/lab/Alert';
 import ProjectList from './projectList';
 import CreateProject from '../../components/project/createProject';
-import EditProject from '../../components/project/editProject'
+import EditProject from '../../components/project/editProject';
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"20px 15px 20px 15px"
@@ -46,6 +46,7 @@ const Project = () => {
      open: false,
      project:""
    });
+   const [deleteOpen, setDeleteOpen] = React.useState(false);
 
    React.useEffect(() => {
        getEmployee()

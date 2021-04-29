@@ -234,7 +234,7 @@ const CreateProject = ({  }) => {
                                  }
                                }}
                               options={employees}
-                              getOptionLabel={(option) => option.full_name}
+                              getOptionLabel={(option) => option.full_name || ""}
                               style={{ width: "100%" }}
                               renderInput={(params) => <TextField {...params} label="Team leader" variant="outlined" />}
                             />
@@ -251,7 +251,7 @@ const CreateProject = ({  }) => {
                               }
                              }}
                             options={employees}
-                            getOptionLabel={(option) => option.full_name}
+                            getOptionLabel={(option) => option.full_name || ""}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Team members" variant="outlined" />}
                           />
@@ -264,12 +264,12 @@ const CreateProject = ({  }) => {
                               }
                              }}
                             options={domains}
-                            getOptionLabel={(option) => option.name}
+                            getOptionLabel={(option) => option.name || ""}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Domain" variant="outlined"/>}
                           />
                          </Grid>
-                         <Grid item xs={12} sm={6} md={6}>
+                         {/*<Grid item xs={12} sm={6} md={6}>
                          <TextField
                            variant="outlined"
                            id="date"
@@ -296,7 +296,7 @@ const CreateProject = ({  }) => {
                            InputLabelProps={{
                              shrink: true,
                            }} />
-                         </Grid>
+                         </Grid>*/}
                          </Grid>
                   </Grid>
                 </Grid>

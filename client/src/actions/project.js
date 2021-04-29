@@ -66,3 +66,48 @@ export function getSingleProject(projectId, token) {
       });
   });
 }
+
+
+export function updateProject(id, updatedData, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(`/update/project/${id}`, updatedData, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function deleteProject(id, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(`/delete/project/${id}`, {}, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
