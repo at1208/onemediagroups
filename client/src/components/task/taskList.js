@@ -203,7 +203,7 @@ function EnhancedTable({ tasks }) {
               {stableSort(tasks, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = isSelected(row._id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -212,12 +212,12 @@ function EnhancedTable({ tasks }) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={`${row.task_name}-${index}`}
+                      key={`${row.title}-${index}`}
                       selected={isItemSelected}
                     >
-                      <TableCell align="left">{row.task_name}</TableCell>
-                      <TableCell align="left"><Chip size="small" label={row.assignee} color="primary" /></TableCell>
-                      <TableCell align="left"><Chip size="small" label={row.reporter} color="primary" /></TableCell>
+                      <TableCell align="left">{row.title}</TableCell>
+                      <TableCell align="left"><Chip size="small" label={row.assignee && row.assignee.full_name} color="primary" /></TableCell>
+                      <TableCell align="left"><Chip size="small" label={row.follower && row.follower.full_name} color="primary" /></TableCell>
                       <TableCell>
                       {
                         row.status == "Open" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
@@ -230,7 +230,7 @@ function EnhancedTable({ tasks }) {
                       }
 
                       </TableCell>
-                      <TableCell align="left">{row.project}</TableCell>
+                      <TableCell align="left">{row.project_id.name}</TableCell>
                       <TableCell padding="none" align="right">
                         <EditTask editTask={row} />
                       </TableCell>

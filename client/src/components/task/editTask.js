@@ -16,6 +16,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { getProjects } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
+import { updateTask } from '../../actions/task';
 import { createTask } from '../../actions/task';
 import { isAuth, getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
@@ -65,7 +66,7 @@ const EditTask = ({ editTask }) => {
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
-  console.log(editTask)
+
 
   const handleClickOpen = () => {
    setOpen(true);
@@ -101,6 +102,15 @@ const EditTask = ({ editTask }) => {
   }, [])
 
   React.useEffect(() => {
+    setTask({...task,
+      title:editTask.title,
+      description:editTask.description,
+      project_id: editTask.project_id,
+      assignee: editTask.assignee,
+      follower:editTask.follower })
+  }, [open])
+
+  React.useEffect(() => {
       getEmployee(token)
         .then((value) => {
           setEmployees(value.employees)
@@ -130,7 +140,7 @@ const EditTask = ({ editTask }) => {
   const handleSubmit = (e) => {
      e.preventDefault();
      setTask({...task, isLoading: true })
-     createTask(task, token)
+     updateTask(editTask._id, task, token)
        .then((value) => {
          setTask({...task,
            title:"",
@@ -145,12 +155,15 @@ const EditTask = ({ editTask }) => {
            isLoading:false})
        })
        .catch((err) => {
+
          setTask({...task,
            error:err.error,
            success:"",
            isLoading:false})
        })
   }
+
+
 
     return  <>
              <Grid container justify="center">
@@ -191,7 +204,7 @@ const EditTask = ({ editTask }) => {
                        <Grid item xs={12} sm={12} md={12}>
                          <TextField
                           fullWidth
-                          value={editTask.task_name}
+                          value={task.title}
                           onChange={handleChange("title")}
                           variant="outlined"
                           label="Title" />
@@ -202,12 +215,13 @@ const EditTask = ({ editTask }) => {
                           multiline
                           rows={3}
                           onChange={handleChange("description")}
-                          value={editTask.description}
+                          value={task.description}
                           variant="outlined"
                           label="Description" />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
+                            defaultValue={task.project_id}
                             onChange={(e, val) => {
                                if(val){
                                  setTask({...task, project_id: val._id })
@@ -221,19 +235,21 @@ const EditTask = ({ editTask }) => {
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
+                            defaultValue={task.assignee}
                             onChange={(e, val) => {
                                if(val){
                                  setTask({...task, assignee: val._id })
                                }
                              }}
                             options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                            getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Assignee" variant="outlined" />}
                           />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
-                         <Autocomplete
+                        {<Autocomplete
+                            defaultValue={task.follower}
                             onChange={(e, val) => {
                                 if(val){
                                   let filterValue = val.map((member, i) => {
@@ -242,12 +258,11 @@ const EditTask = ({ editTask }) => {
                                   setTask({...task, follower: filterValue });
                                 }
                              }}
-                            multiple
                             options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                            getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Reporter" variant="outlined" />}
-                          />
+                          />}
                        </Grid>
                        {/*<Grid item xs={12} sm={12} md={12}>
                        <TextField

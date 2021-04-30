@@ -3,24 +3,27 @@ import DashboardLayout from '../../components/layout/dashboardLayout';
 import CreateEmployee from '../../components/employee/createEmployee';
 import EmployeeList from '../../components/employee/employeeList';
 import EmployeeFilter from '../../components/employee/employeeFilter';
-import { Grid} from '@material-ui/core';
+import { Grid, Box, Typography } from '@material-ui/core';
 
 
 const AllEmployees = () => {
 
- const AddEmployee = () => {
-     return <>
-            <Grid container spacing={3} justify="flex-end">
-               <Grid item  md={3} sm={3} xs={12}>
-                 <CreateEmployee />
-               </Grid>
-            </Grid>
-          </>
- }
-
   return <>
            <DashboardLayout>
-              {AddEmployee()}
+               <Grid container justify="space-between">
+                  <Grid item  md={9} sm={9} xs={12}>
+                    <Box pl={3}>
+                      <Typography variant="h5">
+                         Employee
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item  md={3} sm={3} xs={12}>
+                     <CreateEmployee />
+                  </Grid>
+               </Grid>
+               <br />
+
               <br />
               {/*<EmployeeFilter />*/}
               <br />

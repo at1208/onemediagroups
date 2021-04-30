@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,31 +10,37 @@ import { getDesignations } from '../../actions/designation';
 import { createEmployee } from '../../actions/employee';
 import { onBoard } from '../../actions/auth';
 
-
-
-import { Grid, Button, Card, TextField, Dialog,
-DialogActions,
-DialogContent,
-DialogContentText,
-DialogTitle} from '@material-ui/core';
+import {  Grid,
+          Button,
+          Card,
+          TextField,
+          Dialog,
+          DialogActions,
+          DialogContent,
+          Typography,
+          DialogContentText,
+          DialogTitle} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { createProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
+import { getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot:{
-    padding:"10px",
-
+    // padding:"10px",
   },
   button:{
     textTransform: "none",
     backgroundColor:"#3f51b5",
     // width:"200px",
     color:"white",
-    fontWeight:800,
+    fontWeight:500,
     fontSize:"15px",
     '&:hover': {
               backgroundColor:"#3f51b5"
@@ -44,18 +49,7 @@ const useStyles = makeStyles((theme) => ({
   cardRoot:{
     // padding:"30px 10px 30px 10px"
   },
-  button:{
-    textTransform: "none",
-    backgroundColor:"#3f51b5",
-    width:"100%",
-    color:"white",
-    fontWeight:800,
-    height:"40px",
-    fontSize:"15px",
-    '&:hover': {
-              backgroundColor:"#3f51b5"
-        },
-  },
+
   formControl: {
   minWidth: 120,
   width:"100%"
@@ -69,13 +63,24 @@ textField:{
 close:{
   position:"absolute",
   right:'5%'
-}
+},
+root: {
+  margin: 0,
+  padding: theme.spacing(2),
+},
+closeButton: {
+  position: 'absolute',
+  right: theme.spacing(1),
+  top: theme.spacing(1),
+  color: theme.palette.grey[500],
+},
 }));
 
 
 const CreateEmployee = ({  }) => {
   const [open, setOpen] = React.useState(false);
   const [openForm, setOpenForm] = React.useState(false);
+  const token = getCookie("token")
   const classes = useStyles();
 
   const [employee, setEmployee] = React.useState({
@@ -94,8 +99,10 @@ const CreateEmployee = ({  }) => {
        success:""
   });
 
- const [allDepartments, setAllDepartments] = React.useState(null);
- const [allDesignations, setAllDesignations] = React.useState(null);
+ const [allDepartments, setAllDepartments] = React.useState([]);
+ const [allDesignations, setAllDesignations] = React.useState([]);
+
+ console.log(allDepartments, allDesignations)
 
  const handleClickOpen = () => {
   setOpen(true);
@@ -107,7 +114,7 @@ const CreateEmployee = ({  }) => {
  };
 
  React.useEffect(() => {
-      getDepartments()
+      getDepartments(token)
         .then((value) => {
           setAllDepartments(value.departments)
         })
@@ -115,7 +122,7 @@ const CreateEmployee = ({  }) => {
           console.log(err)
         })
 
-      getDesignations()
+      getDesignations(token)
         .then((value) => {
           setAllDesignations(value.designations)
         })
@@ -201,15 +208,31 @@ const CreateEmployee = ({  }) => {
                 variant="contained"
                 className={classes.button}
                 onClick={handleClickOpen}
-                color="primary"
+
                 >
                  Add Employee
                </Button>
              </Grid>
-             <Dialog open={open} onClose={handleClose} >
+             <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
               <form onSubmit={handleSubmit}>
               <DialogContent>
+                <DialogTitle
+                 id="customized-dialog-title"
+                 onClose={handleClose}
+                 disableTypography
+                 className={classes.root}>
+                <Typography variant="h6">Add a new employee</Typography>
+                  {open ? (
+                    <IconButton
+                      aria-label="close"
+                      onClick={handleClose}
+                      className={classes.closeButton}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ) : null}
+                </DialogTitle>
                 <Grid container spacing={3} justify="center">
                   <Grid item xs={12} md={12}>
                      <Card className={classes.cardRoot}>
@@ -245,7 +268,7 @@ const CreateEmployee = ({  }) => {
                               }}
                              size="small"
                              renderTags={(val,e) => console.log(val, e)}
-                             options={allDepartments || ""}
+                             options={allDepartments}
                              getOptionLabel={(option) => option.department_name}
                              style={{ width: "100%" }}
                              renderInput={(params) => <TextField {...params} label="Department" variant="outlined"   value={employee.department}/>}

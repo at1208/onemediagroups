@@ -233,13 +233,12 @@ const CreateTask = ({  }) => {
                          <Autocomplete
                             onChange={(e, val) => {
                                 if(val){
-                                  let filterValue = val.map((member, i) => {
-                                    return member._id
-                                  })
-                                  setTask({...task, follower: filterValue });
+                                  // let filterValue = val.map((member, i) => {
+                                  //   return member._id
+                                  // })
+                                  setTask({...task, follower: val._id });
                                 }
                              }}
-                            multiple
                             options={employees}
                             getOptionLabel={(option) => option.first_name + " " + option.last_name}
                             style={{ width: "100%" }}

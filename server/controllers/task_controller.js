@@ -1,4 +1,7 @@
 const Task =  require("../models/task_model");
+const Employee =  require("../models/employee_model");
+
+const { send_email } = require("../utils/send_email");
 
 module.exports.create_task = async (req, res) => {
   const { project_id, assignee, description, comments, owner, follower, title, deadline } = req.body;
@@ -12,15 +15,26 @@ module.exports.create_task = async (req, res) => {
     owner,
     title,
     deadline
-  }).save((err, task) => {
+  }).save(async (err, task) => {
     if(err){
       return res.status(400).json({
         error: err
       })
     }
-    res.status(200).json({
-      message:"New task created successfully"
-    })
+    let assigned = await Employee.findById({ _id: task.assignee });
+    let reporter = await Employee.findById({ _id: task.follower });
+
+    if(assigned && reporter){
+      send_email(assigned.email, "New task assigned",`<p>${reporter.full_name} has assigned a task to you</p><br /> <a href="http://localhost:3000/tasks">See task</a>`)
+      .then(() => {
+        return res.status(200).json({
+          message:"New task created successfully"
+        })
+      })
+      .catch(console.error)
+    }
+
+
   })
 }
 
@@ -150,24 +164,14 @@ if (payload.status) query.status = {$in : payload.status};
 
     Task.find(query)
     .populate("project_id", "name")
-    .populate("assignee", "first_name last_name")
-    .populate("follower", "first_name last_name")
+    .populate("assignee", "first_name last_name full_name")
+    .populate("follower", "first_name last_name full_name")
     .exec((err, result) => {
       if(err){
         return res.status(400).json({
           error: err
         })
       }
-      let data = result.map((task) => {
-        return {
-          task_name:task.title,
-          description: task.description,
-          assignee: task.assignee && task.assignee.full_name || "Deleted user",
-          reporter: task.follower && task.follower.full_name || "Deleted user",
-          status: task.status,
-          project:task.project_id.name
-        }
-      })
-      res.json(data)
+      res.json(result)
     })
 }

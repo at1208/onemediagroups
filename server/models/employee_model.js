@@ -30,8 +30,8 @@ const employeeSchema = mongoose.Schema({
     },
     username:{
       type:String,
-      trim:true,
-      unique:true,
+      // trim:true,
+      // unique:true,
       default:null
     },
     headshot_url:{

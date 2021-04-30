@@ -17,10 +17,16 @@ export function createDepartment(credentials) {
   });
 }
 
-export function getDepartments() {
+export function getDepartments(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/department")
+      .get("/all/department", {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
