@@ -32,6 +32,7 @@ import {
   FilterList as FilterListIcon,
 } from "@material-ui/icons";
 import { getDepartments } from '../../actions/department';
+import { getCookie } from '../../actions/auth';
 import moment from 'moment';
 
 
@@ -76,10 +77,11 @@ function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([]);
+  const token = getCookie("token")
   const [showEmployee, setShowEmployee] = React.useState(false);
 
   React.useEffect(() => {
-     getDepartments()
+     getDepartments(token)
        .then( response => {
          if(response && response.departments){
            let departmentData = response.departments.map((item) => {
