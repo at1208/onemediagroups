@@ -14,6 +14,7 @@ import {  Grid,
           Button,
           Card,
           TextField,
+          Box,
           Dialog,
           DialogActions,
           DialogContent,
@@ -23,12 +24,14 @@ import {  Grid,
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { createProject } from '../../actions/project';
-import { getEmployee } from '../../actions/employee';
+import { getEmployee, updateEmployee } from '../../actions/employee';
 import { getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import {
+RemoveRedEye as RemoveRedEyeIcon
+} from "@material-ui/icons";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +80,7 @@ closeButton: {
 }));
 
 
-const CreateEmployee = ({  }) => {
+const EditEmployee = ({ editEmployee }) => {
   const [open, setOpen] = React.useState(false);
   const [openForm, setOpenForm] = React.useState(false);
   const token = getCookie("token")
@@ -102,7 +105,7 @@ const CreateEmployee = ({  }) => {
  const [allDepartments, setAllDepartments] = React.useState([]);
  const [allDesignations, setAllDesignations] = React.useState([]);
 
- // console.log(allDepartments, allDesignations)
+
 
  const handleClickOpen = () => {
   setOpen(true);
@@ -131,6 +134,20 @@ const CreateEmployee = ({  }) => {
         })
  }, [])
 
+React.useEffect(() => {
+  setEmployee({...employee,
+
+     first_name:editEmployee.first_name,
+     last_name:editEmployee.last_name,
+     role:editEmployee.role,
+     date_of_joining:"",
+     phone_number:editEmployee.phone_number,
+     department:editEmployee.department,
+     designation:editEmployee.designation,
+     email:editEmployee.email,
+     address:editEmployee.address,
+     gender:editEmployee.gender, })
+}, [editEmployee])
 
  const handleChange = (type) => e => {
    switch (type) {
@@ -161,33 +178,12 @@ const CreateEmployee = ({  }) => {
  const handleSubmit = (e) => {
     e.preventDefault();
    setEmployee({...employee, isLoading:true})
-   createEmployee(employee)
+   updateEmployee(editEmployee._id, employee)
      .then((value) => {
-       onBoard(value.employee._id)
-         .then((response) => {
-           setEmployee({...employee,
-              isLoading:false,
-              first_name:"",
-              last_name:"",
-              role:"",
-              date_of_joining:"",
-              phone_number:"",
-              department:"",
-              designation:"",
-              email:"",
-              address:"",
-              gender:"",
-              success:response.message,
-              error:"" })
+           setEmployee({...employee, isLoading:false, success: value.message, error: ""})
          })
-         .catch((err) => {
-           console.log(err)
-         })
-
-     })
      .catch((err) => {
-         setEmployee({...employee, isLoading:false, error: err.error, success:"" })
-       console.log(err)
+         setEmployee({...employee, isLoading:false, success: "", error: err.error})
      })
  }
 
@@ -202,16 +198,15 @@ const CreateEmployee = ({  }) => {
  ]
 
 
+
+
     return  <>
              <Grid container justify="center">
-               <Button
-                variant="contained"
-                className={classes.button}
-                onClick={handleClickOpen}
-
-                >
-                 Add Employee
-               </Button>
+             <Box mr={0}>
+               <IconButton aria-label="details" onClick={handleClickOpen}>
+                 <RemoveRedEyeIcon />
+               </IconButton>
+             </Box>
              </Grid>
              <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
@@ -222,7 +217,7 @@ const CreateEmployee = ({  }) => {
                  onClose={handleClose}
                  disableTypography
                  className={classes.root}>
-                <Typography variant="h6">Add a new employee</Typography>
+                <Typography variant="h6">Update Employee</Typography>
                   {open ? (
                     <IconButton
                       aria-label="close"
@@ -244,6 +239,7 @@ const CreateEmployee = ({  }) => {
                         <Grid item xs={12} md={6}>
                            <TextField
                            variant="outlined"
+                           disabled
                            onChange={handleChange("first_name")}
                            value={employee.first_name}
                            fullWidth
@@ -252,6 +248,7 @@ const CreateEmployee = ({  }) => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                           <TextField
+                           disabled
                            variant="outlined"
                            onChange={handleChange("last_name")}
                            value={employee.last_name}
@@ -261,6 +258,7 @@ const CreateEmployee = ({  }) => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                           <Autocomplete
+                            defaultValue={employee.department}
                              onChange={(event, newValue) => {
                                if(newValue){
                                  setEmployee({...employee, department: newValue._id});
@@ -276,6 +274,7 @@ const CreateEmployee = ({  }) => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                           <Autocomplete
+                          defaultValue={employee.designation}
                             onChange={(event, newValue) => {
                               if(newValue){
                                 setEmployee({...employee, designation: newValue._id});
@@ -291,6 +290,7 @@ const CreateEmployee = ({  }) => {
                         <Grid item xs={12} md={6}>
                           <Autocomplete
                              options={role}
+                             defaultValue={{ title: employee.role }}
                              size="small"
                              onChange={(e, val) => {
                                if(val){
@@ -306,6 +306,7 @@ const CreateEmployee = ({  }) => {
                           <TextField
                           onChange={handleChange("email")}
                           value={employee.email}
+                          defaultValue={employee.email}
                           variant="outlined"
                           size="small"
                           fullWidth
@@ -313,6 +314,7 @@ const CreateEmployee = ({  }) => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                           <Autocomplete
+                            defaultValue={{ title: employee.gender }}
                              onChange={(e, val) => {
                                 if(val){
                                     setEmployee({...employee, gender: val.title });
@@ -325,7 +327,7 @@ const CreateEmployee = ({  }) => {
                              renderInput={(params) => <TextField {...params} label="Gender" variant="outlined"   valye={employee.gender}/>}
                            />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        {/*<Grid item xs={12} md={6}>
                           <TextField
                             variant="outlined"
                             id="date"
@@ -340,19 +342,21 @@ const CreateEmployee = ({  }) => {
                               shrink: true,
                             }}
                           />
-                        </Grid>
+                        </Grid>*/}
 
                         <Grid item xs={12} md={6}>
                           <MuiPhoneNumber
                             defaultCountry={'in'}
                             variant="outlined"
+                            disabled
+                            defaultValue={employee.phone_number}
                             size="small"
                             value={employee.phone_number}
                             fullWidth
                             onChange={handleChange("phone_number")}/>
                         </Grid>
 
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={12}>
                           <TextField
                             size="small"
                             onChange={handleChange("address")}
@@ -369,7 +373,7 @@ const CreateEmployee = ({  }) => {
                 </Grid>
               </DialogContent>
               <DialogActions>
-                <Button className={classes.button} type="submit" disabled={employee.isLoading}>Send Invitation</Button>
+                <Button className={classes.button} type="submit" disabled={employee.isLoading}>Update</Button>
               </DialogActions>
              </form>
             </div>
@@ -377,4 +381,4 @@ const CreateEmployee = ({  }) => {
             </>
 }
 
-export default CreateEmployee;
+export default EditEmployee;

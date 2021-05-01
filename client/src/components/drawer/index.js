@@ -36,7 +36,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import MessagesDropdown from './messageDropdown';
 import NotificationDropdown from './notificationDropdown';
 import UserDropdown from './userDropdown';
-import { Sliders, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home, BookOpen } from 'react-feather';
+import { Sliders,Globe, Hash, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home, BookOpen } from 'react-feather';
 import { signout } from '../../actions/auth';
 
 const drawerWidth = 240;
@@ -326,19 +326,19 @@ const useStyles = makeStyles((theme) => ({
                </ListItem>
 
                <ListItem button   selected={currentTab("/categories")} onClick={() => history.push("/categories")}>
-                 <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
+                 <ListItemIcon><Hash className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Categories</Typography></ListItemText>
                </ListItem>
 
                <ListItem button   selected={currentTab("/domains")} onClick={() => history.push("/domains")}>
-                 <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
+                 <ListItemIcon><Globe className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Domains</Typography></ListItemText>
                </ListItem>
          </List>
       </Collapse>
 
 
-      {/*<ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
+      <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
          <ListItemIcon><Mail className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Contacts</Typography></ListItemText>
       </ListItem>
@@ -347,7 +347,7 @@ const useStyles = makeStyles((theme) => ({
       <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
        <ListItemIcon><Zap className={classes.sidebarIcons} /></ListItemIcon>
          <ListItemText ><Typography className={classes.menutext}>Activities</Typography></ListItemText>
-      </ListItem>*/}
+      </ListItem>
 
       </List>
     </Scrollbar>

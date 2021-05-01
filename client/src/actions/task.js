@@ -87,3 +87,25 @@ export function filterTask(credentials, token) {
       });
   });
 }
+
+export function deleteTask(id, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(`/delete/task/${id}`,{},{
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

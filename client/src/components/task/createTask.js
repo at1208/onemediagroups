@@ -21,6 +21,7 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
+
 const id = isAuth() && isAuth()._id;
 
 
@@ -267,6 +268,7 @@ const CreateTask = ({  }) => {
               </Grid>
               </DialogContent>
               <DialogActions>
+
                 <Button
                   variant="contained"
                   className={classes.button}

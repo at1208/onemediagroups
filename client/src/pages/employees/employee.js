@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import CreateEmployee from '../../components/employee/createEmployee';
 import EmployeeList from '../../components/employee/employeeList';
@@ -7,6 +7,13 @@ import { Grid, Box, Typography } from '@material-ui/core';
 
 
 const AllEmployees = () => {
+  const [employees, setEmployees] = useState([]);
+  const [employeeList, setEmployeeList] = useState([]);
+
+  useEffect(() => {
+    setEmployeeList(employees);
+  }, [employees])
+
 
   return <>
            <DashboardLayout>
@@ -25,9 +32,9 @@ const AllEmployees = () => {
                <br />
 
               <br />
-              {/*<EmployeeFilter />*/}
+              <EmployeeFilter filterEmployeeList={(emp) => setEmployees(emp)}/>
               <br />
-              <EmployeeList />
+              <EmployeeList employeeList={employeeList}/>
            </DashboardLayout>
          </>
 }

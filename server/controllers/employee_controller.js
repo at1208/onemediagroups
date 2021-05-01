@@ -203,87 +203,71 @@ module.exports.accept_onboard_invitation = async (req, res) => {
    }
 }
 
-module.exports.update_employee = (req, res) => {
+module.exports.update_employee = async (req, res) => {
   const { _id } = req.params;
-  let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'Documents could not upload'
-        });
-    }
-    const { first_name,
-            last_name,
-            country_code,
-            phone_number,
-            email,
-            address,
-            gender
-          } = fields
 
+  const { first_name,
+          last_name,
+          role,
+          date_of_joining,
+          country_code,
+          phone_number,
+          department,
+          designation,
+          email,
+          address,
+          gender,
+        } = req.body;
 
-    Employee.findOne({ _id })
-     .exec((err, employee) => {
-           if(err){
-             return res.status(400).json({
-               error: err
-             })
-           }
-           if(first_name){
-              employee.first_name = first_name
-           }
-           if(last_name){
-              employee.last_name = last_name
-           }
-           if(country_code){
-              employee.country_code = country_code
-           }
-           if(phone_number){
-              employee.phone_number = phone_number
-           }
-           if(email){
-               employee.email = email
-           }
-           if(gender){
-              employee.gender = gender
-           }
-           if(address){
-              employee.address = address
-           }
+      const employee = await Employee.findById({_id});
 
-       if (files.document) {
-         if (files.document.size > 30000000) {
-             return res.status(400).json({
-                 error: 'File should be less then 3mb in size'
-             });
-         }
-           employee.document.data = fs.readFileSync(files.document.path);
-           employee.document.content_type = files.document.type;
-       }
-
-       if (files.picture) {
-         if (files.picture.size > 10000000) {
-             return res.status(400).json({
-                 error: 'File should be less then 1mb in size'
-             });
-         }
-           employee.picture.data = fs.readFileSync(files.picture.path);
-           employee.picture.content_type = files.picture.type;
-       }
-
-       employee.save((err, result) => {
-          if (err) {
-              return res.status(400).json({
-                  error: errorHandler(err)
-              });
+      if(employee){
+      //   if(first_name){
+      //     employee.first_name = first_name;
+      //   }
+      //   if(last_name){
+      //     employee.last_name = last_name;
+      //     employee.full_name = first_name + " " + last_name;
+      //   }
+        if(role){
+          employee.role = role;
+        }
+        if(date_of_joining){
+           employee.date_of_joining = date_of_joining;
+        }
+        // if(phone_number){
+        //   employee.phone_number = country_code + phone_number;
+        // }
+        if(department){
+          employee.department = department;
+        }
+        if(designation){
+          employee.designation = designation;
+        }
+        if(email){
+          employee.email = email;
+        }
+        if(address){
+          employee.address = address;
+        }
+        if(gender){
+          employee.gender = gender;
+        }
+        employee.save((err, result) => {
+          if(err){
+            return res.status(400).json({
+              error: err
+            })
           }
-          res.status(200).json({
-            message: "Employee information updated successfully."
+          res.json({
+            message: "Employee successfully updated"
           })
-      });
-    })
-  })
+      })
+   } else{
+     res.status(404).json({
+       error: "Employee not found"
+     })
+   }
 }
 
 
@@ -485,4 +469,31 @@ module.exports.contact_number = (req, res) => {
          }
          res.json(result)
      })
+}
+
+
+module.exports.filter_employee = (req, res) => {
+   // query = { full_name: "", designation:"", department:"", status:"" }
+
+var query = {};
+var payload = req.body;
+
+if (payload.full_name) query.full_name = {$in : payload.full_name};
+if (payload.designation) query.designation = {$in : payload.designation};
+if (payload.department) query.department = {$in : payload.department};
+if (payload.status) query.status = {$in : payload.status};
+// query.del_flag = {$in : false};
+
+
+    Employee.find(query)
+    .populate("designation", "designation_name")
+    .populate("department", "department_name")
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      res.json(result)
+    })
 }

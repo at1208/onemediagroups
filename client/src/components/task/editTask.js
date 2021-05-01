@@ -25,6 +25,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
+import DeleteTask from './deleteTask';
 
 const id = isAuth() && isAuth()._id;
 
@@ -286,6 +287,7 @@ const EditTask = ({ editTask }) => {
               </Grid>
               </DialogContent>
               <DialogActions>
+                <DeleteTask id={editTask._id} />
                 <Button
                   variant="contained"
                   className={classes.button}

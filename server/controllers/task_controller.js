@@ -132,7 +132,7 @@ module.exports.all_task = (req, res) => {
 
 module.exports.task_count_by_project = (req, res) => {
   const { project_id } = req.params;
-  Task.find({ project_id })
+  Task.find({ project_id, del_flag:false })
     .select("status")
     .exec((err, result) => {
       if(err){
@@ -161,6 +161,7 @@ if (payload.project_id) query.project_id = {$in : payload.project_id};
 if (payload.assignee) query.assignee = {$in : payload.assignee};
 if (payload.follower) query.follower = {$in : payload.follower};
 if (payload.status) query.status = {$in : payload.status};
+query.del_flag = {$in : false};
 
     Task.find(query)
     .populate("project_id", "name")

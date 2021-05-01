@@ -109,6 +109,10 @@ const employeeSchema = mongoose.Schema({
       type:String,
       default:null
     },
+    del_flag:{
+      type:Boolean,
+      default:false
+    },
     permission:{
       project:{
         read:{

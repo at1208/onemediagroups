@@ -10,15 +10,15 @@ const useStyles = makeStyles({
   },
   button:{
     textTransform: "none",
-    backgroundColor:"#101531",
+    // backgroundColor:"#101531",
     // width:"100px",
-    color:"white",
+    // color:"white",
     // borderRadius:"20px",
     fontWeight:500,
-    fontSize:"12px",
-    '&:hover': {
-              backgroundColor:"#101531"
-        },
+    fontSize:"13px",
+    // '&:hover': {
+    //           backgroundColor:"#101531"
+    //     },
   },
   selected:{
     textTransform: "none",
@@ -59,6 +59,7 @@ const Contact = () => {
               <Button
                 variant="contained"
                 size="medium"
+                color="primary"
                 fullWidth
                 onClick={() => query.role == "EMPLOYEE" ? setQuery({ role: ""}) : setQuery({ role: "EMPLOYEE"})}
                 className={query.role == "EMPLOYEE" ?classes.selected:classes.button}>Employees</Button>
@@ -67,6 +68,7 @@ const Contact = () => {
               <Button
                 variant="contained"
                 size="medium"
+                color="primary"
                 fullWidth
                 onClick={() => query.role == "INTERN" ? setQuery({ role: ""}) : setQuery({ role: "INTERN"})}
                 className={query.role == "INTERN" ?classes.selected:classes.button}>Interns</Button>
@@ -74,10 +76,11 @@ const Contact = () => {
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <Button
                 variant="contained"
+                color="primary"
                 size="medium"
                 fullWidth
                 onClick={() => query.role == "CONTRACTOR" ? setQuery({ role: ""}) : setQuery({ role: "CONTRACTOR"})}
-                className={query.role == "CONTRACTOR" ?classes.selected:classes.button}>Contractors</Button>
+                className={query.role == "CONTRACTOR" ?classes.selected:classes.button}>Freelancers</Button>
             </Grid>
           </Grid>
           <br />

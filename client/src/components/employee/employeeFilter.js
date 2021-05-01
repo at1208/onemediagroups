@@ -3,8 +3,11 @@ import { Grid, Card, TextField, Button, Typography, Divider } from '@material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getProjects } from '../../actions/project';
-import { getEmployee } from '../../actions/employee';
-import { filterTask } from '../../actions/task';
+import { getDepartments } from '../../actions/department';
+import { getDesignations } from '../../actions/designation';
+import { getCookie } from '../../actions/auth';
+import { getEmployee, filterEmployee } from '../../actions/employee';
+
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -27,22 +30,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EmployeeFilter = ({ tasks }) => {
+const EmployeeFilter = ({ filterEmployeeList }) => {
     const classes = useStyles();
     const [employees, setEmployees] = useState([]);
-    const [projects, setProjects] = useState([]);
-    const [values, setValues] = useState({project: "",assignee:"", follower:"", owner:""});
-    const [query, setQuery] = useState({project_id: "",assignee:"", follower:"", owner:"", status:""})
+    const [departments, setDepartments] = useState([]);
+    const [designations, setDesignations] = useState([]);
+    const [values, setValues] = useState({employee: "",department:"", designation:"" });
+    const [query, setQuery] = useState({full_name: "",department:"", designation:"", status:""})
+    const token = getCookie("token")
 
-    useEffect(() => {
-        getProjects()
-          .then(response => {
-               setProjects(response.projects)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-    }, [])
+
 
     useEffect(() => {
        getEmployee()
@@ -52,12 +49,31 @@ const EmployeeFilter = ({ tasks }) => {
          .catch(err => {
            console.log(err)
          })
+
+         getDepartments(token)
+         .then(response => {
+
+            setDepartments(response.departments)
+         })
+         .catch(err => {
+           console.log(err)
+         })
+
+         getDesignations(token)
+         .then(response => {
+
+            setDesignations(response.designations)
+         })
+         .catch(err => {
+           console.log(err)
+         })
+
     }, [])
 
     useEffect(() => {
-      filterTask(query)
+      filterEmployee(query)
         .then(response => {
-          tasks(response)
+          filterEmployeeList(response)
         })
         .catch(err => {
           console.log(err)
@@ -67,9 +83,9 @@ const EmployeeFilter = ({ tasks }) => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-     filterTask(query)
+     filterEmployee(query)
        .then(response => {
-         tasks(response)
+          filterEmployeeList(response)
        })
        .catch(err => {
          console.log(err)
@@ -78,26 +94,20 @@ const EmployeeFilter = ({ tasks }) => {
 
  const handleChange = (name) => (e) => {
         switch (name) {
-          case "project":
+          case "full_name":
              if(e.target.value.length==0){
-               setQuery({...query, project_id: ""})
+               setQuery({...query, full_name: ""})
              }
             break;
-          case "assignee":
+          case "department":
              if(e.target.value.length==0){
-               setQuery({...query, assignee: ""})
-             }
-            break;
-
-          case "follower":
-             if(e.target.value.length==0){
-               setQuery({...query, follower: ""})
+               setQuery({...query, department: ""})
              }
             break;
 
-          case "owner":
+          case "designation":
              if(e.target.value.length==0){
-               setQuery({...query, owner: ""})
+               setQuery({...query, designation: ""})
              }
             break;
           default:
@@ -106,9 +116,10 @@ const EmployeeFilter = ({ tasks }) => {
  }
 
   const handleClick = () => {
-         setQuery({...query, project_id: "", assignee:"", follower:"", owner:"", status:""})
-         setValues({...values, project: "", assignee:"", follower:"", owner:"" })
+         setQuery({...query, full_name: "", department:"", designation:"", status:""})
+         setValues({...values, full_name: "", department:"", designation:"" })
   }
+
 
    return <>
           <Card className={classes.cardRoot}>
@@ -118,17 +129,17 @@ const EmployeeFilter = ({ tasks }) => {
              <Autocomplete
                 onChange={(e, val) => {
                    if(val){
-                      setQuery({...query, project_id: val._id});
-                      setValues({...values, project: val })
+                      setQuery({...query, full_name: val.full_name});
+                      setValues({...values, employee: val })
                    }
                  }}
                 closeIcon={<></>}
-                value={values.project}
+                value={values.employee}
                 size="small"
-                options={projects}
-                getOptionLabel={(option) => option.name}
+                options={employees}
+                getOptionLabel={(option) => option.full_name}
                 style={{ width: "100%" }}
-                renderInput={(params) => <TextField {...params} label="Project" variant="outlined" onChange={handleChange("project")} />}
+                renderInput={(params) => <TextField {...params} label="Employee Name" variant="outlined" onChange={handleChange("full_name")} />}
               />
              </Grid>
              <Grid item xs={12} sm={2} md={2} lg={2}>
@@ -136,16 +147,16 @@ const EmployeeFilter = ({ tasks }) => {
                    closeIcon={<></>}
                     onChange={(e, val) => {
                        if(val){
-                         setQuery({...query, assignee: val._id})
-                         setValues({...values, assignee: val})
+                         setQuery({...query, department: val._id})
+                         setValues({...values, department: val})
                        }
                      }}
-                    value={values.assignee}
+                     value={values.department}
                     size="small"
-                    options={employees}
-                    getOptionLabel={(option) => option.first_name}
+                    options={departments}
+                    getOptionLabel={(option) => option.department_name}
                     style={{ width: "100%" }}
-                    renderInput={(params) => <TextField {...params} label="Assignee" variant="outlined" onChange={handleChange("assignee")}/>}
+                    renderInput={(params) => <TextField {...params} label="Department" variant="outlined" onChange={handleChange("department")}/>}
                   />
              </Grid>
              <Grid item xs={12} sm={2} md={2} lg={2}>
@@ -153,16 +164,16 @@ const EmployeeFilter = ({ tasks }) => {
                  closeIcon={<></>}
                   onChange={(e, val) => {
                      if(val){
-                         setQuery({...query, follower: val._id})
-                         setValues({...values, follower: val})
+                         setQuery({...query, designation: val._id})
+                         setValues({...values, designation: val})
                      }
                    }}
                   size="small"
-                  value={values.follower}
-                  options={employees}
-                   getOptionLabel={(option) => option.first_name}
+                  value={values.designation}
+                  options={designations}
+                   getOptionLabel={(option) => option.designation_name}
                   style={{ width: "100%" }}
-                  renderInput={(params) => <TextField {...params} label="Reporter" variant="outlined" onChange={handleChange("follower")}/>}
+                  renderInput={(params) => <TextField {...params} label="Designation" variant="outlined" onChange={handleChange("designation")}/>}
                 />
              </Grid>
 
@@ -176,9 +187,9 @@ const EmployeeFilter = ({ tasks }) => {
                     label="Status"
                     onChange={(e) => setQuery({...query, status: e.target.value})}
                   >
-                    <MenuItem value="Open">Open</MenuItem>
-                    <MenuItem value="Closed">Closed</MenuItem>
-                    <MenuItem value="Done">Done</MenuItem>
+                    <MenuItem value="JOINED">JOINED</MenuItem>
+                    <MenuItem value="INVITED">INVITED</MenuItem>
+                    <MenuItem value="LEFT">LEFT</MenuItem>
                   </Select>
                 </FormControl>
              </Grid>
