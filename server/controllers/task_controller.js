@@ -150,7 +150,7 @@ module.exports.task_count_by_project = (req, res) => {
 }
 
 
-//project assignee follower owner title status
+ 
 
 module.exports.filter_task = (req, res) => {
    // query = { project: "", assignee:"", follwer:"", status:"" }

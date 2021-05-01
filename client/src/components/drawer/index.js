@@ -37,7 +37,7 @@ import MessagesDropdown from './messageDropdown';
 import NotificationDropdown from './notificationDropdown';
 import UserDropdown from './userDropdown';
 import { Sliders,Globe, Hash, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home, BookOpen } from 'react-feather';
-import { signout } from '../../actions/auth';
+import { signout, isAuth } from '../../actions/auth';
 
 const drawerWidth = 240;
 
@@ -157,6 +157,10 @@ const useStyles = makeStyles((theme) => ({
   },
   grow:{
     flex:1
+  },
+  loggedInUser:{
+    fontSize:"17px",
+    color:"black"
   }
 }));
 
@@ -225,7 +229,7 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
-
+          <small className={classes.loggedInUser}>{`Hello ${isAuth() && isAuth().first_name}`}</small>
           <UserDropdown />
         </Toolbar>
       </AppBar>

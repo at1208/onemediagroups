@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Typography, Box } from '@material-ui/core';
 import CreateCategory from '../../components/category/createCategory';
+import CategoryList from '../../components/category/categoryList';
+import CategoryFilter from '../../components/category/categoryFilter';
 
 const Categories = () => {
+  const [tasks, setTasks] = useState([]);
+  const [taskList, setTaskList] = useState([]);
+
+  useEffect(() => {
+    setTaskList(tasks);
+  }, [tasks])
+
   return <>
             <DashboardLayout>
             <Grid container justify="space-between">
@@ -18,6 +27,9 @@ const Categories = () => {
                  <CreateCategory />
                </Grid>
             </Grid>
+            <br />
+            <CategoryFilter filterCategoryList={(categories) => setTasks(categories)}/>
+            <CategoryList categoryList={taskList}/>
             </DashboardLayout>
          </>
 }

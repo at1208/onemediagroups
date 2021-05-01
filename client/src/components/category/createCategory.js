@@ -68,9 +68,8 @@ const CreateCategory = ({  }) => {
   });
 
   React.useEffect(() => {
-       getDomains()
+       getDomains(token)
        .then(response => {
-         console.log(response)
          setDomains(response)
        })
        .catch(err => {

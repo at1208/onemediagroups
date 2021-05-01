@@ -48,3 +48,27 @@ exports.list = (req, res) => {
         res.json(data);
     });
 };
+
+
+module.exports.filter_category = (req, res) => {
+   // query = { domain: "", category:"" }
+   // console.log(req.body)
+var query = {};
+var payload = req.body;
+
+if (payload.domain) query.domain = {$in : payload.domain};
+if (payload.category) query._id = {$in : payload.category};
+// query.del_flag = {$in : false};
+
+    Category.find(query)
+    .populate("domain", "name url")
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      console.log("result", result)
+      res.json(result)
+    })
+}
