@@ -2,7 +2,7 @@ import React from "react";
 import styled, { withTheme } from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 import { red, green, blue } from "@material-ui/core/colors";
-
+import { isAuth } from '../../actions/auth'
 
 import {
   Avatar as MuiAvatar,
@@ -85,8 +85,8 @@ function Details() {
         <Centered>
           <Avatar alt=" " src=" " />
           <Typography variant="body2" component="div" gutterBottom>
-            <Box fontWeight="fontWeightMedium">Lucy Lavender</Box>
-            <Box fontWeight="fontWeightRegular">Lead Developer</Box>
+            <Box fontWeight="fontWeightMedium">{isAuth() && (isAuth().first_name + " " + isAuth().last_name)}</Box>
+            {/*<Box fontWeight="fontWeightRegular"></Box>*/}
           </Typography>
         </Centered>
       </CardContent>
