@@ -68,7 +68,7 @@ if (payload.domain) query.domain = {$in : payload.domain};
   Blog.find(query)
      .populate("domain", "name")
      .populate("categories", "name")
-     .populate("postedBy", "first_name last_name")
+     .populate("postedBy", "first_name last_name full_name")
      .select("title postedBy status approval")
      .exec((err, result) => {
        if(err){

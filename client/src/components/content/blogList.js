@@ -206,7 +206,7 @@ function EnhancedTable({ blogs }) {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
+ 
                   return (
                     <TableRow
                       hover
