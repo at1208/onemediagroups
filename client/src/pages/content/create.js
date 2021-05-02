@@ -12,8 +12,9 @@ import { getDomains  } from '../../actions/domain';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
-
+import { uploadFile } from '../../actions/upload'
 const CloudUpload = styled(MuiCloudUpload)(spacing);
+
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"30px 10px 30px 10px",
@@ -49,7 +50,7 @@ const blogTitleFromLS = () => {
        body:blogBodyFromLS(),
        categories:[],
        domain:"",
-       featureImg:"https://geeksocean.com",
+       featureImg:"",
        isLoading:false,
        successMsg:"",
        successStatus:false,
@@ -80,7 +81,9 @@ const blogTitleFromLS = () => {
   }, [])
 
 
-  const handleChange = (name) => (e) => {
+  const handleChange = (name) => async (e) => {
+
+
       switch (name) {
         case "title":
         localStorage.setItem("title", JSON.stringify(e.target.value));
@@ -90,10 +93,18 @@ const blogTitleFromLS = () => {
           localStorage.setItem("blog", JSON.stringify(e));
           setBlog({...blog, body: e})
           break;
+        case "featureImg":
+        let file = e.target.files[0];
+        let formData = new FormData();
+            formData.append('upload', file);
+            let url = await apiPostNewsImage(formData);
+          setBlog({...blog, featureImg: url})
+          break;
         default:
 
       }
   }
+
 
  const handleSubmit = (e) => {
    e.preventDefault();
@@ -118,9 +129,11 @@ const blogTitleFromLS = () => {
  }
 
 
- function apiPostNewsImage(img) {
-          return 'https://scontent.fdel1-2.fna.fbcdn.net/v/t1.6435-9/88339928_553781082162452_485602196625293312_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=PdNmWOFS-J0AX_3f440&_nc_ht=scontent.fdel1-2.fna&oh=1ad2b4a3c414c722c3c9e95636179cd2&oe=60A560DC'
-        // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
+ async function apiPostNewsImage(img) {
+       let result = await uploadFile(img, token);
+       if(result){
+         return result.url
+       }
     }
 
     function imageHandler() {
@@ -134,7 +147,7 @@ const blogTitleFromLS = () => {
             const file = input.files[0];
             const formData = new FormData();
 
-            formData.append('image', file);
+            formData.append('upload', file);
 
             // Save current cursor state
             const range = this.quill.getSelection(true);
@@ -227,6 +240,7 @@ const blogTitleFromLS = () => {
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} lg={3}>
                     <input
+                      onChange={handleChange("featureImg")}
                       accept="image/*"
                       style={{ display: "none" }}
                       id="raised-button-file"

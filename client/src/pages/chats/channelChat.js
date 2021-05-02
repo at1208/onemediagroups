@@ -18,12 +18,14 @@ import ChannelMembers from '../../components/channel/channelMembers';
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import renderHTML from 'react-render-html';
-import MessageActions from '../../components/channel/action'
+import MessageActions from '../../components/channel/action';
+import { uploadFile } from '../../actions/upload'
 import Offline from "./offline";
 const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
 const email = isAuth() && isAuth().email;
 const id = isAuth() && isAuth()._id;
+
 
 
 
@@ -327,9 +329,11 @@ const chatsList = chats.map((item, i) => {
 
 
 
- function apiPostNewsImage(img) {
-          return 'https://scontent.fdel1-2.fna.fbcdn.net/v/t1.6435-9/88339928_553781082162452_485602196625293312_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=PdNmWOFS-J0AX_3f440&_nc_ht=scontent.fdel1-2.fna&oh=1ad2b4a3c414c722c3c9e95636179cd2&oe=60A560DC'
-        // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
+ async function apiPostNewsImage(img) {
+          let result = await uploadFile(img, token);
+          if(result){
+            return result.url
+          }
     }
 
     function imageHandler() {
@@ -343,7 +347,7 @@ const chatsList = chats.map((item, i) => {
             const file = input.files[0];
             const formData = new FormData();
 
-            formData.append('image', file);
+            formData.append('upload', file);
 
             // Save current cursor state
             const range = this.quill.getSelection(true);
