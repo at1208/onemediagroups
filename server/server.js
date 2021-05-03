@@ -23,7 +23,7 @@ const domainRouter = require("./routers/domain_router");
 const bloguserRouter = require("./routers/bloguser_router");
 const uploadRouter = require("./routers/upload_file_router");
 
-app.use(cors({origin: ["http://localhost:3000"]}));
+app.use(cors({origin: ["http://localhost:3000", "https://bedium.vercel.app"]}));
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());

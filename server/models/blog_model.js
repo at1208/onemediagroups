@@ -51,6 +51,10 @@ const blogSchema = mongoose.Schema({
         type:String,
         enum:["WAITING", "APPROVED", "NOT APPROVED"],
         default:"WAITING"
+      },
+      views_count:{
+        type:Number,
+        default:0
       }
-})
+}, { timestamps: true })
 module.exports = mongoose.model("Blog", blogSchema);

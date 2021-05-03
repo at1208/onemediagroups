@@ -53,10 +53,25 @@ if(body.length <300){
 };
 
 
+exports.read_blog = (req, res) => {
+    const slug = req.params.slug.toLowerCase();
+    Blog.findOne({ slug, status: true, approval:"APPROVED" })
+        .populate('categories', '_id name slug')
+        .populate('postedBy', '_id full_name headshot_url')
+        .exec((err, data) => {
+            if (err) {
+                return res.json({
+                    error: errorHandler(err)
+                });
+            }
+            res.json(data);
+        });
+};
+
 
 module.exports.filter_blog = (req, res) => {
    // query = { postedBy: "", status:"", approval:"", domain:"" }
-   console.log(req.body)
+
 var query = {};
 var payload = req.body;
 
@@ -95,4 +110,59 @@ module.exports.single_blog = (req, res) => {
        }
        res.json(result)
      })
+}
+
+module.exports.blog_list_by_domain = (req, res) => {
+      const { domainId } = req.params;
+      let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+      let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
+      Blog.find({ status: true, domain: domainId, approval:"APPROVED" })
+         .populate("categories", "name slug")
+         .populate("postedBy", "full_name")
+         .sort({ updatedAt: -1 })
+         .skip(skip)
+         .limit(limit)
+         .exec((err, result) => {
+           if(err){
+             return res.status(400).json({
+               error: err
+             })
+           }
+           res.json(result)
+         })
+}
+
+module.exports.latest_authors_list_by_domain = (req, res) => {
+    const { domainId } = req.params;
+    Blog.find({ status: true, domain: domainId, approval:"APPROVED" })
+      .populate("postedBy", "full_name headshot_url")
+      .sort({ updatedAt: -1 })
+      .limit(8)
+      .select("postedBy")
+      .exec((err, result) => {
+        if(err){
+          return res.status(400).json({
+            error: err
+          })
+        }
+        res.json(result)
+      })
+}
+
+module.exports.trending_blogs_by_domain = (req, res) => {
+  const { domainId } = req.params;
+  Blog.find({ status: true, domain: domainId, approval:"APPROVED" })
+    .populate("categories", "name slug")
+    .populate("postedBy", "full_name")
+    .sort({ views_count: -1 })
+    .limit(6)
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      res.json(result)
+    })
 }

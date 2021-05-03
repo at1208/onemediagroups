@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
 
 const bloguserSchema = new mongoose.Schema({
      name:{
@@ -15,7 +16,8 @@ const bloguserSchema = new mongoose.Schema({
        required:true
      },
      domain:{
-       type:String,
+       type:ObjectId,
+       ref:"Domain",
        required:true
      }
  },{ timestamps: true });
