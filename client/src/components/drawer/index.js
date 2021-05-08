@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Drawer, Badge, Typography, Avatar } from '@material-ui/core/';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -136,9 +137,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize:"30px"
   },
   menutext:{
-    color:"#e0e0e0",
-    fontWeight:"300",
-    fontSize:"13px"
+    color:"rgb(238, 238, 238)",
+    fontWeight:"100",
+    fontSize:"14px",
+    [theme.breakpoints.down('sm')]: {
+      fontSize:"15px",
+    },
   },
   collapseList:{
     // backgroundColor:"lightgrey"
@@ -258,32 +262,40 @@ const useStyles = makeStyles((theme) => ({
       <Scrollbar>
       <List disablePadding>
 
-      <ListItem button  selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
-        <ListItemIcon><Home className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
-      </ListItem>
+      <Link to="/dashboard">
+        <ListItem button  selected={currentTab("/dashboard")}>
+          <ListItemIcon><Home className={classes.sidebarIcons} /></ListItemIcon>
+          <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
+        </ListItem>
+      </Link>
 
-      {/*<ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
+      <Link to="/profile">
+      <ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
         <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Profile</Typography></ListItemText>
-      </ListItem>*/}
+      </ListItem>
+      </Link>
 
-
-      <ListItem button   selected={currentTab("/projects")} onClick={() => history.push("/projects")}>
+      <Link to="/projects">
+      <ListItem button   selected={currentTab("/projects")}>
          <ListItemIcon><GridIcon className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Projects</Typography></ListItemText>
       </ListItem>
+      </Link>
 
+    <Link to="/tasks">
       <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
        <ListItemIcon><Briefcase className={classes.sidebarIcons} /></ListItemIcon>
       <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
       </ListItem>
+    </Link>
 
+     <Link to="/chats">
       <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
         <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Chats</Typography></ListItemText>
       </ListItem>
-
+    </Link>
 
       <ListItem button onClick={handleOpenEmployee} className='mt-3'>
                   <ListItemIcon><User className={classes.sidebarIcons} /></ListItemIcon>
@@ -292,21 +304,25 @@ const useStyles = makeStyles((theme) => ({
       </ListItem>
       <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
-               <ListItem button   selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
+           <Link to="/all-employees">
+               <ListItem button   selected={currentTab("/all-employees")}>
                  <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>All Employee</Typography></ListItemText>
                </ListItem>
+              </Link>
 
-               <ListItem button   selected={currentTab("/department")} onClick={() => history.push("/department")}>
+           <Link to="/department">
+               <ListItem button   selected={currentTab("/department")}>
                  <ListItemIcon><Layers className={classes.sidebarIcons} /></ListItemIcon>
                   <ListItemText ><Typography className={classes.menutext}>Department</Typography></ListItemText>
                </ListItem>
-
-               <ListItem button   selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
+           </Link>
+            <Link to="/designation">
+               <ListItem button   selected={currentTab("/designation")}>
                  <ListItemIcon><Target className={classes.sidebarIcons} /></ListItemIcon>
                   <ListItemText ><Typography className={classes.menutext}>Designation</Typography></ListItemText>
                </ListItem>
-
+            </Link>
          </List>
       </Collapse>
 
@@ -319,39 +335,49 @@ const useStyles = makeStyles((theme) => ({
       </ListItem>
       <Collapse in={openContentCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
-               <ListItem button   selected={currentTab("/content/create")} onClick={() => history.push("/content/create")}>
+              <Link to="/content/create">
+               <ListItem button   selected={currentTab("/content/create")}>
                  <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Write Blog</Typography></ListItemText>
                </ListItem>
+              </Link>
 
-               <ListItem button   selected={currentTab("/content/blogs")} onClick={() => history.push("/content/blogs")}>
+              <Link to="/content/blogs">
+               <ListItem button   selected={currentTab("/content/blogs")}>
                  <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>All Blogs</Typography></ListItemText>
                </ListItem>
+               </Link>
 
-               <ListItem button   selected={currentTab("/categories")} onClick={() => history.push("/categories")}>
+              <Link to="/categories">
+               <ListItem button   selected={currentTab("/categories")}>
                  <ListItemIcon><Hash className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Categories</Typography></ListItemText>
                </ListItem>
+               </Link>
 
-               <ListItem button   selected={currentTab("/domains")} onClick={() => history.push("/domains")}>
+              <Link to="/domains">
+               <ListItem button   selected={currentTab("/domains")}>
                  <ListItemIcon><Globe className={classes.sidebarIcons} /></ListItemIcon>
                 <ListItemText ><Typography className={classes.menutext}>Domains</Typography></ListItemText>
                </ListItem>
+              </Link>
          </List>
       </Collapse>
 
-
-      <ListItem button   selected={currentTab("/contact")} onClick={() => history.push("/contact")}>
+      <Link to="/contact">
+      <ListItem button   selected={currentTab("/contact")}>
          <ListItemIcon><Mail className={classes.sidebarIcons} /></ListItemIcon>
         <ListItemText ><Typography className={classes.menutext}>Contacts</Typography></ListItemText>
       </ListItem>
+      </Link>
 
-
-      <ListItem button   selected={currentTab("/activities")} onClick={() => history.push("/activities")}>
+      <Link to="/activities">
+      <ListItem button   selected={currentTab("/activities")}>
        <ListItemIcon><Zap className={classes.sidebarIcons} /></ListItemIcon>
          <ListItemText ><Typography className={classes.menutext}>Activities</Typography></ListItemText>
       </ListItem>
+      </Link>
 
       </List>
     </Scrollbar>

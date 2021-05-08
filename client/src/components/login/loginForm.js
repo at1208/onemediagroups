@@ -199,7 +199,7 @@ const LoginForm = () => {
                       type="password"
                       variant="outlined"
                       fullWidth
-
+                      placeholder="Password"
                       className={classes.loginTextField}
                       InputProps={{
                       startAdornment: (
