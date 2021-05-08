@@ -114,7 +114,7 @@ module.exports.single_blog = (req, res) => {
 
 module.exports.blog_list_by_domain = (req, res) => {
       const { domainId } = req.params;
-      let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+      let limit = req.body.limit ? parseInt(req.body.limit) : 10;
       let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
       Blog.find({ status: true, domain: domainId, approval:"APPROVED" })
