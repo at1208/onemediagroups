@@ -259,8 +259,7 @@ const useStyles = makeStyles((theme) => ({
         </IconButton>}
       </div>
       <Divider />
-      <Scrollbar>
-      <List disablePadding>
+      <List >
 
       <Link to="/dashboard">
         <ListItem button  selected={currentTab("/dashboard")}>
@@ -380,7 +379,6 @@ const useStyles = makeStyles((theme) => ({
       </Link>
 
       </List>
-    </Scrollbar>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
