@@ -13,6 +13,7 @@
 .MuiDrawer-paper{
 
   background-color: rgb(35, 48, 68)!important;
+  /* background-color: rgb(30, 42, 56) !important; */
   /* background-color:#101531!important; */
   border:0px solid white!important;
 }

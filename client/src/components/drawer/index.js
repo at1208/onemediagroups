@@ -15,7 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import { Divider, Collapse, Grid } from '@material-ui/core';
+import { Divider, Collapse, Grid, Box } from '@material-ui/core';
 import WorkIcon from '@material-ui/icons/Work';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
@@ -139,7 +139,8 @@ const useStyles = makeStyles((theme) => ({
   menutext:{
     color:"rgb(238, 238, 238)",
     fontWeight:"100",
-    fontSize:"14px",
+    fontSize:"13px",
+    letterSpacing:"0.05rem",
     [theme.breakpoints.down('sm')]: {
       fontSize:"15px",
     },
@@ -154,7 +155,8 @@ const useStyles = makeStyles((theme) => ({
     color:"black"
   },
   sidebarIcons:{
-    color:"grey",
+    color:"rgb(238, 238, 238)",
+    opacity:"0.30"
   },
   direc:{
     color:"#e0e0e0"
@@ -165,6 +167,10 @@ const useStyles = makeStyles((theme) => ({
   loggedInUser:{
     fontSize:"17px",
     color:"black"
+  },
+  list:{
+    paddingLeft:"20px",
+    paddingRight:"20px"
   }
 }));
 
@@ -257,42 +263,49 @@ const useStyles = makeStyles((theme) => ({
         {!matches && <IconButton onClick={handleDrawerClose}>
           {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.direc} /> : <ChevronLeftIcon className={classes.direc} />}
         </IconButton>}
+       <Grid container justify="center">
+         <Grid>
+           <Box ml={1}>
+
+           </Box>
+         </Grid>
+       </Grid>
       </div>
       <Divider />
-      <List >
+      <List className={classes.list}>
 
       <Link to="/dashboard">
         <ListItem button  selected={currentTab("/dashboard")}>
           <ListItemIcon><Home className={classes.sidebarIcons} /></ListItemIcon>
-          <ListItemText ><Typography className={classes.menutext}>Dashboard</Typography></ListItemText>
+          <ListItemText ><Typography className={classes.menutext} variant="body1">Dashboard</Typography></ListItemText>
         </ListItem>
       </Link>
 
       <Link to="/profile">
-      <ListItem button  selected={currentTab("/profile")} onClick={() => history.push("/profile")}>
+      <ListItem button  selected={currentTab("/profile")}>
         <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Profile</Typography></ListItemText>
+        <ListItemText ><Typography className={classes.menutext} variant="body1">Profile</Typography></ListItemText>
       </ListItem>
       </Link>
 
       <Link to="/projects">
       <ListItem button   selected={currentTab("/projects")}>
          <ListItemIcon><GridIcon className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Projects</Typography></ListItemText>
+        <ListItemText ><Typography className={classes.menutext} variant="body1">Projects</Typography></ListItemText>
       </ListItem>
       </Link>
 
     <Link to="/tasks">
-      <ListItem button   selected={currentTab("/tasks")} onClick={() => history.push("/tasks")}>
+      <ListItem button   selected={currentTab("/tasks")}>
        <ListItemIcon><Briefcase className={classes.sidebarIcons} /></ListItemIcon>
-      <ListItemText ><Typography className={classes.menutext}>Tasks</Typography></ListItemText>
+      <ListItemText ><Typography className={classes.menutext} variant="body1">Tasks</Typography></ListItemText>
       </ListItem>
     </Link>
 
      <Link to="/chats">
-      <ListItem button  selected={currentTab("/chats")} onClick={() => history.push("/chats")}>
+      <ListItem button  selected={currentTab("/chats")}>
         <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Chats</Typography></ListItemText>
+        <ListItemText ><Typography className={classes.menutext} variant="body1">Chats</Typography></ListItemText>
       </ListItem>
     </Link>
 
@@ -306,20 +319,20 @@ const useStyles = makeStyles((theme) => ({
            <Link to="/all-employees">
                <ListItem button   selected={currentTab("/all-employees")}>
                  <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>All Employee</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext} variant="body1">All Employee</Typography></ListItemText>
                </ListItem>
               </Link>
 
            <Link to="/department">
                <ListItem button   selected={currentTab("/department")}>
                  <ListItemIcon><Layers className={classes.sidebarIcons} /></ListItemIcon>
-                  <ListItemText ><Typography className={classes.menutext}>Department</Typography></ListItemText>
+                  <ListItemText ><Typography className={classes.menutext} variant="body1">Department</Typography></ListItemText>
                </ListItem>
            </Link>
             <Link to="/designation">
                <ListItem button   selected={currentTab("/designation")}>
                  <ListItemIcon><Target className={classes.sidebarIcons} /></ListItemIcon>
-                  <ListItemText ><Typography className={classes.menutext}>Designation</Typography></ListItemText>
+                  <ListItemText ><Typography className={classes.menutext} variant="body1">Designation</Typography></ListItemText>
                </ListItem>
             </Link>
          </List>
@@ -337,14 +350,14 @@ const useStyles = makeStyles((theme) => ({
               <Link to="/content/create">
                <ListItem button   selected={currentTab("/content/create")}>
                  <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>Write Blog</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext} variant="body1">Write Blog</Typography></ListItemText>
                </ListItem>
               </Link>
 
               <Link to="/content/blogs">
                <ListItem button   selected={currentTab("/content/blogs")}>
                  <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>All Blogs</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext} variant="body1">All Blogs</Typography></ListItemText>
                </ListItem>
                </Link>
 
@@ -358,7 +371,7 @@ const useStyles = makeStyles((theme) => ({
               <Link to="/domains">
                <ListItem button   selected={currentTab("/domains")}>
                  <ListItemIcon><Globe className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>Domains</Typography></ListItemText>
+                <ListItemText ><Typography className={classes.menutext} variant="body1">Domains</Typography></ListItemText>
                </ListItem>
               </Link>
          </List>
@@ -367,14 +380,14 @@ const useStyles = makeStyles((theme) => ({
       <Link to="/contact">
       <ListItem button   selected={currentTab("/contact")}>
          <ListItemIcon><Mail className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext}>Contacts</Typography></ListItemText>
+        <ListItemText ><Typography className={classes.menutext} variant="body1">Contacts</Typography></ListItemText>
       </ListItem>
       </Link>
 
       <Link to="/activities">
       <ListItem button   selected={currentTab("/activities")}>
        <ListItemIcon><Zap className={classes.sidebarIcons} /></ListItemIcon>
-         <ListItemText ><Typography className={classes.menutext}>Activities</Typography></ListItemText>
+         <ListItemText ><Typography className={classes.menutext} variant="body1">Activities</Typography></ListItemText>
       </ListItem>
       </Link>
 
