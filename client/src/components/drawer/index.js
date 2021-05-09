@@ -255,7 +255,7 @@ const capitalizeFirstCharacter = (name) => {
           </Typography>
           <div className={classes.grow}>
           </div>
-         
+
           <UserDropdown />
         </Toolbar>
       </AppBar>
@@ -281,7 +281,7 @@ const capitalizeFirstCharacter = (name) => {
         </IconButton>}
        <Grid container justify="center">
          <Typography noWrap className={classes.name}>
-           Hello,  {capitalizeFirstCharacter(isAuth() && isAuth().full_name)}
+           Hello,  {capitalizeFirstCharacter(isAuth() && isAuth().full_name || "undefined")}
          </Typography>
        </Grid>
       </div>
