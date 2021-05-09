@@ -105,10 +105,6 @@ const employeeSchema = mongoose.Schema({
       type:ObjectId,
       ref:"Channel"
     }],
-    linkedIn_url:{
-      type:String,
-      default:null
-    },
     del_flag:{
       type:Boolean,
       default:false

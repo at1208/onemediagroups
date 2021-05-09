@@ -305,10 +305,10 @@ module.exports.signin = (req, res) => {
        }else if (result === true) {
            const token = jwt.sign({ _id: employee._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
            res.cookie('token', token, { expiresIn: '7d' });
-           const { _id, first_name,last_name, email } = employee;
+           const { _id, first_name,last_name, email, headshot_url, full_name } = employee;
            return res.json({
                token,
-               employee: { _id, first_name, last_name, email  }
+               employee: { _id, first_name, last_name, email, headshot_url, full_name  }
            });
        }else {
          res.status(400).json({
@@ -343,7 +343,7 @@ module.exports.single_employee = (req, res) => {
    .populate("department", "department_name")
    .populate("designation", "designation_name")
    .populate("channels", "channel_name")
-   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture full_name")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture full_name headshot_url")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({
@@ -496,4 +496,19 @@ if (payload.status) query.status = {$in : payload.status};
       }
       res.json(result)
     })
+}
+
+module.exports.update_profile_picture = (req, res) => {
+  const { id } = req.params;
+  const { url } = req.body;
+
+  Employee.findByIdAndUpdate({ _id: id }, {headshot_url: url}, { new: true })
+   .exec((err, result) => {
+     if(err){
+       return res.status(400).json({
+         error: err
+       })
+     }
+     res.json(result)
+   })
 }

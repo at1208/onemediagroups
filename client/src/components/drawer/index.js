@@ -159,7 +159,8 @@ const useStyles = makeStyles((theme) => ({
     opacity:"0.30"
   },
   direc:{
-    color:"#e0e0e0"
+    color:"rgb(238, 238, 238)",
+    opacity:"0.30"
   },
   grow:{
     flex:1
@@ -171,8 +172,23 @@ const useStyles = makeStyles((theme) => ({
   list:{
     paddingLeft:"20px",
     paddingRight:"20px"
+  },
+  name:{
+    color:"rgb(238, 238, 238)",
+    opacity:"0.90"
   }
 }));
+
+const capitalizeFirstCharacter = (name) => {
+  let words = name.split(' ');
+  return words
+    .map((word) => {
+      return word[0].toUpperCase() + word.substring(1);
+    })
+    .join(' ');
+};
+
+
 
  const SideDrawer = ({ children }) => {
   const classes = useStyles();
@@ -235,11 +251,11 @@ const useStyles = makeStyles((theme) => ({
             <MenuIcon className={classes.menuIcon} />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.appname}>
-            AppName
+
           </Typography>
           <div className={classes.grow}>
           </div>
-          <small className={classes.loggedInUser}>{`Hello ${isAuth() && isAuth().first_name}`}</small>
+         
           <UserDropdown />
         </Toolbar>
       </AppBar>
@@ -264,11 +280,9 @@ const useStyles = makeStyles((theme) => ({
           {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.direc} /> : <ChevronLeftIcon className={classes.direc} />}
         </IconButton>}
        <Grid container justify="center">
-         <Grid>
-           <Box ml={1}>
-
-           </Box>
-         </Grid>
+         <Typography noWrap className={classes.name}>
+           Hello,  {capitalizeFirstCharacter(isAuth() && isAuth().full_name)}
+         </Typography>
        </Grid>
       </div>
       <Divider />

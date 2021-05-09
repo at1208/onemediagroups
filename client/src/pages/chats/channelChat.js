@@ -25,6 +25,7 @@ const first_name = isAuth() && isAuth().first_name;
 const last_name = isAuth() && isAuth().last_name;
 const email = isAuth() && isAuth().email;
 const id = isAuth() && isAuth()._id;
+const headshot_url = isAuth() && isAuth().headshot_url
 
 
 
@@ -120,6 +121,16 @@ button:{
  }
 }));
 
+const capitalizeFirstCharacter = (name) => {
+  let words = name.split(' ');
+  return words
+    .map((word) => {
+      return word[0].toUpperCase() + word.substring(1);
+    })
+    .join(' ');
+};
+
+
 
 const Chats = ({ match: { params: { channel } }, match: { url }, location }) => {
   const token = getCookie("token");
@@ -130,7 +141,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   var messageContainer = React.useRef();
   const [online, setOnline] = React.useState();
   const [typing, setTyping ] = React.useState({ status: false, msg: "" });
-  const [msg, setMsg] = React.useState ({  message: "", senderName: "", senderEmail: "", senderId: "", timestamp:"", channelId:"", readBy: [] });
+  const [msg, setMsg] = React.useState ({  message: "", senderName: "", senderEmail: "", senderId: "", timestamp:"", channelId:"", readBy: [], senderPicture: ""  });
   const [chats, setChats] = React.useState([]);
   const [channels, setChannels] = React.useState([]);
   const [reload, setReload] = React.useState(false);
@@ -257,6 +268,7 @@ const handleSubmit = (e) => {
       message: "",
       senderName: "",
       senderEmail: "",
+      senderPicture:"",
       readBy:"",
       senderId: "",
       channelId: "",
@@ -266,7 +278,7 @@ const handleSubmit = (e) => {
 
 const handleChange = (e) => {
     socket.emit("typing", { first_name,last_name, email, senderId:id}, {room:getChannelId(location)})
-    setMsg({...msg, message: e, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date(), readBy: [] });
+    setMsg({...msg, message: e, senderPicture: headshot_url, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date(), readBy: [] });
 }
 
 
@@ -301,13 +313,13 @@ const chatsList = chats.map((item, i) => {
              <Grid container justify="flex-start" spacing={2}>
                <Grid item xs={3} md={1} sm={2}>
                   <Grid container justify="flex-start">
-                    <Avatar alt={item.senderName} src=" " width={40} height={40} />
+                    <Avatar alt={item.senderName} src={item.senderPicture} width={40} height={40} />
                   </Grid>
                </Grid>
                <Grid item xs={8} md={10} sm={9}>
                   <Grid container justify="flex-start">
                     <Grid item xs={12} md={12} sm={12}>
-                      <Typography variant="body1" className={classes.senderName}>{item.senderName}</Typography>
+                      <Typography variant="body1" className={classes.senderName}>{capitalizeFirstCharacter(item.senderName || "undefined")}</Typography>
                     </Grid>
                     <Grid item xs={12} md={12} sm={12}>
                      <Typography className={classes.time} variant="caption">{moment(item.timestamp).format('MMMM Do YYYY, h:mm a')}</Typography>

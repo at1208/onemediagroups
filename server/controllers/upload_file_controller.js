@@ -11,7 +11,7 @@ module.exports.upload_file = (req, res) => {
       }
 
       res.json({
-        url:req.files[0].location,
+        url:req.files[0] &&req.files[0].location,
         message:"File uploaded successfully"
       })
     });

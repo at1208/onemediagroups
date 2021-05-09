@@ -22,7 +22,7 @@ module.exports.get_channel_chats = async (req, res) => {
    let skip = req.body.skip ? parseInt(req.body.skip) : 0;
     try {
        let chats = await ChannelChat.find({ channelId })
-                         .populate('senderId', 'first_name last_name')
+                         .populate('senderId', 'first_name last_name headshot_url')
                          .sort({ createdAt: 1 })
                          // .skip(skip)
                          // .limit(limit)
@@ -34,6 +34,7 @@ module.exports.get_channel_chats = async (req, res) => {
            readBy: item.readBy,
            message: item.message,
            senderEmail: item.senderId.email,
+           senderPicture: item.senderId.headshot_url,
            senderName: item.senderId.first_name + " " + item.senderId.last_name,
            timestamp: item.timestamp
         }

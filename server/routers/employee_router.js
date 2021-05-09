@@ -8,6 +8,7 @@ const { create_employee,
         all_employee,
         single_employee,
         filter_employee,
+        update_profile_picture,
         contact_number,
         signin  } = require("../controllers/employee_controller");
 
@@ -20,6 +21,7 @@ router.post("/filter/employees", filter_employee);
 
 //EMPLOYEE
 router.post("/accept/onboard/invitation", accept_onboard_invitation);
+router.patch("/update/profile-picture/:id", update_profile_picture);
 router.patch("/update/employee/:_id", update_employee);
 router.post("/signin", signin);
 router.post("/employee/contact-number", contact_number);
