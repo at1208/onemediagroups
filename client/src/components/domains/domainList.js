@@ -76,6 +76,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
+  { id: "domainID", alignment: "left", label: "Domain ID" },
   { id: "name", alignment: "left", label: "Domain name" },
   { id: "url", alignment: "left", label: "URL" },
   { id: "createdBy", alignment: "right", label: "Created By" },
@@ -216,6 +217,7 @@ function EnhancedTable({ domains }) {
                       key={`${row.title}-${index}`}
                       selected={isItemSelected}
                     >
+                      <TableCell align="left">{row._id}</TableCell>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="left">{row.url}</TableCell>
 

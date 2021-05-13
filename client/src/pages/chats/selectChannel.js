@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Card, Typography, Badge, Box } from '@material-ui/core';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import ListItem from '@material-ui/core/ListItem';
- 
+
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -73,7 +73,7 @@ function Chats(){
      .catch((err) => {
        console.log(err)
      })
-  }, [])
+  }, [history.location.pathname])
 
   const currentTab = path => {
      if(path === history.location.pathname){

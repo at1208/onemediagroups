@@ -66,3 +66,26 @@ export function singleBlog(id, token) {
       });
   });
 }
+
+
+export function reviewUpdate(blogId, credentials, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(`/blog/review/update/${blogId}`, credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

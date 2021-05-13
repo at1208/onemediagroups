@@ -55,6 +55,10 @@ const blogSchema = mongoose.Schema({
       views_count:{
         type:Number,
         default:0
+      },
+      updatedBy:{
+        type:ObjectId,
+        ref:"Employee"
       }
 }, { timestamps: true })
 module.exports = mongoose.model("Blog", blogSchema);

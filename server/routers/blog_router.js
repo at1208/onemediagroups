@@ -6,6 +6,7 @@ const { create,
         read_blog,
         blog_list_by_domain,
         latest_authors_list_by_domain,
+        blog_review_update,
         trending_blogs_by_domain } = require('../controllers/blog_controller');
 
 // validators
@@ -15,6 +16,7 @@ const { requireSignin, authMiddleware } = require('../controllers/employee_contr
 
 
 router.post('/blog',  requireSignin, authMiddleware, blogCreateValidator, run_validation, create);
+router.patch('/blog/review/update/:blogId',  requireSignin, authMiddleware, blog_review_update);
 router.post('/blog/filter', requireSignin, authMiddleware, filter_blog);
 router.get('/blog/single/:id', requireSignin, authMiddleware, single_blog);
 router.get("/blog/:slug", read_blog);
