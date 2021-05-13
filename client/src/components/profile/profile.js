@@ -77,14 +77,7 @@ const AboutIcon = styled.span`
 `;
 
 
-const capitalizeFirstCharacter = (name) => {
-  let words = name.split(' ');
-  return words
-    .map((word) => {
-      return word[0].toUpperCase() + word.substring(1);
-    })
-    .join(' ');
-};
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -148,8 +141,8 @@ function Details({ data }) {
         <Centered>
           <Avatar alt=" " src={picture.url || data && data.headshot_url } />
           <Typography variant="body2" component="div" gutterBottom>
-            <Box fontWeight="fontWeightMedium">{capitalizeFirstCharacter(data && data.full_name || "Undefined")}</Box>
-            <Box fontWeight="fontWeightRegular">{data && data.designation && data.designation.designation_name.toUpperCase()}</Box>
+            <Box fontWeight="fontWeightMedium">{data && data.full_name}</Box>
+            <Box fontWeight="fontWeightRegular">{data && data.designation && data.designation.designation_name}</Box>
           </Typography>
           <Box>
           <input
@@ -197,7 +190,7 @@ function About({ data }) {
             </AboutIcon>
           </Grid>
           <Grid item>
-            {capitalizeFirstCharacter(data && data.department && data.department.department_name || "undefined")}
+            {data && data.department && data.department.department_name}
           </Grid>
         </Grid>
 
@@ -219,7 +212,7 @@ function About({ data }) {
             </AboutIcon>
           </Grid>
           <Grid item>
-            {capitalizeFirstCharacter(data && data.gender.toLowerCase() || "undefined")}
+            {data && data.gender}
           </Grid>
         </Grid>
 
@@ -242,7 +235,7 @@ function About({ data }) {
             </AboutIcon>
           </Grid>
           <Grid item>
-            {capitalizeFirstCharacter(data && data.status.toLowerCase() || "undefined")}
+            {data && data.status}
           </Grid>
         </Grid>
 
