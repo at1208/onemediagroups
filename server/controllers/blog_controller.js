@@ -31,6 +31,7 @@ if(body.length <300){
     blog.domain = domain;
     blog.postedBy = req.user._id;
     blog.categories = categories;
+    blog.updatedBy = req.user._id;
 
     blog.save(async (err, result) => {
       if(err){
@@ -101,6 +102,7 @@ module.exports.single_blog = (req, res) => {
    Blog.findById({ _id: id })
      .populate("categories", "name slug")
      .populate("postedBy", "full_name")
+     .populate("updatedBy", "full_name")
      .populate("domain", "name url")
      .exec((err, result) => {
        if(err){
@@ -165,4 +167,20 @@ module.exports.trending_blogs_by_domain = (req, res) => {
       }
       res.json(result)
     })
+}
+
+module.exports.blog_review_update = (req, res) => {
+    const { blogId } = req.params;
+    const { approval, status } = req.body;
+    Blog.findOneAndUpdate({ _id: blogId}, { approval: approval, status: status, updatedBy: req.user._id }, { new:true})
+     .exec((err, result) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       res.json({
+         message: "Changes updated successfully"
+       })
+     })
 }

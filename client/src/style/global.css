@@ -33,11 +33,11 @@
   }
 }
 
-@media (min-width:767px) {
+/* @media (min-width:767px) {
   img{
     max-width: 600px
   }
-}
+} */
 
 a{
   color:transparent;
