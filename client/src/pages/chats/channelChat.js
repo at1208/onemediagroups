@@ -63,8 +63,10 @@ const useStyles = makeStyles((theme) => ({
    [theme.breakpoints.down('xs')]: {
        padding:"0px",
        marginTop:"3px",
+       minHeight:"62vh",
        maxHeight:"62vh"
    },
+   minHeight:"70vh",
    maxHeight:"70vh"
  },
 time:{
@@ -169,12 +171,31 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   var messageContainer = React.useRef();
   const [online, setOnline] = React.useState();
   const [typing, setTyping ] = React.useState({ status: false, msg: "" });
-  const [msg, setMsg] = React.useState ({  message: "", senderName: "", senderEmail: "", senderId: "", timestamp:"", channelId:"", readBy: [], senderPicture: ""  });
+  const [msg, setMsg] = React.useState ({  message: "",
+                                           senderName: "",
+                                           senderEmail: "",
+                                           senderId: "",
+                                           timestamp:"",
+                                           channelId:"",
+                                           readBy: [],
+                                           senderPicture: ""
+                                         });
+
   const [chats, setChats] = React.useState([]);
   const [channels, setChannels] = React.useState([]);
   const [reload, setReload] = React.useState(false);
   const [connected, setConnected] = React.useState(true);
   const [channelMembers, setChannelMembers] = React.useState();
+  const [displayMessage, setDisplayMessage] = React.useState({
+                                            message: "",
+                                            senderName: "",
+                                            senderEmail: "",
+                                            senderId: "",
+                                            timestamp:"",
+                                            channelId:"",
+                                            readBy: [],
+                                            senderPicture: ""
+                                          });
 
   function getChannelId(term) {
        return term.search.split("").slice(4).join("");
@@ -260,6 +281,12 @@ setInterval(() => {
   setConnected(socket.connected)
 }, 10000)
 
+React.useEffect(() => {
+  const timeOutId = setTimeout(() => setMsg(displayMessage), 500);
+  return () => clearTimeout(timeOutId);
+}, [displayMessage]);
+
+
   const currentTab = path => {
      if(path === history.location.pathname){
        return true;
@@ -292,7 +319,7 @@ const handleSubmit = (e) => {
     if(msg.message.length == 0) return;
     socket.emit("sendMessage", { msg }, {room: getChannelId(location) });
     setChats([...chats, msg]);
-    setMsg({...msg,
+    setDisplayMessage({...msg,
       message: "",
       senderName: "",
       senderEmail: "",
@@ -305,8 +332,17 @@ const handleSubmit = (e) => {
 }
 
 const handleChange = (e) => {
+    setDisplayMessage({...msg,
+      message: e,
+      senderPicture: headshot_url,
+      senderName: first_name + " " + last_name,
+      senderId: id,
+      senderEmail: email,
+      channelId: getChannelId(location),
+      timestamp: new Date(),
+      readBy: [] });
     socket.emit("typing", { first_name,last_name, email, senderId:id}, {room:getChannelId(location)})
-    setMsg({...msg, message: e, senderPicture: headshot_url, senderName: first_name + " " + last_name, senderId: id, senderEmail: email, channelId: getChannelId(location), timestamp: new Date(), readBy: [] });
+
 }
 
 
@@ -449,7 +485,7 @@ const chatsList = chats.map((item, i) => {
                      <Grid container justify="center">
                            <Grid item sm={11} md={11} xs={12}>
                            <ReactQuill
-                             value={msg.message}
+                             value={displayMessage.message}
                              theme="snow"
                              modules={modules}
                              onChange={handleChange} />
