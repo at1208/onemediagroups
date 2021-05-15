@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { create, list, filter_category } = require('../controllers/category_controller');
+const { create, list, filter_category, random_blog_categories } = require('../controllers/category_controller');
 const { requireSignin,
         authMiddleware } = require('../controllers/employee_controller');
 // validators
@@ -20,5 +20,7 @@ router.post('/filter/category',
         authMiddleware,
         filter_category);
 router.get('/categories', list);
+router.get('/categories/:domainId', random_blog_categories);
+
 
 module.exports = router;

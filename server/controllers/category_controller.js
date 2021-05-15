@@ -1,7 +1,7 @@
 const Category = require('../models/category_model');
 const slugify = require('slugify');
 const { errorHandler } = require("../utils/dbErrorHandler");
-
+const mongoose = require("mongoose")
 
 exports.create = async (req, res) => {
     const { name, domain } = req.body;
@@ -71,4 +71,21 @@ if (payload.category) query._id = {$in : payload.category};
       console.log("result", result)
       res.json(result)
     })
+}
+
+module.exports.random_blog_categories = (req, res) => {
+  let { domainId } = req.params;
+  let _id = mongoose.Types.ObjectId(domainId);
+   Category.aggregate([
+   {$match: {domain: {$in: [_id]} }},
+   {$sample: {size: 3}}
+  ])
+  .exec((err, result) => {
+    if(err){
+    res.status(400).json({
+      error: err
+    })
+    }
+    res.json(result)
+  })
 }
