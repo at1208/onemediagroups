@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
    backgroundColor:"rgb(247, 249, 252)",
    overflowY: 'scroll',
    // minHeight:"60vh",
-   maxHeight:"70vh"
+   maxHeight:"65vh"
  },
 time:{
   fontSize:"10px",
@@ -71,7 +71,7 @@ button:{
   margin:"7px",
   [theme.breakpoints.down('xs')]: {
       padding:"0px",
-  marginTop:"20px"
+      marginTop:"3px"
   },
   // backgroundColor:"#3f51b5",
   // width:"100%",
@@ -442,20 +442,24 @@ const chatsList = chats.map((item, i) => {
                   <Card className={classes.messageRoot}>
                     {!matches && <Typography variant="body2" align="center" className={classes.channelNameMb}>#{channel}</Typography>}
                      <Grid container justify="center">
-                           <Grid item sm={11} md={11} xs={11}>
+                           <Grid item sm={11} md={11} xs={12}>
                            <ReactQuill
                              value={msg.message}
                              theme="snow"
                              modules={modules}
                              onChange={handleChange} />
                            </Grid>
-                           <Grid item sm={1} md={1} xs={1}>
-                              <IconButton
-                                size="small"
-                                className={classes.button}
-                                type="submit">
-                                <Send />
-                              </IconButton>
+                           <Grid item sm={1} md={1} xs={12}>
+                             <Grid container justify="center">
+                               <Grid item>
+                                 <IconButton
+                                   size="small"
+                                   className={classes.button}
+                                   type="submit">
+                                   {!matches && <font>Send</font>} <Send />
+                                 </IconButton>
+                               </Grid>
+                             </Grid>
                            </Grid>
                    </Grid>
                   </Card>
