@@ -69,7 +69,7 @@ const DashboardInfo = () => {
 
  const countCard = (data) => {
    return <Box p={1}>
-            <Typography variant="h6" align="center">
+            <Typography variant="h5" align="center">
               {Object.keys(data)[0]}
             </Typography>
             <Typography variant="h4" align="center">
