@@ -7,7 +7,6 @@ module.exports.info_count = async (req, res) => {
   const blog = new Promise((resolve, reject) => {
       Blog.find()
       .sort({ createdAt: -1 })
-      .limit(5)
       .populate("domain", "name")
       .populate("postedBy", "full_name headshot_url")
       .select("domain postedBy status approval")
@@ -15,7 +14,7 @@ module.exports.info_count = async (req, res) => {
         if(err){
            reject(err)
         }
-        resolve({ Blogs: result.length, data:result })
+        resolve({ Blogs: result.length, data:result.slice(0,6) })
       })
   })
 
@@ -23,7 +22,6 @@ module.exports.info_count = async (req, res) => {
  const tasks = new Promise((resolve, reject) => {
     Task.find()
     .sort({ createdAt: -1 })
-    .limit(5)
     .populate("project_id", "name")
     .populate("assignee", "full_name headshot_url")
     .populate("follower", "full_name headshot_url")
@@ -32,28 +30,26 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Tasks: result.length, data:result })
+      resolve({ Tasks: result.length, data:result.slice(0,6) })
     })
  })
 
  const blogUsers = new Promise((resolve, reject) => {
     BlogUser.find()
     .sort({ createdAt: -1 })
-    .limit(5)
     .populate("domain", "name")
     .select("name picture domain")
     .exec((err, result) => {
       if(err){
          reject(err)
       }
-      resolve({ Users: result.length, data:result })
+      resolve({ Users: result.length, data:result.slice(0,6) })
     })
  })
 
  const projects = new Promise((resolve, reject) => {
     Project.find()
      .sort({ createdAt: -1 })
-     .limit(5)
      .populate("domain", "name")
      .populate("team_leader", "full_name headshot_url")
      .select("name domain team_leader")
@@ -61,7 +57,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Projects: result.length, data:result })
+      resolve({ Projects: result.length, data:result.slice(0,6) })
     })
  })
 
