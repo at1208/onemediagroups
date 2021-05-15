@@ -22,8 +22,16 @@ const blogRouter = require("./routers/blog_router");
 const domainRouter = require("./routers/domain_router");
 const bloguserRouter = require("./routers/bloguser_router");
 const uploadRouter = require("./routers/upload_file_router");
+const dashboardRouter = require("./routers/dashboard_router");
 
-app.use(cors({origin: ["http://localhost:3000", "https://bedium.vercel.app", "https://www.readifly.com","https://readifly-test-app.vercel.app"]}));
+app.use(cors(
+    {origin: [
+     "http://localhost:3000",
+     "https://bedium.vercel.app",
+     "https://www.readifly.com",
+     "https://readifly-test-app.vercel.app"
+    ]}
+  ));
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -42,6 +50,7 @@ app.use("/api", blogRouter);
 app.use("/api", domainRouter);
 app.use("/api", bloguserRouter);
 app.use("/api", uploadRouter);
+app.use("/api", dashboardRouter);
 
 mongoose
     .connect(process.env.DATABASE, {
