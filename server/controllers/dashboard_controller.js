@@ -14,7 +14,7 @@ module.exports.info_count = async (req, res) => {
         if(err){
            reject(err)
         }
-        resolve({ Blogs: result.length, data:result.slice(0,5) })
+        resolve({ Blogs: result.length, data:result.slice(0,4) })
       })
   })
 
@@ -30,7 +30,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Tasks: result.length, data:result.slice(0,5) })
+      resolve({ Tasks: result.length, data:result.slice(0,4) })
     })
  })
 
@@ -43,7 +43,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Users: result.length, data:result.slice(0,5) })
+      resolve({ Users: result.length, data:result.slice(0,4) })
     })
  })
 
@@ -57,7 +57,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Projects: result.length, data:result.slice(0,5) })
+      resolve({ Projects: result.length, data:result.slice(0,4) })
     })
  })
 

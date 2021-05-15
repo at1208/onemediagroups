@@ -19,7 +19,6 @@ const upload = multer({
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: async function (request, file, cb) {
-      console.log("1111111111",file)
       cb(null, file.originalname + await uuidv4());
     }
   })
