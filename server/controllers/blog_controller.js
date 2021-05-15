@@ -140,7 +140,6 @@ module.exports.latest_authors_list_by_domain = (req, res) => {
     Blog.find({ status: true, domain: domainId, approval:"APPROVED" })
       .populate("postedBy", "full_name headshot_url")
       .sort({ updatedAt: -1 })
-      .limit(8)
       .select("postedBy")
       .exec((err, result) => {
         if(err){
@@ -148,7 +147,16 @@ module.exports.latest_authors_list_by_domain = (req, res) => {
             error: err
           })
         }
-        res.json(result)
+       const arrayOfAuthors = [];
+       for(let author of result){
+         if(arrayOfAuthors.length < 8){
+           let check = arrayOfAuthors.filter((item) => item.postedBy._id === author.postedBy._id);
+          if(!check.length){
+             arrayOfAuthors.push(author)
+          }
+         }
+       }
+        res.json(arrayOfAuthors)
       })
 }
 
