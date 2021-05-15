@@ -9,12 +9,12 @@ module.exports.info_count = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("domain", "name")
       .populate("postedBy", "full_name headshot_url")
-      .select("domain postedBy status approval")
+      .select("domain postedBy status approval featureImg")
       .exec((err, result) => {
         if(err){
            reject(err)
         }
-        resolve({ Blogs: result.length, data:result.slice(0,6) })
+        resolve({ Blogs: result.length, data:result.slice(0,5) })
       })
   })
 
@@ -30,7 +30,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Tasks: result.length, data:result.slice(0,6) })
+      resolve({ Tasks: result.length, data:result.slice(0,5) })
     })
  })
 
@@ -43,7 +43,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Users: result.length, data:result.slice(0,6) })
+      resolve({ Users: result.length, data:result.slice(0,5) })
     })
  })
 
@@ -57,7 +57,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Projects: result.length, data:result.slice(0,6) })
+      resolve({ Projects: result.length, data:result.slice(0,5) })
     })
  })
 
