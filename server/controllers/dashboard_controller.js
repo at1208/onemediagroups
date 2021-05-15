@@ -5,42 +5,63 @@ const Project = require("../models/project_model");
 
 module.exports.info_count = async (req, res) => {
   const blog = new Promise((resolve, reject) => {
-      Blog.countDocuments()
+      Blog.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate("domain", "name")
+      .populate("postedBy", "full_name headshot_url")
+      .select("domain postedBy status approval")
       .exec((err, result) => {
         if(err){
            reject(err)
         }
-        resolve({ Blogs: result })
+        resolve({ Blogs: result.length, data:result })
       })
   })
 
+
  const tasks = new Promise((resolve, reject) => {
-    Task.countDocuments()
+    Task.find()
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .populate("project_id", "name")
+    .populate("assignee", "full_name headshot_url")
+    .populate("follower", "full_name headshot_url")
+    .select("status assignee follower project_id")
     .exec((err, result) => {
       if(err){
          reject(err)
       }
-      resolve({ Tasks: result })
+      resolve({ Tasks: result.length, data:result })
     })
  })
 
  const blogUsers = new Promise((resolve, reject) => {
-    BlogUser.countDocuments()
+    BlogUser.find()
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .populate("domain", "name")
+    .select("name picture domain")
     .exec((err, result) => {
       if(err){
          reject(err)
       }
-      resolve({ Users: result })
+      resolve({ Users: result.length, data:result })
     })
  })
 
  const projects = new Promise((resolve, reject) => {
-    Project.countDocuments()
-    .exec((err, result) => {
+    Project.find()
+     .sort({ createdAt: -1 })
+     .limit(5)
+     .populate("domain", "name")
+     .populate("team_leader", "full_name headshot_url")
+     .select("name domain team_leader")
+     .exec((err, result) => {
       if(err){
          reject(err)
       }
-      resolve({ Projects: result })
+      resolve({ Projects: result.length, data:result })
     })
  })
 

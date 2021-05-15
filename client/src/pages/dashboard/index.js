@@ -7,8 +7,7 @@ const Dashboard = () => {
   return <>
           <DashboardLayout>
              <DashboardInfo />
-
-
+             
           </DashboardLayout>
          </>
 }

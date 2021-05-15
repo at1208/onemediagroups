@@ -17,6 +17,7 @@ const DashboardInfo = () => {
    getDashboardInfo()
      .then((value) => {
        setInfo(value)
+       console.log(value)
      })
      .catch((err) => {
        console.log(err)
