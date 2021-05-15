@@ -131,7 +131,10 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     overflowX:"scroll",
-    padding: theme.spacing(3),
+    [theme.breakpoints.down('xs')]: {
+     padding: theme.spacing(0),
+    },
+    padding: theme.spacing(2),
   },
   icons:{
     fontSize:"30px"

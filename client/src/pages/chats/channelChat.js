@@ -2,7 +2,9 @@ import React, { useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
-import { Grid, Card, TextField, Button, Typography, Divider,  Avatar, Badge  } from '@material-ui/core';
+import { Grid, IconButton, Card, TextField, Button, Typography, Divider,  Avatar, Badge  } from '@material-ui/core';
+import { Send } from 'react-feather';
+
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -31,6 +33,10 @@ const headshot_url = isAuth() && isAuth().headshot_url
 
 
 const useStyles = makeStyles((theme) => ({
+    messageRoot:{
+      paddingLeft:"3px",
+      paddingRight:"3px"
+    },
    cardRoot:{
      width:"100%",
      padding:"30px 10px 30px 10px",
@@ -41,27 +47,32 @@ const useStyles = makeStyles((theme) => ({
      color:"#76ff03"
    },
    chatDisplay:{
-   padding:"10px 10px 10px 10px",
-      backgroundColor:"rgb(107 116 162 / 4%)",
+   padding:"0px 0px 0px 0px",
+   backgroundColor:"rgb(247, 249, 252)",
    overflowY: 'scroll',
-   minHeight:"60vh",
-   maxHeight:"60vh"
+   // minHeight:"60vh",
+   maxHeight:"70vh"
  },
 time:{
   fontSize:"10px",
   color:"grey"
 },
 button:{
-  textTransform: "none",
-  backgroundColor:"#3f51b5",
-  width:"100%",
-  fontWeight:800,
-  height:"40px",
-  color:"white",
-  fontSize:"15px",
-  '&:hover': {
-            backgroundColor:"#3f51b5"
-      },
+  padding:"12px",
+  margin:"7px",
+  [theme.breakpoints.down('xs')]: {
+      padding:"0px",
+  marginTop:"20px"
+  },
+  // backgroundColor:"#3f51b5",
+  // width:"100%",
+  // fontWeight:800,
+  // height:"40px",
+  // color:"white",
+  // fontSize:"15px",
+  // '&:hover': {
+  //           backgroundColor:"#3f51b5"
+  //     },
 },
  channelName:{
    color:"black",
@@ -89,24 +100,24 @@ button:{
    backgroundColor: "white"
  },
  sendmsg:{
-   [theme.breakpoints.down("xs")]:{
-      position:"fixed",
-      bottom:"0%",
-      left:"0%",
-      right:"0%",
-   },
-   [theme.breakpoints.up("sm")]:{
-      position:"fixed",
-      bottom:"0%",
-      left:"15%",
-      right:"4%",
-   },
-   [theme.breakpoints.up("md")]:{
-      position:"fixed",
-      bottom:"4%",
-      left:"18%",
-      right:"25%",
-   },
+   // [theme.breakpoints.down("xs")]:{
+   //    position:"fixed",
+   //    bottom:"0%",
+   //    left:"0%",
+   //    right:"0%",
+   // },
+   // [theme.breakpoints.up("sm")]:{
+   //    position:"fixed",
+   //    bottom:"0%",
+   //    left:"15%",
+   //    right:"4%",
+   // },
+   // [theme.breakpoints.up("md")]:{
+   //    position:"fixed",
+   //    bottom:"4%",
+   //    left:"18%",
+   //    right:"25%",
+   // },
    zIndex:1,
    backgroundColor:"white",
    padding:"10px"
@@ -118,6 +129,9 @@ button:{
    backgroundColor:"#fffaea",
    padding:"10px",
    margin:"10px",
+ },
+ channelNameMb:{
+   color:"grey"
  }
 }));
 
@@ -385,11 +399,15 @@ const chatsList = chats.map((item, i) => {
     const modules = useMemo(() => ({
       toolbar: {
           container: [
-              [{ header: [1, 2, 3,4, 5, 6] }],
-              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-              [{ list: 'ordered' }, { list: 'bullet' }],
-              ['link', 'image'],
-              ['code-block']
+              [{ header: [1, 2] }],
+              ['bold',
+               'italic',
+               'underline',
+               // 'strike',
+               // 'blockquote'
+             ],
+              // [{ list: 'ordered' }, { list: 'bullet' }],
+              ['link', 'image']
           ],
           handlers: {
               image: imageHandler
@@ -402,10 +420,8 @@ const chatsList = chats.map((item, i) => {
   return <>
            <DashboardLayout>
            <Offline status={connected} />
-           <Grid container justify="center" spacing={6}>
+           <Grid container justify="center" spacing={0}>
              <Grid item sm={12} md={8} lg={9} xs={12}>
-                <Typography variant="h5" align="center" className={classes.channelName}><b>#{channel}</b></Typography>
-
                 <Card className={classes.chatDisplay}>
                 {chatsList}
                 <div ref={(el) => messageContainer = el}>
@@ -414,31 +430,30 @@ const chatsList = chats.map((item, i) => {
                 <Typography variant="body2" align="center">{typing.status && typing.msg}</Typography>
                 <br /> <br />
                 <form onSubmit={handleSubmit}>
+                  <Card className={classes.messageRoot}>
+                    {!matches && <Typography variant="body2" align="center" className={classes.channelNameMb}>#{channel}</Typography>}
                      <Grid container justify="center">
-                       <Grid item sm={12} md={12} xs={12}>
-                         <Card className={classes.sendmsg} >
-                           <Grid item sm={12} md={12} sm={12}>
-
+                           <Grid item sm={11} md={11} xs={11}>
                            <ReactQuill
                              value={msg.message}
+                             theme="snow"
                              modules={modules}
                              onChange={handleChange} />
-
                            </Grid>
-                           <Grid item sm={12} md={12} xs={12}>
-                              <Button
+                           <Grid item sm={1} md={1} xs={1}>
+                              <IconButton
                                 size="small"
                                 className={classes.button}
                                 type="submit">
-                                Send
-                              </Button>
+                                <Send />
+                              </IconButton>
                            </Grid>
-                         </Card>
-                       </Grid>
                    </Grid>
+                  </Card>
                 </form>
              </Grid>
              {matches && <Grid item xs={12} md={3} sm={12} lg={3}>
+             <Typography variant="h6" align="center" className={classes.channelName}><b>#{channel}</b></Typography>
                             <Card className={classes.cardRoot}>
                                <CreateChannelForm pageReload={(status) => setReload(status)}/>
                                <br />
