@@ -43,6 +43,10 @@ img{
 } */
 .ql-toolbar.ql-snow{
   padding:0px;
+  background-color: white;
+}
+.ql-editor{
+  background-color: white;
 }
 a{
   color:transparent;

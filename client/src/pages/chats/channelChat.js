@@ -60,7 +60,12 @@ const useStyles = makeStyles((theme) => ({
    backgroundColor:"rgb(247, 249, 252)",
    overflowY: 'scroll',
    // minHeight:"60vh",
-   maxHeight:"65vh"
+   [theme.breakpoints.down('xs')]: {
+       padding:"0px",
+       marginTop:"3px",
+       maxHeight:"62vh"
+   },
+   maxHeight:"70vh"
  },
 time:{
   fontSize:"10px",
@@ -438,8 +443,8 @@ const chatsList = chats.map((item, i) => {
                 </Card>
                 <Typography variant="body2" align="center">{typing.status && typing.msg}</Typography>
                 <br /> <br />
-                <form onSubmit={handleSubmit}>
-                  <Card className={classes.messageRoot}>
+                <form onSubmit={handleSubmit} className={classes.messageRoot}>
+
                     {!matches && <Typography variant="body2" align="center" className={classes.channelNameMb}>#{channel}</Typography>}
                      <Grid container justify="center">
                            <Grid item sm={11} md={11} xs={12}>
@@ -462,7 +467,7 @@ const chatsList = chats.map((item, i) => {
                              </Grid>
                            </Grid>
                    </Grid>
-                  </Card>
+
                 </form>
              </Grid>
              {matches && <Grid item xs={12} md={3} sm={12} lg={3}>
