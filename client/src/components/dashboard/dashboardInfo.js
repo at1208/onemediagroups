@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
   },
   link:{
     color:"grey"
+  },
+  link2:{
+    color:"grey"
   }
 }));
 
@@ -216,8 +219,8 @@ const DashboardInfo = () => {
                            </Box>
                            <Box className={classes.box}>
                              <Typography variant="p">Domain : </Typography>
-                             <Typography variant="p" onClick={() => {window.location.replace=project.domain.url}}>
-                               <a className={classes.link}>
+                             <Typography variant="p">
+                               <a className={classes.link2}>
                                {project.domain.url}
                                </a>
                              </Typography>
