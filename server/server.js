@@ -27,6 +27,7 @@ const dashboardRouter = require("./routers/dashboard_router");
 app.use(cors(
     {origin: [
      "http://localhost:3000",
+     "https://amanread.netlify.app",
      "https://bedium.vercel.app",
      "https://www.readifly.com",
      "https://readifly-test-app.vercel.app"
