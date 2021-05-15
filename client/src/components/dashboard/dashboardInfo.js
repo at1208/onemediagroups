@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Card,Button, Typography, Box, Avatar, Chip} from '@material-ui/core';
 import { getDashboardInfo } from '../../actions/dashboard'
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   cardRoot:{
@@ -18,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
      background: "rgb(76, 175, 80)",
      color:"rgb(255, 255, 255)",
    },
+  },
+  box:{
+    paddingBottom:"3px"
   },
   button:{
   textTransform:"none"
@@ -40,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
      color:"rgb(255, 255, 255)",
    },
   },
+  link:{
+    color:"grey"
+  }
 }));
 
 const DashboardInfo = () => {
@@ -81,9 +88,14 @@ const DashboardInfo = () => {
                            <img src={user.picture} />
                         </Grid>
                         <Grid item sm={9} xs={9}>
-                          <label>Name: </label>{user.name}
-                          <br />
-                          <label>Domain: </label>{user.domain.name}
+                          <Box>
+                            <Typography variant="p">Name : </Typography>
+                            <Typography variant="p">{user.name}</Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant="p">Domain : </Typography>
+                            <Typography variant="p">{user.domain.name}</Typography>
+                          </Box>
                         </Grid>
                       </Grid>
                      </Card>
@@ -97,7 +109,6 @@ const DashboardInfo = () => {
 
  const showBlogs = (data) => {
   const count = countCard(data);
-
    return <>
            <Grid item sm={5} xs={12} md={3}>
              <Card className={classes.cardRoot}>
@@ -111,28 +122,31 @@ const DashboardInfo = () => {
                            <img  alt="Feature Image" src={blog.featureImg} />
                          </Grid>
                          <Grid item sm={9} xs={9}>
-                            <Box mb={1}>
+                            <Box className={classes.box}>
                             <Typography variant="p">Posted By : </Typography>
                             <Typography variant="p">{blog.postedBy.full_name}</Typography>
                            </Box>
-                             <Box mb={1}>
+                             <Box className={classes.box}>
                             <Typography variant="p">Domain : </Typography>
                             <Typography variant="p"> {blog.domain.name}</Typography>
                            </Box>
-                             <Box mb={1}>
+                             <Box className={classes.box}>
                             <Typography variant="p">Approval : </Typography>
                             <Chip className={chipcolor} label={blog.approval.toLowerCase()} size="small"/>
                            </Box>
-                             <Box mb={1}>
-                            <Typography variant="p">Live status : </Typography>
-                            <Chip className={chipstatus} label={blog.status?"active":"inactive"} size="small"/>
-                           </Box>
+
                          </Grid>
                        </Grid>
                       </Card>
              })}
              <hr />
-             <Typography variant="body2" align="center">Show more</Typography>
+             <Typography variant="body2" align="center">
+               <Link to="/content/blogs">
+                 <a className={classes.link}>
+                  Show more
+                 </a>
+               </Link>
+             </Typography>
             </Card>
            </Grid>
          </>
@@ -141,25 +155,91 @@ const DashboardInfo = () => {
  const showTasks = (data) => {
   const count = countCard(data);
    return <>
-          <Grid item sm={5} xs={12} md={3}>
-            <Card className={classes.cardRoot}>
-              {count}
-            </Card>
-          </Grid>
+         <Grid item sm={5} xs={12} md={3}>
+           <Card className={classes.cardRoot}>
+           {count}
+           {data.data.map((task, i) => {
+             const taskchip = task.status ==="Open"?classes.waiting:task.status ==="Done"?classes.approved:task.status === "Closed"?classes.notApproved:""
+             return <Card className={classes.userRoot}>
+                     <Grid container spacing={2}>
+                       <Grid item>
+                         <Box className={classes.box}>
+                           <Typography variant="p">Assignee : </Typography>
+                           <Typography variant="p">{task.assignee.full_name}</Typography>
+                         </Box>
+                         <Box className={classes.box}>
+                           <Typography variant="p">Reporter : </Typography>
+                           <Typography variant="p">{task.follower.full_name}</Typography>
+                         </Box>
+                         <Box className={classes.box}>
+                           <Typography variant="p">Status : </Typography>
+                           <Chip className={taskchip} label={task.status} size="small"/>
+                         </Box>
+                         <Box className={classes.box}>
+                           <Typography variant="p">Project : </Typography>
+                           <Typography variant="p">{task.project_id.name}</Typography>
+                         </Box>
+                       </Grid>
+                     </Grid>
+                    </Card>
+           })}
+           <hr />
+           <Typography variant="body2" align="center">
+             <Link to="/tasks">
+               <a className={classes.link}>
+                Show more
+               </a>
+             </Link>
+           </Typography>
+          </Card>
+         </Grid>
          </>
  }
 
  const showProjects = (data) => {
   const count = countCard(data);
    return <>
-          <Grid item sm={5} xs={12} md={3}>
-            <Card className={classes.cardRoot}>
-              {count}
+           <Grid item sm={5} xs={12} md={3}>
+             <Card className={classes.cardRoot}>
+             {count}
+             {data.data.map((project, i) => {
+               return <Card className={classes.userRoot}>
+                       <Grid container spacing={2}>
+                         <Grid item>
+                           <Box className={classes.box}>
+                             <Typography variant="p">Project Name : </Typography>
+                             <Typography variant="p">{project.name}</Typography>
+                           </Box>
+                           <Box className={classes.box}>
+                             <Typography variant="p">Team Lead : </Typography>
+                             <Typography variant="p">{project.team_leader.full_name}</Typography>
+                           </Box>
+                           <Box className={classes.box}>
+                             <Typography variant="p">Domain : </Typography>
+                             <Typography variant="p" onClick={() => {window.location.replace=project.domain.url}}>
+                               <a className={classes.link}>
+                               {project.domain.url}
+                               </a>
+                             </Typography>
+                           </Box>
+                         </Grid>
+                       </Grid>
+                      </Card>
+             })}
+             <hr />
+             <Typography variant="body2" align="center">
+               <Link to="/projects">
+                 <a className={classes.link}>
+                  Show more
+                 </a>
+               </Link>
+             </Typography>
             </Card>
-          </Grid>
+           </Grid>
          </>
  }
 
+if(info.length){
   return <>
            <Grid container justify="center" spacing={2}>
            {info.map((item, i) => {
@@ -179,6 +259,9 @@ const DashboardInfo = () => {
            })}
           </Grid>
          </>
+}else{
+  return <></>
+ }
 }
 
 export default DashboardInfo;

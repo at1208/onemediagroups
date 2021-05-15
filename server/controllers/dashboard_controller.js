@@ -30,7 +30,7 @@ module.exports.info_count = async (req, res) => {
       if(err){
          reject(err)
       }
-      resolve({ Tasks: result.length, data:result.slice(0,4) })
+      resolve({ Tasks: result.length, data:result.slice(0,3) })
     })
  })
 
@@ -50,7 +50,7 @@ module.exports.info_count = async (req, res) => {
  const projects = new Promise((resolve, reject) => {
     Project.find()
      .sort({ createdAt: -1 })
-     .populate("domain", "name")
+     .populate("domain", "name url")
      .populate("team_leader", "full_name headshot_url")
      .select("name domain team_leader")
      .exec((err, result) => {
