@@ -34,6 +34,15 @@ const headshot_url = isAuth() && isAuth().headshot_url
 
 const useStyles = makeStyles((theme) => ({
     messageRoot:{
+      [theme.breakpoints.down('xs')]: {
+       position:"fixed",
+       bottom:"0px",
+       left:"0px",
+       right:"0px",
+       paddingLeft:"5px",
+       paddingRight:"5px",
+       paddingBottom:"5px"
+      },
       paddingLeft:"3px",
       paddingRight:"3px"
     },
