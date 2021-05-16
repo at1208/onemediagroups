@@ -204,7 +204,7 @@ module.exports.related_blogs_by_domain = (req, res) => {
       .sort({ createdAt: -1 })
       .populate('postedBy', '_id full_name')
       .populate('categories', 'name slug')
-      .select('title slug excerpt postedBy createdAt updatedAt featureImg')
+      .select('title slug excerpt postedBy createdAt updatedAt featureImg body')
       .exec((err, blogs) => {
           if (err) {
               return res.status(400).json({
