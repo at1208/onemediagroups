@@ -193,4 +193,55 @@ module.exports.blog_review_update = (req, res) => {
      })
 }
 
- 
+
+module.exports.related_blogs_by_domain = (req, res) => {
+  let limit = req.body.limit ? parseInt(req.body.limit) : 6;
+
+//   const blog = {
+//     "categories": [
+//         {
+//             "_id": "608e7b2175fd482f88c02778",
+//             "name": "electrical",
+//             "slug": "electrical"
+//         }
+//     ],
+//     "status": true,
+//     "approval": "APPROVED",
+//     "views_count": 0,
+//     "_id": "608eb2f04de24249ffb8a4ea",
+//     "title": "Tips To Crack Logical Reasoning Puzzle Questions1130",
+//     "body": "<p><span style=\"color: rgb(0, 0, 0);\">The only section in the competitive examination that evaluates the candidates’ critical thinking ability is the logical reasoning questions. Its questions are based on image reflections, patterns, number sequences, and shapes. Here, candidates have to pick the correct solution and leave out the irrelevant data while solving Logical Reasoning questions. These types of queries are mostly asked in competitive exams like banking, SSC, and many others.The only section in the competitive examination that evaluates the candidates’ critical thinking ability is the logical reasoning questions. Its questions are based on image reflections, patterns, number sequences, and shapes. Here, candidates have to pick the correct solution and leave out the irrelevant data while solving Logical Reasoning questions. These types of queries are mostly asked in competitive exams like banking, SSC, and many others.The only section in the competitive examination that evaluates the candidates’ critical thinking ability is the logical reasoning questions. Its questions are based on image reflections, patterns, number sequences, and shapes. Here, candidates have to pick the correct solution and leave out the irrelevant data while solving Logical Reasoning questions. These types of queries are mostly asked in competitive exams like banking, SSC, and many others.</span><img src=\"https://stagingtest.sfo3.digitaloceanspaces.com/hi-yatri-logo-png-.png9840b02b-7c7f-4f98-8fa9-90beabd77396\"></p>",
+//     "excerpt": "<p><span style=\"color: rgb(0, 0, 0);\">The only section in the competitive examination that evaluates the candidates’ critical thinking ability is the logical ...",
+//     "slug": "tips-to-crack-logical-reasoning-puzzle-questions1130",
+//     "mtitle": "Tips To Crack Logical Reasoning Puzzle Questions1130 | undefined",
+//     "mdesc": "The only section in the competitive examination that evaluates the candidates’ critical thinking ability is the logical re",
+//     "featureImg": "https://stagingtest.sfo3.digitaloceanspaces.com/aman_Original.jpg9bdbb668-27f3-470a-8da3-d9f9bd554b78",
+//     "domain": "608e7b0d75fd482f88c02777",
+//     "postedBy": {
+//         "full_name": "Admin Buddy",
+//         "headshot_url": "https://stagingtest.sfo3.digitaloceanspaces.com/aman_Original.jpg9bdbb668-27f3-470a-8da3-d9f9bd554b78",
+//         "_id": "608d3ab713d8a008f953b9b4"
+//     },
+//     "createdAt": "2021-05-02T14:10:56.993Z",
+//     "updatedAt": "2021-05-02T14:10:56.993Z",
+//     "__v": 0
+// }
+  // const { _id, categories } = blog;
+  const { _id, categories } = req.body.blog;
+  const { domainId } = req.params;
+
+  Blog.find({ _id: { $ne: _id }, domain: { $eq: domainId }, categories: { $in: categories } })
+      .limit(limit)
+      .sort({ createdAt: -1 })
+      .populate('postedBy', '_id full_name')
+      .populate('categories', 'name slug')
+      .select('title slug excerpt postedBy createdAt updatedAt')
+      .exec((err, blogs) => {
+          if (err) {
+              return res.status(400).json({
+                  error: 'Blogs not found'
+              });
+          }
+          res.json(blogs);
+      });
+}

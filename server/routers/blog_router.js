@@ -7,6 +7,7 @@ const { create,
         blog_list_by_domain,
         latest_authors_list_by_domain,
         blog_review_update,
+        related_blogs_by_domain,
         trending_blogs_by_domain } = require('../controllers/blog_controller');
 
 // validators
@@ -23,5 +24,5 @@ router.get("/blog/:slug", read_blog);
 router.post("/blog/list/:domainId", blog_list_by_domain);
 router.get("/author/list/:domainId", latest_authors_list_by_domain);
 router.get("/blog/trending/list/:domainId", trending_blogs_by_domain);
-
+router.post("/blog/related/list/:domainId", related_blogs_by_domain);
 module.exports = router;
