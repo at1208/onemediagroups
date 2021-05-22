@@ -230,3 +230,32 @@ module.exports.blog_list_for_sitemap = (req, res) => {
           res.json(blogs);
       });
 }
+
+
+module.exports.blog_list_by_category = (req, res) => {
+  const { category } = req.body;
+  const { domainId } = req.params;
+
+  Category.findOne({ slug: category, domain: domainId })
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+
+      Blog.find({ domain: { $eq: domainId }, categories: { $in: result._id } })
+          .sort({ createdAt: -1 })
+          .populate('postedBy', '_id full_name')
+          .populate('categories', 'name slug')
+          .select('title slug excerpt postedBy createdAt updatedAt featureImg body')
+          .exec((err, blogs) => {
+              if (err) {
+                  return res.status(400).json({
+                      error: 'Blogs not found'
+                  });
+              }
+              res.json(blogs);
+          });
+    })
+}
