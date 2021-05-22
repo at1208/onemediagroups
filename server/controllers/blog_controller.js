@@ -214,3 +214,19 @@ module.exports.related_blogs_by_domain = (req, res) => {
           res.json(blogs);
       });
 }
+
+
+module.exports.blog_list_for_sitemap = (req, res) => {
+  const { domainId } = req.params;
+
+  Blog.find({ domain: domainId })
+      .select('slug')
+      .exec((err, blogs) => {
+          if (err) {
+              return res.status(400).json({
+                  error: 'Blogs not found'
+              });
+          }
+          res.json(blogs);
+      });
+}
