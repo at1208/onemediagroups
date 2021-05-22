@@ -220,7 +220,7 @@ module.exports.blog_list_for_sitemap = (req, res) => {
   const { domainId } = req.params;
 
   Blog.find({ domain: domainId })
-      .select('slug')
+      .select('slug updatedAt createdAt')
       .exec((err, blogs) => {
           if (err) {
               return res.status(400).json({
