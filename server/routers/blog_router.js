@@ -24,7 +24,7 @@ router.post('/blog/filter', requireSignin, authMiddleware, filter_blog);
 router.get('/blog/single/:id', requireSignin, authMiddleware, single_blog);
 router.get("/blog/:slug", read_blog);
 router.post("/blog/list/:domainId", blog_list_by_domain);
-router.get("/blog/list/category/:domainId", blog_list_by_category);
+router.post("/blog/list/category/:domainId", blog_list_by_category);
 router.get("/blog/list/sitemap/:domainId", blog_list_for_sitemap);
 router.get("/author/list/:domainId", latest_authors_list_by_domain);
 router.get("/blog/trending/list/:domainId", trending_blogs_by_domain);
