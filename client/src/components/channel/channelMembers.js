@@ -6,9 +6,8 @@ import {
          Avatar,
          Dialog,
          DialogContent } from '@material-ui/core';
-import { isAuth } from '../../actions/auth';
 import styled from "styled-components/macro";
-const id = isAuth() && isAuth()._id;
+
 
 
 const useStyles = makeStyles((theme) => ({

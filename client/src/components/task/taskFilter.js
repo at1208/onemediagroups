@@ -81,24 +81,24 @@ const TaskFilter = ({ tasks }) => {
  const handleChange = (name) => (e) => {
         switch (name) {
           case "project":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, project_id: ""})
              }
             break;
           case "assignee":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, assignee: ""})
              }
             break;
 
           case "follower":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, follower: ""})
              }
             break;
 
           case "owner":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, owner: ""})
              }
             break;

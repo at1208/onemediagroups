@@ -80,12 +80,12 @@ const BlogFilter = ({ blogs }) => {
  const handleChange = (name) => (e) => {
         switch (name) {
           case "PostedBy":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, postedBy: ""})
              }
             break;
           case "Domain":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, domain: ""})
              }
             break;

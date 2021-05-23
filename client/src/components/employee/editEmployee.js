@@ -72,7 +72,6 @@ closeButton: {
 
 const EditEmployee = ({ editEmployee }) => {
   const [open, setOpen] = React.useState(false);
-  const [openForm, setOpenForm] = React.useState(false);
   const token = getCookie("token")
   const classes = useStyles();
 

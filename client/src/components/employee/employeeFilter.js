@@ -93,18 +93,18 @@ const EmployeeFilter = ({ filterEmployeeList }) => {
  const handleChange = (name) => (e) => {
         switch (name) {
           case "full_name":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, full_name: ""})
              }
             break;
           case "department":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, department: ""})
              }
             break;
 
           case "designation":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, designation: ""})
              }
             break;

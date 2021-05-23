@@ -52,8 +52,8 @@ const Contact = () => {
                 size="medium"
                 color="primary"
                 fullWidth
-                onClick={() => query.role == "EMPLOYEE" ? setQuery({ role: ""}) : setQuery({ role: "EMPLOYEE"})}
-                className={query.role == "EMPLOYEE" ?classes.selected:classes.button}>Employees</Button>
+                onClick={() => query.role === "EMPLOYEE" ? setQuery({ role: ""}) : setQuery({ role: "EMPLOYEE"})}
+                className={query.role === "EMPLOYEE" ?classes.selected:classes.button}>Employees</Button>
             </Grid>
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <Button
@@ -61,8 +61,8 @@ const Contact = () => {
                 size="medium"
                 color="primary"
                 fullWidth
-                onClick={() => query.role == "INTERN" ? setQuery({ role: ""}) : setQuery({ role: "INTERN"})}
-                className={query.role == "INTERN" ?classes.selected:classes.button}>Interns</Button>
+                onClick={() => query.role === "INTERN" ? setQuery({ role: ""}) : setQuery({ role: "INTERN"})}
+                className={query.role === "INTERN" ?classes.selected:classes.button}>Interns</Button>
             </Grid>
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <Button
@@ -70,8 +70,8 @@ const Contact = () => {
                 color="primary"
                 size="medium"
                 fullWidth
-                onClick={() => query.role == "CONTRACTOR" ? setQuery({ role: ""}) : setQuery({ role: "CONTRACTOR"})}
-                className={query.role == "CONTRACTOR" ?classes.selected:classes.button}>Freelancers</Button>
+                onClick={() => query.role === "CONTRACTOR" ? setQuery({ role: ""}) : setQuery({ role: "CONTRACTOR"})}
+                className={query.role === "CONTRACTOR" ?classes.selected:classes.button}>Freelancers</Button>
             </Grid>
           </Grid>
           <br />

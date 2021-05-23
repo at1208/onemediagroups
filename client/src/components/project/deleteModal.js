@@ -18,7 +18,7 @@ export default function DeleteModal({ id }) {
   };
 
   const handleClose = name => e => {
-    if(name == "delete"){
+    if(name === "delete"){
       return (
         deleteProject(id, token)
           .then(response => {
@@ -32,7 +32,7 @@ export default function DeleteModal({ id }) {
           })
       )
     }
-   if(name == "cancel"){
+   if(name === "cancel"){
        setOpen(false);
    }
   };

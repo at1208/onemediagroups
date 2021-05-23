@@ -7,10 +7,9 @@ import { Button,
          DialogContent } from '@material-ui/core';
 import { createDesignation } from '../../actions/designation'
 import { getCookie } from '../../actions/auth';
-import { isAuth } from '../../actions/auth';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-const id = isAuth() && isAuth()._id;
+
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot:{

@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Drawer, Badge, Typography } from '@material-ui/core/';
+import { Drawer, Typography } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,9 +17,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Divider, Collapse, Grid } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import PerfectScrollbar from "react-perfect-scrollbar";
 import "../../vendor/perfect-scrollbar.css";
-import styled from "styled-components/macro";
+
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import UserDropdown from './userDropdown';
 import { Sliders,Globe, Hash, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home, BookOpen } from 'react-feather';
@@ -27,27 +26,6 @@ import { isAuth } from '../../actions/auth';
 
 const drawerWidth = 240;
 
-const Scrollbar = styled(PerfectScrollbar)`
-  /* background-color: 'blue'; */
-  /* border-right: 1px solid rgba(0, 0, 0, 0.12); */
-`;
-
-const SidebarFooterBadge = styled(Badge)`
-  margin-right: "10px";
-  span {
-    background-color: "blue";
-    border: 1.5px solid "black";
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-  }
-`;
-
-const SidebarFooter = styled.div`
-  background-color: "blue" !important;
-  padding:"10px";
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -169,14 +147,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const capitalizeFirstCharacter = (name) => {
-  let words = name.split(' ');
-  return words
-    .map((word) => {
-      return word[0].toUpperCase() + word.substring(1);
-    })
-    .join(' ');
-};
 
 
 

@@ -6,7 +6,7 @@ export function uploadFile(credentials, token) {
       .post("/upload-file", credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
-           
+
             "Authorization": `Bearer ${token}`
             }
         })

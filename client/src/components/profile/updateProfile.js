@@ -5,10 +5,10 @@ import { Button,
          DialogActions,
          DialogContent} from '@material-ui/core';
 import { getEmployee } from '../../actions/employee';
-import { isAuth, getCookie } from '../../actions/auth';
+import { getCookie } from '../../actions/auth';
 import { createChannel } from '../../actions/channel';
 import { makeStyles } from '@material-ui/core/styles';
-const id = isAuth() && isAuth()._id;
+
 
 
 const useStyles = makeStyles((theme) => ({

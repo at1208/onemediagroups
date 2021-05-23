@@ -4,11 +4,9 @@ import { taskCountByProject } from '../../actions/task';
 import { getCookie } from '../../actions/auth';
 import {
   Avatar,
-  Breadcrumbs as MuiBreadcrumbs,
   Button,
   Box,
   Card as MuiCard,
-  CardContent as MuiCardContent,
   CardMedia as MuiCardMedia,
   Chip as MuiChip,
   Divider as MuiDivider,
@@ -22,11 +20,9 @@ import { spacing } from "@material-ui/system";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
 const Card = styled(MuiCard)(spacing);
-const CardContent = styled(MuiCardContent)`
-  border-bottom: 1px solid grey;
-`;
+
 const CardMedia = styled(MuiCardMedia)`
   height: 220px;
 `;
@@ -76,7 +72,7 @@ function Project({ image,  project, edit }) {
     };
 
     const handleCloseMenu = (name)  => {
-      if(name == "edit"){
+      if(name === "edit"){
          edit(project)
       }
       setAnchorEl(null);

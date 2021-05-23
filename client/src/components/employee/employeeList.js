@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components/macro";
 import {
-  Breadcrumbs as MuiBreadcrumbs,
   Chip,
-  Divider as MuiDivider,
   Grid,
   Paper as MuiPaper,
   Table,
@@ -17,19 +15,9 @@ import {
 } from "@material-ui/core";
 import EditEmployee from './editEmployee';
 import { spacing } from "@material-ui/system";
-const Divider = styled(MuiDivider)(spacing);
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
 const Paper = styled(MuiPaper)(spacing);
 
-
-
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
-
-const ToolbarTitle = styled.div`
-  min-width: 150px;
-`;
 
 
 function descendingComparator(a, b, orderBy) {
@@ -174,19 +162,19 @@ function EnhancedTable({ employees }) {
                     >
                     <TableCell align="left">{row.employee_id}</TableCell>
                     <TableCell align="left"><Chip size="small" label={row.full_name} color="primary" /></TableCell>
-                    <TableCell align="left"><Chip size="small" label={row.department && row.department.department_name || "None"} color="primary" /></TableCell>
+                    <TableCell align="left"><Chip size="small" label={(row.department && row.department.department_name) || "None"} color="primary" /></TableCell>
                     <TableCell>
-                      {row.designation && row.designation.designation_name.toUpperCase() || "None"}
+                      {(row.designation && row.designation.designation_name.toUpperCase()) || "None"}
                     </TableCell>
                     <TableCell align="left">
                     {
-                      row.status == "INVITED" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                      row.status === "INVITED" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
                     }
                     {
-                      row.status == "LEFT" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                      row.status === "LEFT" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                     }
                     {
-                      row.status == "JOINED" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                      row.status === "JOINED" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                     }
                     </TableCell>
                     <TableCell padding="none" align="right">

@@ -63,7 +63,7 @@ const DomainFilter = ({ domains }) => {
  const handleChange = (name) => (e) => {
         switch (name) {
           case "Domain":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, name: ""})
              }
             break;

@@ -114,7 +114,6 @@ const DashboardInfo = () => {
              <Card className={classes.cardRoot}>
              {count}
              {data.data.map((blog, i) => {
-               let chipstatus = blog.status?classes.approved:classes.notApproved;
                let chipcolor = blog.approval === "APPROVED"?classes.approved:blog.approval === "NOT APPROVED"?classes.notApproved:blog.approval === "WAITING"?classes.waiting:""
                return <Card className={classes.userRoot}>
                        <Grid container spacing={2}>

@@ -19,7 +19,6 @@ import {
 } from "@material-ui/icons";
 import { getDesignations } from '../../actions/designation';
 import { getCookie } from '../../actions/auth';
-import moment from 'moment';
 
 
 const headCells = [

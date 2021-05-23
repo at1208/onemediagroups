@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { getChannelChats, readChannelChats } from '../../actions/channelchat';
 import CreateChannelForm from '../../components/channel/channelForm';
 import ChannelMembers from '../../components/channel/channelMembers';
-import { useTheme, useMediaQuery } from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import renderHTML from 'react-render-html';
 import MessageActions from '../../components/channel/action';
@@ -77,15 +77,6 @@ button:{
       padding:"0px",
       marginTop:"3px"
   },
-  // backgroundColor:"#3f51b5",
-  // width:"100%",
-  // fontWeight:800,
-  // height:"40px",
-  // color:"white",
-  // fontSize:"15px",
-  // '&:hover': {
-  //           backgroundColor:"#3f51b5"
-  //     },
 },
  channelName:{
    color:"black",
@@ -102,35 +93,13 @@ button:{
    width:"100%",
    marginLeft:"10px",
    fontFamily:"sans-serif",
-   // paddingLeft:"2%",
-   // padding:"6px 3px 6px 3px",
-   // backgroundColor:"rgb(107 116 162 / 4%)"
  },
  singleMessage:{
-  // margin:"3px 3px 3px 3px",
    padding:"10px",
    margin:"10px",
    backgroundColor: "white"
  },
  sendmsg:{
-   // [theme.breakpoints.down("xs")]:{
-   //    position:"fixed",
-   //    bottom:"0%",
-   //    left:"0%",
-   //    right:"0%",
-   // },
-   // [theme.breakpoints.up("sm")]:{
-   //    position:"fixed",
-   //    bottom:"0%",
-   //    left:"15%",
-   //    right:"4%",
-   // },
-   // [theme.breakpoints.up("md")]:{
-   //    position:"fixed",
-   //    bottom:"4%",
-   //    left:"18%",
-   //    right:"25%",
-   // },
    zIndex:1,
    backgroundColor:"white",
    padding:"10px"
@@ -153,8 +122,6 @@ const capitalizeFirstCharacter = (name) => {
     })
     .join(' ');
 };
-
-
 
 const Chats = ({ match: { params: { channel } }, match: { url }, location }) => {
   const token = getCookie("token");
@@ -286,7 +253,7 @@ React.useEffect(() => {
 
 const handleSubmit = (e) => {
     e.preventDefault();
-    if(msg.message.length == 0) return;
+    if(msg.message.length === 0) return;
     socket.emit("sendMessage", { msg }, {room: getChannelId(location) });
     setChats([...chats, msg]);
     setDisplayMessage({...msg,

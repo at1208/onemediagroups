@@ -1,6 +1,5 @@
 import axios from "../utils/axios";
-// import cookie from 'js-cookie';
-
+ 
 export function getChannelChats(channelId, credentials) {
   return new Promise((resolve, reject) => {
     axios

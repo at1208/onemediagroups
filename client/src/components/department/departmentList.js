@@ -20,8 +20,7 @@ import {
 } from "@material-ui/icons";
 import { getDepartments } from '../../actions/department';
 import { getCookie } from '../../actions/auth';
-import moment from 'moment';
-
+ 
 
 const headCells = [
     { id: "department_name", numeric: false, disablePadding: true, label: "Department Name" },

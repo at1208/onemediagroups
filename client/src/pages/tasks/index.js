@@ -1,39 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Typography, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import TaskFilter from '../../components/task/taskFilter';
 import CreateTask from '../../components/task/createTask';
 import TaskList from '../../components/task/taskList';
 
-
-const useStyles = makeStyles((theme) => ({
-   cardRoot:{
-     padding:"20px 10px 20px 10px"
-   },
-   textField:{
-     width:"100%",
-   },
-   close:{
-     position:"absolute",
-     right:'5%'
-   },
-   errorContainer:{
-     height:"35px"
-   },
-   button:{
-     textTransform: "none",
-     backgroundColor:"#3f51b5",
-     width:"100%",
-     color:"white",
-     fontWeight:800,
-     height:"40px",
-     fontSize:"15px",
-     '&:hover': {
-               backgroundColor:"#3f51b5"
-         },
-   }
-}));
 const Tasks = () => {
    const [tasks, setTasks] = useState([]);
    const [taskList, setTaskList] = useState([]);

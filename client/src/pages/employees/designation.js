@@ -1,13 +1,9 @@
 import React from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import CreateDesignation from '../../components/designation/createDesignation'
 import DesignationList from '../../components/designation/designationList'
 
-const useStyles = makeStyles((theme) => ({
-
-}));
 
 const AddDesignation = () => {
     return  <>
@@ -16,8 +12,6 @@ const AddDesignation = () => {
                  <CreateDesignation  />
               </Grid>
            </Grid>
-
-
            </>
 }
 

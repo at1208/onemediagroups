@@ -3,8 +3,6 @@ import React from "react";
 import styled from "styled-components/macro";
 
 import {
-  Breadcrumbs as MuiBreadcrumbs,
-  Divider as MuiDivider,
   Grid,
   Paper as MuiPaper,
   Table,
@@ -16,22 +14,9 @@ import {
   TableRow,
   TableSortLabel,
 } from "@material-ui/core";
-
 import { spacing } from "@material-ui/system";
-const Divider = styled(MuiDivider)(spacing);
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
 const Paper = styled(MuiPaper)(spacing);
-
-
-
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
-
-const ToolbarTitle = styled.div`
-  min-width: 150px;
-`;
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

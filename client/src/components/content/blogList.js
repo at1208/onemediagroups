@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom';
 
 import {
   Box,
-  Breadcrumbs as MuiBreadcrumbs,
+
 
   Chip,
-  Divider as MuiDivider,
+
   Grid,
   IconButton,
 
@@ -27,19 +27,10 @@ import {
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
-const Divider = styled(MuiDivider)(spacing);
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
 const Paper = styled(MuiPaper)(spacing);
 
 
-
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
-
-const ToolbarTitle = styled.div`
-  min-width: 150px;
-`;
 
 
 function descendingComparator(a, b, orderBy) {
@@ -81,11 +72,8 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -142,25 +130,7 @@ function EnhancedTable({ blogs }) {
     setSelected([]);
   };
 
-  const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -198,7 +168,7 @@ function EnhancedTable({ blogs }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+
 
                   return (
                     <TableRow
@@ -212,25 +182,25 @@ function EnhancedTable({ blogs }) {
                       <TableCell align="left">{row.title}</TableCell>
                       <TableCell align="left">
                       {
-                        row.status == true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                        row.status === true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.status == false && (<Chip size="small" label={"INACTIVE"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                        row.status === false && (<Chip size="small" label={"INACTIVE"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
                       </TableCell>
                       <TableCell align="left">
                       {
-                        row.approval == "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                        row.approval === "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.approval == "APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                        row.approval === "APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.approval == "NOT APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                        row.approval === "NOT APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
                       </TableCell>
-                      <TableCell align="left">{ row.domain && row.domain.name || "Deleted"}</TableCell>
-                      <TableCell align="right">{row.postedBy && row.postedBy.full_name || "Deleted user"}</TableCell>
+                      <TableCell align="left">{ (row.domain && row.domain.name) || "Deleted"}</TableCell>
+                      <TableCell align="right">{(row.postedBy && row.postedBy.full_name) || "Deleted user"}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>

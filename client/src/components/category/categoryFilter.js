@@ -43,7 +43,6 @@ const CategoryFilterComponent = ({ filterCategoryList }) => {
 
          getCategories(token)
            .then(response => {
-             // console.log(response)
               setCategories(response)
            })
            .catch(err => {
@@ -78,13 +77,13 @@ const CategoryFilterComponent = ({ filterCategoryList }) => {
  const handleChange = (name) => (e) => {
         switch (name) {
           case "domain":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, domain: ""})
              }
             break;
 
           case "category":
-             if(e.target.value.length==0){
+             if(e.target.value.length===0){
                setQuery({...query, category: ""})
              }
             break;

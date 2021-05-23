@@ -5,20 +5,13 @@ import { isAuth,
 import { getSingleEmployee,
          updateProfilePicture } from '../../actions/employee';
 import { uploadFile } from '../../actions/upload';
-import { moment } from 'moment'
-import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
-
 import {
   Avatar as MuiAvatar,
   Box,
-  Breadcrumbs as MuiBreadcrumbs,
   Button as MuiButton,
   Card as MuiCard,
   CardContent,
-  Chip as MuiChip,
-  Divider as MuiDivider,
   Grid as MuiGrid,
-  LinearProgress as MuiLinearProgress,
   Typography,
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
@@ -35,15 +28,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 const token = getCookie("token");
-
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
-const CloudUpload = styled(MuiCloudUpload)(spacing);
 const Button = styled(MuiButton)(spacing);
 const Card = styled(MuiCard)(spacing);
-const Chip = styled(MuiChip)(spacing);
-const Divider = styled(MuiDivider)(spacing);
 const Grid = styled(MuiGrid)(spacing);
-const LinearProgress = styled(MuiLinearProgress)(spacing);
 const Spacer = styled.div(spacing);
 const Centered = styled.div`
   text-align: center;
@@ -128,7 +115,7 @@ function Details({ data }) {
     <Card mb={6}>
       <CardContent>
         <Centered>
-          <Avatar alt=" " src={picture.url || data && data.headshot_url } />
+          <Avatar alt=" " src={picture.url || (data && data.headshot_url) } />
           <Typography variant="body2" component="div" gutterBottom>
             <Box fontWeight="fontWeightMedium">{data && data.full_name}</Box>
             <Box fontWeight="fontWeightRegular">{data && data.designation && data.designation.designation_name}</Box>

@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-// import cookie from 'js-cookie';
+ 
 
 export function createDesignation(credentials, token) {
   return new Promise((resolve, reject) => {

@@ -2,9 +2,7 @@
 import React from "react";
 import styled from "styled-components/macro";
 import {
-  Breadcrumbs as MuiBreadcrumbs,
   Chip,
-  Divider as MuiDivider,
   Grid,
   Paper as MuiPaper,
   Table,
@@ -18,18 +16,8 @@ import {
 } from "@material-ui/core";
 import EditTask from './editTask'
 import { spacing } from "@material-ui/system";
-const Divider = styled(MuiDivider)(spacing);
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const Paper = styled(MuiPaper)(spacing);
-
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
-
-const ToolbarTitle = styled.div`
-  min-width: 150px;
-`;
-
+ 
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -162,7 +150,7 @@ function EnhancedTable({ tasks }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row._id);
-                
+
                   return (
                     <TableRow
                       hover
@@ -177,13 +165,13 @@ function EnhancedTable({ tasks }) {
                       <TableCell align="left"><Chip size="small" label={row.follower && row.follower.full_name} color="primary" /></TableCell>
                       <TableCell>
                       {
-                        row.status == "Open" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                        row.status === "Open" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.status == "Closed" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                        row.status === "Closed" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
-                        row.status == "Done" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                        row.status === "Done" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
                       }
 
                       </TableCell>
