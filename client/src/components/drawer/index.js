@@ -21,8 +21,23 @@ import "../../vendor/perfect-scrollbar.css";
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import UserDropdown from './userDropdown';
-import { Sliders,Globe, Hash, MessageSquare, Users, User, Layers, Target, Mail, Edit, Briefcase, Grid as GridIcon, Zap, Home, BookOpen } from 'react-feather';
+import { Sliders,
+         Globe,
+         Hash,
+         MessageSquare,
+         Users,
+         User,
+         Layers,
+         Target,
+         Mail,
+         Edit,
+         Briefcase,
+         Grid as GridIcon,
+         Zap,
+         Home,
+         BookOpen } from 'react-feather';
 import { isAuth } from '../../actions/auth';
+import { checkVisiblityOnSidebar } from '../../utils/helper'
 
 const drawerWidth = 240;
 
@@ -182,7 +197,6 @@ const useStyles = makeStyles((theme) => ({
     setOpen(false);
   };
 
-
   const currentTab = path => {
      if(path === history.location.pathname){
        return true;
@@ -249,121 +263,223 @@ const useStyles = makeStyles((theme) => ({
       <List className={classes.list}>
 
       <Link to="/dashboard">
-        <ListItem button  selected={currentTab("/dashboard")}>
-          <ListItemIcon><Home className={classes.sidebarIcons} /></ListItemIcon>
-          <ListItemText ><Typography className={classes.menutext} variant="body1">Dashboard</Typography></ListItemText>
+        <ListItem button selected={currentTab("/dashboard")}>
+            <ListItemIcon>
+              <Home className={classes.sidebarIcons} />
+            </ListItemIcon>
+            <ListItemText >
+              <Typography className={classes.menutext} variant="body1">
+               Dashboard
+              </Typography>
+          </ListItemText>
         </ListItem>
       </Link>
 
       <Link to="/profile">
-      <ListItem button  selected={currentTab("/profile")}>
-        <ListItemIcon><Sliders className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext} variant="body1">Profile</Typography></ListItemText>
-      </ListItem>
+        <ListItem button selected={currentTab("/profile")}>
+            <ListItemIcon>
+              <Sliders className={classes.sidebarIcons} />
+            </ListItemIcon>
+            <ListItemText >
+              <Typography className={classes.menutext} variant="body1">
+               Profile
+              </Typography>
+            </ListItemText>
+        </ListItem>
       </Link>
 
-      <Link to="/projects">
-      <ListItem button   selected={currentTab("/projects")}>
-         <ListItemIcon><GridIcon className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext} variant="body1">Projects</Typography></ListItemText>
-      </ListItem>
-      </Link>
+      {checkVisiblityOnSidebar('project') && <Link to="/projects">
+          <ListItem button selected={currentTab("/projects")}>
+             <ListItemIcon>
+               <GridIcon className={classes.sidebarIcons} />
+             </ListItemIcon>
+            <ListItemText >
+              <Typography className={classes.menutext} variant="body1">
+                Projects
+              </Typography>
+            </ListItemText>
+          </ListItem>
+      </Link>}
 
-    <Link to="/tasks">
-      <ListItem button   selected={currentTab("/tasks")}>
-       <ListItemIcon><Briefcase className={classes.sidebarIcons} /></ListItemIcon>
-      <ListItemText ><Typography className={classes.menutext} variant="body1">Tasks</Typography></ListItemText>
+    {checkVisiblityOnSidebar('task') && <Link to="/tasks">
+      <ListItem button selected={currentTab("/tasks")}>
+           <ListItemIcon>
+             <Briefcase className={classes.sidebarIcons} />
+           </ListItemIcon>
+        <ListItemText >
+          <Typography className={classes.menutext} variant="body1">
+            Tasks
+          </Typography>
+        </ListItemText>
       </ListItem>
-    </Link>
+    </Link>}
 
-     <Link to="/chats">
-      <ListItem button  selected={currentTab("/chats")}>
-        <ListItemIcon><MessageSquare className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext} variant="body1">Chats</Typography></ListItemText>
-      </ListItem>
-    </Link>
+     {checkVisiblityOnSidebar('chat') && <Link to="/chats">
+        <ListItem button selected={currentTab("/chats")}>
+            <ListItemIcon>
+               <MessageSquare className={classes.sidebarIcons} />
+            </ListItemIcon>
+            <ListItemText >
+              <Typography className={classes.menutext} variant="body1">
+                Chats
+              </Typography>
+            </ListItemText>
+        </ListItem>
+    </Link>}
 
-      <ListItem button onClick={handleOpenEmployee} className='mt-3'>
-                  <ListItemIcon><User className={classes.sidebarIcons} /></ListItemIcon>
-                  <ListItemText ><Typography className={classes.menutext}>Employees</Typography></ListItemText>
-                  {openEmployeeCollapse ? <ExpandLess className={classes.direc} /> : <ExpandMore className={classes.direc} />}
-      </ListItem>
+      {checkVisiblityOnSidebar('employee') && <ListItem button onClick={handleOpenEmployee} className='mt-3'>
+                  <ListItemIcon>
+                    <User className={classes.sidebarIcons} />
+                   </ListItemIcon>
+                  <ListItemText >
+                    <Typography className={classes.menutext}>
+                     Employees
+                    </Typography>
+                  </ListItemText>
+                  {openEmployeeCollapse ?
+                  <ExpandLess className={classes.direc} />
+                  :<ExpandMore className={classes.direc} />}
+      </ListItem>}
       <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
-           <Link to="/all-employees">
-               <ListItem button   selected={currentTab("/all-employees")}>
-                 <ListItemIcon><Users className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext} variant="body1">All Employee</Typography></ListItemText>
-               </ListItem>
-              </Link>
 
-           <Link to="/department">
-               <ListItem button   selected={currentTab("/department")}>
-                 <ListItemIcon><Layers className={classes.sidebarIcons} /></ListItemIcon>
-                  <ListItemText ><Typography className={classes.menutext} variant="body1">Department</Typography></ListItemText>
+           {checkVisiblityOnSidebar('employee') && <Link to="/all-employees">
+               <ListItem button selected={currentTab("/all-employees")}>
+                  <ListItemIcon>
+                      <Users className={classes.sidebarIcons} />
+                  </ListItemIcon>
+                  <ListItemText >
+                    <Typography className={classes.menutext} variant="body1">
+                      All Employee
+                    </Typography>
+                  </ListItemText>
                </ListItem>
-           </Link>
-            <Link to="/designation">
-               <ListItem button   selected={currentTab("/designation")}>
-                 <ListItemIcon><Target className={classes.sidebarIcons} /></ListItemIcon>
-                  <ListItemText ><Typography className={classes.menutext} variant="body1">Designation</Typography></ListItemText>
+              </Link>}
+
+           {checkVisiblityOnSidebar('department') && <Link to="/department">
+               <ListItem button selected={currentTab("/department")}>
+                  <ListItemIcon>
+                    <Layers className={classes.sidebarIcons} />
+                  </ListItemIcon>
+                  <ListItemText >
+                    <Typography className={classes.menutext} variant="body1">
+                      Department
+                    </Typography>
+                  </ListItemText>
                </ListItem>
-            </Link>
+           </Link>}
+
+            {checkVisiblityOnSidebar('designation') && <Link to="/designation">
+               <ListItem button selected={currentTab("/designation")}>
+                   <ListItemIcon>
+                     <Target className={classes.sidebarIcons} />
+                   </ListItemIcon>
+                  <ListItemText >
+                    <Typography className={classes.menutext} variant="body1">
+                      Designation
+                    </Typography>
+                  </ListItemText>
+               </ListItem>
+            </Link>}
          </List>
       </Collapse>
 
 
-
-      <ListItem button onClick={handleOpenContent} className='mt-3'>
-                  <ListItemIcon><User className={classes.sidebarIcons} /></ListItemIcon>
-                  <ListItemText ><Typography className={classes.menutext}>Content</Typography></ListItemText>
-                  {openContentCollapse ? <ExpandLess className={classes.direc} /> : <ExpandMore className={classes.direc} />}
-      </ListItem>
+      {checkVisiblityOnSidebar('content') && <ListItem button onClick={handleOpenContent} className='mt-3'>
+                  <ListItemIcon>
+                     <User className={classes.sidebarIcons} />
+                  </ListItemIcon>
+                  <ListItemText >
+                    <Typography className={classes.menutext}>
+                      Content
+                    </Typography>
+                  </ListItemText>
+                  {openContentCollapse ?
+                  <ExpandLess className={classes.direc} />
+                  :<ExpandMore className={classes.direc} />}
+      </ListItem>}
       <Collapse in={openContentCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
-              <Link to="/content/create">
-               <ListItem button   selected={currentTab("/content/create")}>
-                 <ListItemIcon><Edit className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext} variant="body1">Write Blog</Typography></ListItemText>
-               </ListItem>
-              </Link>
 
-              <Link to="/content/blogs">
-               <ListItem button   selected={currentTab("/content/blogs")}>
-                 <ListItemIcon><BookOpen className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext} variant="body1">All Blogs</Typography></ListItemText>
-               </ListItem>
-               </Link>
+              {checkVisiblityOnSidebar('blog') && <Link to="/content/create">
+                 <ListItem button selected={currentTab("/content/create")}>
+                   <ListItemIcon>
+                      <Edit className={classes.sidebarIcons} />
+                   </ListItemIcon>
+                  <ListItemText >
+                     <Typography className={classes.menutext} variant="body1">
+                       Write Blog
+                     </Typography>
+                  </ListItemText>
+                 </ListItem>
+              </Link>}
 
-              <Link to="/categories">
-               <ListItem button   selected={currentTab("/categories")}>
-                 <ListItemIcon><Hash className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext}>Categories</Typography></ListItemText>
-               </ListItem>
-               </Link>
+              {checkVisiblityOnSidebar('blog') && <Link to="/content/blogs">
+                 <ListItem button selected={currentTab("/content/blogs")}>
+                   <ListItemIcon>
+                     <BookOpen className={classes.sidebarIcons} />
+                   </ListItemIcon>
+                  <ListItemText >
+                    <Typography className={classes.menutext} variant="body1">
+                      All Blogs
+                    </Typography>
+                  </ListItemText>
+                 </ListItem>
+               </Link>}
 
-              <Link to="/domains">
-               <ListItem button   selected={currentTab("/domains")}>
-                 <ListItemIcon><Globe className={classes.sidebarIcons} /></ListItemIcon>
-                <ListItemText ><Typography className={classes.menutext} variant="body1">Domains</Typography></ListItemText>
-               </ListItem>
-              </Link>
+              {checkVisiblityOnSidebar('category') && <Link to="/categories">
+                 <ListItem button selected={currentTab("/categories")}>
+                   <ListItemIcon>
+                     <Hash className={classes.sidebarIcons} />
+                   </ListItemIcon>
+                  <ListItemText >
+                     <Typography className={classes.menutext}>
+                     Categories
+                     </Typography>
+                  </ListItemText>
+                 </ListItem>
+               </Link>}
+
+               {checkVisiblityOnSidebar('domain') && <Link to="/domains">
+                   <ListItem button selected={currentTab("/domains")}>
+                     <ListItemIcon>
+                       <Globe className={classes.sidebarIcons} />
+                     </ListItemIcon>
+                    <ListItemText >
+                      <Typography className={classes.menutext} variant="body1">
+                        Domains
+                      </Typography>
+                    </ListItemText>
+                   </ListItem>
+               </Link>}
          </List>
       </Collapse>
 
-      <Link to="/contact">
-      <ListItem button   selected={currentTab("/contact")}>
-         <ListItemIcon><Mail className={classes.sidebarIcons} /></ListItemIcon>
-        <ListItemText ><Typography className={classes.menutext} variant="body1">Contacts</Typography></ListItemText>
-      </ListItem>
-      </Link>
+      {checkVisiblityOnSidebar('contact') && <Link to="/contact">
+        <ListItem button selected={currentTab("/contact")}>
+           <ListItemIcon>
+             <Mail className={classes.sidebarIcons} />
+           </ListItemIcon>
+          <ListItemText >
+            <Typography className={classes.menutext} variant="body1">
+              Contacts
+            </Typography>
+          </ListItemText>
+        </ListItem>
+      </Link>}
 
-      <Link to="/activities">
-      <ListItem button   selected={currentTab("/activities")}>
-       <ListItemIcon><Zap className={classes.sidebarIcons} /></ListItemIcon>
-         <ListItemText ><Typography className={classes.menutext} variant="body1">Activities</Typography></ListItemText>
-      </ListItem>
-      </Link>
+      {checkVisiblityOnSidebar('activity') && <Link to="/activities">
+        <ListItem button selected={currentTab("/activities")}>
+         <ListItemIcon>
+           <Zap className={classes.sidebarIcons} />
+         </ListItemIcon>
+          <ListItemText >
+             <Typography className={classes.menutext} variant="body1">
+               Activities
+             </Typography>
+          </ListItemText>
+        </ListItem>
+      </Link>}
 
       </List>
       </Drawer>

@@ -1,9 +1,15 @@
 import axios from "../utils/axios";
- 
-export function getChannelChats(channelId, credentials) {
+
+export function getChannelChats(channelId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/get/channelchats/${channelId}`, credentials)
+      .post(`/get/channelchats/${channelId}`, credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -16,10 +22,16 @@ export function getChannelChats(channelId, credentials) {
   });
 }
 
-export function readChannelChats(chatId, userId) {
+export function readChannelChats(chatId, userId, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`channelchat/read/${chatId}/${userId}`)
+      .get(`channelchat/read/${chatId}/${userId}`, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

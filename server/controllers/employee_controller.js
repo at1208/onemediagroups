@@ -305,10 +305,10 @@ module.exports.signin = (req, res) => {
        }else if (result === true) {
            const token = jwt.sign({ _id: employee._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
            res.cookie('token', token, { expiresIn: '7d' });
-           const { _id, first_name,last_name, email, headshot_url, full_name } = employee;
+           const { _id, first_name,last_name, email, headshot_url, full_name, module_visibility } = employee;
            return res.json({
                token,
-               employee: { _id, first_name, last_name, email, headshot_url, full_name  }
+               employee: { _id, first_name, last_name, email, headshot_url, full_name, module_visibility }
            });
        }else {
          res.status(400).json({

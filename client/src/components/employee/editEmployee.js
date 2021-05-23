@@ -167,7 +167,7 @@ React.useEffect(() => {
  const handleSubmit = (e) => {
     e.preventDefault();
    setEmployee({...employee, isLoading:true})
-   updateEmployee(editEmployee._id, employee)
+   updateEmployee(editEmployee._id, employee, token)
      .then((value) => {
            setEmployee({...employee, isLoading:false, success: value.message, error: ""})
          })

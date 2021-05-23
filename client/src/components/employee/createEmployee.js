@@ -150,7 +150,7 @@ const CreateEmployee = () => {
  const handleSubmit = (e) => {
     e.preventDefault();
    setEmployee({...employee, isLoading:true})
-   createEmployee(employee)
+   createEmployee(employee, token)
      .then((value) => {
        onBoard(value.employee._id)
          .then((response) => {

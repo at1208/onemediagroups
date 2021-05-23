@@ -2,10 +2,9 @@ import React from 'react';
 import { Grid, Card, Typography, Badge } from '@material-ui/core';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import ListItem from '@material-ui/core/ListItem';
-
 import { getChannels } from '../../actions/channel';
 import { useHistory } from 'react-router-dom';
-import { isAuth } from '../../actions/auth';
+import { isAuth, getCookie } from '../../actions/auth';
 import { makeStyles } from '@material-ui/core/styles';
 const id = isAuth() && isAuth()._id;
 
@@ -59,10 +58,11 @@ const defaultProps = {
 function Chats(){
   const history = useHistory();
   const classes = useStyles();
+  const token = getCookie("token");
   const [channels, setChannels] = React.useState([]);
 
   React.useEffect(() => {
-   getChannels(id)
+   getChannels(id, token)
      .then((value) => {
        setChannels(value)
      })

@@ -4,7 +4,6 @@ import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
 import { Grid, IconButton, Card, Typography,  Avatar, Badge  } from '@material-ui/core';
 import { Send } from 'react-feather';
-
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import { getCookie, isAuth } from '../../actions/auth';
@@ -208,7 +207,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   }, [chats])
 
   React.useEffect(() => {
-     getChannelChats(getChannelId(location))
+     getChannelChats(getChannelId(location), token)
        .then((value) => {
          setChats(value)
        })
@@ -218,7 +217,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   }, [url])
 
   React.useEffect(() => {
-    getChannelsDetails(getChannelId(location))
+    getChannelsDetails(getChannelId(location), token)
       .then( response => {
          setChannelMembers(response)
       })
@@ -303,7 +302,7 @@ const channelsList = channels.map((item, i) => {
 
 
 async function readChat(chatId, userId){
-      chatId && await readChannelChats(chatId, userId)
+      chatId && await readChannelChats(chatId, userId, token)
 }
 
 const chatsList = chats.map((item, i) => {
