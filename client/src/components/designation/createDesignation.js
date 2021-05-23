@@ -4,31 +4,13 @@ import { Button,
          Grid,
          Dialog,
          DialogActions,
-         DialogContent,
-         DialogContentText,
-         DialogTitle } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Card from '@material-ui/core/Card';
-import { createDesignation } from '../../actions/designation';
-import CancelIcon from '@material-ui/icons/Cancel';
-
-
-import { getEmployee } from '../../actions/employee';
+         DialogContent } from '@material-ui/core';
+import { createDesignation } from '../../actions/designation'
+import { getCookie } from '../../actions/auth';
 import { isAuth } from '../../actions/auth';
-import { createChannel } from '../../actions/channel';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-// import { createChannelChat } from '../../actions/channelchat';
 const id = isAuth() && isAuth()._id;
-
-
-
-
-
-
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot:{
@@ -58,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const CreateDesignation = ({  }) => {
+const CreateDesignation = () => {
   const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-  const [openForm, setOpenForm] = React.useState(false);
+    const token = getCookie("token")
 
   const [designation, setDesignation] = React.useState({
      designationName: "",
@@ -83,7 +65,7 @@ const CreateDesignation = ({  }) => {
   const handleSubmit = (e) => {
       e.preventDefault();
       setDesignation({...designation, isLoading:true})
-      createDesignation(designation)
+      createDesignation(designation, token)
         .then(res => {
           setDesignation({...designation, isLoading:false, success:res.message, error:"", designationName:"" })
         })

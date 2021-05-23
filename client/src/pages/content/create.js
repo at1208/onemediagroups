@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styled from "styled-components/macro";
 import DashboardLayout from '../../components/layout/dashboardLayout';
-import { Grid, Card, Button,Typography, Divider, TextField } from '@material-ui/core';
+import { Grid, Card, Button,Typography, TextField } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -9,7 +9,7 @@ import { createBlog  } from '../../actions/blog';
 import { getCookie, removeLocalStorage  } from '../../actions/auth';
 import { getCategories  } from '../../actions/category';
 import { getDomains  } from '../../actions/domain';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert } from '@material-ui/lab';
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 import { uploadFile } from '../../actions/upload'

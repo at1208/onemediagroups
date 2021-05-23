@@ -12,7 +12,6 @@ export default function DeleteModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -39,7 +38,7 @@ export default function DeleteModal({ id }) {
 
   return (
     <div>
-      <Button size="small"   color="secondary" onClick={handleClickOpen}>
+      <Button size="small" color="secondary" onClick={handleClickOpen}>
         Delete
       </Button>
       <Dialog

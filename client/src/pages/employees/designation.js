@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddDesignation = () => {
-    const classes = useStyles();
     return  <>
            <Grid container justify="flex-end" >
               <Grid item xs={12} sm={3} md={3}>

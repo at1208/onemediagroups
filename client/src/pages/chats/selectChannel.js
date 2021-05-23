@@ -1,11 +1,8 @@
 import React from 'react';
-import { Grid, Card, Typography, Badge, Box } from '@material-ui/core';
+import { Grid, Card, Typography, Badge } from '@material-ui/core';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import ListItem from '@material-ui/core/ListItem';
 
-
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { getChannels } from '../../actions/channel';
 import { useHistory } from 'react-router-dom';
 import { isAuth } from '../../actions/auth';
@@ -14,8 +11,7 @@ const id = isAuth() && isAuth()._id;
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
-     padding:"30px 10px 30px 10px",
-     // backgroundColor:'#01264c!important'
+     padding:"30px 10px 30px 10px"
    },
    icon:{
      color:"#76ff03"

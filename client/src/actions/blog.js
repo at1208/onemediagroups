@@ -1,10 +1,9 @@
 import axios from "../utils/axios";
-import cookie from 'js-cookie';
 
 export function createBlog(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/blog`, credentials, {
+      .post(`/blog/blog/write`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -26,7 +25,7 @@ export function createBlog(credentials, token) {
 export function filterBlog(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/blog/filter`, credentials, {
+      .post(`/blog/filter/blog/read`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -48,7 +47,7 @@ export function filterBlog(credentials, token) {
 export function singleBlog(id, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/blog/single/${id}`,{
+      .get(`/blog/single/${id}/blog/read`,{
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -71,7 +70,7 @@ export function singleBlog(id, token) {
 export function reviewUpdate(blogId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/blog/review/update/${blogId}`, credentials, {
+      .patch(`/blog/review/update/${blogId}/blog/update`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

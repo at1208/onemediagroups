@@ -2,17 +2,16 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { useHistory } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
+
 import {
   Box,
   Breadcrumbs as MuiBreadcrumbs,
-  Button,
-  Checkbox,
+
   Chip,
   Divider as MuiDivider,
   Grid,
   IconButton,
-  Link,
+
   Paper as MuiPaper,
   Table,
   TableBody,
@@ -21,16 +20,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
-  Toolbar,
-  Tooltip,
-  Typography,
+  TableSortLabel
 } from "@material-ui/core";
-import { green, orange, red } from "@material-ui/core/colors";
+
 import {
-  Add as AddIcon,
-  Archive as ArchiveIcon,
-  FilterList as FilterListIcon,
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
@@ -206,7 +199,7 @@ function EnhancedTable({ blogs }) {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
- 
+
                   return (
                     <TableRow
                       hover

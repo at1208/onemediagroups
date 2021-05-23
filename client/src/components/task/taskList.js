@@ -1,17 +1,11 @@
 
 import React from "react";
 import styled from "styled-components/macro";
-import { NavLink } from "react-router-dom";
 import {
-  Box,
   Breadcrumbs as MuiBreadcrumbs,
-  Button,
-  Checkbox,
   Chip,
   Divider as MuiDivider,
   Grid,
-  IconButton,
-  Link,
   Paper as MuiPaper,
   Table,
   TableBody,
@@ -20,25 +14,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
-  Toolbar,
-  Tooltip,
-  Typography,
+  TableSortLabel
 } from "@material-ui/core";
 import EditTask from './editTask'
-import { green, orange, red } from "@material-ui/core/colors";
-import {
-  Add as AddIcon,
-  Archive as ArchiveIcon,
-  FilterList as FilterListIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
-} from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 const Divider = styled(MuiDivider)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const Paper = styled(MuiPaper)(spacing);
-
-
 
 const Spacer = styled.div`
   flex: 1 1 100%;
@@ -88,11 +70,8 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -102,7 +81,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -148,26 +126,6 @@ function EnhancedTable({ tasks }) {
     setSelected([]);
   };
 
-  const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -204,8 +162,7 @@ function EnhancedTable({ tasks }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row._id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
+                
                   return (
                     <TableRow
                       hover

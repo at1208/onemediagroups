@@ -1,10 +1,16 @@
 import axios from "../utils/axios";
 // import cookie from 'js-cookie';
 
-export function createDepartment(credentials) {
+export function createDepartment(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/create/department", credentials)
+      .post("/create/department/department/write", credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -20,7 +26,7 @@ export function createDepartment(credentials) {
 export function getDepartments(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/department", {
+      .get("/all/department/department/read", {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

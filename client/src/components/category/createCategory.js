@@ -1,24 +1,18 @@
 import React from 'react';
-import DashboardLayout from '../layout/dashboardLayout';
 import { Grid,
          Button,
-         Card,
          TextField,
          Dialog,
          Typography,
          DialogActions,
          DialogContent,
-         DialogContentText,
          DialogTitle} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { createProject } from '../../actions/project';
 import { createCategory } from '../../actions/category';
 import { getCookie } from '../../actions/auth';
-import { getEmployee } from '../../actions/employee';
 import { getDomains  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
 
@@ -54,10 +48,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateCategory = ({  }) => {
+const CreateCategory = () => {
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
-  const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
   const [domains, setDomains] = React.useState();
   const [category, setCategory] = React.useState({

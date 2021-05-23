@@ -1,13 +1,10 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-  Checkbox,
+
   Grid,
   IconButton,
-  Link,
-  Breadcrumbs  ,
-  Divider ,
-  Paper  ,
+  Paper,
   Table,
   Box,
   TableBody,
@@ -17,25 +14,13 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Toolbar,
-  Tooltip,
-  Typography,
-  Button,
-  FormControlLabel,
-  Switch,
 } from "@material-ui/core";
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
-  Delete as DeleteIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
-  FilterList as FilterListIcon,
+  RemoveRedEye as RemoveRedEyeIcon
 } from "@material-ui/icons";
 import { getDepartments } from '../../actions/department';
 import { getCookie } from '../../actions/auth';
 import moment from 'moment';
-
-
 
 
 const headCells = [
@@ -70,15 +55,11 @@ function EnhancedTableHead(props) {
 
 function EnhancedTable() {
   const history = useHistory();
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([]);
   const token = getCookie("token")
-  const [showEmployee, setShowEmployee] = React.useState(false);
 
   React.useEffect(() => {
      getDepartments(token)
@@ -133,7 +114,7 @@ function EnhancedTable() {
 
 
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -149,7 +130,7 @@ function EnhancedTable() {
             <TableBody>
               { rows
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.department_name);
+
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
@@ -182,7 +163,7 @@ function EnhancedTable() {
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 33) * emptyRows }}>
+                <TableRow style={{ height: 33 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}

@@ -1,10 +1,16 @@
 import axios from "../utils/axios";
 // import cookie from 'js-cookie';
 
-export function createDesignation(credentials) {
+export function createDesignation(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/create/designation", credentials)
+      .post("/create/designation/designation/write", credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -20,7 +26,7 @@ export function createDesignation(credentials) {
 export function getDesignations(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/designation", {
+      .get("/all/designation/designation/read", {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

@@ -15,12 +15,42 @@ const { requireSignin,
         authMiddleware } = require('../controllers/employee_controller');
 
 
+const { check_permission } = require("../utils/permission");
+
 //ADMIN
-router.post("/create/department", create_department_validator, run_validation, create_department);
-router.patch("/update/department", create_department_validator, run_validation, update_department);
-router.get("/all/department", requireSignin, authMiddleware, all_department);
-router.post("/single/department/:_id", single_department);
-router.patch("/delete/department/:_id", delete_department);
+router.post("/create/department/:moduleType/:permission",
+       requireSignin,
+       authMiddleware,
+       check_permission,
+       create_department_validator,
+       run_validation,
+       create_department);
+
+router.patch("/update/department/:moduleType/:permission",
+       requireSignin,
+       authMiddleware,
+       check_permission,
+       create_department_validator,
+       run_validation,
+       update_department);
+
+router.get("/all/department/:moduleType/:permission",
+       requireSignin,
+       authMiddleware,
+       check_permission,
+       all_department);
+
+router.post("/single/department/:_id/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      single_department);
+
+router.patch("/delete/department/:_id/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      delete_department );
 
 
 module.exports = router;

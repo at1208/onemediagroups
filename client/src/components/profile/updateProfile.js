@@ -1,18 +1,13 @@
 import React from 'react';
 import { Button,
-         TextField,
          Grid,
          Dialog,
          DialogActions,
-         DialogContent,
-         DialogContentText,
-         DialogTitle } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+         DialogContent} from '@material-ui/core';
 import { getEmployee } from '../../actions/employee';
-import { isAuth } from '../../actions/auth';
+import { isAuth, getCookie } from '../../actions/auth';
 import { createChannel } from '../../actions/channel';
 import { makeStyles } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
 const id = isAuth() && isAuth()._id;
 
 
@@ -36,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ChannelForm = ({ pageReload }) => {
+const UpdateProfile = ({ pageReload }) => {
   const [open, setOpen] = React.useState(false);
+  const [employees, setEmployees] = React.useState()
+  const token = getCookie("token")
   const classes = useStyles();
-  const [employees, setEmployees] = React.useState([]);
-  const [reload, setReload] = React.useState(false);
   const [channel, setChannel] = React.useState({
         channel_name:"",
         members:[],
@@ -55,7 +50,7 @@ const ChannelForm = ({ pageReload }) => {
   };
 
   React.useEffect(() => {
-      getEmployee()
+      getEmployee(token)
         .then((value) => {
           setEmployees(value.employees)
         })
@@ -73,7 +68,7 @@ const ChannelForm = ({ pageReload }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setChannel({...channel, isLoading:true});
-    createChannel(channel)
+    createChannel(channel, token)
       .then((value) => {
         setChannel({...channel, success:value.message, isLoading:false, channel_name:"", members:[]});
         setOpen(false);
@@ -84,9 +79,6 @@ const ChannelForm = ({ pageReload }) => {
       })
   }
 
-  const handleChange = (e) => {
-      setChannel({...channel, channel_name: e.target.value, admins:[id] })
-  }
     return  <>
              <Grid container justify="center">
                <Button
@@ -120,4 +112,4 @@ const ChannelForm = ({ pageReload }) => {
             </>
 }
 
-export default ChannelForm;
+export default UpdateProfile;

@@ -1,11 +1,10 @@
 import React from 'react';
 import { getProjects } from '../../actions/project';
 import { getCookie } from '../../actions/auth';
-import { Grid, Card, Typography, Chip } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ProjectCard from '../../components/project/projectCard';
-import { red, green, orange } from "@material-ui/core/colors";
-
+ 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"10px 10px 10px 10px"

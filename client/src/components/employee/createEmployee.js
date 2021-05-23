@@ -1,8 +1,4 @@
 import React from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import MuiPhoneNumber from 'material-ui-phone-number';
 
 import { getDepartments } from '../../actions/department';
@@ -18,13 +14,9 @@ import {  Grid,
           DialogActions,
           DialogContent,
           Typography,
-          DialogContentText,
           DialogTitle} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { createProject } from '../../actions/project';
-import { getEmployee } from '../../actions/employee';
 import { getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
@@ -77,9 +69,8 @@ closeButton: {
 }));
 
 
-const CreateEmployee = ({  }) => {
+const CreateEmployee = () => {
   const [open, setOpen] = React.useState(false);
-  const [openForm, setOpenForm] = React.useState(false);
   const token = getCookie("token")
   const classes = useStyles();
 
@@ -101,8 +92,6 @@ const CreateEmployee = ({  }) => {
 
  const [allDepartments, setAllDepartments] = React.useState([]);
  const [allDesignations, setAllDesignations] = React.useState([]);
-
- // console.log(allDepartments, allDesignations)
 
  const handleClickOpen = () => {
   setOpen(true);

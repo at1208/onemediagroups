@@ -1,23 +1,18 @@
 import React from 'react';
-import DashboardLayout from '../../components/layout/dashboardLayout';
 import {  Grid,
           Button,
           Box,
-          Card,
           TextField,
           Dialog,
           DialogActions,
           Typography,
           DialogContent,
-          DialogContentText,
           DialogTitle } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
 import { getProjects } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
 import { updateTask } from '../../actions/task';
-import { createTask } from '../../actions/task';
 import { isAuth, getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
@@ -62,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 const EditTask = ({ editTask }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
-  const [openForm, setOpenForm] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")

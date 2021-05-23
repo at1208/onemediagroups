@@ -4,7 +4,7 @@ import axios from "../utils/axios";
 export function createDomain(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/domain`, credentials, {
+      .post(`/domain/domain/write`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -27,7 +27,7 @@ export function createDomain(credentials, token) {
 export function getDomains(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/domains", {
+      .get("/domains/domain/read", {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -49,7 +49,7 @@ export function getDomains(token) {
 export function filterDomain(query, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/domain/filter", query, {
+      .post("/domain/filter/domain/read", query, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Button, Divider, Card, Typography, Avatar } from '@material-ui/core';
+import { Grid, Card, Typography, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

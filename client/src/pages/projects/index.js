@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
-import { Grid, Button, Card, TextField, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { createProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
-import Alert from '@material-ui/lab/Alert';
 import ProjectList from './projectList';
 import CreateProject from '../../components/project/createProject';
 import EditProject from '../../components/project/editProject';
@@ -40,23 +36,21 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Project = () => {
-   const classes = useStyles();
-   const [employees, setEmployees] = React.useState([]);
+   // const [employees, setEmployees] = React.useState([]);
    const [edit, setEdit] = useState({
      open: false,
      project:""
    });
-   const [deleteOpen, setDeleteOpen] = React.useState(false);
 
-   React.useEffect(() => {
-       getEmployee()
-         .then((value) => {
-           setEmployees(value.employees)
-         })
-         .catch((err) => {
-           console.log(err)
-         })
-   }, [])
+   // React.useEffect(() => {
+   //     getEmployee()
+   //       .then((value) => {
+   //         setEmployees(value.employees)
+   //       })
+   //       .catch((err) => {
+   //         console.log(err)
+   //       })
+   // }, [])
 
   return <>
           <DashboardLayout>

@@ -5,7 +5,6 @@ import { Button,
          Dialog,
          DialogActions,
          DialogContent,
-         DialogContentText,
          DialogTitle } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getEmployee } from '../../actions/employee';
@@ -13,7 +12,7 @@ import { isAuth } from '../../actions/auth';
 import { createChannel } from '../../actions/channel';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-// import { createChannelChat } from '../../actions/channelchat';
+import { getCookie } from '../../actions/auth';
 const id = isAuth() && isAuth()._id;
 
 
@@ -39,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ChannelForm = ({ pageReload }) => {
   const [open, setOpen] = React.useState(false);
+  const token = getCookie("token")
   const classes = useStyles();
   const [employees, setEmployees] = React.useState([]);
   const [reload, setReload] = React.useState(false);
@@ -56,7 +56,7 @@ const ChannelForm = ({ pageReload }) => {
   };
 
   React.useEffect(() => {
-      getEmployee()
+      getEmployee(token)
         .then((value) => {
           setEmployees(value.employees)
         })
@@ -76,7 +76,7 @@ const ChannelForm = ({ pageReload }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setChannel({...channel, isLoading:true});
-    createChannel(channel)
+    createChannel(channel, token)
       .then((value) => {
         setChannel({...channel, success:value.message, isLoading:false, channel_name:"", members:[]});
         setOpen(false);

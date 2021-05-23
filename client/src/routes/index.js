@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import Private from '../components/protectedRoutes/privateRoute';
 import Auth from '../components/protectedRoutes/authRoute';
 import Login from '../pages/login';

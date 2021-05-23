@@ -2,14 +2,11 @@ import React, { useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import socket from '../../utils/socketio';
-import { Grid, IconButton, Card, TextField, Button, Typography, Divider,  Avatar, Badge  } from '@material-ui/core';
+import { Grid, IconButton, Card, Typography,  Avatar, Badge  } from '@material-ui/core';
 import { Send } from 'react-feather';
 
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Brightness1Icon from '@material-ui/icons/Brightness1';
 import { getCookie, isAuth } from '../../actions/auth';
 import moment from 'moment';
 import { getChannels, getChannelsDetails } from '../../actions/channel';
@@ -138,9 +135,6 @@ button:{
    backgroundColor:"white",
    padding:"10px"
  },
- channelName:{
-   padding:"1px"
- },
  singleMessageNotReadYet:{
    backgroundColor:"#fffaea",
    padding:"10px",
@@ -165,7 +159,6 @@ const capitalizeFirstCharacter = (name) => {
 const Chats = ({ match: { params: { channel } }, match: { url }, location }) => {
   const token = getCookie("token");
   const history = useHistory();
-  const theme = useTheme();
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:961px)');
   var messageContainer = React.useRef();
@@ -219,15 +212,6 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
     socket.on("receiveMessage", (msg) => {
        setChats((prev) => [...prev, msg.msg.msg ]);
     })
-
-    // socket.on(id, (data) => {
-    //   setChannels(data.unread)
-    // })
-
-    // socket.on("private", (unread) => {
-    //   console.log(unread)
-    //    setChannels(unread);
-    // })
 
     socket.on("typingResponse", (msg) => {
         setTyping({ status: true, msg: msg.msg });
@@ -299,20 +283,6 @@ React.useEffect(() => {
   };
 
 
-
-const onlineList = () => {
-     return online && online.map((user, i) => {
-       return <div key={i}>
-                <Grid container justify="flex-start" spacing={1}>
-                  <Grid item>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body1">{user.first_name + " " + user.last_name}</Typography>
-                  </Grid>
-                </Grid>
-              </div>
-     })
-}
 
 const handleSubmit = (e) => {
     e.preventDefault();

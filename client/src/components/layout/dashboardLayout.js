@@ -1,6 +1,5 @@
 import React from 'react';
 import Drawer from '../drawer';
-import Private from '../protectedRoutes/privateRoute';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 

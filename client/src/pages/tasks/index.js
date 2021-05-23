@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
-import { Grid, Button, Card, TextField, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { getProjects } from '../../actions/project';
-import { getEmployee } from '../../actions/employee';
-import { createTask } from '../../actions/task';
-import { isAuth } from '../../actions/auth';
-import Alert from '@material-ui/lab/Alert';
 import TaskFilter from '../../components/task/taskFilter';
 import CreateTask from '../../components/task/createTask';
 import TaskList from '../../components/task/taskList';
@@ -42,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
    }
 }));
 const Tasks = () => {
-   const classes = useStyles();
    const [tasks, setTasks] = useState([]);
    const [taskList, setTaskList] = useState([]);
 

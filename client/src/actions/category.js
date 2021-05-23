@@ -3,7 +3,7 @@ import axios from "../utils/axios";
 export function createCategory(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/category`, credentials, {
+      .post(`/category/category/write`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -25,7 +25,7 @@ export function createCategory(credentials, token) {
 export function getCategories(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/categories", {
+      .get("/categories/category/read", {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -48,7 +48,7 @@ export function getCategories(token) {
 export function filterCategory(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/filter/category`, credentials, {
+      .post(`/filter/category/category/read`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

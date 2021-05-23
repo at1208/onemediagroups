@@ -4,8 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import CreateDepartment from '../../components/department/createDepartment'
 import DepartmentList from '../../components/department/departmentList';
 
-
-
 const AddDepartment = () => {
     return   <>
               <Grid container justify="flex-end" >

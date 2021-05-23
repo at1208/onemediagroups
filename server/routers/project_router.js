@@ -8,11 +8,37 @@ const { create_project,
         single_project,
         update_project} = require("../controllers/project_controller");
 
+const { check_permission } = require("../utils/permission");
+
 //ADMIN
-router.post("/create/project", requireSignin, authMiddleware, create_project);
-router.patch("/update/project/:_id", requireSignin, authMiddleware, update_project);
-router.patch("/delete/project/:_id",requireSignin, authMiddleware, delete_project);
-router.get("/all/project", requireSignin, authMiddleware, all_project);
-router.get("/single/project/:_id",requireSignin, authMiddleware, single_project);
+router.post("/create/project/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      create_project);
+
+router.patch("/update/project/:_id/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      update_project);
+
+router.patch("/delete/project/:_id/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      delete_project);
+
+router.get("/all/project/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      all_project);
+
+router.get("/single/project/:_id/:moduleType/:permission",
+      requireSignin,
+      authMiddleware,
+      check_permission,
+      single_project);
 
 module.exports = router;

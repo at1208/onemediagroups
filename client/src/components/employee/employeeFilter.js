@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, TextField, Button, Typography, Divider } from '@material-ui/core';
+import { Grid, Card, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { getProjects } from '../../actions/project';
+
 import { getDepartments } from '../../actions/department';
 import { getDesignations } from '../../actions/designation';
 import { getCookie } from '../../actions/auth';
@@ -10,7 +10,6 @@ import { getEmployee, filterEmployee } from '../../actions/employee';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -42,7 +41,7 @@ const EmployeeFilter = ({ filterEmployeeList }) => {
 
 
     useEffect(() => {
-       getEmployee()
+       getEmployee(token)
          .then(response => {
             setEmployees(response.employees)
          })
@@ -52,7 +51,6 @@ const EmployeeFilter = ({ filterEmployeeList }) => {
 
          getDepartments(token)
          .then(response => {
-
             setDepartments(response.departments)
          })
          .catch(err => {
@@ -71,7 +69,7 @@ const EmployeeFilter = ({ filterEmployeeList }) => {
     }, [])
 
     useEffect(() => {
-      filterEmployee(query)
+      filterEmployee(query, token)
         .then(response => {
           filterEmployeeList(response)
         })
@@ -83,7 +81,7 @@ const EmployeeFilter = ({ filterEmployeeList }) => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-     filterEmployee(query)
+     filterEmployee(query, token)
        .then(response => {
           filterEmployeeList(response)
        })

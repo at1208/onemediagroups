@@ -1,7 +1,7 @@
 import React from 'react';
 import ContactFilterList from '../../components/contact/contactFilter';
 import DashboardLayout from '../../components/layout/dashboardLayout';
-import { Grid, Button, TextField, Dialog } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const Contact = () => {
   return <>

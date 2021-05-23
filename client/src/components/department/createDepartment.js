@@ -4,21 +4,12 @@ import { Button,
          Grid,
          Dialog,
          DialogActions,
-         DialogContent,
-         DialogContentText,
-         DialogTitle } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Card from '@material-ui/core/Card';
-import { createDesignation } from '../../actions/designation';
-import CancelIcon from '@material-ui/icons/Cancel';
+         DialogContent } from '@material-ui/core';
 import { createDepartment } from '../../actions/department';
-
-import { getEmployee } from '../../actions/employee';
 import { isAuth } from '../../actions/auth';
-import { createChannel } from '../../actions/channel';
+import { getCookie } from '../../actions/auth';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-// import { createChannelChat } from '../../actions/channelchat';
 const id = isAuth() && isAuth()._id;
 
 
@@ -50,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const CreateDepartment = ({  }) => {
+const CreateDepartment = () => {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
-    const [openForm, setOpenForm] = React.useState(false);
+    const token = getCookie("token")
     const [department, setDepartment] = React.useState({
        departmentName: "",
        isLoading:false,
@@ -64,7 +55,7 @@ const CreateDepartment = ({  }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setDepartment({...department, isLoading:true})
-        createDepartment(department)
+        createDepartment(department, token)
           .then(res => {
             setDepartment({...department, isLoading:false, success:res.message, error:"", departmentName:"" })
           })

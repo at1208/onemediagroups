@@ -3,7 +3,7 @@ import axios from "../utils/axios";
 export function createProject(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/create/project", credentials, {
+      .post("/create/project/project/write", credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -26,7 +26,7 @@ export function createProject(credentials, token) {
 export function getProjects(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/project", {
+      .get("/all/project/project/read", {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -48,7 +48,7 @@ export function getProjects(token) {
 export function getSingleProject(projectId, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/single/project/${projectId}`, {
+      .get(`/single/project/${projectId}/project/read`, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -71,7 +71,7 @@ export function getSingleProject(projectId, token) {
 export function updateProject(id, updatedData, token) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/update/project/${id}`, updatedData, {
+      .patch(`/update/project/${id}/project/update`, updatedData, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -93,7 +93,7 @@ export function updateProject(id, updatedData, token) {
 export function deleteProject(id, token) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/delete/project/${id}`, {}, {
+      .patch(`/delete/project/${id}/project/delete`, {}, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

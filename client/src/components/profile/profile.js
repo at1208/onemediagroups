@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import styled, { withTheme } from "styled-components/macro";
-import { NavLink } from "react-router-dom";
-import { red, green, blue } from "@material-ui/core/colors";
-import { isAuth, getCookie } from '../../actions/auth';
-import { getSingleEmployee,updateProfilePicture } from '../../actions/employee';
+import styled from "styled-components/macro";
+import { isAuth,
+         getCookie } from '../../actions/auth';
+import { getSingleEmployee,
+         updateProfilePicture } from '../../actions/employee';
 import { uploadFile } from '../../actions/upload';
 import { moment } from 'moment'
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
@@ -19,22 +19,12 @@ import {
   Divider as MuiDivider,
   Grid as MuiGrid,
   LinearProgress as MuiLinearProgress,
-  Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Typography,
 } from "@material-ui/core";
-
 import { spacing } from "@material-ui/system";
-
 import {
   Briefcase,
-  Male,
   PhoneCall,
-  Home,
   Mail,
   Calendar,
   User,
@@ -42,10 +32,9 @@ import {
   Flag,
   MapPin,
 } from "react-feather";
-
 import { makeStyles } from '@material-ui/core/styles';
 
-
+const token = getCookie("token");
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const CloudUpload = styled(MuiCloudUpload)(spacing);
@@ -284,7 +273,7 @@ function Profile() {
   const [ employee, setEmployee ] = useState();
 
   useEffect(() => {
-    getSingleEmployee(isAuth() && isAuth()._id)
+    getSingleEmployee(isAuth() && isAuth()._id, token)
       .then((value) => {
        setEmployee(value.employees)
       })

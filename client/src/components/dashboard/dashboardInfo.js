@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card,Button, Typography, Box, Avatar, Chip} from '@material-ui/core';
+import { Grid, Card, Typography, Box, Chip} from '@material-ui/core';
 import { getDashboardInfo } from '../../actions/dashboard'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   approved:{
    background: "rgb(76, 175, 80)",
    color:"rgb(255, 255, 255)",
-   // marginLeft:"10px",
    "&:hover":{
      background: "rgb(76, 175, 80)",
      color:"rgb(255, 255, 255)",
@@ -33,12 +32,10 @@ const useStyles = makeStyles((theme) => ({
      background: "rgb(244, 67, 54)",
      color:"rgb(255, 255, 255)",
    },
-   // marginLeft:"10px"
   },
   waiting:{
    background: "rgb(245, 124, 0)",
    color:"rgb(255, 255, 255)",
-   // marginLeft:"10px",
    "&:hover":{
      background: "rgb(245, 124, 0)",
      color:"rgb(255, 255, 255)",

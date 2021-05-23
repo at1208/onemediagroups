@@ -1,27 +1,18 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {
   PersonOutlineOutlined,
-  HttpsOutlined,
-  RemoveRedEyeOutlined,
-  RemoveRedEye,
+  HttpsOutlined
 } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { signIn, authenticate } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
-  // form:{
-  //   padding:"20px 7px 20px 7px",
-  //   margin:"5px",
-  //   minHeight:"300px"
-  // },
     form: {
       padding: '35px 5px 70px 5px',
       margin: '5px',
@@ -29,14 +20,6 @@ const useStyles = makeStyles({
       borderRadius: '8px',
       opacity: 1,
     },
-  // root:{
-  //   display: "table",
-  //   position: "absolute",
-  //   top: 0,
-  //   left: 0,
-  //   height: "90%",
-  //   width: "100%",
-  // },
   root:{
       display: 'table',
       backgroundImage: 'url(/images/Bg.svg)',
@@ -59,18 +42,6 @@ const useStyles = makeStyles({
     marginRight: "auto",
     width: "100%",
   },
-  // button:{
-  //   textTransform: "none",
-  //   backgroundColor:"#3f51b5",
-  //   width:"100%",
-  //   color:"white",
-  //   fontWeight:800,
-  //   height:"40px",
-  //   fontSize:"15px",
-  //   '&:hover': {
-  //             backgroundColor:"#3f51b5"
-  //       },
-  // },
   button: {
     background: '#6387ED 0% 0% no-repeat padding-box',
     borderRadius: '8px',
@@ -91,7 +62,6 @@ const useStyles = makeStyles({
       '& .MuiOutlinedInput-root': {
         borderRadius: '8px',
         background: 'white',
-        // border: "0.8326995968818665px solid #E6E6E6"
       },
       '& .MuiOutlinedInput-adornedEnd': {
         background: 'white',
@@ -105,8 +75,6 @@ const useStyles = makeStyles({
       opacity: 0.2,
       fontSize: '21px',
     },
-
-
   alertCard:{
     height:"40px"
   }
@@ -116,7 +84,6 @@ const useStyles = makeStyles({
 
 const LoginForm = () => {
   const classes = useStyles();
-  const history = useHistory();
   const [login, setLogin] = useState({
     credentials:{
       email:"",
@@ -137,7 +104,6 @@ const LoginForm = () => {
           break;
         default:
            return;
-        ;
       }
   }
 

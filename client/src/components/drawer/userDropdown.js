@@ -23,9 +23,7 @@ function UserDropdown() {
     setAnchorMenu(null);
   };
 
-  const handleSignOut = async () => {
-
-  };
+ 
 
   return (
     <React.Fragment>

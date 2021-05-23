@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid, Button, Divider, Card, Typography } from '@material-ui/core';
 import ContactCard from './contactCard';
 
 const ContactList = ({ contacts }) => {

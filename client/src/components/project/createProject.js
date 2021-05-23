@@ -1,18 +1,14 @@
 import React from 'react';
-import DashboardLayout from '../layout/dashboardLayout';
 import { Grid,
          Button,
-         Card,
          TextField,
          Dialog,
          Typography,
          DialogActions,
          DialogContent,
-         DialogContentText,
          DialogTitle} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { createProject } from '../../actions/project';
@@ -25,10 +21,6 @@ import Alert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles((theme) => ({
-  dialogRoot:{
-    // padding:"10px",
-
-  },
   button:{
     textTransform: "none",
     backgroundColor:"#3f51b5",
@@ -53,11 +45,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateProject = ({  }) => {
+const CreateProject = () => {
   const [open, setOpen] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
   const token = getCookie("token")
-  const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
   const [project, setProject] = React.useState({
      name:"",
@@ -113,12 +104,6 @@ const CreateProject = ({  }) => {
         })
   }, [])
 
-
-
-  const priority = [
-    { title: "High" },
-    { title: "Low" },
-  ]
 
   const handleChange = type => e => {
       switch (type) {

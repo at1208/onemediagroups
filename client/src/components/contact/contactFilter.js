@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, Divider, Card, Typography } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getContacts } from '../../actions/contact';
 import ContactList from './contactList';
@@ -10,21 +10,12 @@ const useStyles = makeStyles({
   },
   button:{
     textTransform: "none",
-    // backgroundColor:"#101531",
-    // width:"100px",
-    // color:"white",
-    // borderRadius:"20px",
     fontWeight:500,
     fontSize:"13px",
-    // '&:hover': {
-    //           backgroundColor:"#101531"
-    //     },
   },
   selected:{
     textTransform: "none",
     backgroundColor:"dodgerblue",
-    // width:"100px",
-    // borderRadius:"20px",
     color:"white",
     fontWeight:500,
     fontSize:"13px",

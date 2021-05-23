@@ -7,7 +7,6 @@ import {
   Popper,
   MenuItem,
   Typography,
-  Avatar,
   Box,
   Divider,
   MenuList,
@@ -24,14 +23,6 @@ const useStyles = makeStyles({
    margin:"0px 5px 0px 0px"
  },
  button: {
-
-   // "&.MuiButton-startIcon":{
-   //   display: "inherit",
-   //  position: "relative",
-   //  left: "11px",
-   //  marginRight: "10px"
-   // }
-
  },
  paperRoot: {
    minWidth: '250px',
@@ -41,7 +32,6 @@ const useStyles = makeStyles({
   background: "rgb(76, 175, 80)",
      textTransform: 'none',
   color:"rgb(255, 255, 255)",
-  // marginLeft:"10px",
   "&:hover":{
     background: "rgb(76, 175, 80)",
     color:"rgb(255, 255, 255)",
@@ -55,7 +45,6 @@ const useStyles = makeStyles({
     background: "rgb(244, 67, 54)",
     color:"rgb(255, 255, 255)",
   },
-  // marginLeft:"10px"
  },
  waiting:{
   background: "rgb(245, 124, 0)",

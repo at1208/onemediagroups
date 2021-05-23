@@ -5,7 +5,6 @@ import EmployeeList from '../../components/employee/employeeList';
 import EmployeeFilter from '../../components/employee/employeeFilter';
 import { Grid, Box, Typography } from '@material-ui/core';
 
-
 const AllEmployees = () => {
   const [employees, setEmployees] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);

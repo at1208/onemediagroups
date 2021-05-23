@@ -1,8 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+
 import {
   Button,
-  Paper,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -10,7 +9,6 @@ import {
 
 
 function ResetPassword() {
-  const history = useHistory();
 
   return (
     <>

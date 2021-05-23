@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/macro";
-import { NavLink } from "react-router-dom";
 import { taskCountByProject } from '../../actions/task';
 import { getCookie } from '../../actions/auth';
 import {
@@ -9,13 +8,11 @@ import {
   Button,
   Box,
   Card as MuiCard,
-  CardActions,
   CardContent as MuiCardContent,
   CardMedia as MuiCardMedia,
   Chip as MuiChip,
   Divider as MuiDivider,
   Grid,
-  Link,
   Typography as MuiTypography,
 } from "@material-ui/core";
 import { AvatarGroup as MuiAvatarGroup } from "@material-ui/lab";
@@ -50,13 +47,6 @@ const AvatarGroup = styled(MuiAvatarGroup)`
 const useStyles = makeStyles((theme) => ({
   cardRoot:{
     padding:"10px"
-  },
-  openChip:{
-    // backgroundColor:"rgb(255, 152, 0)"
-   // backgroundColor:"dodgerblue"
-  },
-  doneChip:{
-   // backgroundColor:'rgb(76, 175, 80)'
   },
   chipContainer:{
     padding:"0px 15px 15px 15px"
@@ -163,8 +153,6 @@ function Project({ image,  project, edit }) {
 
 
       </Card>
-      {/*<CardActions>
-      </CardActions>*/}
     </Card>
   );
 }

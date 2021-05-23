@@ -1,35 +1,24 @@
 import React from 'react';
-import DashboardLayout from '../layout/dashboardLayout';
 import { Grid,
          Button,
-         Card,
          TextField,
          Dialog,
          Typography,
          DialogActions,
          DialogContent,
-         DialogContentText,
          DialogTitle} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { createProject } from '../../actions/project';
 import { getCookie } from '../../actions/auth';
-import { getSingleProject, updateProject } from '../../actions/project';
+import { updateProject } from '../../actions/project';
 import { getEmployee } from '../../actions/employee';
 import { getDomains  } from '../../actions/domain';
 import Alert from '@material-ui/lab/Alert';
 
 
-
-
 const useStyles = makeStyles((theme) => ({
-  dialogRoot:{
-    // padding:"10px",
-
-  },
   button:{
     textTransform: "none",
     backgroundColor:"#3f51b5",
@@ -58,7 +47,6 @@ const EditProject = ({ status, modal, editProject }) => {
   const [open, setOpen] = React.useState(false);
   const [employees, setEmployees] = React.useState([]);
   const token = getCookie("token")
-  const [openForm, setOpenForm] = React.useState(false);
   const classes = useStyles();
   const [project, setProject] = React.useState({
      name:"",
@@ -84,9 +72,6 @@ const EditProject = ({ status, modal, editProject }) => {
        })
   }, [])
 
-  const handleClickOpen = () => {
-   setOpen(true);
-  };
 
 
   const handleClose = () => {
@@ -105,7 +90,7 @@ const EditProject = ({ status, modal, editProject }) => {
   };
 
     React.useEffect(() => {
-        getEmployee()
+        getEmployee(token)
           .then((value) => {
             setEmployees(value.employees)
           })
@@ -131,31 +116,10 @@ const EditProject = ({ status, modal, editProject }) => {
              team_members: editProject.team_members,
              domain: editProject.domain
          })
-
-
-        // getSingleProject(editProject._id, token)
-        //  .then(value => {
-        //     setProject({...project, name: value.project.name,
-        //          description: value.project.description,
-        //          team_leader: value.project.team_leader,
-        //          team_members: value.project.team_members,
-        //          domain: value.project.domain,
-        //          start_date:value.project.start_date,
-        //          end_date:value.project.end_date
-        //      })
-        //  })
-        //  .catch(err => {
-        //    console.log(err)
-        //  })
       }
   }, [open])
 
 
-
-  const priority = [
-    { title: "High" },
-    { title: "Low" },
-  ]
 
   const handleChange = type => e => {
       switch (type) {

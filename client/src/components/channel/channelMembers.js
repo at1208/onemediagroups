@@ -1,23 +1,13 @@
 import React from 'react';
-import { Button,
-         TextField,
+import { makeStyles } from '@material-ui/core/styles';
+import { AvatarGroup as MuiAvatarGroup } from "@material-ui/lab";
+import {
          Grid,
          Avatar,
          Dialog,
-         DialogActions,
-         DialogContent,
-         DialogContentText,
-         DialogTitle } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { getEmployee } from '../../actions/employee';
+         DialogContent } from '@material-ui/core';
 import { isAuth } from '../../actions/auth';
-import { createChannel } from '../../actions/channel';
-import { makeStyles } from '@material-ui/core/styles';
-import { AvatarGroup as MuiAvatarGroup } from "@material-ui/lab";
-import Alert from '@material-ui/lab/Alert';
 import styled from "styled-components/macro";
-
-// import { createChannelChat } from '../../actions/channelchat';
 const id = isAuth() && isAuth()._id;
 
 
@@ -47,7 +37,7 @@ const AvatarGroup = styled(MuiAvatarGroup)`
 const ChannelForm = ({ pageReload, members }) => {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  const [reload, setReload] = React.useState(false);
+  const [reload, setReload] = React.useState(false)
 
 
   const handleClickOpen = () => {
@@ -71,11 +61,7 @@ const ChannelForm = ({ pageReload, members }) => {
 
   }
 
-  const handleChange = (e) => {
 
-  }
-
- 
     return  <>
              <Grid container justify="center">
              <AvatarGroup max={3} onClick={handleClickOpen}>

@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import {
   Tooltip,
   Menu,
@@ -11,7 +10,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 function UserDropdown() {
   const [anchorMenu, setAnchorMenu] = React.useState(null);
-  const history = useHistory();
+
 
 
   const toggleMenu = (event) => {
@@ -22,9 +21,6 @@ function UserDropdown() {
     setAnchorMenu(null);
   };
 
-  const handleSignOut = async () => {
-
-  };
 
   return (
     <React.Fragment>

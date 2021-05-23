@@ -1,15 +1,7 @@
 import React from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import MuiPhoneNumber from 'material-ui-phone-number';
-
 import { getDepartments } from '../../actions/department';
 import { getDesignations } from '../../actions/designation';
-import { createEmployee } from '../../actions/employee';
-import { onBoard } from '../../actions/auth';
-
 import {  Grid,
           Button,
           Card,
@@ -19,12 +11,10 @@ import {  Grid,
           DialogActions,
           DialogContent,
           Typography,
-          DialogContentText,
           DialogTitle} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { getEmployee, updateEmployee } from '../../actions/employee';
+import { updateEmployee } from '../../actions/employee';
 import { getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';

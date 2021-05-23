@@ -1,10 +1,16 @@
 import axios from "../utils/axios";
 import cookie from 'js-cookie';
 
-export function createEmployee(credentials) {
+export function createEmployee(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/create/employee", credentials)
+      .post("/create/employee/employee/write", credentials,{
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -17,10 +23,16 @@ export function createEmployee(credentials) {
   });
 }
 
-export function getEmployee() {
+export function getEmployee(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get("/all/employees")
+      .get("/all/employees/employee/read", {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -33,10 +45,16 @@ export function getEmployee() {
   });
 }
 
-export function getSingleEmployee(credentials) {
+export function getSingleEmployee(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/single/employees/${credentials}`)
+      .get(`/single/employees/${credentials}/employee/read`, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -49,10 +67,16 @@ export function getSingleEmployee(credentials) {
   });
 }
 
-export function filterEmployee(credentials) {
+export function filterEmployee(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post("/filter/employees", credentials)
+      .post("/filter/employees/employee/read", credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -70,7 +94,7 @@ export function filterEmployee(credentials) {
 export function updateEmployee(id, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/update/employee/${id}`, credentials, {
+      .patch(`/update/employee/${id}/employee/update`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -92,7 +116,7 @@ export function updateEmployee(id, credentials, token) {
 export function updateProfilePicture(credentials, token, id) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/update/profile-picture/${id}`, credentials, {
+      .patch(`/update/profile-picture/${id}/employee/update`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
