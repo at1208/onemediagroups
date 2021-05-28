@@ -232,6 +232,60 @@ const module_permission = {
       type:Boolean,
       default:false
     }
+  },
+  my_tasks:{
+    read:{
+      type:Boolean,
+      default:true
+    },
+    write:{
+      type:Boolean,
+      default:false
+    },
+    update:{
+      type:Boolean,
+      default:false
+    },
+    delete:{
+      type:Boolean,
+      default:false
+    }
+  },
+  my_blogs:{
+    read:{
+      type:Boolean,
+      default:true
+    },
+    write:{
+      type:Boolean,
+      default:false
+    },
+    update:{
+      type:Boolean,
+      default:false
+    },
+    delete:{
+      type:Boolean,
+      default:false
+    }
+  },
+  dashboard:{
+    read:{
+      type:Boolean,
+      default:true
+    },
+    write:{
+      type:Boolean,
+      default:false
+    },
+    update:{
+      type:Boolean,
+      default:false
+    },
+    delete:{
+      type:Boolean,
+      default:false
+    }  
   }
 }
 

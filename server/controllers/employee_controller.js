@@ -205,6 +205,7 @@ module.exports.accept_onboard_invitation = async (req, res) => {
 
 module.exports.update_employee = async (req, res) => {
   const { _id } = req.params;
+  console.log(req.body)
 
   const { first_name,
           last_name,
@@ -217,6 +218,8 @@ module.exports.update_employee = async (req, res) => {
           email,
           address,
           gender,
+          module_visibility,
+          permission
         } = req.body;
 
       const employee = await Employee.findById({_id});
@@ -252,6 +255,12 @@ module.exports.update_employee = async (req, res) => {
         }
         if(gender){
           employee.gender = gender;
+        }
+        if(permission){
+          employee.permission = permission;
+        }
+        if(module_visibility){
+          employee.module_visibility = module_visibility;
         }
         employee.save((err, result) => {
           if(err){
@@ -343,7 +352,7 @@ module.exports.single_employee = (req, res) => {
    .populate("department", "department_name")
    .populate("designation", "designation_name")
    .populate("channels", "channel_name")
-   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture full_name headshot_url")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining picture full_name headshot_url module_visibility permission")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({

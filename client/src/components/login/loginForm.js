@@ -14,6 +14,7 @@ import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
     form: {
+      border:"1px solid #e8e4e4",
       padding: '35px 5px 70px 5px',
       margin: '5px',
       background: '#FFFFFF 0% 0% no-repeat padding-box',

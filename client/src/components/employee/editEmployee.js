@@ -5,23 +5,17 @@ import { getDesignations } from '../../actions/designation';
 import {  Grid,
           Button,
           Card,
-          TextField,
           Box,
-          Dialog,
-          DialogActions,
-          DialogContent,
+          TextField,
           Typography,
-          DialogTitle} from '@material-ui/core';
+           } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { updateEmployee } from '../../actions/employee';
 import { getCookie } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import {
-RemoveRedEye as RemoveRedEyeIcon
-} from "@material-ui/icons";
+import ModulePermission from './modulePermission';
+import ModuleVisibility from './moduleVisibility';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,18 +25,17 @@ const useStyles = makeStyles((theme) => ({
   button:{
     textTransform: "none",
     backgroundColor:"#3f51b5",
-    // width:"200px",
+    width:"300px",
     color:"white",
     fontWeight:500,
-    fontSize:"15px",
+    fontSize:"17px",
     '&:hover': {
               backgroundColor:"#3f51b5"
         },
   },
   cardRoot:{
-    // padding:"30px 10px 30px 10px"
+    padding:"30px 30px 30px 30px",
   },
-
   formControl: {
   minWidth: 120,
   width:"100%"
@@ -71,7 +64,6 @@ closeButton: {
 
 
 const EditEmployee = ({ editEmployee }) => {
-  const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
   const classes = useStyles();
 
@@ -86,6 +78,8 @@ const EditEmployee = ({ editEmployee }) => {
        email:"",
        address:"",
        gender:"",
+       permission:editEmployee.permission,
+       module_visibility:editEmployee.module_visibility,
        isLoading:false,
        error:"",
        success:""
@@ -94,16 +88,6 @@ const EditEmployee = ({ editEmployee }) => {
  const [allDepartments, setAllDepartments] = React.useState([]);
  const [allDesignations, setAllDesignations] = React.useState([]);
 
-
-
- const handleClickOpen = () => {
-  setOpen(true);
- };
-
-
- const handleClose = () => {
-  setOpen(false);
- };
 
  React.useEffect(() => {
       getDepartments(token)
@@ -186,45 +170,18 @@ React.useEffect(() => {
    { title: "ADMIN" }
  ]
 
-
-
-
     return  <>
-             <Grid container justify="center">
-             <Box mr={0}>
-               <IconButton aria-label="details" onClick={handleClickOpen}>
-                 <RemoveRedEyeIcon />
-               </IconButton>
-             </Box>
-             </Grid>
-             <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
+             <br />
               <form onSubmit={handleSubmit}>
-              <DialogContent>
-                <DialogTitle
-                 id="customized-dialog-title"
-                 onClose={handleClose}
-                 disableTypography
-                 className={classes.root}>
-                <Typography variant="h6">Update Employee</Typography>
-                  {open ? (
-                    <IconButton
-                      aria-label="close"
-                      onClick={handleClose}
-                      className={classes.closeButton}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  ) : null}
-                </DialogTitle>
                 <Grid container spacing={3} justify="center">
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12} md={9}>
                      <Card className={classes.cardRoot}>
                      {employee.success && <Alert severity="success">{employee.success}</Alert>}
                      {employee.error && <Alert severity="error">{employee.error}</Alert>}
                      <br />
-                     <form onSubmit={handleSubmit}>
-                      <Grid container spacing={3}>
+
+                      <Grid container spacing={3} justify="space-between">
                         <Grid item xs={12} md={6}>
                            <TextField
                            variant="outlined"
@@ -356,17 +313,46 @@ React.useEffect(() => {
                         </Grid>
 
                       </Grid>
-                      </form>
                     </Card>
+                    <br />
+                    <Grid container justify="center" spacing={6}>
+                      <Grid item xs={12} md={12}>
+                        <ModulePermission
+                          onChangePermission={(data) => setEmployee({...employee, permission: data})}
+                          permission={editEmployee.permission}
+                        />
+                      </Grid>
+                    </Grid>
+                     <Grid container justify="center">
+                       <Grid item>
+                         <Box p={4} mb={10}>
+                          <Button
+                            size="large"
+                            className={classes.button}
+                            type="submit" disabled={employee.isLoading}>
+                             Update
+                          </Button>
+                        </Box>
+                       </Grid>
+                     </Grid>
+                  </Grid>
+                  <Grid item md={2}>
+                    <Box pt={3} pb={1}>
+                      <Typography variant="body2" align="center">Module Visibility</Typography>
+                    </Box>
+                    <hr />
+                   <ModuleVisibility
+                     onChangeVisibility={(data) => setEmployee({...employee, module_visibility: data })}
+                     modules={editEmployee.module_visibility}
+                   />
                   </Grid>
                 </Grid>
-              </DialogContent>
-              <DialogActions>
-                <Button className={classes.button} type="submit" disabled={employee.isLoading}>Update</Button>
-              </DialogActions>
+
+
+
              </form>
             </div>
-            </Dialog>
+
             </>
 }
 

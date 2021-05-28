@@ -109,3 +109,25 @@ export function deleteTask(id, token) {
       });
   });
 }
+
+export function myTasksList(token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/task/mytask/my_tasks/read`, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

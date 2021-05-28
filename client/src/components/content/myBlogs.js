@@ -1,13 +1,20 @@
+
 import React from "react";
 import styled from "styled-components/macro";
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import {
+  Box,
+
+
   Chip,
+
   Grid,
+  IconButton,
+
   Paper as MuiPaper,
   Table,
   TableBody,
-  Box,
   TableCell,
   TableContainer,
   TableHead,
@@ -15,13 +22,15 @@ import {
   TableRow,
   TableSortLabel
 } from "@material-ui/core";
-import IconButton from '@material-ui/core/IconButton';
+
 import {
-RemoveRedEye as RemoveRedEyeIcon
+  RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
-
+import { myBlogsList } from '../../actions/blog';
+import {  getCookie } from '../../actions/auth';
 const Paper = styled(MuiPaper)(spacing);
+
 
 
 
@@ -52,13 +61,15 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "employee_id", alignment: "left", label: "Employee ID" },
-  { id: "employee_name", alignment: "left", label: "Employee Name" },
-  { id: "department", alignment: "left", label: "Department" },
-  { id: "designation", alignment: "left", label: "Designation" },
+  { id: "title", alignment: "left", label: "Blog Title" },
   { id: "status", alignment: "left", label: "Status" },
-  { id: "detail", alignment: "center", label: "Action" },
+  { id: "approval", alignment: "left", label: "Approval Status" },
+  { id: "domain", alignment: "left", label: "Domain" },
+  { id: "postedBy", alignment: "right", label: "Posted By" },
+  { id: "detail", alignment: "right", label: "Detail" },
 ];
+
+
 
 function EnhancedTableHead(props) {
   const {
@@ -97,12 +108,13 @@ function EnhancedTableHead(props) {
 
 
 
-function EnhancedTable({ employees }) {
+function EnhancedTable({ blogs }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const history = useHistory();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -112,12 +124,14 @@ function EnhancedTable({ employees }) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = employees.map((n) => n.id);
+      const newSelecteds = blogs.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
+
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -131,7 +145,7 @@ function EnhancedTable({ employees }) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, employees.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, blogs.length - page * rowsPerPage);
 
   return (
     <div>
@@ -148,13 +162,14 @@ function EnhancedTable({ employees }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={employees.length}
+              rowCount={blogs.length}
             />
             <TableBody>
-              {stableSort(employees, getComparator(order, orderBy))
+              {stableSort(blogs, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
+                  const isItemSelected = isSelected(row.id);
+
 
                   return (
                     <TableRow
@@ -162,37 +177,38 @@ function EnhancedTable({ employees }) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={`${row._id}-${index}`}
+                      key={`${row.title}-${index}`}
                       selected={isItemSelected}
                     >
-                    <TableCell align="left">{row.employee_id}</TableCell>
-                    <TableCell align="left"><Chip size="small" label={row.full_name} color="primary" /></TableCell>
-                    <TableCell align="left"><Chip size="small" label={(row.department && row.department.department_name) || "None"} color="primary" /></TableCell>
-                    <TableCell>
-                      {(row.designation && row.designation.designation_name.toUpperCase()) || "None"}
-                    </TableCell>
-                    <TableCell align="left">
-                    {
-                      row.status === "INVITED" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
-                    }
-                    {
-                      row.status === "LEFT" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                    }
-                    {
-                      row.status === "JOINED" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                    }
-                    </TableCell>
-                    <TableCell padding="none" align="center">
-                      <Box pl={0}>
-                        <Link to={`/employee-detail/${row._id}`}>
-                          <IconButton aria-label="details">
+                      <TableCell align="left">{row.title}</TableCell>
+                      <TableCell align="left">
+                      {
+                        row.status === true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.status === false && (<Chip size="small" label={"INACTIVE"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      </TableCell>
+                      <TableCell align="left">
+                      {
+                        row.approval === "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.approval === "APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
+                        row.approval === "NOT APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      </TableCell>
+                      <TableCell align="left">{ (row.domain && row.domain.name) || "Deleted"}</TableCell>
+                      <TableCell align="right">{(row.postedBy && row.postedBy.full_name) || "Deleted user"}</TableCell>
+                      <TableCell padding="none" align="right">
+                        <Box mr={2}>
+                          <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>
                             <RemoveRedEyeIcon />
                           </IconButton>
-                        </Link>
-                      </Box>
-                    </TableCell>
-
-
+                        </Box>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -207,7 +223,7 @@ function EnhancedTable({ employees }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={employees.length}
+          count={blogs.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -218,16 +234,29 @@ function EnhancedTable({ employees }) {
   );
 }
 
-function EmployeeList({ employeeList }) {
+function BlogListing() {
+  const token = getCookie("token")
+  const [myblogs, setMyBlogs] = React.useState([]);
+
+  React.useEffect(() => {
+     myBlogsList(token)
+        .then((value) => {
+         setMyBlogs(value)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  }, [])
+
   return (
     <React.Fragment>
-      <Grid container spacing={6} justify="center">
-        <Grid item xs={12} md={12} sm={12} lg={12}>
-          <EnhancedTable employees={employeeList}/>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <EnhancedTable blogs={myblogs}/>
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default EmployeeList;
+export default BlogListing;

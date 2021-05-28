@@ -173,13 +173,17 @@ const useStyles = makeStyles((theme) => ({
   const matches = useMediaQuery('(min-width:600px)');
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
   const [openContentCollapse, setOpenContentCollapse] = React.useState(true);
+  const [openTaskCollapse, setOpenTaskCollapse] = React.useState(true);
 
-  function handleOpenEmployee(){
-     setOpenEmployeeCollapse(!openEmployeeCollapse);
-  }
-
-  function handleOpenContent(){
-     setOpenContentCollapse(!openContentCollapse);
+ 
+  const handleChange = (name) => e => {
+   if(name ==="content"){
+      setOpenContentCollapse(!openContentCollapse);
+   }else if (name === "employee") {
+        setOpenEmployeeCollapse(!openEmployeeCollapse);
+   }else if (name === "task") {
+      setOpenTaskCollapse(!openTaskCollapse);
+   }
   }
 
    React.useEffect(() => {
@@ -301,18 +305,57 @@ const useStyles = makeStyles((theme) => ({
           </ListItem>
       </Link>}
 
-    {checkVisiblityOnSidebar('task') && <Link to="/tasks">
-      <ListItem button selected={currentTab("/tasks")}>
-           <ListItemIcon>
-             <Briefcase className={classes.sidebarIcons} />
-           </ListItemIcon>
-        <ListItemText >
-          <Typography className={classes.menutext} variant="body1">
-            Tasks
-          </Typography>
-        </ListItemText>
-      </ListItem>
-    </Link>}
+
+
+
+    {(checkVisiblityOnSidebar('my_tasks') || checkVisiblityOnSidebar('task')) &&
+    <ListItem button onClick={handleChange("task")} className='mt-3'>
+                <ListItemIcon>
+                  <User className={classes.sidebarIcons} />
+                 </ListItemIcon>
+                <ListItemText >
+                  <Typography className={classes.menutext}>
+                   Tasks
+                  </Typography>
+                </ListItemText>
+                {openTaskCollapse ?<ExpandLess className={classes.direc} />:<ExpandMore className={classes.direc} />}
+    </ListItem>}
+
+    <Collapse in={openTaskCollapse} timeout="auto" unmountOnExit>
+       <List component="div" disablePadding className={classes.collapseList}>
+
+       {checkVisiblityOnSidebar('my_tasks') && <Link to="/my-tasks">
+         <ListItem button selected={currentTab("/my-tasks")}>
+          <ListItemIcon>
+            {<Zap className={classes.sidebarIcons} />}
+          </ListItemIcon>
+           <ListItemText >
+              <Typography className={classes.menutext} variant="body1">
+                My Tasks
+              </Typography>
+           </ListItemText>
+         </ListItem>
+       </Link>}
+
+       {checkVisiblityOnSidebar('task') && <Link to="/tasks">
+         <ListItem button selected={currentTab("/tasks")}>
+              <ListItemIcon>
+                <Briefcase className={classes.sidebarIcons} />
+              </ListItemIcon>
+           <ListItemText >
+             <Typography className={classes.menutext} variant="body1">
+               All Tasks
+             </Typography>
+           </ListItemText>
+         </ListItem>
+       </Link>}
+
+       </List>
+    </Collapse>
+
+
+
+
 
      {checkVisiblityOnSidebar('chat') && <Link to="/chats">
         <ListItem button selected={currentTab("/chats")}>
@@ -327,7 +370,7 @@ const useStyles = makeStyles((theme) => ({
         </ListItem>
     </Link>}
 
-      {checkVisiblityOnSidebar('employee') && <ListItem button onClick={handleOpenEmployee} className='mt-3'>
+      {(checkVisiblityOnSidebar('all_employees') || checkVisiblityOnSidebar('department') || checkVisiblityOnSidebar('designation')) && <ListItem button onClick={handleChange("employee")} className='mt-3'>
                   <ListItemIcon>
                     <User className={classes.sidebarIcons} />
                    </ListItemIcon>
@@ -343,7 +386,7 @@ const useStyles = makeStyles((theme) => ({
       <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
 
-           {checkVisiblityOnSidebar('employee') && <Link to="/all-employees">
+           {checkVisiblityOnSidebar('all_employees') && <Link to="/all-employees">
                <ListItem button selected={currentTab("/all-employees")}>
                   <ListItemIcon>
                       <Users className={classes.sidebarIcons} />
@@ -385,7 +428,7 @@ const useStyles = makeStyles((theme) => ({
       </Collapse>
 
 
-      {checkVisiblityOnSidebar('content') && <ListItem button onClick={handleOpenContent} className='mt-3'>
+      {(checkVisiblityOnSidebar('write_blog')||checkVisiblityOnSidebar('all_blogs')||checkVisiblityOnSidebar('domain')||checkVisiblityOnSidebar('category')) && <ListItem button onClick={handleChange("content")} className='mt-3'>
                   <ListItemIcon>
                      <User className={classes.sidebarIcons} />
                   </ListItemIcon>
@@ -401,7 +444,20 @@ const useStyles = makeStyles((theme) => ({
       <Collapse in={openContentCollapse} timeout="auto" unmountOnExit>
          <List component="div" disablePadding className={classes.collapseList}>
 
-              {checkVisiblityOnSidebar('blog') && <Link to="/content/create">
+               {checkVisiblityOnSidebar('my_blogs') && <Link to="/my-blogs">
+                 <ListItem button selected={currentTab("/my-blogs")}>
+                  <ListItemIcon>
+                   {/*<Zap className={classes.sidebarIcons} />*/}
+                  </ListItemIcon>
+                   <ListItemText >
+                      <Typography className={classes.menutext} variant="body1">
+                        My Blogs
+                      </Typography>
+                   </ListItemText>
+                 </ListItem>
+               </Link>}
+
+              {checkVisiblityOnSidebar('write_blog') && <Link to="/content/create">
                  <ListItem button selected={currentTab("/content/create")}>
                    <ListItemIcon>
                       <Edit className={classes.sidebarIcons} />
@@ -414,7 +470,7 @@ const useStyles = makeStyles((theme) => ({
                  </ListItem>
               </Link>}
 
-              {checkVisiblityOnSidebar('blog') && <Link to="/content/blogs">
+              {checkVisiblityOnSidebar('all_blogs') && <Link to="/content/blogs">
                  <ListItem button selected={currentTab("/content/blogs")}>
                    <ListItemIcon>
                      <BookOpen className={classes.sidebarIcons} />
@@ -480,6 +536,11 @@ const useStyles = makeStyles((theme) => ({
           </ListItemText>
         </ListItem>
       </Link>}
+
+      <br />
+
+
+
 
       </List>
       </Drawer>

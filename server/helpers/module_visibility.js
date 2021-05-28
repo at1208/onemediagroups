@@ -7,11 +7,7 @@ const  module_visibility = {
     type:Boolean,
     default: false
   },
-  channel:{
-    type:Boolean,
-    default: false
-  },
-  employee:{
+  all_employees:{
     type:Boolean,
     default: false
   },
@@ -27,15 +23,15 @@ const  module_visibility = {
     type:Boolean,
     default: false
   },
-  blog:{
+  write_blog:{
+    type:Boolean,
+    default: false
+  },
+  all_blogs:{
     type:Boolean,
     default: false
   },
   category:{
-    type:Boolean,
-    default: false
-  },
-  content:{
     type:Boolean,
     default: false
   },
@@ -48,6 +44,14 @@ const  module_visibility = {
     default: false
   },
   contact:{
+    type:Boolean,
+    default: false
+  },
+  my_tasks:{
+    type:Boolean,
+    default: false
+  },
+  my_blogs:{
     type:Boolean,
     default: false
   }

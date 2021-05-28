@@ -20,6 +20,26 @@ const bcrypt = require('bcrypt');
                                   date_of_joining: new Date(),
                                   phone_number:"9140283163",
                                   isActive:true,
+                                  module_visibility:{
+                                    project : true,
+                                    task  : true,
+                                    channel  : true,
+                                    employee  : true,
+                                    department  : true,
+                                    designation  : true,
+                                    domain  : true,
+                                    blog  : true,
+                                    category  : true,
+                                    content  : true,
+                                    activity  : true,
+                                    chat  : true,
+                                    contact  : true,
+                                    all_employees : true,
+                                    write_blog : true,
+                                    all_blogs : true,
+                                    my_tasks : true,
+                                    my_blogs : true
+                                  },
                                   permission:{
                                     project:{
                                       read:true,
@@ -94,6 +114,24 @@ const bcrypt = require('bcrypt');
                                       delete:true
                                     },
                                     contact:{
+                                      read:true,
+                                      write:true,
+                                      update:true,
+                                      delete:true
+                                    },
+                                    my_blogs:{
+                                      read:true,
+                                      write:true,
+                                      update:true,
+                                      delete:true
+                                    },
+                                    my_tasks:{
+                                      read:true,
+                                      write:true,
+                                      update:true,
+                                      delete:true
+                                    },
+                                    dashboard:{
                                       read:true,
                                       write:true,
                                       update:true,

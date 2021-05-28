@@ -259,3 +259,24 @@ module.exports.blog_list_by_category = (req, res) => {
           });
     })
 }
+
+
+
+
+
+module.exports.my_blogs = (req, res) => {
+
+  Blog.find({ postedBy: req.user._id })
+     .populate("domain", "name")
+     .populate("categories", "name")
+     .populate("postedBy", "first_name last_name full_name")
+     .select("title postedBy status approval")
+     .exec((err, result) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       res.json(result)
+   })
+}

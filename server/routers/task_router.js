@@ -8,7 +8,8 @@ const { create_task,
         all_task,
         single_task,
         task_count_by_project,
-        filter_task
+        filter_task,
+        my_tasks
       } = require("../controllers/task_controller");
 
 
@@ -60,5 +61,11 @@ const { check_permission } = require("../utils/permission");
            authMiddleware,
            check_permission,
            filter_task);
+
+   router.get("/task/mytask/:moduleType/:permission",
+           requireSignin,
+           authMiddleware,
+           check_permission,
+           my_tasks);
 
 module.exports = router;

@@ -150,7 +150,7 @@ module.exports.task_count_by_project = (req, res) => {
 }
 
 
- 
+
 
 module.exports.filter_task = (req, res) => {
    // query = { project: "", assignee:"", follwer:"", status:"" }
@@ -164,6 +164,21 @@ if (payload.status) query.status = {$in : payload.status};
 query.del_flag = {$in : false};
 
     Task.find(query)
+    .populate("project_id", "name")
+    .populate("assignee", "first_name last_name full_name")
+    .populate("follower", "first_name last_name full_name")
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      res.json(result)
+    })
+}
+
+module.exports.my_tasks = (req, res) => {
+  Task.find({ assignee: req.user._id })
     .populate("project_id", "name")
     .populate("assignee", "first_name last_name full_name")
     .populate("follower", "first_name last_name full_name")

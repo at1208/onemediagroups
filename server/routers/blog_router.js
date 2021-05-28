@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { create,
         filter_blog,
+        my_blogs,
         single_blog,
         blog_list_by_category,
         read_blog,
@@ -46,6 +47,11 @@ router.get('/blog/single/:id/:moduleType/:permission',
              check_permission,
              single_blog);
 
+ router.get('/blog/my-blogs/:moduleType/:permission',
+              requireSignin,
+              authMiddleware,
+              check_permission,
+              my_blogs);
 
 //End User Application
 router.post("/blog/list/:domainId", blog_list_by_domain);
