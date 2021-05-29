@@ -80,7 +80,9 @@ const UpdateProfile = ({ pageReload }) => {
   }
 
     return  <>
+    <br />
              <Grid container justify="center">
+
                <Button
                 variant="contained"
                 className={classes.button}

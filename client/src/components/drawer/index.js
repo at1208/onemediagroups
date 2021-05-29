@@ -14,7 +14,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Divider, Collapse, Grid } from '@material-ui/core';
+import { Divider, Collapse, Grid, Box } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import "../../vendor/perfect-scrollbar.css";
@@ -23,23 +23,28 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import UserDropdown from './userDropdown';
 import { Sliders,
          Globe,
+         Shield,
+         Database,
          Hash,
-         MessageSquare,
+         MessageCircle,
          Users,
          User,
          Layers,
          Target,
+         Tag,
          Mail,
          Edit,
+         Package,
          Briefcase,
          Grid as GridIcon,
-         Zap,
+         Pocket,
+         Activity,
          Home,
          BookOpen } from 'react-feather';
 import { isAuth } from '../../actions/auth';
 import { checkVisiblityOnSidebar } from '../../utils/helper'
 
-const drawerWidth = 240;
+const drawerWidth = 225;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -138,6 +143,14 @@ const useStyles = makeStyles((theme) => ({
     color:"black"
   },
   sidebarIcons:{
+    padding:"1px",
+    color:"rgb(238, 238, 238)",
+    opacity:"0.30"
+  },
+  nestedSidebarIcon:{
+    paddingTop:"5px",
+    position:"absolute",
+    bottom:"13px",
     color:"rgb(238, 238, 238)",
     opacity:"0.30"
   },
@@ -153,12 +166,15 @@ const useStyles = makeStyles((theme) => ({
     color:"black"
   },
   list:{
-    paddingLeft:"20px",
-    paddingRight:"20px"
+    paddingLeft:"",
+    paddingRight:""
   },
   name:{
     color:"rgb(238, 238, 238)",
     opacity:"0.90"
+  },
+  listContainer:{
+
   }
 }));
 
@@ -175,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
   const [openContentCollapse, setOpenContentCollapse] = React.useState(true);
   const [openTaskCollapse, setOpenTaskCollapse] = React.useState(true);
 
- 
+
   const handleChange = (name) => e => {
    if(name ==="content"){
       setOpenContentCollapse(!openContentCollapse);
@@ -258,9 +274,9 @@ const useStyles = makeStyles((theme) => ({
           {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.direc} /> : <ChevronLeftIcon className={classes.direc} />}
         </IconButton>}
        <Grid container justify="center">
-         <Typography noWrap className={classes.name}>
+        {/*<Typography noWrap className={classes.name}>
            Hello, {isAuth() && isAuth().full_name}
-         </Typography>
+         </Typography>*/}
        </Grid>
       </div>
       <Divider />
@@ -281,9 +297,9 @@ const useStyles = makeStyles((theme) => ({
 
       <Link to="/profile">
         <ListItem button selected={currentTab("/profile")}>
-            <ListItemIcon>
+            {<ListItemIcon>
               <Sliders className={classes.sidebarIcons} />
-            </ListItemIcon>
+            </ListItemIcon>}
             <ListItemText >
               <Typography className={classes.menutext} variant="body1">
                Profile
@@ -294,9 +310,9 @@ const useStyles = makeStyles((theme) => ({
 
       {checkVisiblityOnSidebar('project') && <Link to="/projects">
           <ListItem button selected={currentTab("/projects")}>
-             <ListItemIcon>
+             {<ListItemIcon>
                <GridIcon className={classes.sidebarIcons} />
-             </ListItemIcon>
+             </ListItemIcon>}
             <ListItemText >
               <Typography className={classes.menutext} variant="body1">
                 Projects
@@ -310,9 +326,9 @@ const useStyles = makeStyles((theme) => ({
 
     {(checkVisiblityOnSidebar('my_tasks') || checkVisiblityOnSidebar('task')) &&
     <ListItem button onClick={handleChange("task")} className='mt-3'>
-                <ListItemIcon>
-                  <User className={classes.sidebarIcons} />
-                 </ListItemIcon>
+                {<ListItemIcon>
+                  <Briefcase className={classes.sidebarIcons} />
+                 </ListItemIcon>}
                 <ListItemText >
                   <Typography className={classes.menutext}>
                    Tasks
@@ -322,15 +338,21 @@ const useStyles = makeStyles((theme) => ({
     </ListItem>}
 
     <Collapse in={openTaskCollapse} timeout="auto" unmountOnExit>
+       <div className={classes.listContainer}>
        <List component="div" disablePadding className={classes.collapseList}>
 
        {checkVisiblityOnSidebar('my_tasks') && <Link to="/my-tasks">
          <ListItem button selected={currentTab("/my-tasks")}>
-          <ListItemIcon>
-            {<Zap className={classes.sidebarIcons} />}
-          </ListItemIcon>
+          {<ListItemIcon>
+
+          </ListItemIcon>}
            <ListItemText >
               <Typography className={classes.menutext} variant="body1">
+              <ListItemIcon>
+               <Box>
+                 <Target className={classes.nestedSidebarIcon} />
+               </Box>
+              </ListItemIcon>
                 My Tasks
               </Typography>
            </ListItemText>
@@ -339,11 +361,16 @@ const useStyles = makeStyles((theme) => ({
 
        {checkVisiblityOnSidebar('task') && <Link to="/tasks">
          <ListItem button selected={currentTab("/tasks")}>
-              <ListItemIcon>
-                <Briefcase className={classes.sidebarIcons} />
-              </ListItemIcon>
+              {<ListItemIcon>
+
+              </ListItemIcon>}
            <ListItemText >
              <Typography className={classes.menutext} variant="body1">
+             <ListItemIcon>
+              <Box>
+                <Database className={classes.nestedSidebarIcon} />
+              </Box>
+             </ListItemIcon>
                All Tasks
              </Typography>
            </ListItemText>
@@ -351,6 +378,7 @@ const useStyles = makeStyles((theme) => ({
        </Link>}
 
        </List>
+       </div>
     </Collapse>
 
 
@@ -359,9 +387,9 @@ const useStyles = makeStyles((theme) => ({
 
      {checkVisiblityOnSidebar('chat') && <Link to="/chats">
         <ListItem button selected={currentTab("/chats")}>
-            <ListItemIcon>
-               <MessageSquare className={classes.sidebarIcons} />
-            </ListItemIcon>
+            {<ListItemIcon>
+               <MessageCircle className={classes.sidebarIcons} />
+            </ListItemIcon>}
             <ListItemText >
               <Typography className={classes.menutext} variant="body1">
                 Chats
@@ -371,9 +399,9 @@ const useStyles = makeStyles((theme) => ({
     </Link>}
 
       {(checkVisiblityOnSidebar('all_employees') || checkVisiblityOnSidebar('department') || checkVisiblityOnSidebar('designation')) && <ListItem button onClick={handleChange("employee")} className='mt-3'>
-                  <ListItemIcon>
+                  {<ListItemIcon>
                     <User className={classes.sidebarIcons} />
-                   </ListItemIcon>
+                   </ListItemIcon>}
                   <ListItemText >
                     <Typography className={classes.menutext}>
                      Employees
@@ -388,11 +416,16 @@ const useStyles = makeStyles((theme) => ({
 
            {checkVisiblityOnSidebar('all_employees') && <Link to="/all-employees">
                <ListItem button selected={currentTab("/all-employees")}>
-                  <ListItemIcon>
-                      <Users className={classes.sidebarIcons} />
-                  </ListItemIcon>
+                {<ListItemIcon>
+
+                  </ListItemIcon>}
                   <ListItemText >
                     <Typography className={classes.menutext} variant="body1">
+                    <ListItemIcon>
+                     <Box>
+                       <Users className={classes.nestedSidebarIcon} />
+                     </Box>
+                    </ListItemIcon>
                       All Employee
                     </Typography>
                   </ListItemText>
@@ -401,11 +434,16 @@ const useStyles = makeStyles((theme) => ({
 
            {checkVisiblityOnSidebar('department') && <Link to="/department">
                <ListItem button selected={currentTab("/department")}>
-                  <ListItemIcon>
-                    <Layers className={classes.sidebarIcons} />
-                  </ListItemIcon>
+                  {<ListItemIcon>
+
+                  </ListItemIcon>}
                   <ListItemText >
                     <Typography className={classes.menutext} variant="body1">
+                    <ListItemIcon>
+                     <Box>
+                       <Layers className={classes.nestedSidebarIcon} />
+                     </Box>
+                    </ListItemIcon>
                       Department
                     </Typography>
                   </ListItemText>
@@ -414,11 +452,16 @@ const useStyles = makeStyles((theme) => ({
 
             {checkVisiblityOnSidebar('designation') && <Link to="/designation">
                <ListItem button selected={currentTab("/designation")}>
-                   <ListItemIcon>
-                     <Target className={classes.sidebarIcons} />
-                   </ListItemIcon>
+                  {<ListItemIcon>
+
+                   </ListItemIcon>}
                   <ListItemText >
                     <Typography className={classes.menutext} variant="body1">
+                    <ListItemIcon>
+                     <Box>
+                       <Shield className={classes.nestedSidebarIcon} />
+                     </Box>
+                    </ListItemIcon>
                       Designation
                     </Typography>
                   </ListItemText>
@@ -429,9 +472,9 @@ const useStyles = makeStyles((theme) => ({
 
 
       {(checkVisiblityOnSidebar('write_blog')||checkVisiblityOnSidebar('all_blogs')||checkVisiblityOnSidebar('domain')||checkVisiblityOnSidebar('category')) && <ListItem button onClick={handleChange("content")} className='mt-3'>
-                  <ListItemIcon>
-                     <User className={classes.sidebarIcons} />
-                  </ListItemIcon>
+                  {<ListItemIcon>
+                     <Package className={classes.sidebarIcons} />
+                  </ListItemIcon>}
                   <ListItemText >
                     <Typography className={classes.menutext}>
                       Content
@@ -446,11 +489,16 @@ const useStyles = makeStyles((theme) => ({
 
                {checkVisiblityOnSidebar('my_blogs') && <Link to="/my-blogs">
                  <ListItem button selected={currentTab("/my-blogs")}>
-                  <ListItemIcon>
-                   {/*<Zap className={classes.sidebarIcons} />*/}
-                  </ListItemIcon>
+                  {<ListItemIcon>
+
+                  </ListItemIcon>}
                    <ListItemText >
                       <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                       <Box>
+                         <Pocket className={classes.nestedSidebarIcon} />
+                       </Box>
+                      </ListItemIcon>
                         My Blogs
                       </Typography>
                    </ListItemText>
@@ -459,11 +507,16 @@ const useStyles = makeStyles((theme) => ({
 
               {checkVisiblityOnSidebar('write_blog') && <Link to="/content/create">
                  <ListItem button selected={currentTab("/content/create")}>
-                   <ListItemIcon>
-                      <Edit className={classes.sidebarIcons} />
-                   </ListItemIcon>
+                   {<ListItemIcon>
+
+                   </ListItemIcon>}
                   <ListItemText >
                      <Typography className={classes.menutext} variant="body1">
+                     <ListItemIcon>
+                      <Box>
+                        <Edit className={classes.nestedSidebarIcon} />
+                      </Box>
+                     </ListItemIcon>
                        Write Blog
                      </Typography>
                   </ListItemText>
@@ -472,11 +525,16 @@ const useStyles = makeStyles((theme) => ({
 
               {checkVisiblityOnSidebar('all_blogs') && <Link to="/content/blogs">
                  <ListItem button selected={currentTab("/content/blogs")}>
-                   <ListItemIcon>
-                     <BookOpen className={classes.sidebarIcons} />
-                   </ListItemIcon>
+                   {<ListItemIcon>
+
+                   </ListItemIcon>}
                   <ListItemText >
                     <Typography className={classes.menutext} variant="body1">
+                    <ListItemIcon>
+                     <Box>
+                       <BookOpen className={classes.nestedSidebarIcon} />
+                     </Box>
+                    </ListItemIcon>
                       All Blogs
                     </Typography>
                   </ListItemText>
@@ -485,11 +543,16 @@ const useStyles = makeStyles((theme) => ({
 
               {checkVisiblityOnSidebar('category') && <Link to="/categories">
                  <ListItem button selected={currentTab("/categories")}>
-                   <ListItemIcon>
-                     <Hash className={classes.sidebarIcons} />
-                   </ListItemIcon>
+                   {<ListItemIcon>
+
+                   </ListItemIcon>}
                   <ListItemText >
                      <Typography className={classes.menutext}>
+                     <ListItemIcon>
+                      <Box>
+                        <Tag className={classes.nestedSidebarIcon} />
+                      </Box>
+                     </ListItemIcon>
                      Categories
                      </Typography>
                   </ListItemText>
@@ -498,11 +561,16 @@ const useStyles = makeStyles((theme) => ({
 
                {checkVisiblityOnSidebar('domain') && <Link to="/domains">
                    <ListItem button selected={currentTab("/domains")}>
-                     <ListItemIcon>
-                       <Globe className={classes.sidebarIcons} />
-                     </ListItemIcon>
+                     {<ListItemIcon>
+
+                     </ListItemIcon>}
                     <ListItemText >
                       <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                       <Box>
+                         <Globe className={classes.nestedSidebarIcon} />
+                       </Box>
+                      </ListItemIcon>
                         Domains
                       </Typography>
                     </ListItemText>
@@ -513,9 +581,9 @@ const useStyles = makeStyles((theme) => ({
 
       {checkVisiblityOnSidebar('contact') && <Link to="/contact">
         <ListItem button selected={currentTab("/contact")}>
-           <ListItemIcon>
+           {<ListItemIcon>
              <Mail className={classes.sidebarIcons} />
-           </ListItemIcon>
+           </ListItemIcon>}
           <ListItemText >
             <Typography className={classes.menutext} variant="body1">
               Contacts
@@ -526,9 +594,9 @@ const useStyles = makeStyles((theme) => ({
 
       {checkVisiblityOnSidebar('activity') && <Link to="/activities">
         <ListItem button selected={currentTab("/activities")}>
-         <ListItemIcon>
-           <Zap className={classes.sidebarIcons} />
-         </ListItemIcon>
+         {<ListItemIcon>
+           <Activity className={classes.sidebarIcons} />
+         </ListItemIcon>}
           <ListItemText >
              <Typography className={classes.menutext} variant="body1">
                Activities

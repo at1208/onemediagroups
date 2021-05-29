@@ -18,6 +18,7 @@ const AddDesignation = () => {
 const Designation = () => {
   return <>
           <DashboardLayout>
+             <br />
              {AddDesignation()}
              <br />
              <DesignationList />

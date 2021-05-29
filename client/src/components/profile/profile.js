@@ -6,7 +6,6 @@ import { getSingleEmployee,
          updateProfilePicture } from '../../actions/employee';
 import { uploadFile } from '../../actions/upload';
 import {
-  Avatar as MuiAvatar,
   Box,
   Button as MuiButton,
   Card as MuiCard,
@@ -15,18 +14,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
-import {
-  Briefcase,
-  PhoneCall,
-  Mail,
-  Calendar,
-  User,
-  Smile,
-  Flag,
-  MapPin,
-} from "react-feather";
 import { makeStyles } from '@material-ui/core/styles';
-
+import Avatar from '../core/avatar';
 const token = getCookie("token");
 const Button = styled(MuiButton)(spacing);
 const Card = styled(MuiCard)(spacing);
@@ -36,21 +25,6 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-const Avatar = styled(MuiAvatar)`
-  display: inline-block;
-  height: 80px;
-  width: 80px;
-`;
-
-const AboutIcon = styled.span`
-  display: flex;
-  padding-right: 10px;
-
-  svg {
-    width: 21px;
-    height: 21px;
-  }
-`;
 
 
 
@@ -75,6 +49,13 @@ const useStyles = makeStyles((theme) => ({
   },
   uploadButton:{
     textTransform:"none"
+  },
+  headshot:{
+    borderRadius: "50%",
+    width: "160px",
+    height:"160px",
+    objectFit: "cover",
+
   }
 }));
 
@@ -115,12 +96,20 @@ function Details({ data }) {
     <Card mb={6}>
       <CardContent>
         <Centered>
-          <Avatar alt=" " src={picture.url || (data && data.headshot_url) } />
-          <Typography variant="body2" component="div" gutterBottom>
-            <Box fontWeight="fontWeightMedium">{data && data.full_name}</Box>
-            <Box fontWeight="fontWeightRegular">{data && data.designation && data.designation.designation_name}</Box>
-          </Typography>
-          <Box>
+            <Grid container justify="center">
+              <Avatar  name={data && data.full_name} src={picture.url || (data && data.headshot_url) }  className={classes.headshot}/>
+            </Grid>
+            <Box pt={2}>
+             <Typography variant="h5">
+               {data && data.full_name}
+             </Typography>
+            </Box>
+            <Box>
+            <Typography variant="h6">
+             {data && data.designation && data.designation.designation_name}
+            </Typography>
+            </Box>
+          <Box p={2}>
           <input
             onChange={handleChange("featureImg")}
             accept="image/*"
@@ -132,12 +121,9 @@ function Details({ data }) {
             <Button
             className={classes.uploadButton}
                variant="contained"
-               color="primary"
                component="span"
                size="small">
-
-               {picture.uploading?"Uploading...":"Change Picture"}
-
+               {picture.uploading?"Uploading...":"Change profile photo"}
             </Button>
           </label>
           </Box>
@@ -153,100 +139,118 @@ function About({ data }) {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
-          About
-        </Typography>
 
-        <Spacer mb={4} />
 
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1} >
-            <AboutIcon>
-              <Briefcase />
-            </AboutIcon>
+        <Grid container  alignItems="space-between" pb={0}>
+          <Grid item sm={4}>
+            <Typography variant="body2">
+              Department
+            </Typography>
           </Grid>
           <Grid item>
-            {data && data.department && data.department.department_name}
+          <Typography variant="body2"  noWrap>
+            - {data && data.department && data.department.department_name}
+          </Typography>
           </Grid>
         </Grid>
+        <hr />
 
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <MapPin />
-            </AboutIcon>
+        <Grid container alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+              Address
+          </Typography>
+
           </Grid>
           <Grid item>
-            {data && data.address}
+          <Typography variant="body2"  noWrap>
+             - {data && data.address}
+          </Typography>
           </Grid>
         </Grid>
+          <hr />
 
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <Smile />
-            </AboutIcon>
+        <Grid container   alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+             Gender
+          </Typography>
           </Grid>
           <Grid item>
-            {data && data.gender}
+          <Typography variant="body2"  noWrap>
+             - {data && data.gender}
+          </Typography>
           </Grid>
         </Grid>
+        <hr />
 
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <PhoneCall />
-            </AboutIcon>
+        <Grid container   alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+            Phone Number
+          </Typography>
           </Grid>
           <Grid item>
-            {data && data.phone_number}
+          <Typography variant="body2"  noWrap>
+            - {data && data.phone_number}
+          </Typography>
+
           </Grid>
         </Grid>
+        <hr />
 
-
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <Flag />
-            </AboutIcon>
+        <Grid container   alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+             Status
+          </Typography>
           </Grid>
           <Grid item>
-            {data && data.status}
+          <Typography variant="body2"  noWrap>
+            - {data && data.status}
+          </Typography>
+
           </Grid>
         </Grid>
+        <hr />
 
-
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <User />
-            </AboutIcon>
+        <Grid container   alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+            Employee ID
+          </Typography>
           </Grid>
           <Grid item>
-            {data && data.employee_id}
+          <Typography variant="body2"  noWrap>
+            - {data && data.employee_id}
+          </Typography>
           </Grid>
         </Grid>
-
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <Mail />
-            </AboutIcon>
+        <hr />
+        <Grid container alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+             E-mail
+          </Typography>
           </Grid>
-          <Grid item>
-            {data && data.email}
+          <Grid item sm={8}>
+          <Typography variant="body2" noWrap>
+            - {data && data.email}
+          </Typography>
           </Grid>
         </Grid>
-
-        <Grid container direction="row" alignItems="center" pb={1}>
-          <Grid item mr={1}>
-            <AboutIcon>
-              <Calendar />
-            </AboutIcon>
+        <hr />
+        <Grid container alignItems="center" pb={0}>
+          <Grid item sm={4}>
+          <Typography variant="body2">
+             Date of Joining
+          </Typography>
           </Grid>
           <Grid item>
+          <Typography variant="body2"  noWrap>
+            - {data && data.date_of_joining}
+          </Typography>
 
-            {data && data.date_of_joining}
           </Grid>
         </Grid>
       </CardContent>
@@ -272,10 +276,12 @@ function Profile() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={6} justify="flex-start">
-        <Grid item xs={12} lg={4} xl={3}>
-
+      <br />
+      <Grid container spacing={6} justify="center">
+        <Grid item xs={12} lg={6} xl={3}>
           <Details data={employee} />
+        </Grid>
+        <Grid item xs={12} lg={4} xl={3}>
           <About data={employee} />
         </Grid>
       </Grid>

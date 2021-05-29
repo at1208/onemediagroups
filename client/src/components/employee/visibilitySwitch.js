@@ -15,7 +15,7 @@ const SwitchButton = withStyles((theme) => ({
       transform: 'translateX(23px)',
       color: theme.palette.common.white,
       '& + $track': {
-        backgroundColor: '#6387ED',
+        backgroundColor: '#021642',
         opacity: 1,
         border: 'none',
       },

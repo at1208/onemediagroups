@@ -16,6 +16,7 @@ const AddDepartment = () => {
 const Department = () => {
   return <>
           <DashboardLayout>
+             <br />
              {AddDepartment()}
              <br />
              <DepartmentList />

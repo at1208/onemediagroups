@@ -41,6 +41,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
+
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -49,6 +50,8 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
+
+
 
 const headCells = [
   { id: "Module", alignment: "left", label: "Module" },
@@ -156,10 +159,8 @@ function EmployeeList({ permission,  onChangePermission }) {
                 />
                 <TableBody>
                   {stableSort(modules, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       const isItemSelected = isSelected(row._id);
-
                       return (
                         <TableRow
                           hover
@@ -172,6 +173,7 @@ function EmployeeList({ permission,  onChangePermission }) {
                         <TableCell align="left">{Object.keys(row)[0]}</TableCell>
                         <TableCell align="center">
                           <Checkbox
+                            className="private-checkbox"
                             onChange={handleCheckbox(Object.keys(row)[0])("read")}
                             checked={Object.values(row)[0]['read']}
                             color="primary"

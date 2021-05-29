@@ -92,7 +92,7 @@ export function reviewUpdate(blogId, credentials, token) {
 export function myBlogsList(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/blog/my-blogs/:moduleType/:permission`,{
+      .get(`/blog/my-blogs/my_blogs/read`,{
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

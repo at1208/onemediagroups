@@ -85,6 +85,8 @@ const EditEmployee = ({ editEmployee }) => {
        success:""
   });
 
+  console.log(editEmployee)
+
  const [allDepartments, setAllDepartments] = React.useState([]);
  const [allDesignations, setAllDesignations] = React.useState([]);
 
