@@ -3,11 +3,13 @@ import styled from "styled-components/macro";
 import {
   Chip,
   Grid,
+  Box,
   Paper as MuiPaper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  Typography,
   TableHead,
   TablePagination,
   TableRow,
@@ -146,6 +148,7 @@ function EnhancedTable({ tasks, reload }) {
               onRequestSort={handleRequestSort}
               rowCount={tasks.length}
             />
+            {tasks.length === 0?<Box p={2}><Typography variant="h5">No task found</Typography></Box>:
             <TableBody>
               {stableSort(tasks, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -188,7 +191,7 @@ function EnhancedTable({ tasks, reload }) {
                   <TableCell colSpan={8} />
                 </TableRow>
               )}
-            </TableBody>
+            </TableBody>}
           </Table>
         </TableContainer>
         <TablePagination

@@ -318,13 +318,22 @@ const EditMyTask = ({ editTask, reload }) => {
               </Grid>
               </DialogContent>
               <DialogActions>
-                <DeleteTask id={editTask._id} />
+
+
+              <Grid container justify="center">
+                <Box p={1}>
+                  <DeleteTask id={editTask._id} />
+                </Box>
+                <Box p={1}>
                 <Button
+                  size="large"
                   variant="contained"
                   className={classes.button}
                   type="submit">
                   Submit
                 </Button>
+                </Box>
+              </Grid>
               </DialogActions>
              </form>
             </div>

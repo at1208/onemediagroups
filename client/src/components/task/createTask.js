@@ -263,10 +263,11 @@ const CreateTask = ({ reload }) => {
               <DialogActions>
 
                 <Button
+                  size="large"
                   variant="contained"
                   className={classes.button}
                   type="submit">
-                  Submit
+                  {task.isLoading?"Submitting...":"Submit"}
                 </Button>
               </DialogActions>
              </form>

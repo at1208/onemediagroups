@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { getCookie } from '../../actions/auth';
 import { getNotification, seenNotification } from '../../actions/notification';
@@ -14,16 +14,16 @@ import {
   ListItemAvatar,
   ListItemText,
   Popover as MuiPopover,
-  SvgIcon,
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { Bell, Home, UserPlus, Server } from "react-feather";
+import { Bell } from "react-feather";
 
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
     width: 300px;
-    border: 1px solid grey;
+    border: 0px solid grey;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important
   }
 `;
 
@@ -46,14 +46,16 @@ const NotificationHeader = styled(Box)`
 const token = getCookie("token");
 
 function Notification({ title, description, notifyId }) {
+  const history = useHistory()
   let desc = JSON.parse(description);
 
   const handleClick = async (id) => {
     await seenNotification(id, token);
+     history.push("/notifications")
    }
 
   return (
-    <ListItem divider onClick={() => handleClick(notifyId)}>
+    <ListItem divider onClick={() => handleClick(notifyId)} style={{ cursor:"pointer"}}>
       <ListItemAvatar>
         <Avatar src={desc.createdBy.headshot_url}>
 

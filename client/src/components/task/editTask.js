@@ -203,7 +203,7 @@ const EditTask = ({ editTask, reload }) => {
                onClose={handleClose}
                disableTypography
                className={classes.root}>
-              <Typography variant="h6">Create a new task</Typography>
+              <Typography variant="h6">Update Task</Typography>
                 {open ? (
                   <IconButton
                     aria-label="close"
@@ -323,13 +323,20 @@ const EditTask = ({ editTask, reload }) => {
               </Grid>
               </DialogContent>
               <DialogActions>
-                <DeleteTask id={editTask._id} />
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  type="submit">
-                  Submit
-                </Button>
+                <Grid container justify="center">
+                  <Box p={1}>
+                    <DeleteTask id={editTask._id} />
+                  </Box>
+                  <Box p={1}>
+                  <Button
+                    size="large"
+                    variant="contained"
+                    className={classes.button}
+                    type="submit">
+                    Submit
+                  </Button>
+                  </Box>
+                </Grid>
               </DialogActions>
              </form>
             </div>

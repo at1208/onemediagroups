@@ -143,6 +143,12 @@ const bcrypt = require('bcrypt');
                                       write:true,
                                       update:true,
                                       delete:true
+                                    },
+                                    notification:{
+                                      read:true,
+                                      write:true,
+                                      update:true,
+                                      delete:true
                                     }
                                   },
                                   status:"JOINED",

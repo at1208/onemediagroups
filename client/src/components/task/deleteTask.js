@@ -38,7 +38,11 @@ export default function DeleteModal({ id }) {
 
   return (
     <div>
-      <Button size="small" color="secondary" onClick={handleClickOpen}>
+      <Button
+          size="large"
+          variant="contained"
+          color="secondary"
+          onClick={handleClickOpen}>
         Delete
       </Button>
       <Dialog

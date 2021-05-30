@@ -304,6 +304,24 @@ const module_permission = {
       type:Boolean,
       default:false
     }
+  },
+  notification:{
+    read:{
+      type:Boolean,
+      default:true
+    },
+    write:{
+      type:Boolean,
+      default:false
+    },
+    update:{
+      type:Boolean,
+      default:false
+    },
+    delete:{
+      type:Boolean,
+      default:false
+    }
   }
 }
 

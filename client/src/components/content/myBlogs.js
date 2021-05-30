@@ -5,13 +5,10 @@ import { useHistory } from 'react-router-dom';
 
 import {
   Box,
-
-
+  Typography,
   Chip,
-
   Grid,
   IconButton,
-
   Paper as MuiPaper,
   Table,
   TableBody,
@@ -164,6 +161,7 @@ function EnhancedTable({ blogs }) {
               onRequestSort={handleRequestSort}
               rowCount={blogs.length}
             />
+              {blogs.length === 0?<Box p={2}><Typography variant="h5">No Blog found</Typography></Box>:
             <TableBody>
               {stableSort(blogs, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -217,7 +215,7 @@ function EnhancedTable({ blogs }) {
                   <TableCell colSpan={8} />
                 </TableRow>
               )}
-            </TableBody>
+            </TableBody>}
           </Table>
         </TableContainer>
         <TablePagination

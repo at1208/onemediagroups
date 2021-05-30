@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Card, Typography, Box, Chip} from '@material-ui/core';
-import { getDashboardInfo } from '../../actions/dashboard'
+import { getDashboardInfo } from '../../actions/dashboard';
+import { getCookie } from '../../actions/auth'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
@@ -52,9 +53,10 @@ const useStyles = makeStyles((theme) => ({
 const DashboardInfo = () => {
  const classes = useStyles();
  const [info,setInfo] = useState([]);
+ const token = getCookie("token")
 
  useEffect(() => {
-   getDashboardInfo()
+   getDashboardInfo(token)
      .then((value) => {
        setInfo(value)
      })

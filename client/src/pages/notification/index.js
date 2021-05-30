@@ -1,12 +1,11 @@
 import React from 'react';
 import NotificationList from '../../components/notification/list';
 import DashboardLayout from '../../components/layout/dashboardLayout';
-
 import { Grid, Typography, Box  } from '@material-ui/core';
 
 const Notification = () => {
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="notification" permission="read">
              <Grid container>
                <Grid item xs={12} sm={9} md={9} lg={9}>
                  <Box pt={2}>
