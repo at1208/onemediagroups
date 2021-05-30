@@ -17,7 +17,7 @@ const AddDesignation = () => {
 
 const Designation = () => {
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="designation" permission="read">
              <br />
              {AddDesignation()}
              <br />

@@ -67,6 +67,28 @@ export function getSingleEmployee(credentials, token) {
   });
 }
 
+export function getProfileDetails(credentials, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/single/employees/${credentials}/my_profile/read`, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export function filterEmployee(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
@@ -116,7 +138,7 @@ export function updateEmployee(id, credentials, token) {
 export function updateProfilePicture(credentials, token, id) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/update/profile-picture/${id}/employee/update`, credentials, {
+      .patch(`/update/profile-picture/${id}/my_profile/update`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

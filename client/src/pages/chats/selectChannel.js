@@ -100,7 +100,7 @@ function Chats(){
 
 
   return <>
-           <DashboardLayout>
+           <DashboardLayout page="channel" permission="read">
              <Grid container justify="flex-start" spacing={3}>
                <Grid item sm={6} md={3} xs={12}>
                  <Card  className={classes.cardRoot}>

@@ -43,13 +43,13 @@ const useStyles = makeStyles((theme) => ({
             console.log(err)
           })
    }, []);
-   
+
  if(detail){
-   return <DashboardLayout>
+   return <DashboardLayout page="employee" permission="read">
             <EditEmployee editEmployee={detail} />
           </DashboardLayout>
  }else{
-   return <DashboardLayout>
+   return <DashboardLayout page="employee">
           </DashboardLayout>
  }
 

@@ -4,7 +4,7 @@ import { Grid, Typography, Box } from '@material-ui/core';
 import MyBlogsList from '../../components/content/myBlogs';
 
 const MyBlogs = () => {
-  return <DashboardLayout>
+  return <DashboardLayout page="my_blogs" permission="read">
            <br />
             <Grid container justify="space-between">
                <Grid item  md={9} sm={9} xs={12}>

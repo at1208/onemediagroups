@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 import { isAuth,
          getCookie } from '../../actions/auth';
-import { getSingleEmployee,
+import { getProfileDetails,
          updateProfilePicture } from '../../actions/employee';
 import { uploadFile } from '../../actions/upload';
 import {
@@ -264,7 +264,7 @@ function Profile() {
   const [ employee, setEmployee ] = useState();
 
   useEffect(() => {
-    getSingleEmployee(isAuth() && isAuth()._id, token)
+    getProfileDetails(isAuth() && isAuth()._id, token)
       .then((value) => {
        setEmployee(value.employees)
       })

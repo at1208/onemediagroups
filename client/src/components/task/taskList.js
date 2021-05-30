@@ -16,7 +16,6 @@ import {
 } from "@material-ui/core";
 import EditTask from './editTask'
 import { spacing } from "@material-ui/system";
-import SnackBar from '../core/snackbar'
 const Paper = styled(MuiPaper)(spacing);
 
 

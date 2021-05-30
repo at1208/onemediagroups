@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 
 const Contact = () => {
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="contact" permission="read">
              <Grid container justify="flex-start">
                <Grid item xs={12} sm={3} md={3} lg={3}>
                    <ContactFilterList />

@@ -15,7 +15,7 @@ const Tasks = () => {
    }, [tasks, reload])
 
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="task" permission="read">
             <Grid container justify="space-between">
                <Grid item  md={9} sm={9} xs={12}>
                  <Box pl={3}>

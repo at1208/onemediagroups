@@ -184,7 +184,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
- const SideDrawer = ({ children }) => {
+ const SideDrawer = ({ children, access, forbidden }) => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
@@ -619,7 +619,7 @@ const useStyles = makeStyles((theme) => ({
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-         {children}
+         {access?children:forbidden}
       </main>
     </div>
   );

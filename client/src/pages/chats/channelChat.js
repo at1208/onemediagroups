@@ -203,7 +203,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   }, [reload, location])
 
   React.useEffect(() => {
-    messageContainer.scrollIntoView();
+    // messageContainer.scrollIntoView();
   }, [chats])
 
   React.useEffect(() => {
@@ -404,7 +404,7 @@ const chatsList = chats.map((item, i) => {
 
 
   return <>
-           <DashboardLayout>
+           <DashboardLayout page="chat" permission="read">
            <Offline status={connected} />
            <Grid container justify="center" spacing={0}>
              <Grid item sm={12} md={8} lg={9} xs={12}>

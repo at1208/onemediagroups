@@ -5,7 +5,6 @@ import ProjectList from './projectList';
 import CreateProject from '../../components/project/createProject';
 import EditProject from '../../components/project/editProject';
 
-
 const Project = () => {
    const [edit, setEdit] = useState({
      open: false,
@@ -13,7 +12,7 @@ const Project = () => {
    });
 
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="project" permission="read">
             <Grid container justify="space-between">
                <Grid item  md={9} sm={9} xs={12}>
                  <Box pl={3}>

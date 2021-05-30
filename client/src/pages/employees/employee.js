@@ -15,7 +15,7 @@ const AllEmployees = () => {
 
 
   return <>
-           <DashboardLayout>
+           <DashboardLayout page="employee" permission="read">
              <br />
                <Grid container justify="space-between">
                   <Grid item  md={9} sm={9} xs={12}>

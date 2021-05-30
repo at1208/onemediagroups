@@ -6,12 +6,12 @@ import { Grid, Typography, Box  } from '@material-ui/core';
 
 const Profile = () => {
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="my_profile" permission="read">
              <Grid container>
                <Grid item xs={12} sm={9} md={9} lg={9}>
                  <Box pt={2}>
                  <Typography variant="h4">
-                 
+
                  </Typography>
                  </Box>
 

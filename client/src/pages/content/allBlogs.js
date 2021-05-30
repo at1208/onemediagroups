@@ -13,7 +13,7 @@ const AllBlogs = () => {
   }, [blogs])
 
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="blog" permission="read">
             <Grid container justify="space-between">
                <Grid item  md={9} sm={9} xs={12}>
                  <Box pl={3}>

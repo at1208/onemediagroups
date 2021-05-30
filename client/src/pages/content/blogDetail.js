@@ -243,7 +243,7 @@ const showCategories = () => {
 
  if(blog){
    return <>
-           <DashboardLayout>
+           <DashboardLayout page="blog" permission="read">
              <Grid container justify="center">
                <Grid item sm={8} md={8}>
                  <Typography variant="h4" align="center" className={classes.blogTitle}>

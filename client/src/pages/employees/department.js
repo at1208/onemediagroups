@@ -15,7 +15,7 @@ const AddDepartment = () => {
 }
 const Department = () => {
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="department" permission="read">
              <br />
              {AddDepartment()}
              <br />

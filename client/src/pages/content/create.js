@@ -9,11 +9,10 @@ import { createBlog  } from '../../actions/blog';
 import { getCookie, removeLocalStorage  } from '../../actions/auth';
 import { getCategories  } from '../../actions/category';
 import { getDomains  } from '../../actions/domain';
-import { Alert } from '@material-ui/lab';
+import { ToastContainer, toast } from 'react-toastify';
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 import { uploadFile } from '../../actions/upload'
-import SnackBar from '../../components/core/snackbar'
 const CloudUpload = styled(MuiCloudUpload)(spacing);
 
 const useStyles = makeStyles((theme) => ({
@@ -80,11 +79,7 @@ const blogTitleFromLS = () => {
        categories:[],
        domain:"",
        featureImg:"",
-       isLoading:false,
-       successMsg:"",
-       successStatus:false,
-       errorMsg:"",
-       errorStatus:false
+       isLoading:false
   });
 
 
@@ -146,21 +141,12 @@ const blogTitleFromLS = () => {
    e.preventDefault();
    createBlog(blog, token)
      .then(response => {
-       setBlog({...blog,
-       errorStatus: false,
-       errorMsg:"",
-       successStatus:true,
-       successMsg: response.message
-     })
+       toast.success(response.message)
        removeLocalStorage('blog');
+       removeLocalStorage('title');
      })
      .catch(err => {
-       setBlog({...blog,
-         errorStatus: true,
-         errorMsg:err,
-         successStatus:false,
-         successMsg: ""  })
-
+       toast.error(err.error)
      })
  }
 
@@ -228,7 +214,8 @@ const blogTitleFromLS = () => {
 
 
   return <>
-          <DashboardLayout>
+          <DashboardLayout page="blog" permission="write">
+          <ToastContainer />
            <br />
             <Grid container spacing={6}>
               <Grid item>
@@ -239,15 +226,7 @@ const blogTitleFromLS = () => {
               <Grid item>
               </Grid>
             </Grid>
-            <br /><br />
-              {blog.successStatus && <>
-                <SnackBar msg={blog.successMsg} status="success" />
-              </>
-             }
-              {blog.errorStatus && <>
-                  <SnackBar msg={blog.errorMsg.error} status="error" />
-              </>
-            }
+
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={6}>
                   <Grid item xs={12} md={9} sm={9} lg={9}>

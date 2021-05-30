@@ -14,7 +14,7 @@ const Categories = () => {
   }, [tasks])
 
   return <>
-            <DashboardLayout>
+            <DashboardLayout page="category" permission="read">
             <Grid container justify="space-between">
                <Grid item  md={9} sm={9} xs={12}>
                  <Box pl={3}>
