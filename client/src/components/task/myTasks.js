@@ -93,7 +93,7 @@ function EnhancedTableHead(props) {
 
 
 
-function EnhancedTable({ tasks }) {
+function EnhancedTable({ tasks, reload }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
   const [selected, setSelected] = React.useState([]);
@@ -178,7 +178,7 @@ function EnhancedTable({ tasks }) {
                       </TableCell>
                       <TableCell align="left">{row.project_id.name}</TableCell>
                       <TableCell padding="none" align="right">
-                        <EditMyTask editTask={row} />
+                        <EditMyTask editTask={row} reload={(reloadValue) => reload(reloadValue) } />
                       </TableCell>
                     </TableRow>
                   );
@@ -208,6 +208,7 @@ function EnhancedTable({ tasks }) {
 function TaskListing() {
   const token = getCookie("token")
   const [mytasks, setMyTasks] = React.useState([]);
+  const [reload, setReload] = React.useState(false);
 
   React.useEffect(() => {
      myTasksList(token)
@@ -217,13 +218,13 @@ function TaskListing() {
         .catch((err) => {
           console.log(err)
         })
-  }, [])
+  }, [reload])
 
   return (
     <React.Fragment>
       <Grid container spacing={6} justify="center">
         <Grid item xs={12} md={12} sm={12} lg={12}>
-          <EnhancedTable tasks={mytasks}/>
+          <EnhancedTable tasks={mytasks} reload={(val) => setReload(!reload)} />
         </Grid>
       </Grid>
     </React.Fragment>

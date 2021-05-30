@@ -3,6 +3,10 @@ import {  Grid,
           Button,
           Box,
           TextField,
+          Select,
+          FormControl,
+          InputLabel,
+          MenuItem,
           Dialog,
           DialogActions,
           Typography,
@@ -51,17 +55,22 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  formControl: {
+      // margin: theme.spacing(1),
+      minWidth: 120,
+      width:"100%"
+    }
 }));
 
 
-const EditTask = ({ editTask }) => {
+const EditTask = ({ editTask, reload }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
   const [updatetaskCheck, setUpdateTaskCheck] = React.useState(false);
+  const [reloadAPI, setReloadAPI] = React.useState(false)
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
-
 
 
   const handleClickOpen = () => {
@@ -77,6 +86,7 @@ const EditTask = ({ editTask }) => {
      title:"",
      owner:id,
      description:"",
+     status:"",
      project_id:"",
      assignee:"",
      follower:"",
@@ -100,6 +110,7 @@ const EditTask = ({ editTask }) => {
   React.useEffect(() => {
     setTask({...task,
       title:editTask.title,
+      status:editTask.status,
       description:editTask.description,
       project_id: editTask.project_id,
       assignee: editTask.assignee,
@@ -159,6 +170,8 @@ const EditTask = ({ editTask }) => {
            success:"",
            isLoading:false
          })
+          setReloadAPI(!reloadAPI)
+          reload(reloadAPI)
           handleClose()
        })
        .catch((err) => {
@@ -238,6 +251,22 @@ const EditTask = ({ editTask }) => {
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Project" variant="outlined" />}
                           />
+                       </Grid>
+                       <Grid item xs={12} sm={12} md={12}>
+                       <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={task.status}
+                          onChange={(e) => setTask({...task, status: e.target.value })}
+                          label="Status"
+                        >
+                          <MenuItem value={'Open'}>Open</MenuItem>
+                          <MenuItem value={'Closed'}>Closed</MenuItem>
+                          <MenuItem value={'Done'}>Done</MenuItem>
+                        </Select>
+                      </FormControl>
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete

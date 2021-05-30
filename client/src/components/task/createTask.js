@@ -49,10 +49,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateTask = () => {
+const CreateTask = ({ reload }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
+  const [reloadAPI, setReloadAPI] = React.useState(false)
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
@@ -133,6 +134,8 @@ const CreateTask = () => {
          success:"",
          isLoading:false
        })
+        setReloadAPI(!reloadAPI)
+        reload(reloadAPI)
         handleClose()
      } catch (err) {
        toast.error(err.error)

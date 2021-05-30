@@ -18,7 +18,6 @@ import { getProjects } from '../../actions/project';
 import { getEmployee, checkModulePermission } from '../../actions/employee';
 import { updateMyTask } from '../../actions/task';
 import { isAuth, getCookie } from '../../actions/auth';
-import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {
@@ -66,11 +65,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditMyTask = ({ editTask }) => {
+const EditMyTask = ({ editTask, reload }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
   const [updatetaskCheck, setUpdateTaskCheck] = React.useState(false);
+  const [reloadAPI, setReloadAPI] = React.useState(false)
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
@@ -168,6 +168,8 @@ const EditMyTask = ({ editTask }) => {
            success:value.message,
            isLoading:false
          })
+         setReloadAPI(!reloadAPI)
+         reload(reloadAPI)
          handleClose()
        })
        .catch((err) => {

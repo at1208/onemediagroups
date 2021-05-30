@@ -8,10 +8,11 @@ import TaskList from '../../components/task/taskList';
 const Tasks = () => {
    const [tasks, setTasks] = useState([]);
    const [taskList, setTaskList] = useState([]);
+   const [reload, setReload] = React.useState(false);
 
    useEffect(() => {
      setTaskList(tasks);
-   }, [tasks])
+   }, [tasks, reload])
 
   return <>
           <DashboardLayout>
@@ -24,12 +25,12 @@ const Tasks = () => {
                  </Box>
                </Grid>
                <Grid item  md={3} sm={3} xs={12}>
-                <CreateTask />
+                <CreateTask reload={(val) => setReload(!reload)} />
                </Grid>
             </Grid>
             <br />
-            <TaskFilter tasks={(tasks) => setTasks(tasks)} />
-            <TaskList taskList={taskList} />
+            <TaskFilter tasks={(tasks) => setTasks(tasks)} reload={reload} />
+            <TaskList taskList={taskList} reload={(val) => setReload(!reload)} />
           </DashboardLayout>
          </>
 }
