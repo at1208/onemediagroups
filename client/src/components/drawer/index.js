@@ -174,8 +174,12 @@ const useStyles = makeStyles((theme) => ({
     color:"rgb(238, 238, 238)",
     opacity:"0.80",
     fontSize:"20px",
-    fontWeight:500
+    fontWeight:500,
+    [theme.breakpoints.down('xs')]: {
+      fontSize:"15px",
+    },
   },
+
   listContainer:{
 
   }
