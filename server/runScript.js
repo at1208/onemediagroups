@@ -11,10 +11,10 @@ const bcrypt = require('bcrypt');
   let adminUser = await Employee.findOne({ employee_id: "admin" });
   if(!adminUser){
     adminUser = await Employee({  employee_id: "admin",
-                                  first_name:"Admin",
-                                  full_name:"Admin Bhai",
-                                  last_name:"Buddy",
-                                  email: "mailmeaktiwari@gmail.com",
+                                  first_name:"Super",
+                                  full_name:"Super Admin",
+                                  last_name:"Admin",
+                                  email: process.env.ADMIN_EMAIL,
                                   gender:"MALE",
                                   role:"ADMIN",
                                   date_of_joining: new Date(),
