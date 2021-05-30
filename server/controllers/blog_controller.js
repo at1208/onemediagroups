@@ -101,7 +101,7 @@ module.exports.single_blog = (req, res) => {
  const { id } = req.params;
    Blog.findById({ _id: id })
      .populate("categories", "name slug")
-     .populate("postedBy", "full_name")
+     .populate("postedBy", "full_name headshot_url")
      .populate("updatedBy", "full_name")
      .populate("domain", "name url")
      .exec((err, result) => {

@@ -14,13 +14,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Divider, Collapse, Grid, Box } from '@material-ui/core';
+import { Divider, Collapse, Grid, Box, Avatar } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import "../../vendor/perfect-scrollbar.css";
-
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import UserDropdown from './userDropdown';
+import NotificationDropdown from './notificationDropdown';
 import { Sliders,
          Globe,
          Shield,
@@ -140,6 +140,7 @@ const useStyles = makeStyles((theme) => ({
     color:"black"
   },
   menuIcon:{
+    fontSize:"37px",
     color:"black"
   },
   sidebarIcons:{
@@ -171,7 +172,9 @@ const useStyles = makeStyles((theme) => ({
   },
   name:{
     color:"rgb(238, 238, 238)",
-    opacity:"0.90"
+    opacity:"0.80",
+    fontSize:"20px",
+    fontWeight:500
   },
   listContainer:{
 
@@ -249,7 +252,7 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
-
+          <NotificationDropdown />
           <UserDropdown />
         </Toolbar>
       </AppBar>
@@ -273,13 +276,20 @@ const useStyles = makeStyles((theme) => ({
         {!matches && <IconButton onClick={handleDrawerClose}>
           {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.direc} /> : <ChevronLeftIcon className={classes.direc} />}
         </IconButton>}
-       <Grid container justify="center">
-        {/*<Typography noWrap className={classes.name}>
-           Hello, {isAuth() && isAuth().full_name}
-         </Typography>*/}
+       <Grid container justify="flex-start">
+         <Box pt={2}>
+           <Avatar src={isAuth() && isAuth().headshot_url} alt={isAuth() && isAuth().full_name} variant="circle">
+            {isAuth() && isAuth().full_name.slice(0,1)}
+           </Avatar>
+         </Box>
+         <Box pl={1} pt={3}>
+           <Typography noWrap className={classes.name}>
+             {isAuth() && isAuth().full_name}
+            </Typography>
+         </Box>
        </Grid>
       </div>
-      <Divider />
+      <br />
       <List className={classes.list}>
 
       <Link to="/dashboard">
@@ -380,8 +390,6 @@ const useStyles = makeStyles((theme) => ({
        </List>
        </div>
     </Collapse>
-
-
 
 
 
@@ -606,9 +614,6 @@ const useStyles = makeStyles((theme) => ({
       </Link>}
 
       <br />
-
-
-
 
       </List>
       </Drawer>

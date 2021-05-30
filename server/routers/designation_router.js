@@ -6,7 +6,7 @@ const {create_designation,
        single_designation,
        delete_designation,
        update_designation }  =require("../controllers/designation_controller");
-const {designation_validator} = require("../validators/designation_validations");
+const {designation_validator} = require("../validators/designation_validator");
 const {run_validation}        = require("../validators");
 
 const { requireSignin,

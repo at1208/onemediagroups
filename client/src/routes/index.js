@@ -23,6 +23,7 @@ import Category from '../pages/category';
 import Domain from '../pages/domain';
 import MyBlogs from '../pages/content/myBlogs';
 import MyTasks from '../pages/tasks/myTasks';
+import Notifications from '../pages/notification';
 
 const Router = () => {
    return <>
@@ -45,6 +46,7 @@ const Router = () => {
            <Private path="/profile" exact component={Profile} />
            <Private path="/my-blogs" exact component={MyBlogs} />
            <Private path="/my-tasks" exact component={MyTasks} />
+           <Private path="/notifications" exact component={Notifications} />
            <Private path="/chats/:channel" exact component={ChannelChats} />
            <Auth path="/reset" exact component={Reset} />
            <Auth path="/auth/onboard/:token" exact component={Onboard} />

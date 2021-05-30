@@ -22,6 +22,7 @@ const bcrypt = require('bcrypt');
                                   isActive:true,
                                   module_visibility:{
                                     project : true,
+                                    profile : true,
                                     task  : true,
                                     channel  : true,
                                     employee  : true,
@@ -126,6 +127,12 @@ const bcrypt = require('bcrypt');
                                       delete:true
                                     },
                                     my_tasks:{
+                                      read:true,
+                                      write:true,
+                                      update:true,
+                                      delete:true
+                                    },
+                                    my_profile:{
                                       read:true,
                                       write:true,
                                       update:true,

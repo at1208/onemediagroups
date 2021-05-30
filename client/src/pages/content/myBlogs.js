@@ -5,6 +5,7 @@ import MyBlogsList from '../../components/content/myBlogs';
 
 const MyBlogs = () => {
   return <DashboardLayout>
+           <br />
             <Grid container justify="space-between">
                <Grid item  md={9} sm={9} xs={12}>
                  <Box pl={3}>
@@ -16,7 +17,7 @@ const MyBlogs = () => {
                <Grid item  md={3} sm={3} xs={12}>
                </Grid>
             </Grid>
-            <br />  
+            <br />
             <MyBlogsList />
          </DashboardLayout>
 }

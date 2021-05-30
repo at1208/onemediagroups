@@ -16,8 +16,9 @@ import {
 } from "@material-ui/core";
 import EditTask from './editTask'
 import { spacing } from "@material-ui/system";
+import SnackBar from '../core/snackbar'
 const Paper = styled(MuiPaper)(spacing);
- 
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -98,6 +99,9 @@ function EnhancedTable({ tasks }) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -209,7 +213,7 @@ function TaskListing({ taskList }) {
     <React.Fragment>
       <Grid container spacing={6} justify="center">
         <Grid item xs={12} md={12} sm={12} lg={12}>
-          <EnhancedTable tasks={taskList}/>
+          <EnhancedTable tasks={taskList} />
         </Grid>
       </Grid>
     </React.Fragment>

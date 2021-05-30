@@ -10,6 +10,7 @@ const { create_employee,
         filter_employee,
         update_profile_picture,
         contact_number,
+        check_module_permission,
         signin  } = require("../controllers/employee_controller");
 
 const { requireSignin,
@@ -71,5 +72,10 @@ router.post("/accept/onboard/invitation",
 
 router.post("/onboard/employee/:employee_id",
         onboard_employee);
+
+router.get("/module/permission/:moduleType/:permission",
+        requireSignin,
+        authMiddleware,
+        check_module_permission);
 
 module.exports = router;

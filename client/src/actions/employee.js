@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
- 
+
 
 export function createEmployee(credentials, token) {
   return new Promise((resolve, reject) => {
@@ -117,6 +117,29 @@ export function updateProfilePicture(credentials, token, id) {
   return new Promise((resolve, reject) => {
     axios
       .patch(`/update/profile-picture/${id}/employee/update`, credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
+export function checkModulePermission(moduleType, permission, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/module/permission/${moduleType}/${permission}`, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

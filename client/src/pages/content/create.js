@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styled from "styled-components/macro";
 import DashboardLayout from '../../components/layout/dashboardLayout';
-import { Grid, Card, Button,Typography, TextField } from '@material-ui/core';
+import { Grid, Button,Typography, TextField, Avatar } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -13,6 +13,7 @@ import { Alert } from '@material-ui/lab';
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 import { uploadFile } from '../../actions/upload'
+import SnackBar from '../../components/core/snackbar'
 const CloudUpload = styled(MuiCloudUpload)(spacing);
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +21,35 @@ const useStyles = makeStyles((theme) => ({
      padding:"30px 10px 30px 10px",
    },
    titleInput:{
+     backgroundColor:"white",
      margin:"0px 0px 20px 0px"
+   },
+   button:{
+     textTransform:"none",
+     marginTop:"5px"
+   },
+   featureRoot:{
+     height:"100%",
+     maxHeight:"250px",
+     width:"100%"
+   },
+   editor:{
+     "& .ql-editor":{
+        minHeight:"50vh",
+        letterSpacing: "-0.003em",
+        lineHeight: "32px",
+        marginTop: "2em",
+        fontSize: "21px",
+        marginBottom: "-0.46em",
+        fontFamily: `charter, Georgia, Cambria, "Times New Roman", Times, serif`,
+        fontStyle: "normal",
+        wordBreak: "break-word",
+        color: "rgba(41, 41, 41, 1)",
+        fontWeight: "400"
+     }
+   },
+   editorContainer:{
+     minHeight:"70vh"
    }
 }));
 
@@ -80,10 +109,18 @@ const blogTitleFromLS = () => {
        })
   }, [])
 
+  React.useEffect(() => {
+     getCategories(blog.domain, token)
+       .then(response => {
+         setCategories(response)
+       })
+       .catch(err => {
+         console.log(err)
+       })
+  }, [blog.domain])
+
 
   const handleChange = (name) => async (e) => {
-
-
       switch (name) {
         case "title":
         localStorage.setItem("title", JSON.stringify(e.target.value));
@@ -101,7 +138,6 @@ const blogTitleFromLS = () => {
           setBlog({...blog, featureImg: url})
           break;
         default:
-
       }
   }
 
@@ -130,8 +166,10 @@ const blogTitleFromLS = () => {
 
 
  async function apiPostNewsImage(img) {
+      setBlog({...blog, isLoading: true })
        let result = await uploadFile(img, token);
        if(result){
+         setBlog({...blog, isLoading: false })
          return result.url
        }
     }
@@ -188,36 +226,32 @@ const blogTitleFromLS = () => {
       }
      }), [])
 
+
   return <>
           <DashboardLayout>
+           <br />
             <Grid container spacing={6}>
               <Grid item>
                 <Typography variant="h5">
-                  Write a new blog
+
                 </Typography>
               </Grid>
               <Grid item>
               </Grid>
             </Grid>
             <br /><br />
-            <Card className={classes.cardRoot}>
               {blog.successStatus && <>
-                <Alert severity="success">
-                 {blog.successMsg}
-               </Alert>
-                <br /><br />
+                <SnackBar msg={blog.successMsg} status="success" />
               </>
              }
               {blog.errorStatus && <>
-                <Alert severity="error">
-                 {blog.errorMsg.error}
-              </Alert>
-                <br /><br />
+                  <SnackBar msg={blog.errorMsg.error} status="error" />
               </>
             }
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={6}>
                   <Grid item xs={12} md={9} sm={9} lg={9}>
+                     <div className={classes.editorContainer}>
                       <TextField onChange={handleChange("title")}
                         fullWidth
                         value={blog.title}
@@ -229,16 +263,32 @@ const blogTitleFromLS = () => {
                       <ReactQuill
                         value={blog.body}
                         modules={modules}
+                        className={classes.editor}
                         onChange={handleChange("body")}
                        />
                        <br />
-
-
-                      <Button variant="contained" color="primary" type="submit">
-                        Submit
-                      </Button>
+                       <Grid container justify='center'>
+                         <Grid item>
+                           <Button
+                             variant="contained"
+                             size="large"
+                             color="primary"
+                             type="submit">
+                             Submit
+                           </Button>
+                         </Grid>
+                       </Grid>
+                    </div>
                   </Grid>
                   <Grid item xs={12} md={3} sm={3} lg={3}>
+                    <Avatar
+                      alt=""
+                      src={blog.featureImg}
+                      className={classes.featureRoot}
+                      variant="square"
+                      >
+                      Feature Image
+                      </Avatar>
                     <input
                       onChange={handleChange("featureImg")}
                       accept="image/*"
@@ -247,24 +297,17 @@ const blogTitleFromLS = () => {
                       type="file"
                     />
                     <label htmlFor="raised-button-file">
-                      <Button variant="contained" color="primary" component="span">
-                        <CloudUpload mr={1} /> Upload Feature IMG
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        className={classes.button}
+                        component="span">
+                        <CloudUpload mr={1} /> {blog.isLoading?`Uploading ...`:`Upload Feature IMG`}
                       </Button>
                     </label>
                     <br />  <br />
-                    <Autocomplete
-                      multiple
-                       onChange={(event, newValue) => {
-                         if(newValue){
-                           setBlog({...blog, categories: newValue.map(item => item._id)})
-                         }
-                        }}
-                       options={categories || ""}
-                       getOptionLabel={(option) => option.name}
-                       style={{ width: "100%" }}
-                       renderInput={(params) => <TextField {...params} label="Category" variant="outlined" value={blog.categories}/>}
-                     />
-                     <br />
+
                      <Autocomplete
                         onChange={(event, newValue) => {
                           if(newValue){
@@ -273,14 +316,27 @@ const blogTitleFromLS = () => {
                          }}
                         options={domains}
                         getOptionLabel={(option) => option.name}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%",background:"white" }}
                         renderInput={(params) => <TextField {...params} label="Domain" variant="outlined"/>}
                       />
                       <br />
+                      <Autocomplete
+                        multiple
+                        disabled={blog.domain.length===0}
+                         onChange={(event, newValue) => {
+                           if(newValue){
+                             setBlog({...blog, categories: newValue.map(item => item._id)})
+                           }
+                          }}
+                         options={categories || ""}
+                         getOptionLabel={(option) => option.name}
+                         style={{ width: "100%",background:"white"  }}
+                         renderInput={(params) => <TextField {...params} label="Category" variant="outlined" value={blog.categories}/>}
+                       />
                   </Grid>
                 </Grid>
               </form>
-            </Card>
+
           </DashboardLayout>
          </>
 }

@@ -89,3 +89,15 @@ module.exports.random_blog_categories = (req, res) => {
     res.json(result)
   })
 }
+
+exports.category_list_by_domain = (req, res) => {
+  console.log(req.params)
+    Category.find({ domain: req.params.domain }).exec((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: err
+            });
+        }
+        res.json(data);
+    });
+};

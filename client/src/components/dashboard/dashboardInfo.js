@@ -57,7 +57,6 @@ const DashboardInfo = () => {
    getDashboardInfo()
      .then((value) => {
        setInfo(value)
-       console.log(value)
      })
      .catch((err) => {
        console.log(err)
@@ -100,8 +99,6 @@ const DashboardInfo = () => {
                       </Grid>
                      </Card>
             })}
-            <hr />
-            <Typography variant="body2" align="center">Show more</Typography>
            </Card>
           </Grid>
          </>
@@ -111,9 +108,11 @@ const DashboardInfo = () => {
   const count = countCard(data);
    return <>
            <Grid item sm={5} xs={12} md={3}>
+           <Link to="/content/blogs">
+             <a className={classes.link}>
              <Card className={classes.cardRoot}>
              {count}
-             {data.data.map((blog, i) => {
+             {/*data.data.map((blog, i) => {
                let chipcolor = blog.approval === "APPROVED"?classes.approved:blog.approval === "NOT APPROVED"?classes.notApproved:blog.approval === "WAITING"?classes.waiting:""
                return <Card className={classes.userRoot}>
                        <Grid container spacing={2}>
@@ -137,16 +136,10 @@ const DashboardInfo = () => {
                          </Grid>
                        </Grid>
                       </Card>
-             })}
-             <hr />
-             <Typography variant="body2" align="center">
-               <Link to="/content/blogs">
-                 <a className={classes.link}>
-                  Show more
-                 </a>
-               </Link>
-             </Typography>
+             })*/}
             </Card>
+            </a>
+          </Link>
            </Grid>
          </>
  }
@@ -155,9 +148,11 @@ const DashboardInfo = () => {
   const count = countCard(data);
    return <>
          <Grid item sm={5} xs={12} md={3}>
+         <Link to="/tasks">
+           <a className={classes.link}>
            <Card className={classes.cardRoot}>
            {count}
-           {data.data.map((task, i) => {
+           {/*data.data.map((task, i) => {
              const taskchip = task.status ==="Open"?classes.waiting:task.status ==="Done"?classes.approved:task.status === "Closed"?classes.notApproved:""
              return <Card className={classes.userRoot}>
                      <Grid container spacing={2}>
@@ -181,16 +176,11 @@ const DashboardInfo = () => {
                        </Grid>
                      </Grid>
                     </Card>
-           })}
-           <hr />
-           <Typography variant="body2" align="center">
-             <Link to="/tasks">
-               <a className={classes.link}>
-                Show more
-               </a>
-             </Link>
-           </Typography>
+           })*/}
+
           </Card>
+            </a>
+          </Link>
          </Grid>
          </>
  }
@@ -199,9 +189,11 @@ const DashboardInfo = () => {
   const count = countCard(data);
    return <>
            <Grid item sm={5} xs={12} md={3}>
+           <Link to="/projects">
+             <a className={classes.link}>
              <Card className={classes.cardRoot}>
              {count}
-             {data.data.map((project, i) => {
+             {/*data.data.map((project, i) => {
                return <Card className={classes.userRoot}>
                        <Grid container spacing={2}>
                          <Grid item>
@@ -224,16 +216,10 @@ const DashboardInfo = () => {
                          </Grid>
                        </Grid>
                       </Card>
-             })}
-             <hr />
-             <Typography variant="body2" align="center">
-               <Link to="/projects">
-                 <a className={classes.link}>
-                  Show more
-                 </a>
-               </Link>
-             </Typography>
+             })*/}
             </Card>
+            </a>
+          </Link>
            </Grid>
          </>
  }

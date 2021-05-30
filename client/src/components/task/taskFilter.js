@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const TaskFilter = ({ tasks }) => {
+const TaskFilter = ({ tasks, reload }) => {
     const classes = useStyles();
     const [employees, setEmployees] = useState([]);
     const [projects, setProjects] = useState([]);
@@ -64,7 +64,7 @@ const TaskFilter = ({ tasks }) => {
         .catch(err => {
           console.log(err)
         })
-    }, [query])
+    }, [query, reload])
 
 
   const handleSubmit = (e) => {

@@ -1,31 +1,9 @@
 import axios from "../utils/axios";
 
-export function createCategory(credentials, token) {
+export function getNotification(token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/category/category/write`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
-      .then((response) => {
-        if (response.status === 200) {
-          resolve(response.data);
-        }
-        reject(response.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-
-export function getCategories(domain,token) {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(`/categories/${domain}/category/read`, {
+      .get(`/get/notification`, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -45,10 +23,32 @@ export function getCategories(domain,token) {
 }
 
 
-export function filterCategory(credentials, token) {
+export function seenNotification(id, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/filter/category/category/read`, credentials, {
+      .get(`/mark/seen/notification/${id}`, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function allNotifications(token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/notifications/all`, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

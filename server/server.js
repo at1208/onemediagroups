@@ -23,6 +23,7 @@ const domainRouter = require("./routers/domain_router");
 const bloguserRouter = require("./routers/bloguser_router");
 const uploadRouter = require("./routers/upload_file_router");
 const dashboardRouter = require("./routers/dashboard_router");
+const notificationRouter = require("./routers/notification_router");
 
 app.use(cors(
     {origin: [
@@ -52,6 +53,7 @@ app.use("/api", domainRouter);
 app.use("/api", bloguserRouter);
 app.use("/api", uploadRouter);
 app.use("/api", dashboardRouter);
+app.use("/api", notificationRouter);
 
 mongoose
     .connect(process.env.DATABASE, {

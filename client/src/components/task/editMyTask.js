@@ -1,25 +1,36 @@
 import React from 'react';
 import {  Grid,
           Button,
+          Box,
           TextField,
           Dialog,
           DialogActions,
           Typography,
+          Select,
+          FormControl,
+          InputLabel,
+          MenuItem,
           DialogContent,
           DialogTitle } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getProjects } from '../../actions/project';
-import { getEmployee } from '../../actions/employee';
-import { createTask } from '../../actions/task';
+import { getEmployee, checkModulePermission } from '../../actions/employee';
+import { updateMyTask } from '../../actions/task';
 import { isAuth, getCookie } from '../../actions/auth';
+import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import {
+  RemoveRedEye as RemoveRedEyeIcon,
+} from "@material-ui/icons";
+import DeleteTask from './deleteTask';
 import { ToastContainer, toast } from 'react-toastify';
 
 
-
 const id = isAuth() && isAuth()._id;
+
+
 
 const useStyles = makeStyles((theme) => ({
   dialogRoot:{
@@ -46,20 +57,26 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+
+  formControl: {
+      // margin: theme.spacing(1),
+      minWidth: 120,
+      width:"100%"
+    },
 }));
 
 
-const CreateTask = () => {
+const EditMyTask = ({ editTask }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
+  const [updatetaskCheck, setUpdateTaskCheck] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
   const handleClickOpen = () => {
    setOpen(true);
   };
-
 
   const handleClose = () => {
    setOpen(false);
@@ -68,14 +85,16 @@ const CreateTask = () => {
   const [task, setTask] = React.useState({
      title:"",
      owner:id,
+     status:"",
      description:"",
      project_id:"",
      assignee:"",
      follower:"",
      deadline:"",
+     error:"",
+     success:"",
      isLoading:false
   })
-
 
   React.useEffect(() => {
     getProjects(token)
@@ -88,6 +107,16 @@ const CreateTask = () => {
   }, [])
 
   React.useEffect(() => {
+    setTask({...task,
+      title:editTask.title,
+      status:editTask.status,
+      description:editTask.description,
+      project_id: editTask.project_id,
+      assignee: editTask.assignee,
+      follower:editTask.follower })
+  }, [open])
+
+  React.useEffect(() => {
       getEmployee(token)
         .then((value) => {
           setEmployees(value.employees)
@@ -95,6 +124,13 @@ const CreateTask = () => {
         .catch((err) => {
           console.log(err)
         })
+  }, [])
+
+  React.useEffect(() => {
+    (async () => {
+      let taskModulePermission =  await checkModulePermission('task', 'update', token);
+      setUpdateTaskCheck(taskModulePermission)
+    })()
   }, [])
 
 
@@ -114,45 +150,43 @@ const CreateTask = () => {
       }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
      e.preventDefault();
-     try {
-       setTask({...task, isLoading: true })
-       let response = await createTask(task, token);
-
-       toast.success(response.message)
-       setTask({...task,
-         title:"",
-         owner: "",
-         description:"",
-         project_id:"",
-         assignee:"",
-         follower:"",
-         deadline:"",
-         error:"",
-         success:"",
-         isLoading:false
+     setTask({...task, isLoading: true })
+     updateMyTask(editTask._id, task, token)
+       .then((value) => {
+         toast.success(value.message)
+         setTask({...task,
+           title:"",
+           owner: "",
+           description:"",
+           project_id:"",
+           assignee:"",
+           follower:"",
+           deadline:"",
+           error:"",
+           success:value.message,
+           isLoading:false
+         })
+         handleClose()
        })
-        handleClose()
-     } catch (err) {
-       toast.error(err.error)
-
-       setTask({...task,
-         isLoading:false})
-     }
+       .catch((err) => {
+         toast.error(err.error)
+         setTask({...task,
+           error:err.error,
+           success:"",
+           isLoading:false})
+       })
   }
 
     return  <>
-            <ToastContainer />
+             <ToastContainer />
              <Grid container justify="center">
-               <Button
-                variant="contained"
-                className={classes.button}
-                onClick={handleClickOpen}
-                color="primary"
-                >
-                 Create Task
-               </Button>
+             <Box>
+               <IconButton aria-label="details"   onClick={handleClickOpen}>
+                 <RemoveRedEyeIcon />
+               </IconButton>
+             </Box>
              </Grid>
              <Dialog open={open} onClose={handleClose} disableBackdropClick>
              <div className={classes.dialogRoot}>
@@ -163,24 +197,25 @@ const CreateTask = () => {
                onClose={handleClose}
                disableTypography
                className={classes.root}>
-              <Typography variant="h6">Create a new task</Typography>
+              <Typography variant="h6">Update Task</Typography>
                 {open ? (
                   <IconButton
                     aria-label="close"
                     onClick={handleClose}
-                    className={classes.closeButton}
-                  >
+                    className={classes.closeButton}>
                     <CloseIcon />
                   </IconButton>
                 ) : null}
               </DialogTitle>
               <Grid container justify="center" spacing={3}>
                 <Grid item sm={12} md={12} xs={12}>
+                  <br />
                    <form onSubmit={handleSubmit}>
                      <Grid container spacing={3}>
                        <Grid item xs={12} sm={12} md={12}>
                          <TextField
                           fullWidth
+                          value={task.title}
                           onChange={handleChange("title")}
                           variant="outlined"
                           label="Title" />
@@ -191,16 +226,35 @@ const CreateTask = () => {
                           multiline
                           rows={3}
                           onChange={handleChange("description")}
+                          value={task.description}
                           variant="outlined"
                           label="Description" />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
+                       <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={task.status}
+                          onChange={(e) => setTask({...task, status: e.target.value })}
+                          label="Status"
+                        >
+                          <MenuItem value={'Open'}>Open</MenuItem>
+                          <MenuItem value={'Closed'}>Closed</MenuItem>
+                          <MenuItem value={'Done'}>Done</MenuItem>
+                        </Select>
+                      </FormControl>
+                       </Grid>
+                       <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
+                            defaultValue={task.project_id}
                             onChange={(e, val) => {
                                if(val){
                                  setTask({...task, project_id: val._id })
                                }
                              }}
+                             disabled={!updatetaskCheck}
                             options={projects}
                             getOptionLabel={(option) => option.name}
                             style={{ width: "100%" }}
@@ -209,32 +263,36 @@ const CreateTask = () => {
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
+                            defaultValue={task.assignee}
                             onChange={(e, val) => {
                                if(val){
                                  setTask({...task, assignee: val._id })
                                }
                              }}
+                            disabled={!updatetaskCheck}
                             options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                            getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Assignee" variant="outlined" />}
                           />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
-                         <Autocomplete
+                        {<Autocomplete
+                            defaultValue={task.follower}
                             onChange={(e, val) => {
                                 if(val){
-                                  // let filterValue = val.map((member, i) => {
-                                  //   return member._id
-                                  // })
-                                  setTask({...task, follower: val._id });
+                                  let filterValue = val.map((member, i) => {
+                                    return member._id
+                                  })
+                                  setTask({...task, follower: filterValue });
                                 }
                              }}
+                            disabled={!updatetaskCheck}
                             options={employees}
-                            getOptionLabel={(option) => option.first_name + " " + option.last_name}
+                            getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
                             renderInput={(params) => <TextField {...params} label="Reporter" variant="outlined" />}
-                          />
+                          />}
                        </Grid>
                        {/*<Grid item xs={12} sm={12} md={12}>
                        <TextField
@@ -244,7 +302,7 @@ const CreateTask = () => {
                          type="date"
                          fullWidth
                          onChange={handleChange("deadline")}
-                         defaultValue={null}
+
                          className={classes.textField}
                          InputLabelProps={{
                            shrink: true,
@@ -258,7 +316,7 @@ const CreateTask = () => {
               </Grid>
               </DialogContent>
               <DialogActions>
-
+                <DeleteTask id={editTask._id} />
                 <Button
                   variant="contained"
                   className={classes.button}
@@ -272,4 +330,4 @@ const CreateTask = () => {
             </>
 }
 
-export default CreateTask;
+export default EditMyTask;

@@ -1,6 +1,6 @@
 const Task =  require("../models/task_model");
 const Employee =  require("../models/employee_model");
-
+const Notification = require("../models/notification_model");
 const { send_email } = require("../utils/send_email");
 
 module.exports.create_task = async (req, res) => {
@@ -22,8 +22,33 @@ module.exports.create_task = async (req, res) => {
       })
     }
     let assigned = await Employee.findById({ _id: task.assignee });
+    let created_owner = await Employee.findById({ _id: task.owner });
     let reporter = await Employee.findById({ _id: task.follower });
 
+   let notification_title = `A new task has been assigned to ${assigned.full_name} by ${created_owner.full_name}`
+   let notification_created_by = owner;
+
+   const { email, full_name, headshot_url, _id} = created_owner;
+
+   let notification_desc = {
+     task: title,
+     description: description,
+     createdBy: {
+       email: email,
+       full_name: full_name,
+       headshot_url: headshot_url,
+       _id: _id
+     },
+     reporter: {
+       email: reporter.email,
+       full_name: reporter.full_name,
+       headshot_url: reporter.headshot_url,
+       _id: reporter._id
+     }
+   }
+
+   let notify = await Notification({ title: notification_title, description: JSON.stringify(notification_desc), notification_created_by, notification_for_whom: [assignee]}).save()
+   console.log(notify)
     if(assigned && reporter){
       send_email(assigned.email, "New task assigned",`<p>${reporter.full_name} has assigned a task to you</p><br /> <a href="http://localhost:3000/tasks">See task</a>`)
       .then(() => {
@@ -33,14 +58,12 @@ module.exports.create_task = async (req, res) => {
       })
       .catch(console.error)
     }
-
-
   })
 }
 
 module.exports.update_task = (req, res) => {
   const { _id } = req.params;
-  const { assignee, description, comments, follower, title, deadline  } = req.body;
+  const { assignee, description, comments, follower, title, deadline, status  } = req.body;
 
   Task.findOne({ _id })
     .exec((err, task) => {
@@ -56,6 +79,9 @@ module.exports.update_task = (req, res) => {
       }
       if(assignee){
         task.assignee = assignee;
+      }
+      if(status){
+        task.status = status;
       }
       if(description){
         task.description = description;
@@ -164,6 +190,7 @@ if (payload.status) query.status = {$in : payload.status};
 query.del_flag = {$in : false};
 
     Task.find(query)
+    .sort({ updatedAt: -1})
     .populate("project_id", "name")
     .populate("assignee", "first_name last_name full_name")
     .populate("follower", "first_name last_name full_name")
@@ -178,7 +205,8 @@ query.del_flag = {$in : false};
 }
 
 module.exports.my_tasks = (req, res) => {
-  Task.find({ assignee: req.user._id })
+  Task.find({ assignee: req.user._id, del_flag: false })
+    .sort({ updatedAt: -1 })
     .populate("project_id", "name")
     .populate("assignee", "first_name last_name full_name")
     .populate("follower", "first_name last_name full_name")

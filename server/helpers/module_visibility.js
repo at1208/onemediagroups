@@ -54,6 +54,10 @@ const  module_visibility = {
   my_blogs:{
     type:Boolean,
     default: false
+  },
+  profile:{
+    type:Boolean,
+    default: false
   }
 }
 

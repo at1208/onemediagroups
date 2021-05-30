@@ -269,6 +269,24 @@ const module_permission = {
       default:false
     }
   },
+  my_profile:{
+    read:{
+      type:Boolean,
+      default:true
+    },
+    write:{
+      type:Boolean,
+      default:false
+    },
+    update:{
+      type:Boolean,
+      default:false
+    },
+    delete:{
+      type:Boolean,
+      default:false
+    }
+  },
   dashboard:{
     read:{
       type:Boolean,
@@ -285,7 +303,7 @@ const module_permission = {
     delete:{
       type:Boolean,
       default:false
-    }  
+    }
   }
 }
 

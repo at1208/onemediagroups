@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import { getCookie } from '../../actions/auth';
+import { getNotification, seenNotification } from '../../actions/notification';
 import {
   Avatar as MuiAvatar,
   Badge,
@@ -28,7 +29,7 @@ const Popover = styled(MuiPopover)`
 
 const Indicator = styled(Badge)`
   .MuiBadge-badge {
-    background: dodgerblue;
+    background: red;
     color: white;
   }
 `;
@@ -42,14 +43,20 @@ const NotificationHeader = styled(Box)`
   border-bottom: 1px solid black;
 `;
 
-function Notification({ title, description, Icon }) {
+const token = getCookie("token");
+
+function Notification({ title, description, notifyId }) {
+  let desc = JSON.parse(description);
+
+  const handleClick = async (id) => {
+    await seenNotification(id, token);
+   }
+
   return (
-    <ListItem divider component={Link} to="#">
+    <ListItem divider onClick={() => handleClick(notifyId)}>
       <ListItemAvatar>
-        <Avatar>
-          <SvgIcon fontSize="small">
-            <Icon />
-          </SvgIcon>
+        <Avatar src={desc.createdBy.headshot_url}>
+
         </Avatar>
       </ListItemAvatar>
       <ListItemText
@@ -58,15 +65,34 @@ function Notification({ title, description, Icon }) {
           variant: "subtitle2",
           color: "textPrimary",
         }}
-        secondary={description}
+        secondary={desc.description}
       />
     </ListItem>
   );
 }
 
+function NotificationsList({data}){
+   if(data.length>0){
+     return data.map((noti, i) => {
+       return <Notification
+               notifyId={noti._id}
+               title={noti.title}
+               description={noti.description}
+
+       />
+     })
+   }else {
+     return <>
+            </>
+   }
+}
+
 function NotificationsDropdown() {
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
+
+  const [notifys, setNotifys] = useState([])
+  const [counts, setCounts] = useState()
 
   const handleOpen = () => {
     setOpen(true);
@@ -76,11 +102,20 @@ function NotificationsDropdown() {
     setOpen(false);
   };
 
+  useEffect(() => {
+     (async () => {
+       let notify = await getNotification(token);
+         setNotifys(notify.notifications);
+         setCounts(notify.count)
+     })()
+  }, [])
+
+
   return (
     <React.Fragment>
       <Tooltip title="Notifications">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
-          <Indicator badgeContent={7}>
+          <Indicator badgeContent={counts}>
             <Bell style={{ color:"grey" }}/>
           </Indicator>
         </IconButton>
@@ -96,34 +131,15 @@ function NotificationsDropdown() {
       >
         <NotificationHeader p={2}>
           <Typography variant="subtitle1" color="textPrimary">
-            7 New Notifications
+            {counts} New Notifications
           </Typography>
         </NotificationHeader>
         <React.Fragment>
           <List disablePadding>
-            <Notification
-              title="Update complete"
-              description="Restart server to complete update."
-              Icon={Server}
-            />
-            <Notification
-              title="New connection"
-              description="Anna accepted your request."
-              Icon={UserPlus}
-            />
-            <Notification
-              title="Lorem ipsum"
-              description="Aliquam ex eros, imperdiet vulputate hendrerit et"
-              Icon={Bell}
-            />
-            <Notification
-              title="New login"
-              description="Login from 192.186.1.1."
-              Icon={Home}
-            />
+             <NotificationsList data={notifys}/>
           </List>
           <Box p={1} display="flex" justifyContent="center">
-            <Button size="small" component={Link} to="#">
+            <Button size="small" component={Link} to={'/notifications'}>
               Show all notifications
             </Button>
           </Box>

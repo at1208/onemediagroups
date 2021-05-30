@@ -13,8 +13,6 @@ const Tasks = () => {
      setTaskList(tasks);
    }, [tasks])
 
-
-
   return <>
           <DashboardLayout>
             <Grid container justify="space-between">
@@ -30,7 +28,7 @@ const Tasks = () => {
                </Grid>
             </Grid>
             <br />
-            <TaskFilter tasks={(tasks) => setTasks(tasks)}/>
+            <TaskFilter tasks={(tasks) => setTasks(tasks)} />
             <TaskList taskList={taskList} />
           </DashboardLayout>
          </>

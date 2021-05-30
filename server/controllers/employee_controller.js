@@ -521,3 +521,17 @@ module.exports.update_profile_picture = (req, res) => {
      res.json(result)
    })
 }
+
+
+module.exports.check_module_permission = (req, res) => {
+  const { moduleType, permission } = req.params;
+  Employee.findById(req.user._id)
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      res.json(result.permission[moduleType][permission])
+    })
+}

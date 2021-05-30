@@ -11,12 +11,12 @@ import {  Grid,
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getProjects } from '../../actions/project';
-import { getEmployee } from '../../actions/employee';
+import { getEmployee, checkModulePermission } from '../../actions/employee';
 import { updateTask } from '../../actions/task';
 import { isAuth, getCookie } from '../../actions/auth';
-import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { ToastContainer, toast } from 'react-toastify';
 import {
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
@@ -58,6 +58,7 @@ const EditTask = ({ editTask }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
+  const [updatetaskCheck, setUpdateTaskCheck] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
@@ -115,6 +116,13 @@ const EditTask = ({ editTask }) => {
         })
   }, [])
 
+  React.useEffect(() => {
+    (async () => {
+      let taskModulePermission =  await checkModulePermission('task', 'update', token);
+      setUpdateTaskCheck(taskModulePermission)
+    })()
+  }, [])
+
 
   const handleChange = type => e => {
       switch (type) {
@@ -132,11 +140,13 @@ const EditTask = ({ editTask }) => {
       }
   }
 
+
   const handleSubmit = (e) => {
      e.preventDefault();
      setTask({...task, isLoading: true })
      updateTask(editTask._id, task, token)
        .then((value) => {
+         toast.success(value.message);
          setTask({...task,
            title:"",
            owner: "",
@@ -146,11 +156,13 @@ const EditTask = ({ editTask }) => {
            follower:"",
            deadline:"",
            error:"",
-           success:value.message,
-           isLoading:false})
+           success:"",
+           isLoading:false
+         })
+          handleClose()
        })
        .catch((err) => {
-
+         toast.error(err.error)
          setTask({...task,
            error:err.error,
            success:"",
@@ -161,6 +173,7 @@ const EditTask = ({ editTask }) => {
 
 
     return  <>
+             <ToastContainer />
              <Grid container justify="center">
              <Box>
                <IconButton aria-label="details"   onClick={handleClickOpen}>
@@ -189,10 +202,7 @@ const EditTask = ({ editTask }) => {
               </DialogTitle>
               <Grid container justify="center" spacing={3}>
                 <Grid item sm={12} md={12} xs={12}>
-                  <div className={classes.errorContainer}>
-                   {task.success && <Alert severity="success">{task.success}</Alert>}
-                   {task.error && <Alert severity="error">{task.error}</Alert>}
-                  </div>
+
                   <br />
                    <form onSubmit={handleSubmit}>
                      <Grid container spacing={3}>
@@ -222,6 +232,7 @@ const EditTask = ({ editTask }) => {
                                  setTask({...task, project_id: val._id })
                                }
                              }}
+                             disabled={!updatetaskCheck}
                             options={projects}
                             getOptionLabel={(option) => option.name}
                             style={{ width: "100%" }}
@@ -236,6 +247,7 @@ const EditTask = ({ editTask }) => {
                                  setTask({...task, assignee: val._id })
                                }
                              }}
+                            disabled={!updatetaskCheck}
                             options={employees}
                             getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
@@ -253,6 +265,7 @@ const EditTask = ({ editTask }) => {
                                   setTask({...task, follower: filterValue });
                                 }
                              }}
+                            disabled={!updatetaskCheck}
                             options={employees}
                             getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}

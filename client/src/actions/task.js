@@ -131,3 +131,26 @@ export function myTasksList(token) {
       });
   });
 }
+
+
+export function updateMyTask(id, credentials, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(`/update/task/${id}/my_tasks/update`, credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

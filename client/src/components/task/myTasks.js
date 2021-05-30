@@ -13,7 +13,7 @@ import {
   TableRow,
   TableSortLabel
 } from "@material-ui/core";
-import EditTask from './editTask'
+import EditMyTask from './editMyTask'
 import { spacing } from "@material-ui/system";
 import { myTasksList } from '../../actions/task';
 import {  getCookie } from '../../actions/auth';
@@ -178,7 +178,7 @@ function EnhancedTable({ tasks }) {
                       </TableCell>
                       <TableCell align="left">{row.project_id.name}</TableCell>
                       <TableCell padding="none" align="right">
-                        <EditTask editTask={row} />
+                        <EditMyTask editTask={row} />
                       </TableCell>
                     </TableRow>
                   );
