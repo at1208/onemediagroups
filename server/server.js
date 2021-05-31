@@ -28,6 +28,8 @@ const notificationRouter = require("./routers/notification_router");
 app.use(cors(
     {origin: [
      "http://localhost:3000",
+     'https://cms.readifly.com',
+     'https://www.cms.readifly.com',
      "https://amanread.netlify.app",
      "https://bedium.vercel.app",
      "https://www.readifly.com",
