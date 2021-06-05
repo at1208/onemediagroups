@@ -1,53 +1,53 @@
 import React from 'react';
 import { Avatar } from '@material-ui/core';
 
-export const avatarStyle = (index) => {
+export const avatarStyle = (index, size, textSize) => {
   if (index % 5 === 0) {
     return {
       backgroundColor: '#FCF0EF',
-      fontSize:"50px",
+      fontSize:`${textSize}px`,
       textTransform:"capitalize",
       margin:"0px 3px 0px 3px",
       color: '#E66E68',
       borderRadius: "50%",
-      width: "160px",
-      height:"160px",
+      width: `${size}px`,
+      height:`${size}px`,
       objectFit: "cover",
     };
   } else if (index % 3 === 0) {
     return {
       backgroundColor: '#FFFABB',
-      fontSize:"50px",
+      fontSize:`${textSize}px`,
       textTransform:"capitalize",
       margin:"0px 3px 0px 3px",
       color: '#FFD502',
       borderRadius: "50%",
-      width: "160px",
-      height:"160px",
+      width: `${size}px`,
+      height:`${size}px`,
       objectFit: "cover",
     };
   } else if (index % 2 === 0) {
     return {
       backgroundColor: '#CAFFE6',
-      fontSize:"50px",
+      fontSize:`${textSize}px`,
       textTransform:"uppercase",
       margin:"0px 3px 0px 3px",
       color: '#34F89C',
       borderRadius: "50%",
-      width: "160px",
-      height:"160px",
+      width: `${size}px`,
+      height:`${size}px`,
       objectFit: "cover",
     };
   } else if (index % 1 === 0) {
     return {
       backgroundColor: '#CAF0FF',
-      fontSize:"50px",
+      fontSize:`${textSize}px`,
       margin:"0px 3px 0px 3px",
       textTransform:"capitalize",
       color: '#3BC8FF',
       borderRadius: "50%",
-      width: "160px",
-      height:"160px",
+      width: `${size}px`,
+      height:`${size}px`,
       objectFit: "cover",
     };
   }
@@ -55,13 +55,11 @@ export const avatarStyle = (index) => {
 
 
 
-const AvatarContainer = ({ name, src }) => {
-  console.log(name, src)
-
+const AvatarContainer = ({ name, src, size, textSize }) => {
   if(name){
     let naam = name.split(" ");
     return <>
-            <Avatar style={avatarStyle(name.length)} variant="square" src={src}>
+            <Avatar style={avatarStyle(name.length, size, textSize)} variant="square" src={src}>
               {naam[0][0]}{naam[1][0]}
             </Avatar>
            </>
@@ -69,9 +67,6 @@ const AvatarContainer = ({ name, src }) => {
     return <>
           </>
   }
-  return <>
-        </>
-
 }
 
 export default AvatarContainer;

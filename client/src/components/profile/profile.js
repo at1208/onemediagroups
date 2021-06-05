@@ -26,10 +26,6 @@ const Centered = styled.div`
 `;
 
 
-
-
-
-
 const useStyles = makeStyles((theme) => ({
   dialogRoot:{
     padding:"10px"
@@ -49,13 +45,6 @@ const useStyles = makeStyles((theme) => ({
   },
   uploadButton:{
     textTransform:"none"
-  },
-  headshot:{
-    borderRadius: "50%",
-    width: "160px",
-    height:"160px",
-    objectFit: "cover",
-
   }
 }));
 
@@ -97,7 +86,7 @@ function Details({ data }) {
       <CardContent>
         <Centered>
             <Grid container justify="center">
-              <Avatar  name={data && data.full_name} src={picture.url || (data && data.headshot_url) }  className={classes.headshot}/>
+              <Avatar  name={data && data.full_name} src={picture.url || (data && data.headshot_url) } size={160} textSize={50}/>
             </Grid>
             <Box pt={2}>
              <Typography variant="h5">

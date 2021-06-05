@@ -12,14 +12,40 @@ import { makeStyles } from '@material-ui/core/styles';
 import { signIn, authenticate } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     form: {
-      border:"1px solid #e8e4e4",
+      boxShadow: "0 1rem 3rem rgba(0,0,0,.175)",
+      // border:"1px solid #e8e4e4",
       padding: '35px 5px 70px 5px',
       margin: '5px',
       background: '#FFFFFF 0% 0% no-repeat padding-box',
       borderRadius: '8px',
       opacity: 1,
+    },
+    companyname:{
+      letterSpacing: "-0.003em",
+      lineHeight: "50px",
+      paddingTop:"49px",
+      fontSize: "39px",
+      marginBottom: "-0.46em",
+      fontFamily: `charter, Georgia, Cambria, "Times New Roman", Times, serif`,
+      fontStyle: "normal",
+      wordBreak: "break-word",
+      color: "rgba(41, 41, 41, 1)",
+      fontWeight: "900",
+      [theme.breakpoints.down('sm')]: {
+       fontSize: "33px",
+       lineHeight: "35px",
+      },
+      [theme.breakpoints.down('xs')]: {
+       fontSize: "28px",
+       lineHeight: "30px",
+      },
+      [theme.breakpoints.up('lg')]: {
+       fontSize: "33px",
+       lineHeight: "35px",
+      },
+
     },
   root:{
       display: 'table',
@@ -79,7 +105,7 @@ const useStyles = makeStyles({
   alertCard:{
     height:"40px"
   }
-});
+}));
 
 
 
@@ -132,76 +158,84 @@ const LoginForm = () => {
                   justify="center"
                   >
                     <Grid item xs={12} sm={6} md={4}>
-                      <div className={classes.form}>
-                      <form onSubmit={handleSubmit}>
-                      <div className={classes.alertCard}>
-                      {login.success && <Alert severity="success">{login.success}</Alert>}
-                      {login.error && <Alert severity="error">{login.error}</Alert>}
-                      </div>
-                      <br />
-                      <Grid container justify="center" spacing={3}>
-                      <Grid xs={10} sm={12} md={10} item>
-                      <TextField
-                      type="text"
-                      variant="outlined"
+                        <div className={classes.form}>
+                          <form onSubmit={handleSubmit}>
+                              <Grid container justify="center">
+                                <Grid item sm={5} xs={5}>
+                                <img src="readifly-logo.svg" height={"100%"} width="100%"/>
+                                </Grid>
+                                <Grid item sm={7} xs={7}>
+                                  <Typography variant="h4" align="start" className={classes.companyname}>Readifly Technologies</Typography>
+                                </Grid>
+                              </Grid>
 
-                      className={classes.loginTextField}
-                      fullWidth
-                      InputProps={{
-                      startAdornment: (
-                      <InputAdornment position="start">
-                      <PersonOutlineOutlined
-                      className={classes.textfieldIcon}
-                      />
-                      </InputAdornment>
-                      ),
-                      }}
-                      placeholder="Email"
-                      disabled={login.isLoading}
-                      onChange={handleChange("email")}
-                      value={login.credentials.email} />
-                      </Grid>
-                      <Grid xs={10} sm={12} md={10} item>
-                      <TextField
-                      type="password"
-                      variant="outlined"
-                      fullWidth
-                      placeholder="Password"
-                      className={classes.loginTextField}
-                      InputProps={{
-                      startAdornment: (
-                      <InputAdornment position="start">
-                      <HttpsOutlined
-                      className={classes.textfieldIcon}
-                      />
-                      </InputAdornment>
-                      ),
-                      }}
-                      disabled={login.isLoading}
-                      onChange={handleChange("password")}
-                      value={login.credentials.password} />
-                      </Grid>
-                      </Grid>
-                      <br />
-                      <Grid container justify='center'>
-                      <Grid item sm={10} md={10} xs={10}>
-                      <Button
-                      className={classes.button}
-                      classes={{ disabled: classes.disabledButton }}
-                      type="submit"
-                      disabled={login.isLoading}>
-                      {login.isLoading? 'Submitting' : 'LOGIN TO CONTINUE'}
-                      </Button>
-                      </Grid>
-                      </Grid>
-                      <br />
-                      <Grid container justify='center'>
-                      <Typography variant="body1">
-                      Forget password
-                      </Typography>
-                      </Grid>
-                      </form>
-                      </div>
+                              {/*<div className={classes.alertCard}>
+                              {login.success && <Alert severity="success">{login.success}</Alert>}
+                              {login.error && <Alert severity="error">{login.error}</Alert>}
+                              </div>*/}
+                              <br />
+                              <Grid container justify="center" spacing={3}>
+                                <Grid xs={10} sm={12} md={10} item>
+                                    <TextField
+                                    type="text"
+                                    variant="outlined"
+                                    className={classes.loginTextField}
+                                    fullWidth
+                                    InputProps={{
+                                    startAdornment: (
+                                    <InputAdornment position="start">
+                                    <PersonOutlineOutlined
+                                    className={classes.textfieldIcon}
+                                    />
+                                    </InputAdornment>
+                                    ),
+                                    }}
+                                    placeholder="Email"
+                                    disabled={login.isLoading}
+                                    onChange={handleChange("email")}
+                                    value={login.credentials.email} />
+                                </Grid>
+                                <Grid xs={10} sm={12} md={10} item>
+                                  <TextField
+                                  type="password"
+                                  variant="outlined"
+                                  fullWidth
+                                  placeholder="Password"
+                                  className={classes.loginTextField}
+                                  InputProps={{
+                                  startAdornment: (
+                                  <InputAdornment position="start">
+                                  <HttpsOutlined
+                                  className={classes.textfieldIcon}
+                                  />
+                                  </InputAdornment>
+                                  ),
+                                  }}
+                                  disabled={login.isLoading}
+                                  onChange={handleChange("password")}
+                                  value={login.credentials.password} />
+                                </Grid>
+                               </Grid>
+                              <br />
+                              <Grid container justify='center'>
+                                <Grid item sm={10} md={10} xs={10}>
+                                  <Button
+                                  className={classes.button}
+                                  classes={{ disabled: classes.disabledButton }}
+                                  type="submit"
+                                  disabled={login.isLoading}>
+                                  {login.isLoading? 'Submitting' : 'LOGIN TO CONTINUE'}
+                                  </Button>
+                                </Grid>
+                                </Grid>
+                                <br />
+                                <Grid container justify='center'>
+                                  <Typography variant="body1">
+                                    Forget password
+                                  </Typography>
+                              </Grid>
+                          </form>
+                        </div>
                     </Grid>
                  </Grid>
               </div>

@@ -58,6 +58,10 @@ const  module_visibility = {
   profile:{
     type:Boolean,
     default: false
+  },
+  channel:{
+    type:Boolean,
+    default: false
   }
 }
 

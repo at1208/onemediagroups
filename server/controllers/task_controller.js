@@ -6,7 +6,11 @@ const { send_email } = require("../utils/send_email");
 module.exports.create_task = async (req, res) => {
   const { project_id, assignee, description, comments, owner, follower, title, deadline } = req.body;
 
+  const taskCount = await Task.countDocuments() + 1;
+   const task_id = "RT-"+taskCount;
+
   await Task({
+    task_id,
     project_id,
     assignee,
     description,
@@ -47,8 +51,8 @@ module.exports.create_task = async (req, res) => {
      }
    }
 
-   let notify = await Notification({ title: notification_title, description: JSON.stringify(notification_desc), notification_created_by, notification_for_whom: [assignee]}).save()
-   console.log(notify)
+    await Notification({ title: notification_title, description: JSON.stringify(notification_desc), notification_created_by, notification_for_whom: [assignee]}).save()
+
     if(assigned && reporter){
       send_email(assigned.email, "New task assigned",`<p>${reporter.full_name} has assigned a task to you</p><br /> <a href="http://localhost:3000/tasks">See task</a>`)
       .then(() => {

@@ -205,7 +205,6 @@ module.exports.accept_onboard_invitation = async (req, res) => {
 
 module.exports.update_employee = async (req, res) => {
   const { _id } = req.params;
-  console.log(req.body)
 
   const { first_name,
           last_name,
@@ -333,7 +332,7 @@ module.exports.all_employee = (req, res) => {
    .populate("department", "department_name")
    .populate("designation", "designation_name")
    .populate("channels", "channel_name")
-   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining full_name")
+   .select("first_name last_name department designation status email gender phone_number address role employee_id date_of_joining full_name headshot_url")
    .exec((err, result) => {
      if(err){
        return res.status(400).json({
@@ -462,7 +461,6 @@ exports.resetPassword = (req, res) => {
 
 module.exports.contact_number = (req, res) => {
     //role: EMPLOYEE / CONTRACTOR/ INTERN
-    console.log(req.body)
     var query = {};
     var payload = req.body;
     if (payload.role) query.role = {$in : payload.role};

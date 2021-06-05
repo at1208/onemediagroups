@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
 const taskSchema = mongoose.Schema({
+      task_id: {
+        type: String,
+        unique:true,
+        required:true,
+        trim:true
+      },
       project_id:{
         type:ObjectId,
         ref:"Project",
@@ -12,7 +18,7 @@ const taskSchema = mongoose.Schema({
         ref:"Employee",
         required:true
       },
-    follower:{
+      follower:{
         type:ObjectId,
         ref:"Employee",
         required:true

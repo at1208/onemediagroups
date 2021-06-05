@@ -3,29 +3,28 @@ import {  Grid,
           Button,
           Box,
           TextField,
-          Dialog,
-          DialogActions,
-          Typography,
           Select,
           FormControl,
           InputLabel,
           MenuItem,
+          Dialog,
+          DialogActions,
+          Typography,
           DialogContent,
           DialogTitle } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { getProjects } from '../../actions/project';
 import { getEmployee, checkModulePermission } from '../../actions/employee';
-import { updateMyTask } from '../../actions/task';
+import { updateTask } from '../../actions/task';
 import { isAuth, getCookie } from '../../actions/auth';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { ToastContainer, toast } from 'react-toastify';
 import {
-  Edit as EditIcon
+  RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
 import DeleteTask from './deleteTask';
-import { ToastContainer, toast } from 'react-toastify';
-
 
 const id = isAuth() && isAuth()._id;
 
@@ -56,27 +55,27 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-
   formControl: {
       // margin: theme.spacing(1),
       minWidth: 120,
       width:"100%"
-    },
+    }
 }));
 
 
-const EditMyTask = ({ editTask, reload }) => {
+const ReadTask = ({ editTask, reload }) => {
   const classes = useStyles();
   const [projects, setProjects] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
-  const [updatetaskCheck, setUpdateTaskCheck] = React.useState(false);
   const [reloadAPI, setReloadAPI] = React.useState(false)
   const [open, setOpen] = React.useState(false);
   const token = getCookie("token")
 
+
   const handleClickOpen = () => {
    setOpen(true);
   };
+
 
   const handleClose = () => {
    setOpen(false);
@@ -85,8 +84,8 @@ const EditMyTask = ({ editTask, reload }) => {
   const [task, setTask] = React.useState({
      title:"",
      owner:id,
-     status:"",
      description:"",
+     status:"",
      project_id:"",
      assignee:"",
      follower:"",
@@ -95,6 +94,7 @@ const EditMyTask = ({ editTask, reload }) => {
      success:"",
      isLoading:false
   })
+
 
   React.useEffect(() => {
     getProjects(token)
@@ -126,12 +126,7 @@ const EditMyTask = ({ editTask, reload }) => {
         })
   }, [])
 
-  React.useEffect(() => {
-    (async () => {
-      let taskModulePermission =  await checkModulePermission('task', 'update', token);
-      setUpdateTaskCheck(taskModulePermission)
-    })()
-  }, [])
+
 
 
   const handleChange = type => e => {
@@ -150,12 +145,13 @@ const EditMyTask = ({ editTask, reload }) => {
       }
   }
 
+
   const handleSubmit = (e) => {
      e.preventDefault();
      setTask({...task, isLoading: true })
-     updateMyTask(editTask._id, task, token)
+     updateTask(editTask._id, task, token)
        .then((value) => {
-         toast.success(value.message)
+         toast.success(value.message);
          setTask({...task,
            title:"",
            owner: "",
@@ -165,12 +161,12 @@ const EditMyTask = ({ editTask, reload }) => {
            follower:"",
            deadline:"",
            error:"",
-           success:value.message,
+           success:"",
            isLoading:false
          })
-         setReloadAPI(!reloadAPI)
-         reload(reloadAPI)
-         handleClose()
+          setReloadAPI(!reloadAPI)
+          reload(reloadAPI)
+          handleClose()
        })
        .catch((err) => {
          toast.error(err.error)
@@ -181,12 +177,14 @@ const EditMyTask = ({ editTask, reload }) => {
        })
   }
 
+
+
     return  <>
              <ToastContainer />
              <Grid container justify="center">
              <Box>
                <IconButton aria-label="details"   onClick={handleClickOpen}>
-                 <EditIcon />
+                 <RemoveRedEyeIcon />
                </IconButton>
              </Box>
              </Grid>
@@ -199,7 +197,7 @@ const EditMyTask = ({ editTask, reload }) => {
                onClose={handleClose}
                disableTypography
                className={classes.root}>
-              <Typography variant="h6">Update Task</Typography>
+              <Typography variant="h6">Task</Typography>
                 {open ? (
                   <IconButton
                     aria-label="close"
@@ -211,29 +209,49 @@ const EditMyTask = ({ editTask, reload }) => {
               </DialogTitle>
               <Grid container justify="center" spacing={3}>
                 <Grid item sm={12} md={12} xs={12}>
+
                   <br />
                    <form onSubmit={handleSubmit}>
                      <Grid container spacing={3}>
                        <Grid item xs={12} sm={12} md={12}>
                          <TextField
                           fullWidth
+                          disabled
+                          size="small"
                           value={task.title}
                           onChange={handleChange("title")}
-                          variant="outlined"
                           label="Title" />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                          <TextField
                           fullWidth
+                          disabled
                           multiline
+                          size="small"
                           rows={3}
                           onChange={handleChange("description")}
                           value={task.description}
-                          variant="outlined"
                           label="Description" />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
-                       <FormControl variant="outlined" className={classes.formControl}>
+                         <Autocomplete
+                            disabled
+                            size="small"
+                            defaultValue={task.project_id}
+                            onChange={(e, val) => {
+                               if(val){
+                                 setTask({...task, project_id: val._id })
+                               }
+                             }}
+                            disabled
+                            options={projects}
+                            getOptionLabel={(option) => option.name}
+                            style={{ width: "100%" }}
+                            renderInput={(params) => <TextField {...params} label="Project" />}
+                          />
+                       </Grid>
+                       <Grid item xs={12} sm={12} md={12}>
+                       <FormControl  size="small" disabled className={classes.formControl}>
                         <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
                         <Select
                           labelId="demo-simple-select-outlined-label"
@@ -250,36 +268,23 @@ const EditMyTask = ({ editTask, reload }) => {
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                          <Autocomplete
-                            defaultValue={task.project_id}
-                            onChange={(e, val) => {
-                               if(val){
-                                 setTask({...task, project_id: val._id })
-                               }
-                             }}
-                             disabled={!updatetaskCheck}
-                            options={projects}
-                            getOptionLabel={(option) => option.name}
-                            style={{ width: "100%" }}
-                            renderInput={(params) => <TextField {...params} label="Project" variant="outlined" />}
-                          />
-                       </Grid>
-                       <Grid item xs={12} sm={12} md={12}>
-                         <Autocomplete
+                            size="small"
                             defaultValue={task.assignee}
                             onChange={(e, val) => {
                                if(val){
                                  setTask({...task, assignee: val._id })
                                }
                              }}
-                            disabled={!updatetaskCheck}
+                            disabled
                             options={employees}
                             getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
-                            renderInput={(params) => <TextField {...params} label="Assignee" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} label="Assignee"  />}
                           />
                        </Grid>
                        <Grid item xs={12} sm={12} md={12}>
                         {<Autocomplete
+                            size="small"
                             defaultValue={task.follower}
                             onChange={(e, val) => {
                                 if(val){
@@ -289,11 +294,11 @@ const EditMyTask = ({ editTask, reload }) => {
                                   setTask({...task, follower: filterValue });
                                 }
                              }}
-                            disabled={!updatetaskCheck}
+                            disabled
                             options={employees}
                             getOptionLabel={(option) => option.full_name}
                             style={{ width: "100%" }}
-                            renderInput={(params) => <TextField {...params} label="Reporter" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} label="Reporter"   />}
                           />}
                        </Grid>
                        {/*<Grid item xs={12} sm={12} md={12}>
@@ -304,7 +309,6 @@ const EditMyTask = ({ editTask, reload }) => {
                          type="date"
                          fullWidth
                          onChange={handleChange("deadline")}
-
                          className={classes.textField}
                          InputLabelProps={{
                            shrink: true,
@@ -317,28 +321,11 @@ const EditMyTask = ({ editTask, reload }) => {
                 </Grid>
               </Grid>
               </DialogContent>
-              <DialogActions>
 
-
-              <Grid container justify="center">
-                <Box p={1}>
-                  <DeleteTask id={editTask._id} />
-                </Box>
-                <Box p={1}>
-                <Button
-                  size="large"
-                  variant="contained"
-                  className={classes.button}
-                  type="submit">
-                  Submit
-                </Button>
-                </Box>
-              </Grid>
-              </DialogActions>
              </form>
             </div>
             </Dialog>
             </>
 }
 
-export default EditMyTask;
+export default ReadTask;

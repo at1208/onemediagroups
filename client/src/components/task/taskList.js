@@ -16,7 +16,8 @@ import {
   TableRow,
   TableSortLabel
 } from "@material-ui/core";
-import EditTask from './editTask'
+import EditTask from './editTask';
+import ReadTask from './readTask';
 import { spacing } from "@material-ui/system";
 const Paper = styled(MuiPaper)(spacing);
 
@@ -48,6 +49,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
+  { id: "task_id", alignment: "left", label: "Task ID" },
   { id: "task_name", alignment: "left", label: "Task name" },
   { id: "assignee", alignment: "left", label: "Assignee" },
   { id: "reporter", alignment: "left", label: "Reporter" },
@@ -166,6 +168,7 @@ function EnhancedTable({ tasks, reload }) {
                       key={`${row.title}-${index}`}
                       selected={isItemSelected}
                     >
+                      <TableCell align="left">{row.task_id}</TableCell>
                       <TableCell align="left">{row.title}</TableCell>
                       <TableCell align="left"><Chip size="small" label={row.assignee && row.assignee.full_name} color="primary" /></TableCell>
                       <TableCell align="left"><Chip size="small" label={row.follower && row.follower.full_name} color="primary" /></TableCell>
@@ -183,7 +186,14 @@ function EnhancedTable({ tasks, reload }) {
                       </TableCell>
                       <TableCell align="left">{row.project_id.name}</TableCell>
                       <TableCell padding="none" align="right">
-                        <EditTask editTask={row} reload={(reloadValue) => reload(reloadValue) }/>
+                        <Grid container>
+                          <Grid item>
+                            <ReadTask editTask={row} reload={(reloadValue) => reload(reloadValue)} />
+                          </Grid>
+                          <Grid item>
+                            <EditTask editTask={row} reload={(reloadValue) => reload(reloadValue)} />
+                          </Grid>
+                        </Grid>
                       </TableCell>
                     </TableRow>
                   );

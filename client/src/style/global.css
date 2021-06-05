@@ -27,7 +27,7 @@
   border:1px solid #e8eaf6;
   border-radius: 5px;
 }
-
+ 
 
 @media (max-width:767px) {
   img{
@@ -52,6 +52,7 @@ img{
 }
 a{
   color:transparent;
+  text-decoration: none;
 }
 
 .MuiListItemIcon-root{
@@ -68,11 +69,12 @@ a{
 ::-webkit-scrollbar {
     display: none;
 
+
 }
  .MuiTableCell-sizeSmall{
    padding: 0px 0px 0px 10px!important;
  }
 
-
-
- 
+.MuiInputBase-root.Mui-disabled{
+  color: black!important;
+}

@@ -14,12 +14,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Divider, Collapse, Grid, Box, Avatar } from '@material-ui/core';
+import { Divider, Collapse, Grid, Box } from '@material-ui/core';
+import Avatar from '../core/avatar';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import "../../vendor/perfect-scrollbar.css";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import UserDropdown from './userDropdown';
+import MessagesDropdown from './messageDropdown';
 import NotificationDropdown from './notificationDropdown';
 import { Sliders,
          Globe,
@@ -42,7 +44,8 @@ import { Sliders,
          Home,
          BookOpen } from 'react-feather';
 import { isAuth } from '../../actions/auth';
-import { checkVisiblityOnSidebar } from '../../utils/helper'
+import { checkVisiblityOnSidebar } from '../../utils/helper';
+
 
 const drawerWidth = 225;
 
@@ -175,6 +178,7 @@ const useStyles = makeStyles((theme) => ({
     opacity:"0.80",
     fontSize:"20px",
     fontWeight:500,
+    paddingTop:"5px",
     [theme.breakpoints.down('xs')]: {
       fontSize:"15px",
     },
@@ -256,6 +260,7 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
+          <MessagesDropdown />
           <NotificationDropdown />
           <UserDropdown />
         </Toolbar>
@@ -280,22 +285,25 @@ const useStyles = makeStyles((theme) => ({
         {!matches && <IconButton onClick={handleDrawerClose}>
           {theme.direction === 'rtl' ? <ChevronRightIcon className={classes.direc} /> : <ChevronLeftIcon className={classes.direc} />}
         </IconButton>}
-       <Grid container justify="flex-start">
-         <Box pt={2}>
-           <Avatar src={isAuth() && isAuth().headshot_url} alt={isAuth() && isAuth().full_name} variant="circle">
-            {isAuth() && isAuth().full_name.slice(0,1)}
-           </Avatar>
-         </Box>
-         <Box pl={1} pt={3}>
-           <Typography noWrap className={classes.name}>
-             {isAuth() && isAuth().full_name}
-            </Typography>
-         </Box>
+
+
+       <Grid container justify="center" wrap="wrap">
+          <Grid item xs>
+           <Grid container justify="center" wrap="wrap">
+              <Grid item>
+                <Box pt={6}>
+                  <Avatar  name={isAuth() && isAuth().full_name} src={isAuth() && isAuth().headshot_url} size={37} textSize={20} />
+                </Box>
+              </Grid>
+           </Grid>
+            <Typography noWrap className={classes.name} align="center">
+                {isAuth() && isAuth().full_name}
+             </Typography>
+          </Grid>
        </Grid>
       </div>
-      <br />
+      <br />      <br />
       <List className={classes.list}>
-
       <Link to="/dashboard">
         <ListItem button selected={currentTab("/dashboard")}>
             <ListItemIcon>
@@ -404,11 +412,24 @@ const useStyles = makeStyles((theme) => ({
             </ListItemIcon>}
             <ListItemText >
               <Typography className={classes.menutext} variant="body1">
-                Chats
+                Chat
               </Typography>
             </ListItemText>
         </ListItem>
     </Link>}
+
+    {checkVisiblityOnSidebar('channel') && <Link to="/channel">
+       <ListItem button selected={currentTab("/channel")}>
+           {<ListItemIcon>
+              <MessageCircle className={classes.sidebarIcons} />
+           </ListItemIcon>}
+           <ListItemText >
+             <Typography className={classes.menutext} variant="body1">
+               Channel
+             </Typography>
+           </ListItemText>
+       </ListItem>
+   </Link>}
 
       {(checkVisiblityOnSidebar('all_employees') || checkVisiblityOnSidebar('department') || checkVisiblityOnSidebar('designation')) && <ListItem button onClick={handleChange("employee")} className='mt-3'>
                   {<ListItemIcon>

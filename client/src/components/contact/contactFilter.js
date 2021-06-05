@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getContacts } from '../../actions/contact';
+import { getCookie } from '../../actions/auth';
 import ContactList from './contactList';
 
 const useStyles = makeStyles({
@@ -29,13 +30,14 @@ const useStyles = makeStyles({
 
 const Contact = () => {
     const classes = useStyles();
+    const token = getCookie("token")
     const [query, setQuery] = useState({
       role:"EMPLOYEE"
     })
     const [contacts, setContacts] = useState([]);
 
     useEffect(() => {
-       getContacts(query)
+       getContacts(query, token)
          .then(response => {
              setContacts(response)
          })

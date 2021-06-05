@@ -9,7 +9,7 @@ module.exports.create_channel = async (req, res) => {
      try {
           newChannel = await Channel({ channel_name, members, admins }).save();
           if(newChannel){
-            for(id of members){
+            for(let id of members){
               const employee = await Employee.findById({ _id: id });
               if(employee) employee.channels.push(newChannel._id);
               await employee.save()
@@ -38,7 +38,7 @@ module.exports.get_channels_by_user = async (req, res) => {
         //   console.log(channel)
         // }
       let data = [];
-      for(channel of channels.channels){
+      for(let channel of channels.channels){
 
         let chats = await ChannelChat.find({ channelId: channel._id });
         let unreadchats = chats.filter(item => !item.readBy.includes(userId));

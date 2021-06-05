@@ -4,8 +4,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = require("./service").app;
 
-
-
 const server = require('./service').server;
 require('dotenv').config();
 require('./runScript')
@@ -24,6 +22,7 @@ const bloguserRouter = require("./routers/bloguser_router");
 const uploadRouter = require("./routers/upload_file_router");
 const dashboardRouter = require("./routers/dashboard_router");
 const notificationRouter = require("./routers/notification_router");
+const privateChatRouter = require("./routers/private_chat_router");
 
 app.use(cors(
     {origin: [
@@ -56,6 +55,7 @@ app.use("/api", bloguserRouter);
 app.use("/api", uploadRouter);
 app.use("/api", dashboardRouter);
 app.use("/api", notificationRouter);
+app.use("/api", privateChatRouter);
 
 mongoose
     .connect(process.env.DATABASE, {

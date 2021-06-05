@@ -1,21 +1,33 @@
 const Employee = require("./models/employee_model");
 const ChannelChat = require("./models/channel_chat_model");
+const PrivateChat = require('./models/private_chat_model');
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, { cors: { origin: '*' } });
 const jwt = require("jsonwebtoken");
 
 
-// var online = [];
-// async function getOnlineUser(id){
-//      return await Employee.findById({ _id: id }).select("first_name last_name email");
-// }
+var onlineUsers = [];
+
+async function getOnlineUser(id){
+     return await Employee.findById({ _id: id }).select("full_name email headshot_url");
+}
 
 
 async function saveChat(msg){
   let result;
   try {
       result = await ChannelChat(msg.msg).save();
+      return result;
+  } catch (e) {
+    return e
+  }
+}
+
+async function savePrivateChat(msg){
+  let result;
+  try {
+      result = await PrivateChat(msg).save();
       return result;
   } catch (e) {
     return e
@@ -35,17 +47,23 @@ io.use(function(socket, next){
   }
 })
 .on('connection', async function(socket) {
-      // let onlineUser = online.some(val => val._id == socket.decoded._id);
-      // if(!onlineUser) online.unshift(await getOnlineUser(socket.decoded._id));
 
-      socket.on("disconnect", () => {
-        // online = online.filter(item => item._id != socket.decoded._id);
-        // io.emit("disconnected", {online})
-      });
+           let checkForOnlineUser = onlineUsers.filter((val) => val._id === socket.decoded._id);
+           if(checkForOnlineUser.length === 0){
+             let user = await getOnlineUser(socket.decoded._id);
+             onlineUsers.unshift({ _id: socket.decoded._id,
+                                   socketId: socket.id,
+                                   full_name: user.full_name,
+                                   headshot_url: user.headshot_url,
+                                   email: user.email
+                              })
+           }
 
-      // socket.on("urlchanged", (url) => {
-      //   socket.emit("urlchanged", {online})
-      // })
+      socket.on("disconnect", (e) => {
+            onlineUsers = onlineUsers.filter((val) => val._id !== socket.decoded._id);
+            io.emit("online", { onlineUsers });
+
+      })
 
       socket.on('join', (params) => {
           socket.join(params.room);
@@ -53,6 +71,16 @@ io.use(function(socket, next){
 
       // socket.to(params.room).emit("newJoined", { msg: "Someone joined"});
 
+      socket.on("sendPrivateMsg", async (msg) => {
+        let privateMsg = await savePrivateChat(msg.msg);
+        msg.msg._id = privateMsg._id
+        io.to(msg.msg.receiverSocketId).emit("receivePrivateMsg", { msg });
+
+      })
+
+      socket.on("urlChanged", (url) => {
+        socket.emit("urlChanged", { onlineUsers })
+      })
 
       socket.on("sendMessage", async (msg, params) => {
          await saveChat(msg);
@@ -63,7 +91,8 @@ io.use(function(socket, next){
         socket.to(params.room).emit("typingResponse", { msg: `${data.first_name + " " + data.last_name} is typing...`})
       })
 
-    // io.emit("connection", {online});
+     io.emit("connection", { onlineUsers });
+
 });
 
 module.exports = { app,io,server }

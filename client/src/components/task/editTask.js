@@ -22,6 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { ToastContainer, toast } from 'react-toastify';
 import {
+  Edit as EditIcon,
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons";
 import DeleteTask from './deleteTask';
@@ -190,7 +191,7 @@ const EditTask = ({ editTask, reload }) => {
              <Grid container justify="center">
              <Box>
                <IconButton aria-label="details"   onClick={handleClickOpen}>
-                 <RemoveRedEyeIcon />
+                 <EditIcon />
                </IconButton>
              </Box>
              </Grid>
