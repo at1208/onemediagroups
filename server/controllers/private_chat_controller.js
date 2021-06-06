@@ -18,7 +18,7 @@ module.exports.get_private_chats = (req, res) => {
         .skip(skip)
         .exec((err, result) => {
           if(err){
-            res.status(400).json({
+            return res.status(400).json({
               error: err
             })
           }

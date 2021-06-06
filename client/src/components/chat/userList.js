@@ -6,6 +6,8 @@ import Avatar from '../core/avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Box, Typography, IconButton } from '@material-ui/core';
 import socket from '../../utils/socketio';
+import SearchBar from "material-ui-search-bar";
+
 
 const useStyles = makeStyles((theme) => ({
   name:{
@@ -41,6 +43,7 @@ const UsersList = ({ url, getOnlineUsers }) => {
   const [onlineUsers, setOnlineUsers] = React.useState([]);
   const [offlineUsers, setOfflineUsers] = React.useState([]);
   const [selectedSocket, setSelectedSocket] = React.useState();
+  const [combinedUsers, setCombinedUsers] = React.useState([]);
   const token = getCookie("token");
 
   React.useEffect(() => {
@@ -82,39 +85,80 @@ const UsersList = ({ url, getOnlineUsers }) => {
       for(let online = 0; online<onlineUsers.length; online++){
         offlineUsersList = offlineUsersList.filter(user =>  user._id !== onlineUsers[online]._id);
       }
+      setCombinedUsers([...onlineUsers, ...offlineUsersList])
       setOfflineUsers(offlineUsersList);
     }
   }, [onlineUsers, users])
 
 
 
-  function ShowOnlineUserList(){
-     if(onlineUsers.length !==0){
-      return onlineUsers.map((emp, i) => {
+ const handleChange = (val) => {
+        if(val.length !== 0){
+          setCombinedUsers(combinedUsers.filter((name) => name.full_name.toLowerCase().split(" ").join("").includes(val.toLowerCase().split(" ").join(""))))
+        }else{
+          var  offlineUsersList = users;
+          for(let online = 0; online<onlineUsers.length; online++){
+            offlineUsersList = offlineUsersList.filter(user =>  user._id !== onlineUsers[online]._id);
+          }
+          setCombinedUsers([...onlineUsers, ...offlineUsersList])
+          setOfflineUsers(offlineUsersList);
+        }
+ }
+
+  function UsersListing(){
+     if(combinedUsers.length !==0){
+      return combinedUsers.map((emp, i) => {
         if(emp._id !== (isAuth() && isAuth()._id)){
-          return <Link to={{ pathname: `/chats/private/${emp._id}`, state: { receiverSocket: emp } }}>
-                <Box onClick={() => setSelectedSocket(emp)} >
-                  <Grid container className={classes.selected}>
-                    <Grid item>
-                    <Box>
+          if(emp.socketId){
+            return <Link to={{ pathname: `/chats/private/${emp._id}`, state: { selectedReceiver: emp} }}>
+                  <Box onClick={() => setSelectedSocket(emp)} >
+                    <Grid container className={classes.selected}>
+                      <Grid item>
+                      <Box>
+                        <div>
+                        <IconButton className={classes.buttonRoot}>
+                          <Avatar  name={emp.full_name} src={emp.headshot_url} size={37} textSize={20} />
+                          <span className={classes.online}></span>
+                        </IconButton>
+                        </div>
+                      </Box>
+                      </Grid>
+                      <Grid item>
+                      <Box pt={2}>
+                        <Typography variant="body2" className={classes.name}>
+                           {emp.full_name}
+                        </Typography>
+                      </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  </Link>
+          }else{
+            return <Link to={{ pathname: `/chats/private/${emp._id}`,  state: { selectedReceiver: emp} }}>
+                  <Box onClick={() => setSelectedSocket(emp)}>
+                    <Grid container >
+                      <Grid item>
+                      <Box >
                       <div>
                       <IconButton className={classes.buttonRoot}>
                         <Avatar  name={emp.full_name} src={emp.headshot_url} size={37} textSize={20} />
-                        <span className={classes.online}></span>
+                        <span className={classes.offline}></span>
                       </IconButton>
                       </div>
-                    </Box>
+                      </Box>
+                      </Grid>
+                      <Grid item>
+                      <Box pt={2}>
+                        <Typography variant="body2" className={classes.name}>
+                           {emp.full_name}
+                        </Typography>
+                      </Box>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                    <Box pt={2}>
-                      <Typography variant="body2" className={classes.name}>
-                         {emp.full_name}
-                      </Typography>
-                    </Box>
-                    </Grid>
-                  </Grid>
-                </Box>
-                </Link>
+                  </Box>
+                  </Link>
+          }
+
         }
       })
      }else{
@@ -123,44 +167,15 @@ const UsersList = ({ url, getOnlineUsers }) => {
      }
   }
 
-  function ShowOfflineUserList(){
-     if(offlineUsers.length !==0){
-      return offlineUsers.map((emp, i) => {
-        if(emp._id !== (isAuth() && isAuth()._id)){
-          return <Link to={{ pathname: `/chats/private/${emp._id}`, state: { receiverSocket: emp } }}>
-                <Box onClick={() => setSelectedSocket(emp)}>
-                  <Grid container >
-                    <Grid item>
-                    <Box >
-                    <div>
-                    <IconButton className={classes.buttonRoot}>
-                      <Avatar  name={emp.full_name} src={emp.headshot_url} size={37} textSize={20} />
-                      <span className={classes.offline}></span>
-                    </IconButton>
-                    </div>
-                    </Box>
-                    </Grid>
-                    <Grid item>
-                    <Box pt={2}>
-                      <Typography variant="body2" className={classes.name}>
-                         {emp.full_name}
-                      </Typography>
-                    </Box>
-                    </Grid>
-                  </Grid>
-                </Box>
-                </Link>
-        }
-      })
-     }else{
-       return <>
-             </>
-     }
-  }
+
 
   return <>
-          <ShowOnlineUserList />
-          <ShowOfflineUserList />
+          <br />
+          <SearchBar
+            onChange={handleChange}
+          />
+          <br />
+          <UsersListing />
          </>
 }
 

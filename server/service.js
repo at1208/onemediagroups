@@ -74,8 +74,13 @@ io.use(function(socket, next){
       socket.on("sendPrivateMsg", async (msg) => {
         let privateMsg = await savePrivateChat(msg.msg);
         msg.msg._id = privateMsg._id
+        console.log("Receiver:", msg.msg.receiverSocketId);
+        console.log("Online users:", onlineUsers)
         io.to(msg.msg.receiverSocketId).emit("receivePrivateMsg", { msg });
+      })
 
+      socket.on("privateTyping", (data, params) => {
+        socket.to(params.socketId).emit("privateTypingResponse", { msg: `Typing...`})
       })
 
       socket.on("urlChanged", (url) => {

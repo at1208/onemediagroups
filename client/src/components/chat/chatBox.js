@@ -1,5 +1,6 @@
 import React, {useMemo, useEffect, useState} from 'react';
-import { Grid, IconButton, Card, Box, Typography } from '@material-ui/core';
+import { withRouter } from 'react-router-dom'
+import { Grid, IconButton, Card, Box, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import socket from '../../utils/socketio';
 import { isAuth, getCookie } from '../../actions/auth';
@@ -9,26 +10,45 @@ import ReactQuill from 'react-quill';
 import renderHTML from 'react-render-html';
 import { Waypoint } from 'react-waypoint';
 import Avatar from '../core/avatar';
-import { getPrivateChats, readSeenMessage } from '../../actions/privateChat'
+import { getPrivateChats } from '../../actions/privateChat'
 
 
 
 const useStyles = makeStyles((theme) => ({
     displayMessage:{
       height: "65vh",
+      padding:"20px 0px 0px 0px",
       // backgroundImage:"url(/chatbg.svg)",
       overflowY:"scroll"
+    },
+    space:{
+      padding:"5px"
     },
     messageRoot:{
       padding:"0px 0px 0px 0px"
     },
-    msg:{
-      padding:"0px 0px 0px 60px",
-      margin:"3px 0px",
-      "& p":{
-        margin:"3px"
-      }
-      // backgroundColor:"#e8efff"
+
+    myMsgAlign:{
+      textAlign:"right",
+    },
+    thereMsgAlign:{
+        textAlign:"left",
+    },
+    myMsg:{
+      padding:"10px",
+      border: "1px solid #DDDDDD",
+      opacity: 1,
+      marginRight:"10px",
+      background: "#FFFFFF 0% 0% no-repeat padding-box",
+      borderRadius: "10px 10px 0px 10px",
+    },
+    thereMsg:{
+      padding:"10px",
+      marginLeft:"10px",
+      borderRadius: "10px 10px 10px 0px",
+      background: "#EEF3FF 0% 0% no-repeat padding-box",
+      border: "1px solid #DDDDDD",
+      opacity: 1
     },
     timestamp:{
       color:"rgb(58 64 88 / 50%)",
@@ -38,31 +58,16 @@ const useStyles = makeStyles((theme) => ({
       marginBottom:"15px"
     },
     msgEditor:{
-      "& .ql-editor":{
-         // minHeight:"50vh",
-         // letterSpacing: "-0.003em",
-         // lineHeight: "32px",
-         outline:"auto",
-         // marginTop: "2em",
-         fontSize: "16px",
-         // marginBottom: "-0.46em",
-         // fontStyle: "normal",
-         // wordBreak: "break-word",
-         // color: "rgba(41, 41, 41, 1)",
-         // fontWeight: "400"
-      },
-      "& .ql-toolbar.ql-snow":{
-        background:"transparent",
-        height:"30px",
-        border:"0px solid white"
-      }
+      width:"100%",
+     "& .MuiOutlinedInput-multiline":{
+       backgroundColor:"white"
+     }
     }
 
 }));
 
 
-const Chat = ({ receiverId,
-                onlineUsers }) => {
+const Chat = ({ onlineUsers, match: { params: id, url }, location: { state: selectedReceiver } }) => {
 
   const classes = useStyles();
   const token = getCookie("token")
@@ -75,6 +80,9 @@ const Chat = ({ receiverId,
   const [limit, setLimit] = useState(8);
   const [autoScroll, setAutoScroll] = useState(true);
   const [receiverSocketId, setReceiverSocketId] = useState();
+  const [receiver, setReceiver] = useState([]);
+  const [typing, setTyping ] = React.useState({ status: false, msg: "" });
+
   var messageContainer = React.useRef();
 
   const [msg, setMsg] = useState({
@@ -87,14 +95,24 @@ const Chat = ({ receiverId,
          timestamp: ""
 })
 
+
+
+
    useEffect(() => {
        socket.on("receivePrivateMsg", (receiveMsg) => {
-         async function getSeen(){
-           await readSeenMessage(receiveMsg.msg.msg._id, token)
-         }
-         getSeen();
-          setChatList((prevState) => [...prevState, receiveMsg.msg.msg]);
+       if(selectedReceiver && isAuth()){
+          if(selectedReceiver.selectedReceiver._id + isAuth()._id === receiveMsg.msg.msg.senderId + receiveMsg.msg.msg.receiverId){
+             setChatList((prevState) => [...prevState, receiveMsg.msg.msg]);
+          }
+       }
        })
+
+       socket.on("privateTypingResponse", (msg) => {
+           setTyping({ status: true, msg: msg.msg });
+           setTimeout(() => {
+             setTyping({ status: false, msg: "" });
+           }, 2000)
+       });
    }, [])
 
    useEffect(() => {
@@ -105,17 +123,16 @@ const Chat = ({ receiverId,
 
 
 
+
    useEffect(() => {
     (async () => {
-       let messages = await getPrivateChats(receiverId, token);
+       let messages = await getPrivateChats(id.id, token);
         messages = messages.map((mssg) => {
-           // async function getSeen(){
-           //   await readSeenMessage(mssg._id, token)
-           // }
-           // getSeen();
             return {
               senderName:mssg.senderId.full_name,
               senderPicture: mssg.senderId.headshot_url,
+              receiverId:mssg.receiverId._id,
+              senderId:mssg.senderId._id,
               message: mssg.message,
               _id: mssg._id,
               timestamp: mssg.createdAt
@@ -123,19 +140,24 @@ const Chat = ({ receiverId,
           })
        setChatList(messages)
     })()
-   }, [receiverId])
+  }, [id.id])
 
 
  useEffect(() => {
     if(onlineUsers.length>0){
-      let chatReceiver = onlineUsers.filter(online => online._id === receiverId)
-      setReceiverSocketId(chatReceiver[0] && chatReceiver[0].socketId);
+        onlineUsers.filter(online => online._id === id.id);
     }
  }, [onlineUsers])
 
+
+ useEffect(() => {
+   setReceiver(selectedReceiver.selectedReceiver);
+   setReceiverSocketId(selectedReceiver.selectedReceiver.socketId)
+ }, [selectedReceiver, url])
+
 const onEnter = async (e) => {
     setLoadMore(!loadMore);
-  let loadMoreMessages =   await getPrivateChats(receiverId, token, { skip: skip, limit: limit });
+  let loadMoreMessages =   await getPrivateChats(id.id, token, { skip: skip, limit: limit });
   loadMoreMessages = loadMoreMessages.map((mssg) => {
       return {
         senderName:mssg.senderId.full_name,
@@ -149,25 +171,6 @@ const onEnter = async (e) => {
 
 
 
-  const modules = useMemo(() => ({
-    toolbar: {
-        container: [
-           //  [{ header: [1, 2] }],
-           //  ['bold',
-           //   'italic',
-           //   'underline',
-           //   // 'strike',
-           //   // 'blockquote'
-           // ],
-            // [{ list: 'ordered' }, { list: 'bullet' }],
-            ['image','link']
-        ],
-        handlers: {
-            image:  ""
-        }
-    }
-   }), [])
-
    useEffect(() => {
      setSkip(skip = skip+limit);
    }, [loadMore])
@@ -175,7 +178,10 @@ const onEnter = async (e) => {
 
    const handleClick = (e) => {
        e.preventDefault();
-       setChatList((prevState) => [...prevState, msg]);
+
+       if(isAuth()._id === msg.senderId){
+          setChatList((prevState) => [...prevState, msg]);
+       }
        if(msg.message.length === 0) return;
        socket.emit("sendPrivateMsg", { msg });
        setMsg({
@@ -193,15 +199,16 @@ const onEnter = async (e) => {
 
 
    const handleChange = (e) => {
-          setMsg({
-            message: e,
-            senderName: userName,
-            senderPicture: userPicture,
-            senderId: userId,
-            receiverId: receiverId,
-            receiverSocketId:receiverSocketId,
-            timestamp: new Date()
-          })
+     setMsg({
+       message: e.target.value,
+       senderName: userName,
+       senderPicture: userPicture,
+       senderId: userId,
+       receiverId: id.id,
+       receiverSocketId:receiverSocketId,
+       timestamp: new Date()
+     })
+     socket.emit("privateTyping", { senderName: userName  }, { socketId: receiverSocketId })
    }
 
    const handleWaypointEnter = () => {
@@ -212,49 +219,45 @@ const onEnter = async (e) => {
       setAutoScroll(false)
    }
 
-
-
   function ShowChatListMessages(){
     return chatList.map((chatMsg, i) => {
+      return <div className={classes.msgContainer}>
+                <div className={chatMsg.senderId === (isAuth() && isAuth()._id) ? classes.myMsgAlign: classes.thereMsgAlign}>
+                  <span className={chatMsg.senderId === (isAuth() && isAuth()._id) ? classes.myMsg: classes.thereMsg}>
+                   {chatMsg.message}
+                  </span>
+                </div>
 
-        return <div className={classes.msgContainer}>
-                 <Grid container className={classes.messageRoot}>
-                     <Grid item sm={12} md={12} lg={12}>
-                       <Grid container>
-                         <Grid item>
-                           <Box>
-                             <Avatar name={chatMsg.senderName} src={chatMsg.senderPicture} size={32} textSize={10} />
-                           </Box>
-                         </Grid>
-                         <Box pt={0} pl={1}>
-                           <Typography variant="body2">
-                             {chatMsg.senderName}
-                           </Typography>
-                           <Typography variant="body2" className={classes.timestamp}>
-                              {moment(chatMsg.timestamp).format('MMMM Do YYYY, h:mm a')}
-                           </Typography>
-                         </Box>
-                       </Grid>
-                     </Grid>
-                  </Grid>
-                  <div className={classes.msg}>
-                    {renderHTML(chatMsg.message)}
-                  </div>
-              </div>
+                <div className={classes.space}/>
+            </div>
     })
   }
 
+
   return <>
             <Grid container justify="center">
-              <Grid item sm={10} md={10} xs={11} lg={10}>
+              <Grid item sm={10} md={9} xs={12} lg={9}>
+                <br />
+                <Grid container>
+                  <Grid item>
+                    {receiver && <Avatar name={receiver.full_name} src={receiver.headshot_url} size={32} textSize={10} />}
+                  </Grid>
+                  <Box pt={0} pl={1}>
+                    <Typography variant="body2">
+                      {receiver.full_name}
+                    </Typography>
+                    {typing.status?<Typography variant="" align="center"><small>{typing.status && typing.msg}</small></Typography>:receiver.socketId !==undefined?<small>online</small>:""}
+                  </Box>
+                </Grid>
+                <br />
                 <Card className={classes.displayMessage}>
-                   <Grid container justify="center">
+                   {chatList.length >=10 && <Grid container justify="center">
                      <Grid>
                        <button onClick={onEnter}>
-                        Load more
+                        Load previous messages
                        </button>
                      </Grid>
-                   </Grid>
+                   </Grid>}
                   <ShowChatListMessages />
                   <div ref={(el) => messageContainer = el} id="scroll-message">
                     <Waypoint
@@ -266,21 +269,22 @@ const onEnter = async (e) => {
               </Grid>
             </Grid>
             <br />
+
+            <form onSubmit={handleClick}>
             <Grid container justify="center">
-              <Grid item sm={9} md={9} xs={9}>
-                <ReactQuill
-                  fullWidth
-                  value={msg.message}
-                  theme="snow"
-                  className={classes.msgEditor}
-                  onChange={handleChange}
-                  modules={modules}
-                  />
+              <Grid item sm={9} md={8} xs={9}>
+                  <TextField
+                  variant="outlined"
+                    multiline
+                    rowsMax={3}
+                    onChange={handleChange}
+                    value={msg.message}
+                    className={classes.msgEditor}  />
               </Grid>
               <Grid item sm={2} md={1} xs={2} lg={1}>
                 <Grid container justify="center">
                   <Grid item>
-                     <Box pt={2}>
+                     <Box pt={0}>
                      <IconButton
                        size="large"
                        onClick={handleClick}
@@ -292,8 +296,8 @@ const onEnter = async (e) => {
                   </Grid>
                 </Grid>
               </Grid>
-
           </Grid>
+          </form>
          </>
 }
-export default Chat;
+export default withRouter(Chat);

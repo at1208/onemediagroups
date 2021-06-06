@@ -278,7 +278,6 @@ const handleChange = (e) => {
       timestamp: new Date(),
       readBy: [] });
     socket.emit("typing", { first_name,last_name, email, senderId:id}, {room:getChannelId(location)})
-
 }
 
 
@@ -416,7 +415,6 @@ const chatsList = chats.map((item, i) => {
                 <Typography variant="body2" align="center">{typing.status && typing.msg}</Typography>
                 <br /> <br />
                 <form onSubmit={handleSubmit} className={classes.messageRoot}>
-
                     {!matches && <Typography variant="body2" align="center" className={classes.channelNameMb}>#{channel}</Typography>}
                      <Grid container justify="center">
                            <Grid item sm={11} md={11} xs={12}>
@@ -439,7 +437,6 @@ const chatsList = chats.map((item, i) => {
                              </Grid>
                            </Grid>
                    </Grid>
-
                 </form>
              </Grid>
              {matches && <Grid item xs={12} md={3} sm={12} lg={3}>

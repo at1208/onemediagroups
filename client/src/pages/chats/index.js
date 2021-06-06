@@ -5,7 +5,6 @@ import UserList from '../../components/chat/userList';
 import { Grid } from '@material-ui/core';
 
 const Chats = ({ match: { url } }) => {
-      const [receiverSocket, setReceiverSocket] = React.useState();
       const [onlineUsersList, setOnlineUsersList] = React.useState();
 
   return <>
