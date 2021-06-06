@@ -179,3 +179,35 @@ export function checkModulePermission(moduleType, permission, token) {
       });
   });
 }
+
+export function forgotPassword(credentials) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/forgot/password", credentials)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function resetPassword(credentials) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/reset/password", credentials)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

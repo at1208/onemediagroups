@@ -10,6 +10,8 @@ const { create_employee,
         filter_employee,
         update_profile_picture,
         contact_number,
+        resetPassword,
+        forgotPassword,
         check_module_permission,
         signin  } = require("../controllers/employee_controller");
 
@@ -66,6 +68,12 @@ router.post("/employee/contact-number/:moduleType/:permission",
 
 router.post("/signin",
        signin);
+
+ router.post("/forgot/password",
+        forgotPassword);
+
+ router.post("/reset/password",
+         resetPassword);
 
 router.post("/accept/onboard/invitation",
       accept_onboard_invitation);

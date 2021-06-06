@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { ToastContainer, toast } from 'react-toastify';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {
   PersonOutlineOutlined,
@@ -10,7 +12,7 @@ import {
 } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { signIn, authenticate } from '../../actions/auth';
-import Alert from '@material-ui/lab/Alert';
+
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -111,6 +113,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [login, setLogin] = useState({
     credentials:{
       email:"",
@@ -145,11 +148,13 @@ const LoginForm = () => {
          })
      })
      .catch((err) => {
+       toast.error(err.error)
        setLogin({...login, isLoading:false, error: err.error })
      })
  }
 
   return <>
+      <ToastContainer />
           <div className={classes.root}>
             <div className={classes.middle}>
               <div className={classes.inner}>
@@ -160,14 +165,14 @@ const LoginForm = () => {
                     <Grid item xs={12} sm={6} md={4}>
                         <div className={classes.form}>
                           <form onSubmit={handleSubmit}>
-                              <Grid container justify="center">
+                              {/*<Grid container justify="center">
                                 <Grid item sm={5} xs={5}>
                                 <img src="readifly-logo.svg" height={"100%"} width="100%"/>
                                 </Grid>
                                 <Grid item sm={7} xs={7}>
                                   <Typography variant="h4" align="start" className={classes.companyname}>Readifly Technologies</Typography>
                                 </Grid>
-                              </Grid>
+                              </Grid>*/}
 
                               {/*<div className={classes.alertCard}>
                               {login.success && <Alert severity="success">{login.success}</Alert>}
@@ -230,9 +235,9 @@ const LoginForm = () => {
                                 </Grid>
                                 <br />
                                 <Grid container justify='center'>
-                                  <Typography variant="body1">
-                                    Forget password
-                                  </Typography>
+                                      <Typography variant="body1" onClick={() => history.push("/reset")}>
+                                        Forget password
+                                      </Typography>
                               </Grid>
                           </form>
                         </div>

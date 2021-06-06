@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter, useHistory  } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -10,7 +11,7 @@ import {
   Grid,
   Card
 } from "@material-ui/core";
-import { forgotPassword } from '../../actions/employee'
+import { resetPassword } from '../../actions/employee'
 
 const theme = createMuiTheme({
   overrides: {
@@ -95,20 +96,21 @@ const useStyles = makeStyles({
 
 
 
-function ResetPassword() {
-
-  const [email, setEmail] = React.useState();
+function ResetPasswordComponent({ match: { params: {resetLink}} }) {
+  const [newPassword, setNewPassword] = React.useState();
   const [loading, setLoading] = React.useState(false);
+  const [pwdSuccess, setPwdSuccess] = React.useState(false);
   const classes = useStyles();
-
+  const history = useHistory();
 
   const handleClick = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-        let response = await forgotPassword({ email: email });
+        let response = await resetPassword({  resetPasswordLink:resetLink,  newPassword });
         toast.success(response.message)
         setLoading(false)
+        setPwdSuccess(true)
     } catch (e) {
        toast.error(e.error)
        setLoading(false)
@@ -129,24 +131,25 @@ function ResetPassword() {
           justify="center">
            <Grid item xs={12} sm={6} md={4}>
             <Card  className={classes.form}>
-              <Typography component="h1" variant="h4" align="center" gutterBottom>
+              {!pwdSuccess?<>
+                <Typography component="h1" variant="h4" align="center" gutterBottom>
                 Reset Password
               </Typography>
               <Typography component="h2" variant="body1" align="center">
-                Enter your email to reset your password
+                Enter a new password.
               </Typography>
               <br />
               <form onSubmit={handleClick}>
                 <Grid container justify="center">
                    <Grid item sm={10}>
                      <TextField
-                       type="email"
+                       type="password"
                        variant="outlined"
-                       value={email}
-                       onChange={(e) => setEmail(e.target.value)}
+                       value={newPassword}
+                       onChange={(e) => setNewPassword(e.target.value)}
                        className={classes.loginTextField}
                        name="email"
-                       label="E-mail Address"
+                       label="Create new password"
                        fullWidth
                        my={3}
                      />
@@ -162,6 +165,12 @@ function ResetPassword() {
                    </Grid>
                 </Grid>
               </form>
+              </>: <>
+              <br />
+              <Button className={classes.button}>
+              <Typography variant="h4" align="center" onClick={() => history.push("/")}>Go to Homepage</Typography>
+              </Button></>
+            }
             </Card>
          </Grid>
         </Grid>
@@ -172,4 +181,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default withRouter(ResetPasswordComponent);

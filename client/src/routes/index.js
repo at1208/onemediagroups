@@ -9,11 +9,12 @@ import Department from '../pages/employees/department';
 import Designation from '../pages/employees/designation';
 import Contact from '../pages/contact';
 import Reset from '../pages/reset';
+import SetPassword from '../pages/reset/setPassword'
 import Onboard from '../pages/onboard';
 import Activities from '../pages/activities';
 import Projects from '../pages/projects';
 import Tasks from '../pages/tasks';
-import SelectChannel from '../pages/chats/selectChannel';
+// import SelectChannel from '../pages/chats/selectChannel';
 import ChatUserList from '../pages/chats';
 import PrivateChat from '../pages/chats/privateChat';
 import ChannelChats from '../pages/chats/channelChat';
@@ -52,6 +53,7 @@ const Router = () => {
            <Private path="/notifications" exact component={Notifications} />
            <Private path="/chats/:channel" exact component={ChannelChats} />
            <Auth path="/reset" exact component={Reset} />
+           <Auth path="/auth/password/reset/:resetLink" exact component={SetPassword} />
            <Auth path="/auth/onboard/:token" exact component={Onboard} />
           </>
 }

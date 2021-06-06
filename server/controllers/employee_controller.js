@@ -6,8 +6,10 @@ const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 const fs = require('fs');
-
+const onboard_template = require("../utils/onboard_template");
+const reset_password_template = require("../utils/reset_password_template");
 
 const pad = (number, length) => {
     var str = '' + number;
@@ -117,26 +119,30 @@ module.exports.onboard_employee = (req, res) => {
            error: err
          })
        }
-    const { first_name, email, _id, employee_id } = employee;
+    const { first_name, email, _id } = employee;
     const token = jwt.sign({ first_name, _id, email }, process.env.JWT_INVITATION, { expiresIn: '1d' });
 
-    let html = `<div style="padding-left:20px; padding-right:20px">
-                 <h1 style="text-align:center">Welcome you on board!</h1>
-                 <div style="text-align:left;">Hi ${first_name},</div>
-                 <p>
-                  Congratulations on being part of the team! The whole company welcomes you and we look forward to a successful journey with you! Welcome aboard!
-                 </p>
-                 <p>Please click on the following button to activate your acccount:</p>
-                 <div style= "text-align:center; padding:20px 20px 20px 20px;" >
-                   <a href=${process.env.CLIENT_URL}/auth/onboard/${token}>
-                     <button style="padding:10px 30px; background:linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%); color:white; font-weight:700; border:0px; font-size:20px">
-                       Accept invitation
-                     </button>
-                   </a>
-                 </div>
-                 <hr />
-                 <p>This email may contain sensetive information</p>
-               </div>`
+    const name = first_name
+                 .toLowerCase()
+                 .replace(/\w/, firstLetter => firstLetter.toUpperCase());
+    let html = onboard_template({ name, token});
+    // `<div style="padding-left:20px; padding-right:20px">
+    //              <h1 style="text-align:center">Welcome you on board!</h1>
+    //              <div style="text-align:left;">Hi ${first_name},</div>
+    //              <p>
+    //               Congratulations on being part of the team! The whole company welcomes you and we look forward to a successful journey with you! Welcome aboard!
+    //              </p>
+    //              <p>Please click on the following button to activate your acccount:</p>
+    //              <div style= "text-align:center; padding:20px 20px 20px 20px;" >
+    //                <a href=${process.env.CLIENT_URL}/auth/onboard/${token}>
+    //                  <button style="padding:10px 30px; background:linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%); color:white; font-weight:700; border:0px; font-size:20px">
+    //                    Accept invitation
+    //                  </button>
+    //                </a>
+    //              </div>
+    //              <hr />
+    //              <p>This email may contain sensetive information</p>
+    //            </div>`
 
     send_email(email, "Welcome you onboard", html)
     .then(() => {
@@ -172,9 +178,10 @@ module.exports.accept_onboard_invitation = async (req, res) => {
                    error: err
                  })
                }
-               if(result.length>0){
-                 return res.status(200).json({
-                     result:"Account is activated already"
+
+               if(result.password.length >0){
+                 return res.status(400).json({
+                     error:"Account is activated already"
                  })
                }
 
@@ -398,12 +405,7 @@ exports.forgotPassword = (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.JWT_RESET_PASSWORD, { expiresIn: '10m' });
 
         // email
-        const html = `
-        <p>Please use the following link to reset your password:</p>
-        <p>${process.env.CLIENT_URL}/auth/password/reset/${token}</p>
-        <hr />
-        <p>This email may contain sensetive information</p>
-    `
+        const html = reset_password_template({ token });
         // populating the db > user > resetPasswordLink
         return user.updateOne({ resetPasswordLink: token }, (err, success) => {
             if (err) {
@@ -423,7 +425,11 @@ exports.forgotPassword = (req, res) => {
 
 exports.resetPassword = (req, res) => {
     const { resetPasswordLink, newPassword } = req.body;
-
+     if(!newPassword){
+       return res.status(422).json({
+         error: "Please enter a new password."
+       })
+     }
     if (resetPasswordLink) {
         jwt.verify(resetPasswordLink, process.env.JWT_RESET_PASSWORD, function(err, decoded) {
             if (err) {
@@ -437,23 +443,27 @@ exports.resetPassword = (req, res) => {
                         error: 'Something went wrong. Try later'
                     });
                 }
-                const updatedFields = {
-                    password: newPassword,
-                    resetPasswordLink: ''
-                };
 
-                user = _.extend(user, updatedFields);
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(newPassword, salt, function(err, hashedPassword) {
+                        const updatedFields = {
+                            password: hashedPassword,
+                            resetPasswordLink: ''
+                        };
 
-                user.save((err, result) => {
-                    if (err) {
-                        return res.status(400).json({
-                            error: errorHandler(err)
+                        user = _.extend(user, updatedFields);
+                        user.save((err, result) => {
+                            if (err) {
+                                return res.status(400).json({
+                                    error: errorHandler(err)
+                                });
+                            }
+                            res.json({
+                                message: `Great! Now you can login with your new password`
+                            });
                         });
-                    }
-                    res.json({
-                        message: `Great! Now you can login with your new password`
                     });
-                });
+                 });
             });
         });
     }
