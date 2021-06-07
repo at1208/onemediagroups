@@ -3,7 +3,7 @@ import axios from "../utils/axios";
 export function getChannelChats(channelId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/get/channelchats/${channelId}`, credentials, {
+      .post(`/get/channelchats/${channelId}/channel/read`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",
@@ -25,7 +25,7 @@ export function getChannelChats(channelId, credentials, token) {
 export function readChannelChats(chatId, userId, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`channelchat/read/${chatId}/${userId}`, {
+      .get(`channelchat/read/${chatId}/${userId}/channel/read`, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

@@ -418,8 +418,8 @@ const useStyles = makeStyles((theme) => ({
         </ListItem>
     </Link>}
 
-    {checkVisiblityOnSidebar('channel') && <Link to="/channel">
-       <ListItem button selected={currentTab("/channel")}>
+    {checkVisiblityOnSidebar('channel') && <Link to="/channels">
+       <ListItem button selected={currentTab("/channels")}>
            {<ListItemIcon>
               <MessageCircle className={classes.sidebarIcons} />
            </ListItemIcon>}

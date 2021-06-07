@@ -70,3 +70,51 @@ module.exports.unread_messages = (req, res) => {
          })
       })
 }
+
+
+module.exports.recent_messages = (req, res) => {
+    PrivateChat.find({ $or: [
+                             { senderId: { "$in" : [req.user._id]} },
+                             { receiverId: { "$in": [req.user._id]} }
+                            ]
+                    })
+      .populate("senderId", "full_name headshot_url")
+      .populate("receiverId", "full_name headshot_url")
+      .exec((err, result) => {
+        if(err){
+          return res.status(400).json({
+            error: err
+          })
+        }
+
+      let resp = result.map(msg => {
+          let modefied = {};
+          let key = msg.senderId._id + msg.receiverId._id;
+           modefied.key = key
+           modefied._id = msg._id;
+           modefied.readStatus = msg.readStatus;
+           modefied.senderId = msg.senderId._id;
+           modefied.receiverId = msg.receiverId._id;
+           modefied.message = msg.message;
+           modefied.createdAt = msg.createdAt;
+           modefied.updatedAt = msg.updatedAt;
+          return modefied;
+        })
+
+
+        function groupByKey(resp, key) {
+          return resp
+          .reduce((hash, obj) => {
+          if(obj[key] === undefined) return hash;
+          return Object.assign(hash, { [obj[key]]:( hash[obj[key]] || [] ).concat(obj)})
+          }, {})
+        }
+
+       let data = groupByKey(resp, 'key');
+       const collections = [];
+       for(let primarykey in data){
+         collections.push(data[primarykey].reverse()[0]);
+       }
+     res.json(collections)
+   })
+}

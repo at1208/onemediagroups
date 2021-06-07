@@ -193,7 +193,7 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   }, [])
 
   React.useEffect(() => {
-   getChannels(id)
+   getChannels(id, token)
      .then((value) => {
        setChannels(value)
      })
@@ -203,11 +203,11 @@ const Chats = ({ match: { params: { channel } }, match: { url }, location }) => 
   }, [reload, location])
 
   React.useEffect(() => {
-    // messageContainer.scrollIntoView();
+    messageContainer.scrollIntoView();
   }, [chats])
 
   React.useEffect(() => {
-     getChannelChats(getChannelId(location), token)
+     getChannelChats(getChannelId(location),{},token)
        .then((value) => {
          setChats(value)
        })

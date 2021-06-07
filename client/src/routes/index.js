@@ -14,7 +14,7 @@ import Onboard from '../pages/onboard';
 import Activities from '../pages/activities';
 import Projects from '../pages/projects';
 import Tasks from '../pages/tasks';
-// import SelectChannel from '../pages/chats/selectChannel';
+import SelectChannel from '../pages/chats/selectChannel';
 import ChatUserList from '../pages/chats';
 import PrivateChat from '../pages/chats/privateChat';
 import ChannelChats from '../pages/chats/channelChat';
@@ -46,6 +46,7 @@ const Router = () => {
            <Private path="/categories" exact component={Category} />
            <Private path="/domains" exact component={Domain} />
            <Private path="/chats" exact component={ChatUserList} />
+           <Private path="/channels" exact component={SelectChannel} />
            <Private path="/chats/private/:id" exact component={PrivateChat} />
            <Private path="/profile" exact component={Profile} />
            <Private path="/my-blogs" exact component={MyBlogs} />

@@ -1,4 +1,4 @@
-import React, {useMemo, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { withRouter } from 'react-router-dom'
 import { Grid, IconButton, Card, Box, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,12 +6,12 @@ import socket from '../../utils/socketio';
 import { isAuth, getCookie } from '../../actions/auth';
 import { Send } from 'react-feather';
 import moment from 'moment';
-import ReactQuill from 'react-quill';
-import renderHTML from 'react-render-html';
 import { Waypoint } from 'react-waypoint';
 import Avatar from '../core/avatar';
-import { getPrivateChats } from '../../actions/privateChat'
-
+import { getPrivateChats } from '../../actions/privateChat';
+import UserListing from './sidebar';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       padding:"10px",
       border: "1px solid #DDDDDD",
       opacity: 1,
+      marginBottom:"10px",
       marginRight:"10px",
       background: "#FFFFFF 0% 0% no-repeat padding-box",
       borderRadius: "10px 10px 0px 10px",
@@ -62,8 +63,27 @@ const useStyles = makeStyles((theme) => ({
      "& .MuiOutlinedInput-multiline":{
        backgroundColor:"white"
      }
-    }
+   },
 
+   receiver:{
+   },
+   editorForm:{
+     [theme.breakpoints.down('xs')]: {
+      position:"fixed",
+      bottom:"10px",
+      left:"10px",
+      right:"10px"
+     },
+   },
+   time:{
+    fontSize:"9px",
+    padding:"10px",
+    color:"grey"
+   },
+   timespace:{
+     padding:"5px 20px 0px 0px",
+
+   }
 }));
 
 
@@ -82,6 +102,8 @@ const Chat = ({ onlineUsers, match: { params: id, url }, location: { state: sele
   const [receiverSocketId, setReceiverSocketId] = useState();
   const [receiver, setReceiver] = useState([]);
   const [typing, setTyping ] = React.useState({ status: false, msg: "" });
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   var messageContainer = React.useRef();
 
@@ -226,7 +248,10 @@ const onEnter = async (e) => {
                   <span className={chatMsg.senderId === (isAuth() && isAuth()._id) ? classes.myMsg: classes.thereMsg}>
                    {chatMsg.message}
                   </span>
+                    <div className={classes.timespace} />
+                   <small className={classes.time}>{moment(chatMsg.timestamp).format("hh:mm a - M/D/Y")}</small>
                 </div>
+
 
                 <div className={classes.space}/>
             </div>
@@ -238,16 +263,31 @@ const onEnter = async (e) => {
             <Grid container justify="center">
               <Grid item sm={10} md={9} xs={12} lg={9}>
                 <br />
-                <Grid container>
-                  <Grid item>
-                    {receiver && <Avatar name={receiver.full_name} src={receiver.headshot_url} size={32} textSize={10} />}
+                <Grid container className={classes.receiver} justify="space-between">
+                  <Grid item sm={6} xs={6}>
+                      <Grid container>
+                        <Grid item>
+                          {receiver && <Avatar name={receiver.full_name} src={receiver.headshot_url} size={40} textSize={15} />}
+                        </Grid>
+                        <Grid item>
+                        <Box pt={0} pl={1}>
+                          <Typography variant="body2">
+                            {receiver.full_name}
+                          </Typography>
+                          {typing.status?<Typography variant="" align="center"><small>{typing.status && typing.msg}</small></Typography>:receiver.socketId !==undefined?<small>online</small>:""}
+                        </Box>
+                        </Grid>
+                      </Grid>
                   </Grid>
-                  <Box pt={0} pl={1}>
-                    <Typography variant="body2">
-                      {receiver.full_name}
-                    </Typography>
-                    {typing.status?<Typography variant="" align="center"><small>{typing.status && typing.msg}</small></Typography>:receiver.socketId !==undefined?<small>online</small>:""}
-                  </Box>
+                  {matches && <Grid item sm={6}>
+                     <Grid container justify="space-between">
+                       <Grid item>
+                       </Grid>
+                       <Grid item>
+                          <UserListing />
+                       </Grid>
+                     </Grid>
+                  </Grid>}
                 </Grid>
                 <br />
                 <Card className={classes.displayMessage}>
@@ -269,8 +309,7 @@ const onEnter = async (e) => {
               </Grid>
             </Grid>
             <br />
-
-            <form onSubmit={handleClick}>
+            <form onSubmit={handleClick} className={classes.editorForm}>
             <Grid container justify="center">
               <Grid item sm={9} md={8} xs={9}>
                   <TextField

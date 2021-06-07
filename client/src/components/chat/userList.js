@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
     height: "9px",
     background: "#c9c9c9",
     borderRadius: "50%"
+  },
+  userListing:{
+    height:"75vh",
+    backgroundColor:"white",
+    overflowY:"scroll"
   }
 }));
 
@@ -175,7 +180,9 @@ const UsersList = ({ url, getOnlineUsers }) => {
             onChange={handleChange}
           />
           <br />
+          <div className={classes.userListing}>
           <UsersListing />
+          </div>
          </>
 }
 

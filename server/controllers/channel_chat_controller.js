@@ -18,28 +18,26 @@ module.exports.create_channel_chat = async (req, res) => {
 
 module.exports.get_channel_chats = async (req, res) => {
    const { channelId } = req.params;
-   let limit = req.body.limit ? parseInt(req.body.limit) : 10;
-   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+   // let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+   // let skip = req.body.skip ? parseInt(req.body.skip) : 0;
     try {
        let chats = await ChannelChat.find({ channelId })
                          .populate('senderId', 'first_name last_name headshot_url')
-                         .sort({ createdAt: 1 })
-                         // .skip(skip)
-                         // .limit(limit)
-  if(!chats) return res.status(404).json([]);
-  const chatList =  chats.map((item, i) => {
-       return {
-           _id:item._id,
-           channelId: item.channelId,
-           readBy: item.readBy,
-           message: item.message,
-           senderEmail: item.senderId.email,
-           senderPicture: item.senderId.headshot_url,
-           senderName: item.senderId.first_name + " " + item.senderId.last_name,
-           timestamp: item.timestamp
-        }
-     })
-     res.json(chatList);
+                         .sort({ createdAt: 1 });
+        if(!chats) return res.status(404).json([]);
+        const chatList =  chats.map((item, i) => {
+             return {
+                 _id:item._id,
+                 channelId: item.channelId,
+                 readBy: item.readBy,
+                 message: item.message,
+                 senderEmail: item.senderId.email,
+                 senderPicture: item.senderId.headshot_url,
+                 senderName: item.senderId.first_name + " " + item.senderId.last_name,
+                 timestamp: item.timestamp
+              }
+           })
+           return res.json(chatList);
     } catch (e) {
       res.status(400).json({
         error:e
