@@ -15,7 +15,7 @@ const s3 = new aws.S3({
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'stagingtest',
+    bucket: process.env.DO_SPACE_BUCKET_NAME,
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: async function (request, file, cb) {

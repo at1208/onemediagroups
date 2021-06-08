@@ -120,7 +120,7 @@ module.exports.onboard_employee = (req, res) => {
          })
        }
     const { first_name, email, _id } = employee;
-    const token = jwt.sign({ first_name, _id, email }, process.env.JWT_INVITATION, { expiresIn: '1d' });
+    const token = jwt.sign({ first_name, _id, email }, process.env.JWT_INVITATION, { expiresIn: '7d' });
 
     const name = first_name
                  .toLowerCase()
