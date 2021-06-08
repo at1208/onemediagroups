@@ -11,14 +11,11 @@ const Profile = () => {
                <Grid item xs={12} sm={9} md={9} lg={9}>
                  <Box pt={2}>
                  <Typography variant="h4">
-
                  </Typography>
                  </Box>
-
                </Grid>
-
                <Grid item xs={12} sm={3} md={3} lg={3}>
-                 <UpdateProfile />
+                 {/*<UpdateProfile />*/}
                </Grid>
              </Grid>
 

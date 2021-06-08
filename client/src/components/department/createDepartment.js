@@ -24,16 +24,19 @@ const useStyles = makeStyles((theme) => ({
     right:'5%'
   },
   button:{
-    textTransform: "none",
-    backgroundColor:"#3f51b5",
-    width:"100%",
-    color:"white",
-    fontWeight:800,
-    height:"40px",
-    fontSize:"15px",
+    background: '#6387ED 0% 0% no-repeat padding-box',
+    borderRadius: '8px',
+    opacity: 1,
+    // width: '100%',
+    fontWeight: '500',
+    height: '49px',
+    textTransform: 'none',
+    color: 'white',
     '&:hover': {
-              backgroundColor:"#3f51b5"
-        },
+      fontWeight: '500',
+      background: '#6387ED 0% 0% no-repeat padding-box',
+      color: 'white',
+    },
   },
 }));
 

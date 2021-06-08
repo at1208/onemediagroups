@@ -44,7 +44,19 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   uploadButton:{
-    textTransform:"none"
+    background: '#6387ED 0% 0% no-repeat padding-box',
+    borderRadius: '8px',
+    opacity: 1,
+    // width: '',
+    fontWeight: '500',
+    height: '49px',
+    textTransform: 'none',
+    color: 'white',
+    '&:hover': {
+      fontWeight: '500',
+      background: '#6387ED 0% 0% no-repeat padding-box',
+      color: 'white',
+    },
   }
 }));
 

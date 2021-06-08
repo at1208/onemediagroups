@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from "styled-components/macro";
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Button,Typography, TextField, Avatar } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { createBlog  } from '../../actions/blog';
+import { createBlog, singleBlog } from '../../actions/blog';
 import { getCookie, removeLocalStorage  } from '../../actions/auth';
 import { getCategories  } from '../../actions/category';
 import { getDomains  } from '../../actions/domain';
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateBlog = () => {
+const EditBlog = ({ match: {params} }) => {
   const classes = useStyles();
   const token = getCookie("token");
   const blogBodyFromLS = () => {
@@ -77,8 +78,8 @@ const blogTitleFromLS = () => {
 
 
   const [blog, setBlog] = React.useState({
-       title:blogTitleFromLS(),
-       body:blogBodyFromLS(),
+       title:"",
+       body:"",
        categories:[],
        domain:"",
        featureImg:"",
@@ -88,6 +89,8 @@ const blogTitleFromLS = () => {
 
   const [categories, setCategories] = React.useState();
   const [domains, setDomains] = React.useState();
+  const [defaultCategories, setDefaultCategories] = React.useState();
+  const [defaultDomains, setDefaultDomains] = React.useState();
 
   React.useEffect(() => {
      getCategories(token)
@@ -116,6 +119,25 @@ const blogTitleFromLS = () => {
          console.log(err)
        })
   }, [blog.domain])
+
+
+  useEffect(() => {
+     singleBlog(params.id,  token)
+       .then(response => {
+         setBlog({
+           title:response.title,
+           body:response.body,
+           categories:response.categories,
+           domain:response.domain,
+           featureImg:response.featureImg,
+           isLoading:false
+         })
+       })
+       .catch(error => {
+         console.log(error)
+       })
+  }, [])
+  console.log(blog)
 
 
   const handleChange = (name) => async (e) => {
@@ -196,24 +218,23 @@ const blogTitleFromLS = () => {
         };
     }
 
-
-    const modules = useMemo(() => ({
-      toolbar: {
-          container: [
-              [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
-              [{ size: [] }],
-              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-              [{ list: 'ordered' }, { list: 'bullet' }],
-              ['link', 'video'],
-              ['link', 'image', 'video'],
-              ['clean'],
-              ['code-block']
-          ],
-          handlers: {
-              image: imageHandler
-          }
-      }
-     }), [])
+ //    const modules = useMemo(() => ({
+ //      toolbar: {
+ //          container: [
+ //              [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
+ //              [{ size: [] }],
+ //              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+ //              [{ list: 'ordered' }, { list: 'bullet' }],
+ //              ['link', 'video'],
+ //              ['link', 'image', 'video'],
+ //              ['clean'],
+ //              ['code-block']
+ //          ],
+ //          handlers: {
+ //              image: imageHandler
+ //          }
+ //      }
+ //     }), [])
 
 
   return <>
@@ -244,9 +265,9 @@ const blogTitleFromLS = () => {
                         />
                       <ReactQuill
                         value={blog.body}
-                        modules={modules}
+                        // modules={modules}
                         className={classes.editor}
-                        onChange={handleChange("body")}
+                        // onChange={handleChange("body")}
                        />
                        <br />
                        <Grid container justify='center'>
@@ -293,7 +314,7 @@ const blogTitleFromLS = () => {
                      <Autocomplete
                         onChange={(event, newValue) => {
                           if(newValue){
-                               setBlog({...blog, domain: newValue._id})
+                               // setBlog({...blog, domain: newValue._id})
                           }
                          }}
                         options={domains}
@@ -307,7 +328,7 @@ const blogTitleFromLS = () => {
                         disabled={blog.domain.length===0}
                          onChange={(event, newValue) => {
                            if(newValue){
-                             setBlog({...blog, categories: newValue.map(item => item._id)})
+                             // setBlog({...blog, categories: newValue.map(item => item._id)})
                            }
                           }}
                          options={categories || ""}
@@ -318,9 +339,8 @@ const blogTitleFromLS = () => {
                   </Grid>
                 </Grid>
               </form>
-
           </DashboardLayout>
          </>
 }
 
-export default CreateBlog;
+export default withRouter(EditBlog);

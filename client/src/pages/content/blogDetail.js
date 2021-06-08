@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory, Link } from 'react-router-dom';
 import { Grid, Typography, Box, Chip, Card, Button } from '@material-ui/core';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { makeStyles } from '@material-ui/core/styles';
-import { singleBlog } from '../../actions/blog'
-import { getCookie, isAuth } from '../../actions/auth'
+import { singleBlog } from '../../actions/blog';
+import { getCookie } from '../../actions/auth';
 import renderHTML from 'react-render-html';
 import moment from 'moment'
 import ApprovalStatus from '../../components/content/approvalstatus';
-import Avatar from '../../components/core/avatar';
 import LiveStatus from '../../components/content/livestatus';
 import { reviewUpdate } from '../../actions/blog'
 import { checkModulePermission } from '../../actions/employee'
@@ -45,7 +44,19 @@ const useStyles = makeStyles((theme) => ({
    },
   },
   button:{
-  textTransform:"none"
+    background: '#6387ED 0% 0% no-repeat padding-box',
+    borderRadius: '8px',
+    opacity: 1,
+    width: '100%',
+    fontWeight: '500',
+    height: '49px',
+    textTransform: 'none',
+    color: 'white',
+    '&:hover': {
+      fontWeight: '500',
+      background: '#6387ED 0% 0% no-repeat padding-box',
+      color: 'white',
+    },
   },
   notApproved:{
    background: "rgb(244, 67, 54)",
@@ -97,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
 const BlogDetail = ({ match: { params: { id } } }) => {
    const [blog, setBlog] = useState();
    const token = getCookie("token");
+   const history = useHistory();
    const classes = useStyles();
    const [reload, setReload] = useState(false);
    const [approvalCheck, setApprovalCheck] = useState(false);
@@ -105,28 +117,25 @@ const BlogDetail = ({ match: { params: { id } } }) => {
      status: "",
    })
 
+    useEffect(() => {
+      (async () => {
+       let permissionCheck = await checkModulePermission('blog','update',token);
+          setApprovalCheck(permissionCheck)
+      })()
+    })
 
-
- useEffect(() => {
-   (async () => {
-     let permissionCheck = await checkModulePermission('blog','update',token);
-        setApprovalCheck(permissionCheck)
-   })()
-
- })
-
-   useEffect(() => {
-      singleBlog(id, token)
-        .then(response => {
-          setBlog(response)
-          setReviewSetting({ ...reviewSetting,
-            approval: response.approval,
-            status: response.status })
-        })
-        .catch(error => {
-          console.log(error)
-        })
-   }, [reload])
+     useEffect(() => {
+        singleBlog(id, token)
+          .then(response => {
+            setBlog(response)
+            setReviewSetting({ ...reviewSetting,
+              approval: response.approval,
+              status: response.status })
+          })
+          .catch(error => {
+            console.log(error)
+          })
+     }, [reload])
 
 const handleSave = () => {
    reviewUpdate(id, reviewSetting, token)
@@ -244,6 +253,7 @@ const showCategories = () => {
  if(blog){
    return <>
            <DashboardLayout page="blog" permission="read">
+           <Card>
              <Grid container justify="center">
                <Grid item sm={8} md={8}>
                  <Typography variant="h4" align="center" className={classes.blogTitle}>
@@ -267,31 +277,37 @@ const showCategories = () => {
                       </Box>
                    </Grid>
                  </Grid>
+
                </Grid>
              </Grid>
              <br /><br />
              <Grid container justify="center" spacing={3}>
                <Grid item sm={8} md={8} xs={12} className={classes.blogContent}>
+
                 {showBlogContent()}
+
                 <br /> <br />
                 {showCategories()}
-                  <br /> <br />
-                  <hr />
-                  <br /> <br />
-                  <Button
-                   variant="contained"
-                   color="primary"
-                   size="large"
-                   fullWidth
-                   >
-                    Edit Blog
-                  </Button>
-                  <br /><br />  <br /><br />
-                  {approvalCheck && BlogApproval()}
+                <br /> <br />
+                <hr />
+                <br /> <br />
+                <Link to={{ pathname: `/content/blog/edit/${blog._id}`, state: blog }}>
+                <Button
+                variant="contained"
+                onClick={() => history.push(``)}
+                className={classes.button}
+                size="large"
+                fullWidth
+                >
+                Edit Blog
+                </Button>
+                </Link>
+                <br /><br /> <br /><br />
+                {approvalCheck && BlogApproval()}
                </Grid>
 
              </Grid>
-
+  </Card>
            </DashboardLayout>
           </>
  }else{

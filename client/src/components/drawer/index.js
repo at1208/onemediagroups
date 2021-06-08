@@ -26,6 +26,7 @@ import NotificationDropdown from './notificationDropdown';
 import { Sliders,
          Globe,
          Shield,
+         Twitch,
          Database,
          Hash,
          MessageCircle,
@@ -260,8 +261,8 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
-          <MessagesDropdown />
-          <NotificationDropdown />
+          {/*<MessagesDropdown />
+          <NotificationDropdown />*/}
           <UserDropdown />
         </Toolbar>
       </AppBar>
@@ -292,7 +293,7 @@ const useStyles = makeStyles((theme) => ({
            <Grid container justify="center" wrap="wrap">
               <Grid item>
                 <Box pt={6}>
-                  <Avatar  name={isAuth() && isAuth().full_name} src={isAuth() && isAuth().headshot_url} size={37} textSize={20} />
+                  <Avatar  name={isAuth() && isAuth().full_name} src={isAuth() && isAuth().headshot_url} size={37} textSize={15} />
                 </Box>
               </Grid>
            </Grid>
@@ -421,7 +422,7 @@ const useStyles = makeStyles((theme) => ({
     {checkVisiblityOnSidebar('channel') && <Link to="/channels">
        <ListItem button selected={currentTab("/channels")}>
            {<ListItemIcon>
-              <MessageCircle className={classes.sidebarIcons} />
+              <Twitch className={classes.sidebarIcons} />
            </ListItemIcon>}
            <ListItemText >
              <Typography className={classes.menutext} variant="body1">

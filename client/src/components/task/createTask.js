@@ -26,15 +26,19 @@ const useStyles = makeStyles((theme) => ({
     // padding:"10px",
   },
   button:{
-    textTransform: "none",
-    backgroundColor:"#3f51b5",
-    // width:"200px",
-    color:"white",
-    fontWeight:400,
-    fontSize:"15px",
+    background: '#6387ED 0% 0% no-repeat padding-box',
+    borderRadius: '8px',
+    opacity: 1,
+    // width: '100%',
+    fontWeight: '500',
+    height: '49px',
+    textTransform: 'none',
+    color: 'white',
     '&:hover': {
-              backgroundColor:"#3f51b5"
-        },
+      fontWeight: '500',
+      background: '#6387ED 0% 0% no-repeat padding-box',
+      color: 'white',
+    },
   },
   root: {
     margin: 0,

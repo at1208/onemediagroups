@@ -3,7 +3,6 @@ import styled from "styled-components/macro";
 import { taskCountByProject } from '../../actions/task';
 import { getCookie } from '../../actions/auth';
 import {
-  Avatar,
   Button,
   Box,
   Card as MuiCard,
@@ -20,6 +19,8 @@ import { spacing } from "@material-ui/system";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Avatar from '../core/avatar';
+
 
 const Card = styled(MuiCard)(spacing);
 
@@ -54,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 function Project({ image,  project, edit }) {
     const [taskCount, setTaskCount] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [teamMembers, setTeamMembers] = useState([]);
+    const [teamLeader, setTeamLeader] = useState();
+
     const classes = useStyles();
     const token = getCookie("token")
 
@@ -67,6 +71,13 @@ function Project({ image,  project, edit }) {
          })
     }, []);
 
+    useEffect(() => {
+      if(project){
+        setTeamMembers(project.team_members.filter(val => val._id !== project.team_leader._id).slice(0,3))
+        setTeamLeader(project.team_leader);
+      }
+    }, [project])
+
     const handleClickMenu = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -77,6 +88,9 @@ function Project({ image,  project, edit }) {
       }
       setAnchorEl(null);
     };
+
+
+console.log(teamMembers)
 
   return (
     <Card mb={6}>
@@ -110,13 +124,13 @@ function Project({ image,  project, edit }) {
        </Grid>
         {taskCount && <Grid container spacing={3} className={classes.chipContainer}>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Open {taskCount.open}</>} className={classes.openChip} />
+            <Chip label={<>Open task: {taskCount.open}</>} className={classes.openChip} />
           </Grid>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>Done {taskCount.done}</>} className={classes.doneChip} />
+            <Chip label={<>Done task: {taskCount.done}</>} className={classes.doneChip} />
           </Grid>
           <Grid item xs={4} sm={4} md={4} lg={4}>
-            <Chip label={<>{project.priority}</>} className={classes.doneChip} />
+            <Chip label={<>Priority: {project.priority}</>} className={classes.doneChip} />
           </Grid>
         </Grid>}
         <Typography mb={4} component="body1">
@@ -127,16 +141,24 @@ function Project({ image,  project, edit }) {
             <Grid item sm={3} xs={4} md={3}>
               <Box pl={1}>
                 <small>Team Lead</small>
-                <Avatar alt={project.team_leader && project.team_leader.full_name} src="" />
+                 <Avatar
+                   name={teamLeader && teamLeader.full_name}
+                   src={teamLeader && teamMembers.headshot_url}
+                   size={35}
+                   textSize={13} />
               </Box>
             </Grid>
             <Grid item sm={9} xs={8} md={9}>
               <Box pl={1}>
                  <small>Team members</small>
                 <AvatarGroup max={3}>
-                 <Avatar alt={project.team_members && project.team_members[0] && project.team_members[0].full_name} src="" />
-                 <Avatar alt="Avatar" src="/static/img/avatars/avatar-2.jpg" />
-                 <Avatar alt="Avatar" src="/static/img/avatars/avatar-3.jpg" />
+                 {teamMembers.map((emp, i) => {
+                   return <Avatar
+                            name={emp.full_name} 
+                            src={emp.headshot_url} 
+                            size={35} 
+                            textSize={13} />
+                 })}
                 </AvatarGroup>
               </Box>
             </Grid>

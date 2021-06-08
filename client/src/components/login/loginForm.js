@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '8px',
       opacity: 1,
     },
+    login:{
+      fontWeight:700
+    },
     companyname:{
       letterSpacing: "-0.003em",
       lineHeight: "50px",
@@ -106,6 +109,12 @@ const useStyles = makeStyles((theme) => ({
     },
   alertCard:{
     height:"40px"
+  },
+  forgot:{
+    color:"black",
+    textDecoration: "underline",
+    textDecorationColor: "black" 
+
   }
 }));
 
@@ -164,20 +173,19 @@ const LoginForm = () => {
                   >
                     <Grid item xs={12} sm={6} md={4}>
                         <div className={classes.form}>
+
                           <form onSubmit={handleSubmit}>
-                              {/*<Grid container justify="center">
-                                <Grid item sm={5} xs={5}>
-                                <img src="readifly-logo.svg" height={"100%"} width="100%"/>
+                              <Grid container justify="center">
+                                <Grid item sm={5} xs={4}>
+                                  <img src="readifly-logo.svg" height={"100%"} width="100%"/>
                                 </Grid>
                                 <Grid item sm={7} xs={7}>
-                                  <Typography variant="h4" align="start" className={classes.companyname}>Readifly Technologies</Typography>
-                                </Grid>
-                              </Grid>*/}
+                                  <img src="readifly_name.svg" height={"100%"} width="100%"/>
 
-                              {/*<div className={classes.alertCard}>
-                              {login.success && <Alert severity="success">{login.success}</Alert>}
-                              {login.error && <Alert severity="error">{login.error}</Alert>}
-                              </div>*/}
+                                </Grid>
+                              </Grid>
+
+
                               <br />
                               <Grid container justify="center" spacing={3}>
                                 <Grid xs={10} sm={12} md={10} item>
@@ -236,7 +244,9 @@ const LoginForm = () => {
                                 <br />
                                 <Grid container justify='center'>
                                       <Typography variant="body1" onClick={() => history.push("/reset")}>
-                                        Forget password
+                                        <a className={classes.forgot}>
+                                          Forget password
+                                        </a>
                                       </Typography>
                               </Grid>
                           </form>
