@@ -280,3 +280,56 @@ module.exports.my_blogs = (req, res) => {
        res.json(result)
    })
 }
+
+
+
+exports.update_blog = async (req, res) => {
+  const { blogId } = req.params;
+
+
+
+    const {
+      title, body, categories, featureImg, domain
+    } = req.body;
+
+
+   Blog.findById({ _id: blogId }).exec(async (err, blog) => {
+     if(err){
+       return res.status(400).json({
+         error: err
+       })
+     }
+
+
+     if(body.length <300){
+       return res.status(400).json({
+         error: "Blog content is less. Minimum 300 characters is required"
+       })
+     }
+
+
+
+       blog.title = title;
+       blog.body = body;
+       blog.featureImg= featureImg;
+       blog.domain = domain;
+       blog.categories = categories;
+
+       await blog.save(async (err, result) => {
+         if(err){
+           return res.status(400).json({
+             error: errorHandler(err)
+           })
+         }
+
+         return res.json({
+           message:"Blog is updated successfully"
+         })
+       });
+
+
+   })
+
+
+
+};

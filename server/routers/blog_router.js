@@ -4,6 +4,7 @@ const { create,
         filter_blog,
         my_blogs,
         single_blog,
+        update_blog,
         blog_list_by_category,
         read_blog,
         blog_list_by_domain,
@@ -28,6 +29,14 @@ router.post('/blog/:moduleType/:permission',
              blogCreateValidator,
              run_validation,
              create );
+
+router.patch('/blog/update/:blogId/:moduleType/:permission',
+            requireSignin,
+            authMiddleware,
+            check_permission,
+            blogCreateValidator,
+            run_validation,
+            update_blog );
 
 router.patch('/blog/review/update/:blogId/:moduleType/:permission',
              requireSignin,

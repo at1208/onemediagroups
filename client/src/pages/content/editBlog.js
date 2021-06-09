@@ -1,12 +1,12 @@
 import React, { useMemo, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import styled from "styled-components/macro";
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Button,Typography, TextField, Avatar } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { createBlog, singleBlog } from '../../actions/blog';
+import { createBlog, singleBlog, updateBlog } from '../../actions/blog';
 import { getCookie, removeLocalStorage  } from '../../actions/auth';
 import { getCategories  } from '../../actions/category';
 import { getDomains  } from '../../actions/domain';
@@ -15,6 +15,7 @@ import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 import { uploadFile } from '../../actions/upload'
 const CloudUpload = styled(MuiCloudUpload)(spacing);
+
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
@@ -57,9 +58,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditBlog = ({ match: {params} }) => {
+const EditBlog = ({ match: {params}, location: {state} }) => {
   const classes = useStyles();
+  const history = useHistory();
   const token = getCookie("token");
+
   const blogBodyFromLS = () => {
    if (localStorage.getItem("blog")) {
     return JSON.parse(localStorage.getItem("blog"));
@@ -78,17 +81,17 @@ const blogTitleFromLS = () => {
 
 
   const [blog, setBlog] = React.useState({
-       title:"",
-       body:"",
-       categories:[],
-       domain:"",
-       featureImg:"",
+       title:state.title,
+       body:state.body,
+       categories:state.categories,
+       domain:state.domain,
+       featureImg:state.featureImg,
        isLoading:false
   });
 
 
-  const [categories, setCategories] = React.useState();
-  const [domains, setDomains] = React.useState();
+  const [categories, setCategories] = React.useState([]);
+  const [domains, setDomains] = React.useState([]);
   const [defaultCategories, setDefaultCategories] = React.useState();
   const [defaultDomains, setDefaultDomains] = React.useState();
 
@@ -111,7 +114,7 @@ const blogTitleFromLS = () => {
   }, [])
 
   React.useEffect(() => {
-     getCategories(blog.domain, token)
+     getCategories(blog.domain._id, token)
        .then(response => {
          setCategories(response)
        })
@@ -121,23 +124,28 @@ const blogTitleFromLS = () => {
   }, [blog.domain])
 
 
-  useEffect(() => {
-     singleBlog(params.id,  token)
-       .then(response => {
-         setBlog({
-           title:response.title,
-           body:response.body,
-           categories:response.categories,
-           domain:response.domain,
-           featureImg:response.featureImg,
-           isLoading:false
-         })
-       })
-       .catch(error => {
-         console.log(error)
-       })
-  }, [])
-  console.log(blog)
+
+
+
+// useEffect(() => {
+//    singleBlog(params.id,  token)
+//      .then(response => {
+//        setDefaultDomains(response.domain);
+//        setDefaultCategories(response.categories);
+//        setBlog({
+//          title:response.title,
+//          body:response.body,
+//          categories:response.categories,
+//          domain:response.domain,
+//          featureImg:response.featureImg,
+//          isLoading:false
+//        })
+//      })
+//      .catch(error => {
+//        console.log(error)
+//      })
+// }, [])
+
 
 
   const handleChange = (name) => async (e) => {
@@ -164,15 +172,16 @@ const blogTitleFromLS = () => {
 
  const handleSubmit = (e) => {
    e.preventDefault();
-   createBlog(blog, token)
-     .then(response => {
-       toast.success(response.message)
-       removeLocalStorage('blog');
-       removeLocalStorage('title');
-     })
-     .catch(err => {
-       toast.error(err.error)
-     })
+   updateBlog(params.id, blog, token)
+   .then(response => {
+      toast.success(response.message)
+      removeLocalStorage('blog');
+      removeLocalStorage('title');
+      history.push("/my-blogs")
+    })
+    .catch(err => {
+      toast.error(err.error)
+    })
  }
 
 
@@ -218,23 +227,24 @@ const blogTitleFromLS = () => {
         };
     }
 
- //    const modules = useMemo(() => ({
- //      toolbar: {
- //          container: [
- //              [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
- //              [{ size: [] }],
- //              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
- //              [{ list: 'ordered' }, { list: 'bullet' }],
- //              ['link', 'video'],
- //              ['link', 'image', 'video'],
- //              ['clean'],
- //              ['code-block']
- //          ],
- //          handlers: {
- //              image: imageHandler
- //          }
- //      }
- //     }), [])
+    const modules = useMemo(() => ({
+      toolbar: {
+          container: [
+              [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
+              [{ size: [] }],
+              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['link', 'video'],
+              ['link', 'image', 'video'],
+              ['clean'],
+              ['code-block']
+          ],
+          handlers: {
+              image: imageHandler
+          }
+      }
+     }), [])
+
 
 
   return <>
@@ -265,9 +275,9 @@ const blogTitleFromLS = () => {
                         />
                       <ReactQuill
                         value={blog.body}
-                        // modules={modules}
+                        modules={modules}
                         className={classes.editor}
-                        // onChange={handleChange("body")}
+                        onChange={handleChange("body")}
                        />
                        <br />
                        <Grid container justify='center'>
@@ -312,9 +322,10 @@ const blogTitleFromLS = () => {
                     <br />  <br />
 
                      <Autocomplete
+                        defaultValue={blog.domain}
                         onChange={(event, newValue) => {
                           if(newValue){
-                               // setBlog({...blog, domain: newValue._id})
+                               setBlog({...blog, domain: newValue._id})
                           }
                          }}
                         options={domains}
@@ -324,16 +335,17 @@ const blogTitleFromLS = () => {
                       />
                       <br />
                       <Autocomplete
-                        multiple
-                        disabled={blog.domain.length===0}
+                         defaultValue={blog.categories}
+                         multiple
+                         disabled={blog.domain.length===0}
                          onChange={(event, newValue) => {
                            if(newValue){
-                             // setBlog({...blog, categories: newValue.map(item => item._id)})
+                             setBlog({...blog, categories: newValue.map(item => item._id)})
                            }
                           }}
                          options={categories || ""}
                          getOptionLabel={(option) => option.name}
-                         style={{ width: "100%",background:"white"  }}
+                         style={{ width: "100%", background:"white"  }}
                          renderInput={(params) => <TextField {...params} label="Category" variant="outlined" value={blog.categories}/>}
                        />
                   </Grid>

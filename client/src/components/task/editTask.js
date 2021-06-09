@@ -246,7 +246,7 @@ const EditTask = ({ editTask, reload }) => {
                                  setTask({...task, project_id: val._id })
                                }
                              }}
-                             disabled={!updatetaskCheck}
+                            disabled={!updatetaskCheck}
                             options={projects}
                             getOptionLabel={(option) => option.name}
                             style={{ width: "100%" }}

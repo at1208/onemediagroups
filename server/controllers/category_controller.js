@@ -68,7 +68,7 @@ if (payload.category) query._id = {$in : payload.category};
           error: err
         })
       }
-      console.log("result", result)
+
       res.json(result)
     })
 }
@@ -91,7 +91,7 @@ module.exports.random_blog_categories = (req, res) => {
 }
 
 exports.category_list_by_domain = (req, res) => {
-  console.log(req.params)
+ 
     Category.find({ domain: req.params.domain }).exec((err, data) => {
         if (err) {
             return res.status(400).json({
