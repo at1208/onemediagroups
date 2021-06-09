@@ -171,6 +171,7 @@ module.exports.accept_onboard_invitation = async (req, res) => {
                });
            }
            const { _id } = jwt.decode(token);
+
            Employee.findById(_id)
              .exec((err, result) => {
                if(err){
@@ -179,7 +180,9 @@ module.exports.accept_onboard_invitation = async (req, res) => {
                  })
                }
 
-               if(result.password.length >0){
+
+
+               if(result.password && result.password.length >0){
                  return res.status(400).json({
                      error:"Account is activated already"
                  })
