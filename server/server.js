@@ -29,10 +29,12 @@ app.use(cors(
      "http://localhost:3000",
      'https://cms.readifly.com',
      'https://www.cms.readifly.com',
-     "https://amanread.netlify.app",
-     "https://bedium.vercel.app",
-     "https://www.readifly.com",
-     "https://readifly-test-app.vercel.app"
+     'https://www.travlojournal.com',
+     'https://www.fashiofly.com',
+     'https://www.elitegamezone.com',
+     'https://scientifly.com',
+     'https://www.vedifly.com',
+     'https://www.artoftalk.in'
     ]}
   ));
 
