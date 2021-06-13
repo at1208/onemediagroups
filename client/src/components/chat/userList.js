@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getEmployee } from '../../actions/employee';
+import { getChatEmployee } from '../../actions/employee';
 import { getCookie, isAuth } from '../../actions/auth';
 import Avatar from '../core/avatar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -73,7 +73,7 @@ const UsersList = ({ url, getOnlineUsers }) => {
 
   React.useEffect(() => {
     (async () => {
-       let usersList = await getEmployee(token);
+       let usersList = await getChatEmployee(token);
         setUsers(usersList.employees)
     })()
   }, [])

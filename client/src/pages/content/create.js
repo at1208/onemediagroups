@@ -12,7 +12,8 @@ import { getDomains  } from '../../actions/domain';
 import { ToastContainer, toast } from 'react-toastify';
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
-import { uploadFile } from '../../actions/upload'
+import { uploadFile } from '../../actions/upload';
+import { myTasksList } from '../../actions/task';
 const CloudUpload = styled(MuiCloudUpload)(spacing);
 
 const useStyles = makeStyles((theme) => ({
@@ -81,6 +82,7 @@ const blogTitleFromLS = () => {
        body:blogBodyFromLS(),
        categories:[],
        domain:"",
+       task:"",
        featureImg:"",
        isLoading:false
   });
@@ -88,6 +90,8 @@ const blogTitleFromLS = () => {
 
   const [categories, setCategories] = React.useState();
   const [domains, setDomains] = React.useState();
+  const [tasks, setTasks] = React.useState();
+
 
   React.useEffect(() => {
      getCategories(token)
@@ -105,6 +109,14 @@ const blogTitleFromLS = () => {
        .catch(err => {
          console.log(err)
        })
+
+       myTasksList(token)
+        .then( response => {
+           setTasks(response)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
   }, [])
 
   React.useEffect(() => {
@@ -142,6 +154,7 @@ const blogTitleFromLS = () => {
 
  const handleSubmit = (e) => {
    e.preventDefault();
+   console.log(blog)
    createBlog(blog, token)
      .then(response => {
        toast.success(response.message)
@@ -289,6 +302,18 @@ const blogTitleFromLS = () => {
                       </Button>
                     </label>
                     <br />  <br />
+                      <Autocomplete
+                         onChange={(event, newValue) => {
+                           if(newValue){
+                                setBlog({...blog, task: newValue._id})
+                           }
+                          }}
+                         options={tasks}
+                         getOptionLabel={(option) => option.task_id}
+                         style={{ width: "100%",background:"white" }}
+                         renderInput={(params) => <TextField {...params} label="Task ID" variant="outlined"/>}
+                       />
+                       <br />
 
                      <Autocomplete
                         onChange={(event, newValue) => {

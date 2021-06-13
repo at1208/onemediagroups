@@ -63,7 +63,7 @@ router.get('/blog/single/:id/:moduleType/:permission',
               my_blogs);
 
 //End User Application
-router.post("/blog/list/:domainId", blog_list_by_domain);
+router.post("/blog/list/domain/:domainId", blog_list_by_domain);
 router.post("/blog/list/category/:domainId", blog_list_by_category);
 router.get("/blog/list/sitemap/:domainId", blog_list_for_sitemap);
 router.get("/author/list/:domainId", latest_authors_list_by_domain);

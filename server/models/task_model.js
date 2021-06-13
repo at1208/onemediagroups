@@ -41,7 +41,7 @@ const taskSchema = mongoose.Schema({
       },
       status:{
         type:String,
-        enum:["Open", "Closed", "Done"],
+        enum:["Open", "Blog Review", "Done", "Closed"],
         default:"Open"
       },
       comments:[{

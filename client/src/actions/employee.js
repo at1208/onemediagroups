@@ -45,6 +45,28 @@ export function getEmployee(token) {
   });
 }
 
+export function getChatEmployee(token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("/all/employees/chat/read", {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export function getSingleEmployee(credentials, token) {
   return new Promise((resolve, reject) => {
     axios

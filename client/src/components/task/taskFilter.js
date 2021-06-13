@@ -179,6 +179,7 @@ const TaskFilter = ({ tasks, reload }) => {
                     onChange={(e) => setQuery({...query, status: e.target.value})}
                   >
                     <MenuItem value="Open">Open</MenuItem>
+                    <MenuItem value="Blog Review">Blog Review</MenuItem>
                     <MenuItem value="Closed">Closed</MenuItem>
                     <MenuItem value="Done">Done</MenuItem>
                   </Select>

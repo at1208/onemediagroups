@@ -1,17 +1,19 @@
 const Blog = require('../models/blog_model');
 const Category = require('../models/category_model');
 const Employee = require('../models/employee_model');
+const Task =  require("../models/task_model");
 const slugify = require('slugify');
 const stripHtml = require('string-strip-html');
 const { errorHandler } = require('../utils/dbErrorHandler');
 const fs = require('fs');
 const { smartTrim } = require('../utils/blog');
+const { send_email } = require("../utils/send_email");
 
 
 exports.create = (req, res) => {
 
   const {
-    title, body, categories, featureImg, domain
+    title, body, categories, featureImg, domain, task
   } = req.body;
 
 if(body.length <300){
@@ -33,12 +35,31 @@ if(body.length <300){
     blog.categories = categories;
     blog.updatedBy = req.user._id;
 
+    if(task){
+     blog.task = task;
+    }
+
     blog.save(async (err, result) => {
       if(err){
         return res.status(400).json({
           error: errorHandler(err)
         })
       }
+     if(task){
+         Task.findById({ _id: task})
+         .populate("assignee", "full_name email")
+         .populate("follower", "full_name email")
+         .exec(async (err, existTask) => {
+           if(err){
+             return res.status(400).json({
+               error: err
+             })
+           }
+            existTask.status = "Blog Review";
+            await existTask.save()
+            await send_email(existTask.follower.email, `New article is posted by ${existTask.assignee.full_name}`,`<p>${existTask.assignee.full_name} has posted a new article. Please review his/her work</p><br /> Task ID: ${existTask.task_id}`)
+         })
+     }
       let author = await Employee.findById({_id: req.user._id})
          if(author && author.author){
            return res.json({
@@ -58,6 +79,7 @@ exports.read_blog = (req, res) => {
     const slug = req.params.slug.toLowerCase();
     Blog.findOne({ slug, status: true, approval:"APPROVED" })
         .populate('categories', '_id name slug')
+        .populate("task", "task_id")
         .populate('postedBy', '_id full_name headshot_url')
         .exec((err, data) => {
             if (err) {
@@ -83,6 +105,7 @@ if (payload.domain) query.domain = {$in : payload.domain};
 
   Blog.find(query)
      .populate("domain", "name")
+     .populate("task", "task_id")
      .populate("categories", "name")
      .populate("postedBy", "first_name last_name full_name")
      .select("title postedBy status approval")
@@ -101,6 +124,7 @@ module.exports.single_blog = (req, res) => {
  const { id } = req.params;
    Blog.findById({ _id: id })
      .populate("categories", "name slug")
+     .populate("task", "task_id")
      .populate("postedBy", "full_name headshot_url")
      .populate("updatedBy", "full_name")
      .populate("domain", "name url")
@@ -121,6 +145,7 @@ module.exports.blog_list_by_domain = (req, res) => {
 
       Blog.find({ status: true, domain: domainId, approval:"APPROVED" })
          .populate("categories", "name slug")
+         .populate("task", "task_id")
          .populate("postedBy", "full_name")
          .sort({ updatedAt: -1 })
          .skip(skip)
@@ -269,6 +294,7 @@ module.exports.my_blogs = (req, res) => {
   Blog.find({ postedBy: req.user._id })
      .populate("domain", "name")
      .populate("categories", "name")
+     .populate("task", "task_id")
      .populate("postedBy", "first_name last_name full_name")
      .select("title postedBy status approval")
      .exec((err, result) => {

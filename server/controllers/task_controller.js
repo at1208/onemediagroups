@@ -54,7 +54,7 @@ module.exports.create_task = async (req, res) => {
     await Notification({ title: notification_title, description: JSON.stringify(notification_desc), notification_created_by, notification_for_whom: [assignee]}).save()
 
     if(assigned && reporter){
-      send_email(assigned.email, "New task assigned",`<p>${reporter.full_name} has assigned a task to you</p><br /> <a href="http://localhost:3000/tasks">See task</a>`)
+      send_email(assigned.email, "New task assigned",`<p>${reporter.full_name} has assigned a task to you</p> <br />Task ID: ${task.task_id}`)
       .then(() => {
         return res.status(200).json({
           message:"New task created successfully"
@@ -68,6 +68,7 @@ module.exports.create_task = async (req, res) => {
 module.exports.update_task = (req, res) => {
   const { _id } = req.params;
   const { assignee, description, comments, follower, title, deadline, status  } = req.body;
+  var prevAssignee;
 
   Task.findOne({ _id })
     .exec((err, task) => {
@@ -76,6 +77,7 @@ module.exports.update_task = (req, res) => {
           error: err
         })
       }
+      prevAssignee = task.assignee;
       if(!task){
         return res.status(404).json({
           error: "No task found with given task id"
@@ -102,12 +104,18 @@ module.exports.update_task = (req, res) => {
       if(deadline){
         task.deadline = deadline;
       }
-      task.save((err, result) => {
+      task.save(async (err, result) => {
         if(err){
           return res.status(400).json({
             error: err
           })
         }
+        if(prevAssignee.toString() !== result.assignee.toString()){
+          let assignee = await Employee.findOne({ _id: result.assignee });
+          let reporter = await Employee.findOne({ _id: result.follower });
+          await send_email(assignee.email, "New task assigned",`<p>${reporter.full_name} has assigned a task to you</p> <br />Task ID: ${result.task_id}`)
+        }
+
         res.status(200).json({
           message:"Task updated successfully"
         })
@@ -183,7 +191,7 @@ module.exports.task_count_by_project = (req, res) => {
 
 
 module.exports.filter_task = (req, res) => {
-   // query = { project: "", assignee:"", follwer:"", status:"" }
+   // query = { project: "", assignee:"", follower:"", status:"" }
 var query = {};
 var payload = req.body;
 

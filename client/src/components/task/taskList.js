@@ -177,6 +177,9 @@ function EnhancedTable({ tasks, reload }) {
                         row.status === "Open" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {
+                        row.status === "Blog Review" && (<Chip size="small" label={row.status} style={{ background: "#f5c303", color:"rgb(255, 255, 255)" }} />)
+                      }
+                      {
                         row.status === "Closed" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
                       }
                       {

@@ -59,6 +59,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: "title", alignment: "left", label: "Blog Title" },
+  { id: "task_id", alignment: "left", label: "Task ID" },
   { id: "status", alignment: "left", label: "Status" },
   { id: "approval", alignment: "left", label: "Approval Status" },
   { id: "domain", alignment: "left", label: "Domain" },
@@ -168,7 +169,6 @@ function EnhancedTable({ blogs }) {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
 
-
                   return (
                     <TableRow
                       hover
@@ -179,6 +179,7 @@ function EnhancedTable({ blogs }) {
                       selected={isItemSelected}
                     >
                       <TableCell align="left">{row.title}</TableCell>
+                      <TableCell align="left">{row.task && row.task.task_id}</TableCell>
                       <TableCell align="left">
                       {
                         row.status === true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)

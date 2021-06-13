@@ -243,8 +243,9 @@ const EditMyTask = ({ editTask, reload }) => {
                           label="Status"
                         >
                           <MenuItem value={'Open'}>Open</MenuItem>
-                          <MenuItem value={'Closed'}>Closed</MenuItem>
+                          <MenuItem value={'Blog Review'}>Blog Review</MenuItem>
                           <MenuItem value={'Done'}>Done</MenuItem>
+                          <MenuItem value={'Closed'}>Closed</MenuItem>
                         </Select>
                       </FormControl>
                        </Grid>
