@@ -224,7 +224,7 @@ module.exports.related_blogs_by_domain = (req, res) => {
   const { _id, categories } = req.body.blog;
   const { domainId } = req.params;
 
-  Blog.find({ _id: { $ne: _id }, domain: { $eq: domainId }, categories: { $in: categories } })
+  Blog.find({ _id: { $ne: _id }, domain: { $eq: domainId }, categories: { $in: categories },  approval: { $in: 'APPROVED'}, status: { $in: true } })
       .limit(limit)
       .sort({ createdAt: -1 })
       .populate('postedBy', '_id full_name')
@@ -244,7 +244,7 @@ module.exports.related_blogs_by_domain = (req, res) => {
 module.exports.blog_list_for_sitemap = (req, res) => {
   const { domainId } = req.params;
 
-  Blog.find({ domain: domainId })
+  Blog.find({ domain: domainId,  approval: { $in: 'APPROVED'}, status: { $in: true } })
       .select('slug updatedAt createdAt')
       .exec((err, blogs) => {
           if (err) {
@@ -269,7 +269,7 @@ module.exports.blog_list_by_category = (req, res) => {
         })
       }
 
-      Blog.find({ domain: { $eq: domainId }, categories: { $in: result._id } })
+      Blog.find({ domain: { $eq: domainId }, categories: { $in: result._id }, approval: { $in: 'APPROVED'}, status: { $in: true } })
           .sort({ createdAt: -1 })
           .populate('postedBy', '_id full_name')
           .populate('categories', 'name slug')
