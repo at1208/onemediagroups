@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
    cardRoot:{
      padding:"30px 10px 30px 10px",
    },
+   form:{
+     marginBottom:"20vh"
+   },
    titleInput:{
      backgroundColor:"white",
      margin:"0px 0px 20px 0px"
@@ -243,7 +246,7 @@ const blogTitleFromLS = () => {
               </Grid>
             </Grid>
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className={classes.form}>
                 <Grid container spacing={6}>
                   <Grid item xs={12} md={9} sm={9} lg={9}>
                      <div className={classes.editorContainer}>

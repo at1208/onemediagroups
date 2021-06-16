@@ -22,10 +22,12 @@ import CreateContent from '../pages/content/create';
 import Profile from '../pages/profile';
 import AllBlogs from '../pages/content/allBlogs';
 import BlogDetail from '../pages/content/blogDetail';
+import MyBlogDetail from '../pages/content/myBlogDetail';
 import Category from '../pages/category';
 import Domain from '../pages/domain';
 import MyBlogs from '../pages/content/myBlogs';
 import EditBlog from '../pages/content/editBlog';
+import EditMyBlog from '../pages/content/myBlogEdit';
 import MyTasks from '../pages/tasks/myTasks';
 import Notifications from '../pages/notification';
 
@@ -37,7 +39,9 @@ const Router = () => {
            <Private path="/employee-detail/:id" exact component={EmployeeDetail} />
            <Private path="/content/create" exact component={CreateContent} />
            <Private path="/content/blog/detail/:id" exact component={BlogDetail} />
+           <Private path="/content/myblog/detail/:id" exact component={MyBlogDetail} />
            <Private path="/content/blog/edit/:id" exact component={EditBlog} />
+           <Private path="/content/myblog/edit/:id" exact component={EditMyBlog} />
            <Private path="/content/blogs" exact component={AllBlogs} />
            <Private path="/department" exact component={Department} />
            <Private path="/designation" exact component={Designation} />

@@ -203,7 +203,7 @@ function EnhancedTable({ blogs }) {
                       <TableCell align="right">{(row.postedBy && row.postedBy.full_name) || "Deleted user"}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>
+                          <IconButton aria-label="details" onClick={() => history.push(`/content/myblog/detail/${row._id}`)}>
                             <RemoveRedEyeIcon />
                           </IconButton>
                         </Box>

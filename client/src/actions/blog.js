@@ -66,6 +66,29 @@ export function singleBlog(id, token) {
   });
 }
 
+export function mySingleBlog(id, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/blog/single/${id}/my_blogs/read`,{
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
 
 export function reviewUpdate(blogId, credentials, token) {
   return new Promise((resolve, reject) => {
@@ -115,6 +138,28 @@ export function updateBlog(blogId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .patch(`/blog/update/${blogId}/blog/update`, credentials, {
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        })
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function updateMyBlog(blogId, credentials, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(`/blog/update/${blogId}/my_blogs/update`, credentials, {
           headers: {
             "Access-Control-Allow-Origin" : "*",
             "Content-type": "Application/json",

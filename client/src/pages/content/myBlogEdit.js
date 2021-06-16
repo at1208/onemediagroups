@@ -6,7 +6,7 @@ import { Grid, Button,Typography, TextField, Avatar } from '@material-ui/core';
 import ReactQuill from 'react-quill';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { createBlog, singleBlog, updateBlog } from '../../actions/blog';
+import { mySingleBlog, updateMyBlog } from '../../actions/blog';
 import { getCookie, removeLocalStorage  } from '../../actions/auth';
 import { getCategories  } from '../../actions/category';
 import { getDomains  } from '../../actions/domain';
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
    },
    button:{
      textTransform:"none",
-     marginTop:"5px"
+     marginTop:"5px",
    },
    featureRoot:{
      height:"100%",
@@ -175,7 +175,7 @@ const blogTitleFromLS = () => {
 
  const handleSubmit = (e) => {
    e.preventDefault();
-   updateBlog(params.id, blog, token)
+   updateMyBlog(params.id, blog, token)
    .then(response => {
       toast.success(response.message)
       removeLocalStorage('blog');
@@ -263,7 +263,6 @@ const blogTitleFromLS = () => {
               <Grid item>
               </Grid>
             </Grid>
-
               <form onSubmit={handleSubmit} className={classes.form}>
                 <Grid container spacing={6}>
                   <Grid item xs={12} md={9} sm={9} lg={9}>
