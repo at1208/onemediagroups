@@ -232,7 +232,7 @@ const ReadTask = ({ editTask, reload }) => {
                           disabled
                           multiline
                           size="small"
-                          rows={3}
+                         
                           onChange={handleChange("description")}
                           value={task.description}
                           label="Description" />

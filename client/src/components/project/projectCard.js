@@ -90,7 +90,7 @@ function Project({ image,  project, edit }) {
     };
 
 
-console.log(teamMembers)
+
 
   return (
     <Card mb={6}>
@@ -143,7 +143,7 @@ console.log(teamMembers)
                 <small>Team Lead</small>
                  <Avatar
                    name={teamLeader && teamLeader.full_name}
-                   src={teamLeader && teamMembers.headshot_url}
+                   src={teamLeader && teamLeader.headshot_url}
                    size={35}
                    textSize={13} />
               </Box>
@@ -154,9 +154,9 @@ console.log(teamMembers)
                 <AvatarGroup max={3}>
                  {teamMembers.map((emp, i) => {
                    return <Avatar
-                            name={emp.full_name} 
-                            src={emp.headshot_url} 
-                            size={35} 
+                            name={emp.full_name}
+                            src={emp.headshot_url}
+                            size={35}
                             textSize={13} />
                  })}
                 </AvatarGroup>
