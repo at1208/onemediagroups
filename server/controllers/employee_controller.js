@@ -302,7 +302,7 @@ module.exports.signin = (req, res) => {
     })
   }
   //check if email exist in db. if it exist then take out the employee data
-  Employee.findOne({ email })
+  Employee.findOne({ email: email.toLowerCase() })
     .exec(async (err, employee) => {
       if(err){
         return res.status(400).json({
