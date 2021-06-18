@@ -14,7 +14,6 @@ const RecentMessages = () => {
     })()
   }, [])
 
-  console.log(recentMessagesList)
   return <>
          </>
 }

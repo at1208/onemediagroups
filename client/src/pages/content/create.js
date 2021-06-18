@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from "styled-components/macro";
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid, Button,Typography, TextField, Avatar } from '@material-ui/core';
-import ReactQuill from 'react-quill';
+import TextEditor from './editor';
 import { makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { createBlog  } from '../../actions/blog';
@@ -62,6 +62,27 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateBlog = () => {
   const classes = useStyles();
+
+  const modules = {
+    toolbar: {
+        container: [
+            [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
+            [{ size: [] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['link', 'image', 'video'],
+            ['clean'],
+            ['code-block']
+        ],
+        handlers: {
+            image: imageHandler
+        }
+    }
+  }
+
+
+
+
   const token = getCookie("token");
   const blogBodyFromLS = () => {
    if (localStorage.getItem("blog")) {
@@ -139,10 +160,6 @@ const blogTitleFromLS = () => {
         localStorage.setItem("title", JSON.stringify(e.target.value));
           setBlog({...blog, title: e.target.value })
           break;
-        case "body":
-          localStorage.setItem("blog", JSON.stringify(e));
-          setBlog({...blog, body: e})
-          break;
         case "featureImg":
         let file = e.target.files[0];
         let formData = new FormData();
@@ -157,7 +174,6 @@ const blogTitleFromLS = () => {
 
  const handleSubmit = (e) => {
    e.preventDefault();
-   console.log(blog)
    createBlog(blog, token)
      .then(response => {
        toast.success(response.message)
@@ -213,25 +229,6 @@ const blogTitleFromLS = () => {
     }
 
 
-    const modules = useMemo(() => ({
-      toolbar: {
-          container: [
-              [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
-              [{ size: [] }],
-              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-              [{ list: 'ordered' }, { list: 'bullet' }],
-              ['link', 'video'],
-              ['link', 'image', 'video'],
-              ['clean'],
-              ['code-block']
-          ],
-          handlers: {
-              image: imageHandler
-          }
-      }
-     }), [])
-
-
   return <>
           <DashboardLayout page="blog" permission="write">
           <ToastContainer />
@@ -258,12 +255,12 @@ const blogTitleFromLS = () => {
                         label="Blog Title"
                         variant="outlined"
                         />
-                      <ReactQuill
-                        value={blog.body}
+                        <TextEditor
                         modules={modules}
-                        className={classes.editor}
-                        onChange={handleChange("body")}
-                       />
+                        blog={blog}
+                        classes={classes.editor}
+                        setBlog={setBlog}
+                        />
                        <br />
                        <Grid container justify='center'>
                          <Grid item>
