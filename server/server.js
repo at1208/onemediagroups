@@ -27,12 +27,13 @@ const privateChatRouter = require("./routers/private_chat_router");
 app.use(cors(
     {origin: [
      "http://localhost:3000",
+     "http://localhost:5000",
      'https://cms.readifly.com',
      'https://www.cms.readifly.com',
      'https://www.travlojournal.com',
      'https://www.fashiofly.com',
      'https://www.elitegamezone.com',
-     'https://scientifly.com',
+     'https://www.scientifly.com',
      'https://www.vedifly.com',
      'https://www.artoftalk.in'
     ]}

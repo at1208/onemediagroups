@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { create, list, filter_category, random_blog_categories, category_list_by_domain } = require('../controllers/category_controller');
+const { create, list,
+        filter_category,
+        category_by_slug,
+        random_blog_categories,
+        category_list_by_domain } = require('../controllers/category_controller');
 const { requireSignin,
         authMiddleware } = require('../controllers/employee_controller');
 // validators
@@ -39,6 +43,6 @@ router.get('/categories/:domain/:moduleType/:permission',
 
 //End User Application
 router.get('/categories/:domainId', random_blog_categories);
-
+router.get('/category/:domainId/:slug', category_by_slug);
 
 module.exports = router;
