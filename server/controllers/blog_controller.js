@@ -104,6 +104,7 @@ if (payload.approval) query.approval = {$in : payload.approval};
 if (payload.domain) query.domain = {$in : payload.domain};
 
   Blog.find(query)
+     .sort({ updatedAt: -1})
      .populate("domain", "name")
      .populate("task", "task_id")
      .populate("categories", "name")
