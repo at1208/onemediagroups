@@ -36,6 +36,7 @@ import { Sliders,
          Target,
          Tag,
          Mail,
+         Bell,
          Edit,
          Package,
          Briefcase,
@@ -261,8 +262,8 @@ const useStyles = makeStyles((theme) => ({
           </Typography>
           <div className={classes.grow}>
           </div>
-          {/*<MessagesDropdown />
-          <NotificationDropdown />*/}
+          {/*<MessagesDropdown/>*/}
+          <NotificationDropdown />
           <UserDropdown />
         </Toolbar>
       </AppBar>
@@ -612,6 +613,19 @@ const useStyles = makeStyles((theme) => ({
                </Link>}
          </List>
       </Collapse>
+
+      {<Link to="/notifications">
+        <ListItem button selected={currentTab("/notifications")}>
+           {<ListItemIcon>
+             <Bell className={classes.sidebarIcons} />
+           </ListItemIcon>}
+          <ListItemText >
+            <Typography className={classes.menutext} variant="body1">
+              Notifications
+            </Typography>
+          </ListItemText>
+        </ListItem>
+      </Link>}
 
       {checkVisiblityOnSidebar('contact') && <Link to="/contact">
         <ListItem button selected={currentTab("/contact")}>

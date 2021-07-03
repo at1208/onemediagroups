@@ -136,6 +136,7 @@ const blogTitleFromLS = () => {
 
        myTasksList(token)
         .then( response => {
+          console.log(tasks)
            setTasks(response)
         })
         .catch((err) => {
@@ -309,7 +310,7 @@ const blogTitleFromLS = () => {
                            }
                           }}
                          options={tasks}
-                         getOptionLabel={(option) => option.task_id}
+                         getOptionLabel={(option) => `${option.task_id} (${option.title})`}
                          style={{ width: "100%",background:"white" }}
                          renderInput={(params) => <TextField {...params} label="Task ID" variant="outlined"/>}
                        />

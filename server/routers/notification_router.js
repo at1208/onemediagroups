@@ -3,11 +3,14 @@ const router = express.Router();
 
 const { get_notifications,
         change_notification_to_seen,
-        get_all_notifications
+        get_all_notifications,
+        all_notifications
        } = require('../controllers/notification_controller');
 
 const { requireSignin,
         authMiddleware } = require('../controllers/employee_controller');
+
+const { check_permission } = require("../utils/permission");
 
 const {notification_validator} = require("../validators/notification_validator");
 const {run_validation}        = require("../validators");
@@ -17,6 +20,11 @@ router.get("/get/notification",
         authMiddleware,
         get_notifications);
 
+router.get("/get/all/notifications/:moduleType/:permission",
+        requireSignin,
+        authMiddleware,
+        check_permission,
+        all_notifications);
 
 router.get("/mark/seen/notification/:notifyId",
         requireSignin,

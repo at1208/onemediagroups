@@ -245,7 +245,7 @@ const LoginForm = () => {
                                 <Grid container justify='center'>
                                       <Typography variant="body1" onClick={() => history.push("/reset")}>
                                         <a className={classes.forgot}>
-                                          Forget password
+                                          Forgot password
                                         </a>
                                       </Typography>
                               </Grid>

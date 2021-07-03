@@ -58,11 +58,27 @@ module.exports.change_notification_to_seen = (req, res) => {
 }
 
 module.exports.get_all_notifications = async (req, res) => {
-  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
-  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  // let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+  // let skip = req.body.skip ? parseInt(req.body.skip) : 0;
     Notification.find({ notification_for_whom: { "$in" : [req.user._id]} })
-      .skip(skip)
-      .limit(limit)
+      // .skip(skip)
+      // .limit(limit)
+      .exec((err, result) => {
+        if(err){
+          return res.status(400).json({
+            error: err
+          })
+        }
+         res.json(result)
+      })
+}
+
+
+module.exports.all_notifications = async (req, res) => {
+    Notification.find()
+      .populate("notification_created_by", "full_name headshot_url")
+      .populate("notification_for_whom", "full_name headshot_url")
+      .sort({ updatedAt: -1 })
       .exec((err, result) => {
         if(err){
           return res.status(400).json({
