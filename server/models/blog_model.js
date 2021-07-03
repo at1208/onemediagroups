@@ -62,8 +62,7 @@ const blogSchema = mongoose.Schema({
       },
       task:{
         type:ObjectId,
-        ref:"Task",
-        unique:true
+        ref:"Task"
       }
 }, { timestamps: true })
 module.exports = mongoose.model("Blog", blogSchema);
