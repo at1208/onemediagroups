@@ -62,8 +62,10 @@ a{
 .Mui-selected{
   background-color: #eeeeee30!important;
 }
-.MuiListItem-gutters{
-  padding-left: 32px!important;
+@media (min-width:767px) {
+  .MuiListItem-gutters{
+    padding-left: 32px!important;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -77,4 +79,10 @@ a{
 
 .MuiInputBase-root.Mui-disabled{
   color: black!important;
+}
+.MuiInput-underline.Mui-disabled:before{
+  border-bottom-style: none!important;
+}
+.MuiInputBase-input.Mui-disabled{
+  opacity:0.85
 }
