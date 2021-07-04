@@ -22,6 +22,12 @@ if(body.length <300){
   })
 }
 
+if(!task){
+  return res.status(400).json({
+    error: "Task ID is required."
+  })
+}
+
     let blog = new Blog();
     blog.title = title;
     blog.body = body;
@@ -34,10 +40,7 @@ if(body.length <300){
     blog.postedBy = req.user._id;
     blog.categories = categories;
     blog.updatedBy = req.user._id;
-
-    if(task){
-     blog.task = task;
-    }
+    blog.task = task;
 
     blog.save(async (err, result) => {
       if(err){

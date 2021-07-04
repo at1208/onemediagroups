@@ -25,9 +25,4 @@ exports.blogCreateValidator = [
         .not()
         .isEmpty()
         .withMessage('feature image is required'),
-
-    check('task')
-        .not()
-        .isEmpty()
-        .withMessage('Task ID is required'),
 ];
