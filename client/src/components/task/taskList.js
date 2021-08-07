@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components/macro";
 import {
@@ -14,13 +13,12 @@ import {
   Box,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
 } from "@material-ui/core";
-import EditTask from './editTask';
-import ReadTask from './readTask';
+import EditTask from "./editTask";
+import ReadTask from "./readTask";
 import { spacing } from "@material-ui/system";
 const Paper = styled(MuiPaper)(spacing);
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,19 +51,14 @@ const headCells = [
   { id: "task_name", alignment: "left", label: "Task name" },
   { id: "assignee", alignment: "left", label: "Assignee" },
   { id: "reporter", alignment: "left", label: "Reporter" },
+  { id: "attachments", alignment: "left", label: "Attachments" },
   { id: "status", alignment: "left", label: "Status" },
   { id: "project", alignment: "left", label: "Project" },
   { id: "actions", alignment: "center", label: "Action" },
 ];
 
-
-
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -94,17 +87,12 @@ function EnhancedTableHead(props) {
   );
 }
 
-
-
 function EnhancedTable({ tasks, reload }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -152,61 +140,141 @@ function EnhancedTable({ tasks, reload }) {
               onRequestSort={handleRequestSort}
               rowCount={tasks.length}
             />
-              {tasks.length === 0?<Box p={2}><Typography variant="h5">No task found</Typography></Box>:
-            <TableBody>
-              {stableSort(tasks, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
+            {tasks.length === 0 ? (
+              <Box p={2}>
+                <Typography variant="h5">No task found</Typography>
+              </Box>
+            ) : (
+              <TableBody>
+                {stableSort(tasks, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row._id);
+                    const attachments = row.attachments;
 
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={`${row.title}-${index}`}
-                      selected={isItemSelected}
-                    >
-                      <TableCell align="left">{row.task_id}</TableCell>
-                      <TableCell align="left">{row.title}</TableCell>
-                      <TableCell align="left"><Chip size="small" label={row.assignee && row.assignee.full_name} color="primary" /></TableCell>
-                      <TableCell align="left"><Chip size="small" label={row.follower && row.follower.full_name} color="primary" /></TableCell>
-                      <TableCell>
-                      {
-                        row.status === "Open" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.status === "Blog Review" && (<Chip size="small" label={row.status} style={{ background: "#f5c303", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.status === "Closed" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.status === "Done" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                      }
-
-                      </TableCell>
-                      <TableCell align="left">{row.project_id.name}</TableCell>
-                      <TableCell padding="none" align="right">
-                        <Grid container>
-                          <Grid item>
-                            <ReadTask editTask={row} reload={(reloadValue) => reload(reloadValue)} />
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={`${row.title}-${index}`}
+                        selected={isItemSelected}
+                      >
+                        <TableCell align="left">{row.task_id}</TableCell>
+                        <TableCell align="left">{row.title}</TableCell>
+                        <TableCell align="left">
+                          <Chip
+                            size="small"
+                            label={row.assignee && row.assignee.full_name}
+                            color="primary"
+                          />
+                        </TableCell>
+                        <TableCell align="left">
+                          <Chip
+                            size="small"
+                            label={row.follower && row.follower.full_name}
+                            color="primary"
+                          />
+                        </TableCell>
+                        <TableCell align="left">
+                          <table>
+                            {attachments.map((file, i) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td>
+                                      <li />
+                                    </td>
+                                    <td>
+                                      <a
+                                        href={file.url}
+                                        target="_blank"
+                                        style={{
+                                          color: "dodgerblue",
+                                          textDecoration: "underline",
+                                        }}
+                                      >
+                                        {file.filename}
+                                      </a>
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                          </table>
+                        </TableCell>
+                        <TableCell>
+                          {row.status === "Open" && (
+                            <Chip
+                              size="small"
+                              label={row.status}
+                              style={{
+                                background: "rgb(245, 124, 0)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                          {row.status === "Blog Review" && (
+                            <Chip
+                              size="small"
+                              label={row.status}
+                              style={{
+                                background: "#f5c303",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                          {row.status === "Closed" && (
+                            <Chip
+                              size="small"
+                              label={row.status}
+                              style={{
+                                background: "rgb(244, 67, 54)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                          {row.status === "Done" && (
+                            <Chip
+                              size="small"
+                              label={row.status}
+                              style={{
+                                background: "rgb(76, 175, 80)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.project_id.name}
+                        </TableCell>
+                        <TableCell padding="none" align="right">
+                          <Grid container>
+                            <Grid item>
+                              <ReadTask
+                                editTask={row}
+                                reload={(reloadValue) => reload(reloadValue)}
+                              />
+                            </Grid>
+                            <Grid item>
+                              <EditTask
+                                editTask={row}
+                                reload={(reloadValue) => reload(reloadValue)}
+                              />
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <EditTask editTask={row} reload={(reloadValue) => reload(reloadValue)} />
-                          </Grid>
-                        </Grid>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 20 * emptyRows }}>
-                  <TableCell colSpan={8} />
-                </TableRow>
-              )}
-            </TableBody>}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 20 * emptyRows }}>
+                    <TableCell colSpan={8} />
+                  </TableRow>
+                )}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
         <TablePagination
@@ -228,7 +296,7 @@ function TaskListing({ taskList, reload }) {
     <React.Fragment>
       <Grid container spacing={6} justify="center">
         <Grid item xs={12} md={12} sm={12} lg={12}>
-          <EnhancedTable tasks={taskList} reload={(val) => reload(val)}/>
+          <EnhancedTable tasks={taskList} reload={(val) => reload(val)} />
         </Grid>
       </Grid>
     </React.Fragment>

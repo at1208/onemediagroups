@@ -4,7 +4,7 @@ const Notification = require("../models/notification_model");
 const { send_email } = require("../utils/send_email");
 
 module.exports.create_task = async (req, res) => {
-  const { project_id, assignee, description, comments, owner, follower, title, deadline } = req.body;
+  const { project_id, assignee, description, comments, owner, follower, title, deadline, attachments } = req.body;
 
   const taskCount = await Task.countDocuments() + 1;
    const task_id = "RT-"+taskCount;
@@ -18,6 +18,7 @@ module.exports.create_task = async (req, res) => {
     follower,
     owner,
     title,
+    attachments,
     deadline
   }).save(async (err, task) => {
     if(err){
@@ -67,7 +68,7 @@ module.exports.create_task = async (req, res) => {
 
 module.exports.update_task = (req, res) => {
   const { _id } = req.params;
-  const { assignee, description, comments, follower, title, deadline, status  } = req.body;
+  const { assignee, description, comments, follower, title, deadline, status, attachments } = req.body;
   var prevAssignee;
 
   Task.findOne({ _id })
@@ -100,6 +101,10 @@ module.exports.update_task = (req, res) => {
       }
       if(title){
         task.title = title;
+      }
+
+      if(attachments){
+         task.attachments = attachments;
       }
       if(deadline){
         task.deadline = deadline;

@@ -57,7 +57,11 @@ const taskSchema = mongoose.Schema({
       del_flag:{
         type:Boolean,
         default:false
-      }
+      },
+      attachments:[{
+        filename:String,
+        url:String
+      }]
 },{ timestamps: true })
 
 module.exports = mongoose.model("Task", taskSchema);

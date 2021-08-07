@@ -96,9 +96,7 @@ const UpdateProfile = ({ pageReload }) => {
              <div className={classes.dialogRoot}>
 
              <form onSubmit={handleSubmit}>
-
               <DialogContent>
-
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
