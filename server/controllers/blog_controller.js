@@ -143,26 +143,22 @@ module.exports.blog_list_by_domain = (req, res) => {
   const { domainId } = req.params;
   let limit = req.body.limit ? parseInt(req.body.limit) : 10;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
-  try {
-    Blog.find({ status: true, domain: domainId, approval: "APPROVED" })
-      .populate("categories", "name slug")
-      .populate("task", "task_id")
-      .populate("postedBy", "full_name")
-      .sort({ updatedAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .exec((err, result) => {
-        if (err) {
-          return res.status(400).json({
-            error: err,
-          });
-        }
-        console.log(result.length);
-        res.json(result);
-      });
-  } catch (e) {
-    console.log(e);
-  }
+
+  Blog.find({ status: true, domain: domainId, approval: "APPROVED" })
+    .populate("categories", "name slug")
+    .populate("task", "task_id")
+    .populate("postedBy", "full_name")
+    .sort({ updatedAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      }
+      res.json(result);
+    });
 };
 
 module.exports.latest_authors_list_by_domain = (req, res) => {
