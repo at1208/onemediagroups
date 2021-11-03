@@ -39,6 +39,7 @@ app.use(
       "https://www.artoftalk.in",
       "https://www.broocode.com",
       "https://www.99chill.com",
+      "https://readifly.netlify.app/",
     ],
   })
 );
