@@ -83,30 +83,7 @@ const DashboardInfo = () => {
     return (
       <>
         <Grid item sm={5} xs={12} md={3}>
-          <Card className={classes.cardRoot}>
-            {count}
-            {data.data.map((user, i) => {
-              return (
-                <Card className={classes.userRoot}>
-                  <Grid container spacing={2}>
-                    <Grid item sm={3} xs={3}>
-                      <img src={user.picture} />
-                    </Grid>
-                    <Grid item sm={9} xs={9}>
-                      <Box>
-                        <Typography variant="p">Name : </Typography>
-                        <Typography variant="p">{user.name}</Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="p">Domain : </Typography>
-                        <Typography variant="p">{user.domain.name}</Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Card>
-              );
-            })}
-          </Card>
+          <Card className={classes.cardRoot}>{count}</Card>
         </Grid>
       </>
     );
@@ -252,6 +229,38 @@ const DashboardInfo = () => {
               return showProjects(item);
             } else {
               return;
+            }
+          })}
+        </Grid>
+        <br />
+        <Grid container justify="center" spacing={1}>
+          {info.map((item, i) => {
+            if (Object.keys(item)[0] === "Users") {
+              return item.data.map((user, i) => {
+                return (
+                  <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+                    <Card className={classes.userRoot}>
+                      <Grid container spacing={2}>
+                        <Grid item sm={3} xs={3}>
+                          <img src={user.picture} />
+                        </Grid>
+                        <Grid item sm={9} xs={9}>
+                          <Box>
+                            <Typography variant="p">Name : </Typography>
+                            <Typography variant="p">{user.name}</Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant="p">Domain : </Typography>
+                            <Typography variant="p">
+                              {user.domain.name}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
+                );
+              });
             }
           })}
         </Grid>

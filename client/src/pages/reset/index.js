@@ -129,7 +129,7 @@ function ResetPassword() {
                   <br />
                   <form onSubmit={handleClick}>
                     <Grid container justify="center">
-                      <Grid item sm={10}>
+                      <Grid item sm={10} xs={12}>
                         <TextField
                           type="email"
                           variant="outlined"

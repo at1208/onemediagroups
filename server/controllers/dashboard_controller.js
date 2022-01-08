@@ -5,68 +5,68 @@ const Project = require("../models/project_model");
 
 module.exports.info_count = async (req, res) => {
   const blog = new Promise((resolve, reject) => {
-      Blog.find()
+    Blog.find()
       .sort({ createdAt: -1 })
       .populate("domain", "name")
       .populate("postedBy", "full_name headshot_url")
       .select("domain postedBy status approval featureImg")
       .exec((err, result) => {
-        if(err){
-           reject(err)
+        if (err) {
+          reject(err);
         }
-        resolve({ Blogs: result.length, data:result.slice(0,4) })
-      })
-  })
+        resolve({ Blogs: result.length, data: result.slice(0, 4) });
+      });
+  });
 
-
- const tasks = new Promise((resolve, reject) => {
+  const tasks = new Promise((resolve, reject) => {
     Task.find()
-    .sort({ createdAt: -1 })
-    .populate("project_id", "name")
-    .populate("assignee", "full_name headshot_url")
-    .populate("follower", "full_name headshot_url")
-    .select("status assignee follower project_id")
-    .exec((err, result) => {
-      if(err){
-         reject(err)
-      }
-      resolve({ Tasks: result.length, data:result.slice(0,3) })
-    })
- })
+      .sort({ createdAt: -1 })
+      .populate("project_id", "name")
+      .populate("assignee", "full_name headshot_url")
+      .populate("follower", "full_name headshot_url")
+      .select("status assignee follower project_id")
+      .exec((err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve({ Tasks: result.length, data: result.slice(0, 3) });
+      });
+  });
 
- const blogUsers = new Promise((resolve, reject) => {
+  const blogUsers = new Promise((resolve, reject) => {
     BlogUser.find()
-    .sort({ createdAt: -1 })
-    .populate("domain", "name")
-    .select("name picture domain")
-    .exec((err, result) => {
-      if(err){
-         reject(err)
-      }
-      resolve({ Users: result.length, data:result.slice(0,4) })
-    })
- })
+      .sort({ createdAt: -1 })
+      .populate("domain", "name")
+      .select("name picture domain")
+      .exec((err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve({ Users: result.length, data: result });
+      });
+  });
 
- const projects = new Promise((resolve, reject) => {
+  const projects = new Promise((resolve, reject) => {
     Project.find()
-     .sort({ createdAt: -1 })
-     .populate("domain", "name url")
-     .populate("team_leader", "full_name headshot_url")
-     .select("name domain team_leader")
-     .exec((err, result) => {
-      if(err){
-         reject(err)
-      }
-      resolve({ Projects: result.length, data:result.slice(0,4) })
-    })
- })
+      .sort({ createdAt: -1 })
+      .populate("domain", "name url")
+      .populate("team_leader", "full_name headshot_url")
+      .select("name domain team_leader")
+      .exec((err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve({ Projects: result.length, data: result.slice(0, 4) });
+      });
+  });
 
-
-  Promise.all([projects, tasks, blog, blogUsers]).then(response => {
-    res.json(response)
-  }).catch((err) => {
-    res.status(400).json({
-      error: err
+  Promise.all([projects, tasks, blog, blogUsers])
+    .then((response) => {
+      res.json(response);
     })
-  })
-}
+    .catch((err) => {
+      res.status(400).json({
+        error: err,
+      });
+    });
+};

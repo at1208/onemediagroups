@@ -11,10 +11,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { signIn, authenticate } from "../../actions/auth";
 
 const useStyles = makeStyles((theme) => ({
+  title: {
+    textAlign: "center",
+  },
   form: {
     boxShadow: "0 1rem 3rem rgba(0,0,0,.175)",
     // border:"1px solid #e8e4e4",
-    padding: "35px 5px 70px 5px",
+    padding: "35px 5px 35px 5px",
     margin: "5px",
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     borderRadius: "8px",
@@ -172,23 +175,7 @@ const LoginForm = () => {
               <Grid item xs={12} sm={6} md={4}>
                 <div className={classes.form}>
                   <form onSubmit={handleSubmit}>
-                    <Grid container justify="center">
-                      <Grid item sm={5} xs={4}>
-                        <img
-                          src="readifly-logo.svg"
-                          height={"100%"}
-                          width="100%"
-                        />
-                      </Grid>
-                      <Grid item sm={7} xs={7}>
-                        <img
-                          src="readifly_name.svg"
-                          height={"100%"}
-                          width="100%"
-                        />
-                      </Grid>
-                    </Grid>
-
+                    <h1 className={classes.title}>Management Login </h1>
                     <br />
                     <Grid container justify="center" spacing={3}>
                       <Grid xs={10} sm={12} md={10} item>
