@@ -4,12 +4,12 @@ export function createCategory(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .post(`/category/category/write`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -22,16 +22,16 @@ export function createCategory(credentials, token) {
   });
 }
 
-export function getCategories(domain,token) {
+export function getCategories(domain, token) {
   return new Promise((resolve, reject) => {
     axios
       .get(`/categories/${domain}/category/read`, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -43,18 +43,17 @@ export function getCategories(domain,token) {
       });
   });
 }
-
 
 export function filterCategory(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .post(`/filter/category/category/read`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

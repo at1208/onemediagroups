@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-import cookie from 'js-cookie';
+import cookie from "js-cookie";
 
 export function onBoard(credentials) {
   return new Promise((resolve, reject) => {
@@ -49,58 +49,49 @@ export function signIn(credentials) {
   });
 }
 
-export const signout = next => {
-    removeCookie('token');
-    removeLocalStorage('user');
-    next();
+export const signout = (next) => {
+  removeCookie("token");
+  removeLocalStorage("user");
+  next();
 };
-
 
 export const setCookie = (key, value) => {
   cookie.set(key, value, {
-      expires: 1
+    expires: 1,
   });
 };
 
-
-export const removeCookie = key => {
+export const removeCookie = (key) => {
   cookie.remove(key, {
-      expires: 1
+    expires: 1,
   });
 };
 
-
-export const getCookie = key => {
+export const getCookie = (key) => {
   return cookie.get(key);
 };
-
 
 export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-
-
-
-export const removeLocalStorage = key => {
-        localStorage.removeItem(key);
+export const removeLocalStorage = (key) => {
+  localStorage.removeItem(key);
 };
-
 
 export const authenticate = (data, next) => {
-    setCookie('token', data.token);
-    setLocalStorage('user', data.employee);
-    next();
+  setCookie("token", data.token);
+  setLocalStorage("user", data.employee);
+  next();
 };
 
-
 export const isAuth = () => {
-  const cookieChecked = getCookie('token');
+  const cookieChecked = getCookie("token");
   if (cookieChecked) {
-      if (localStorage.getItem('user')) {
-          return JSON.parse(localStorage.getItem('user'));
-      } else {
-          return false;
-      }
+    if (localStorage.getItem("user")) {
+      return JSON.parse(localStorage.getItem("user"));
+    } else {
+      return false;
+    }
   }
 };

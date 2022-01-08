@@ -4,12 +4,12 @@ export function createProject(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .post("/create/project/project/write", credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -22,17 +22,16 @@ export function createProject(credentials, token) {
   });
 }
 
-
 export function getProjects(token) {
   return new Promise((resolve, reject) => {
     axios
       .get("/all/project/project/read", {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -49,12 +48,12 @@ export function getSingleProject(projectId, token) {
   return new Promise((resolve, reject) => {
     axios
       .get(`/single/project/${projectId}/project/read`, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -67,17 +66,16 @@ export function getSingleProject(projectId, token) {
   });
 }
 
-
 export function updateProject(id, updatedData, token) {
   return new Promise((resolve, reject) => {
     axios
       .patch(`/update/project/${id}/project/update`, updatedData, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -93,13 +91,17 @@ export function updateProject(id, updatedData, token) {
 export function deleteProject(id, token) {
   return new Promise((resolve, reject) => {
     axios
-      .patch(`/delete/project/${id}/project/delete`, {}, {
+      .patch(
+        `/delete/project/${id}/project/delete`,
+        {},
+        {
           headers: {
-            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Origin": "*",
             "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

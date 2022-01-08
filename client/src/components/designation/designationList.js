@@ -4,7 +4,7 @@ import {
   Grid,
   Box,
   IconButton,
-  Paper  ,
+  Paper,
   Table,
   TableBody,
   TableContainer,
@@ -12,28 +12,28 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
 } from "@material-ui/core";
-import {
-  RemoveRedEye as RemoveRedEyeIcon
-} from "@material-ui/icons";
-import { getDesignations } from '../../actions/designation';
-import { getCookie } from '../../actions/auth';
-
+import { RemoveRedEye as RemoveRedEyeIcon } from "@material-ui/icons";
+import { getDesignations } from "../../actions/designation";
+import { getCookie } from "../../actions/auth";
 
 const headCells = [
-  { id: "designation_name", numeric: false, disablePadding: true, label: "Designation Name" },
+  {
+    id: "designation_name",
+    numeric: false,
+    disablePadding: true,
+    label: "Designation Name",
+  },
 
   { id: "View", numeric: true, disablePadding: false, label: "View" },
-
 ];
 
 function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>
-        </TableCell>
+        <TableCell></TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -50,38 +50,34 @@ function EnhancedTableHead(props) {
   );
 }
 
-
-
 function EnhancedTable() {
   const history = useHistory();
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([]);
-  const token = getCookie("token")
+  const token = getCookie("token");
 
   React.useEffect(() => {
     getDesignations(token)
-      .then( response => {
-        if(response && response.designations){
+      .then((response) => {
+        if (response && response.designations) {
           let designationsData = response.designations.map((item) => {
-            let { designation_name, createdAt, _id} = item;
-            console.log(item)
+            let { designation_name, createdAt, _id } = item;
+            console.log(item);
             return {
-               _id,
-                designation_name,
-                createdAt
-            }
-          })
-          setRows(designationsData)
+              _id,
+              designation_name,
+              createdAt,
+            };
+          });
+          setRows(designationsData);
         }
       })
-       .catch((err) => {
-         console.log(err)
-       })
-  }, [])
-
-
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -112,8 +108,6 @@ function EnhancedTable() {
     setPage(0);
   };
 
-
-
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -121,41 +115,43 @@ function EnhancedTable() {
     <div>
       <Paper>
         <TableContainer>
-          <Table
-            size={"small"}
-          >
+          <Table size={"small"}>
             <EnhancedTableHead />
             <TableBody>
-            { rows
-              .map((row, index) => {
+              {rows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.designation_name)}
+                    onClick={(event) =>
+                      handleClick(event, row.designation_name)
+                    }
                     role="checkbox"
                     tabIndex={-1}
                     key={row._id}
                   >
-                    <TableCell padding="checkbox">
-                    </TableCell>
+                    <TableCell padding="checkbox"></TableCell>
                     <TableCell
                       component="th"
                       id={labelId}
                       scope="row"
                       padding="none"
                     >
-                  {row.designation_name}
+                      {row.designation_name}
                     </TableCell>
 
                     <TableCell align="right">
                       <Box mr={0}>
-                        <IconButton aria-label="details" onClick={() => history.push(`/employee-detail/${row._id}`)}>
+                        <IconButton
+                          aria-label="details"
+                          onClick={() =>
+                            history.push(`/employee-detail/${row._id}`)
+                          }
+                        >
                           <RemoveRedEyeIcon />
                         </IconButton>
                       </Box>
                     </TableCell>
-
                   </TableRow>
                 );
               })}

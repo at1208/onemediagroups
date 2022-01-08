@@ -4,12 +4,12 @@ export function getNotification(token) {
   return new Promise((resolve, reject) => {
     axios
       .get(`/get/notification`, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -22,17 +22,16 @@ export function getNotification(token) {
   });
 }
 
-
 export function seenNotification(id, token) {
   return new Promise((resolve, reject) => {
     axios
       .get(`/mark/seen/notification/${id}`, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -47,15 +46,17 @@ export function seenNotification(id, token) {
 
 export function allNotifications(token, viewAs) {
   return new Promise((resolve, reject) => {
-    let url = viewAs?"/get/all/notifications/notification/read":"/notifications/all"
+    let url = viewAs
+      ? "/get/all/notifications/notification/read"
+      : "/notifications/all";
     axios
       .get(url, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -68,17 +69,16 @@ export function allNotifications(token, viewAs) {
   });
 }
 
-
 export function allNotificationsList(token) {
   return new Promise((resolve, reject) => {
     axios
       .get(``, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

@@ -1,22 +1,20 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function AlertDialog({ status }) {
   const [open, setOpen] = React.useState(false);
 
-
   React.useEffect(() => {
-    if(!status){
-          setOpen(true)
-    }else{
-      setOpen(false)
+    if (!status) {
+      setOpen(true);
+    } else {
+      setOpen(false);
     }
-  },[status])
+  }, [status]);
 
- 
   const handleClose = () => {
     setOpen(false);
   };
@@ -32,7 +30,12 @@ export default function AlertDialog({ status }) {
         <DialogTitle id="alert-dialog-title">{`You're offline`}</DialogTitle>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained" onClick={() => window.location.reload()}>
+          <Button
+            onClick={handleClose}
+            color="primary"
+            variant="contained"
+            onClick={() => window.location.reload()}
+          >
             Reload the page
           </Button>
         </DialogActions>

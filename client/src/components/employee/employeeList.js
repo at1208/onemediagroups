@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import {
   Chip,
   Grid,
@@ -13,17 +13,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
 } from "@material-ui/core";
-import IconButton from '@material-ui/core/IconButton';
-import {
-RemoveRedEye as RemoveRedEyeIcon
-} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import { RemoveRedEye as RemoveRedEyeIcon } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 
 const Paper = styled(MuiPaper)(spacing);
-
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,11 +57,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -73,7 +65,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -94,8 +85,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
-
 
 function EnhancedTable({ employees }) {
   const [order, setOrder] = React.useState("asc");
@@ -165,34 +154,71 @@ function EnhancedTable({ employees }) {
                       key={`${row._id}-${index}`}
                       selected={isItemSelected}
                     >
-                    <TableCell align="left">{row.employee_id}</TableCell>
-                    <TableCell align="left"><Chip size="small" label={row.full_name} color="primary" /></TableCell>
-                    <TableCell align="left"><Chip size="small" label={(row.department && row.department.department_name) || "None"} color="primary" /></TableCell>
-                    <TableCell>
-                      {(row.designation && row.designation.designation_name.toUpperCase()) || "None"}
-                    </TableCell>
-                    <TableCell align="left">
-                    {
-                      row.status === "INVITED" && (<Chip size="small" label={row.status} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
-                    }
-                    {
-                      row.status === "LEFT" && (<Chip size="small" label={row.status} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                    }
-                    {
-                      row.status === "JOINED" && (<Chip size="small" label={row.status} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                    }
-                    </TableCell>
-                    <TableCell padding="none" align="center">
-                      <Box pl={0}>
-                        <Link to={`/employee-detail/${row._id}`}>
-                          <IconButton aria-label="details">
-                            <RemoveRedEyeIcon />
-                          </IconButton>
-                        </Link>
-                      </Box>
-                    </TableCell>
-
-
+                      <TableCell align="left">{row.employee_id}</TableCell>
+                      <TableCell align="left">
+                        <Chip
+                          size="small"
+                          label={row.full_name}
+                          color="primary"
+                        />
+                      </TableCell>
+                      <TableCell align="left">
+                        <Chip
+                          size="small"
+                          label={
+                            (row.department &&
+                              row.department.department_name) ||
+                            "None"
+                          }
+                          color="primary"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {(row.designation &&
+                          row.designation.designation_name.toUpperCase()) ||
+                          "None"}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.status === "INVITED" && (
+                          <Chip
+                            size="small"
+                            label={row.status}
+                            style={{
+                              background: "rgb(245, 124, 0)",
+                              color: "rgb(255, 255, 255)",
+                            }}
+                          />
+                        )}
+                        {row.status === "LEFT" && (
+                          <Chip
+                            size="small"
+                            label={row.status}
+                            style={{
+                              background: "rgb(244, 67, 54)",
+                              color: "rgb(255, 255, 255)",
+                            }}
+                          />
+                        )}
+                        {row.status === "JOINED" && (
+                          <Chip
+                            size="small"
+                            label={row.status}
+                            style={{
+                              background: "rgb(76, 175, 80)",
+                              color: "rgb(255, 255, 255)",
+                            }}
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell padding="none" align="center">
+                        <Box pl={0}>
+                          <Link to={`/employee-detail/${row._id}`}>
+                            <IconButton aria-label="details">
+                              <RemoveRedEyeIcon />
+                            </IconButton>
+                          </Link>
+                        </Box>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -223,7 +249,7 @@ function EmployeeList({ employeeList }) {
     <React.Fragment>
       <Grid container spacing={6} justify="center">
         <Grid item xs={12} md={12} sm={12} lg={12}>
-          <EnhancedTable employees={employeeList}/>
+          <EnhancedTable employees={employeeList} />
         </Grid>
       </Grid>
     </React.Fragment>

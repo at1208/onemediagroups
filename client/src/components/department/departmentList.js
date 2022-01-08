@@ -1,7 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
-
   Grid,
   IconButton,
   Paper,
@@ -15,25 +14,26 @@ import {
   TableRow,
   TableSortLabel,
 } from "@material-ui/core";
-import {
-  RemoveRedEye as RemoveRedEyeIcon
-} from "@material-ui/icons";
-import { getDepartments } from '../../actions/department';
-import { getCookie } from '../../actions/auth';
- 
+import { RemoveRedEye as RemoveRedEyeIcon } from "@material-ui/icons";
+import { getDepartments } from "../../actions/department";
+import { getCookie } from "../../actions/auth";
 
 const headCells = [
-    { id: "department_name", numeric: false, disablePadding: true, label: "Department Name" },
+  {
+    id: "department_name",
+    numeric: false,
+    disablePadding: true,
+    label: "Department Name",
+  },
 
-    { id: "View", numeric: true, disablePadding: false, label: "View" },
+  { id: "View", numeric: true, disablePadding: false, label: "View" },
 ];
 
 function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>
-        </TableCell>
+        <TableCell></TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -50,37 +50,33 @@ function EnhancedTableHead(props) {
   );
 }
 
-
-
 function EnhancedTable() {
   const history = useHistory();
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([]);
-  const token = getCookie("token")
+  const token = getCookie("token");
 
   React.useEffect(() => {
-     getDepartments(token)
-       .then( response => {
-         if(response && response.departments){
-           let departmentData = response.departments.map((item) => {
-             let { department_name, createdAt, _id} = item;
-             return {
-                _id,
-                 department_name,
-                 createdAt
-             }
-           })
-           setRows(departmentData)
-         }
-       })
-       .catch((err) => {
-         console.log(err)
-       })
-  }, [])
-
-
+    getDepartments(token)
+      .then((response) => {
+        if (response && response.departments) {
+          let departmentData = response.departments.map((item) => {
+            let { department_name, createdAt, _id } = item;
+            return {
+              _id,
+              department_name,
+              createdAt,
+            };
+          });
+          setRows(departmentData);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -111,10 +107,6 @@ function EnhancedTable() {
     setPage(0);
   };
 
-
-
-
-
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -122,45 +114,44 @@ function EnhancedTable() {
     <div>
       <Paper>
         <TableContainer>
-          <Table
-            size={"small"}
-          >
+          <Table size={"small"}>
             <EnhancedTableHead />
             <TableBody>
-              { rows
-                .map((row, index) => {
-
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.department_name)}
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row._id}
+              {rows.map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.department_name)}
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row._id}
+                  >
+                    <TableCell padding="checkbox"></TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
                     >
-                      <TableCell padding="checkbox">
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                    {row.department_name}
-                      </TableCell>
+                      {row.department_name}
+                    </TableCell>
 
-                      <TableCell align="right">
+                    <TableCell align="right">
                       <Box mr={0}>
-                        <IconButton aria-label="details" onClick={() => history.push(`/employee-detail/${row._id}`)}>
+                        <IconButton
+                          aria-label="details"
+                          onClick={() =>
+                            history.push(`/employee-detail/${row._id}`)
+                          }
+                        >
                           <RemoveRedEyeIcon />
                         </IconButton>
                       </Box>
-                      </TableCell>
-
-                    </TableRow>
-                  );
-                })}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 33 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -186,11 +177,11 @@ function EnhancedTable() {
 function AdvancedTable() {
   return (
     <>
-    <Grid container justify="center">
-      <Grid item xs={12} md={10} sm={10} lg={10}>
-        <EnhancedTable />
+      <Grid container justify="center">
+        <Grid item xs={12} md={10} sm={10} lg={10}>
+          <EnhancedTable />
+        </Grid>
       </Grid>
-    </Grid>
     </>
   );
 }

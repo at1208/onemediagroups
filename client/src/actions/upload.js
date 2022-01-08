@@ -4,12 +4,12 @@ export function uploadFile(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .post("/upload-file", credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
 
-            "Authorization": `Bearer ${token}`
-            }
-        })
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

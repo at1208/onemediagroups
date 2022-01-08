@@ -1,19 +1,12 @@
 import React from "react";
 import { Power } from "react-feather";
 import { useHistory } from "react-router-dom";
-import {
-  Tooltip,
-  Menu,
-  MenuItem,
-  IconButton,
-} from "@material-ui/core";
-import { signout } from '../../actions/auth';
-
+import { Tooltip, Menu, MenuItem, IconButton } from "@material-ui/core";
+import { signout } from "../../actions/auth";
 
 function UserDropdown() {
   const [anchorMenu, setAnchorMenu] = React.useState(null);
   const history = useHistory();
-
 
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
@@ -22,8 +15,6 @@ function UserDropdown() {
   const closeMenu = () => {
     setAnchorMenu(null);
   };
-
- 
 
   return (
     <React.Fragment>
@@ -34,7 +25,7 @@ function UserDropdown() {
           onClick={toggleMenu}
           color="inherit"
         >
-          <Power style={{ color:"grey" }}/>
+          <Power style={{ color: "grey" }} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -44,7 +35,9 @@ function UserDropdown() {
         onClose={closeMenu}
       >
         <MenuItem onClick={() => history.push("/profile")}>Profile</MenuItem>
-        <MenuItem onClick={() => signout(() => window.location.href="/")}>Sign out</MenuItem>
+        <MenuItem onClick={() => signout(() => (window.location.href = "/"))}>
+          Sign out
+        </MenuItem>
       </Menu>
     </React.Fragment>
   );

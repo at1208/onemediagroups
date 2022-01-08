@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components/macro";
 
@@ -50,14 +49,8 @@ const headCells = [
   { id: "domain URL", alignment: "left", label: "Domain URL" },
 ];
 
-
-
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -65,7 +58,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -86,8 +78,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
-
 
 function EnhancedTable({ categories }) {
   const [order, setOrder] = React.useState("asc");
@@ -166,9 +156,8 @@ function EnhancedTable({ categories }) {
               {stableSort(categories, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  console.log(row)
+                  console.log(row);
                   const isItemSelected = isSelected(row._id);
-
 
                   return (
                     <TableRow
@@ -180,8 +169,12 @@ function EnhancedTable({ categories }) {
                       selected={isItemSelected}
                     >
                       <TableCell align="left">{row.name}</TableCell>
-                      <TableCell  align="left">{row.domain && row.domain.name}</TableCell>
-                      <TableCell  align="left">{row.domain && row.domain.url}</TableCell>
+                      <TableCell align="left">
+                        {row.domain && row.domain.name}
+                      </TableCell>
+                      <TableCell align="left">
+                        {row.domain && row.domain.url}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -212,7 +205,7 @@ function TaskListing({ categoryList }) {
     <React.Fragment>
       <Grid container spacing={6} justify="center">
         <Grid item xs={12} md={12} sm={12} lg={12}>
-          <EnhancedTable categories={categoryList}/>
+          <EnhancedTable categories={categoryList} />
         </Grid>
       </Grid>
     </React.Fragment>

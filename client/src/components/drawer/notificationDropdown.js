@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { getCookie } from '../../actions/auth';
-import { getNotification, seenNotification } from '../../actions/notification';
+import { getCookie } from "../../actions/auth";
+import { getNotification, seenNotification } from "../../actions/notification";
 import {
   Avatar as MuiAvatar,
   Badge,
@@ -23,7 +23,7 @@ const Popover = styled(MuiPopover)`
   .MuiPaper-root {
     width: 300px;
     border: 0px solid grey;
-    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
   }
 `;
 
@@ -46,20 +46,22 @@ const NotificationHeader = styled(Box)`
 const token = getCookie("token");
 
 function Notification({ title, description, notifyId }) {
-  const history = useHistory()
+  const history = useHistory();
   let desc = JSON.parse(description);
 
   const handleClick = async (id) => {
     await seenNotification(id, token);
-     history.push("/notifications")
-   }
+    history.push("/notifications");
+  };
 
   return (
-    <ListItem divider onClick={() => handleClick(notifyId)} style={{ cursor:"pointer"}}>
+    <ListItem
+      divider
+      onClick={() => handleClick(notifyId)}
+      style={{ cursor: "pointer" }}
+    >
       <ListItemAvatar>
-        <Avatar src={desc.createdBy.headshot_url}>
-
-        </Avatar>
+        <Avatar src={desc.createdBy.headshot_url}></Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={title}
@@ -73,28 +75,28 @@ function Notification({ title, description, notifyId }) {
   );
 }
 
-function NotificationsList({data}){
-   if(data.length>0){
-     return data.map((noti, i) => {
-       return <Notification
-               notifyId={noti._id}
-               title={noti.title}
-               description={noti.description}
-
-       />
-     })
-   }else {
-     return <>
-            </>
-   }
+function NotificationsList({ data }) {
+  if (data.length > 0) {
+    return data.map((noti, i) => {
+      return (
+        <Notification
+          notifyId={noti._id}
+          title={noti.title}
+          description={noti.description}
+        />
+      );
+    });
+  } else {
+    return <></>;
+  }
 }
 
 function NotificationsDropdown() {
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
 
-  const [notifys, setNotifys] = useState([])
-  const [counts, setCounts] = useState()
+  const [notifys, setNotifys] = useState([]);
+  const [counts, setCounts] = useState();
 
   const handleOpen = () => {
     setOpen(true);
@@ -105,20 +107,19 @@ function NotificationsDropdown() {
   };
 
   useEffect(() => {
-     (async () => {
-       let notify = await getNotification(token);
-         setNotifys(notify.notifications);
-         setCounts(notify.count)
-     })()
-  }, [])
-
+    (async () => {
+      let notify = await getNotification(token);
+      setNotifys(notify.notifications);
+      setCounts(notify.count);
+    })();
+  }, []);
 
   return (
     <React.Fragment>
       <Tooltip title="Notifications">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
           <Indicator badgeContent={counts}>
-            <Bell style={{ color:"grey" }}/>
+            <Bell style={{ color: "grey" }} />
           </Indicator>
         </IconButton>
       </Tooltip>
@@ -138,10 +139,10 @@ function NotificationsDropdown() {
         </NotificationHeader>
         <React.Fragment>
           <List disablePadding>
-             <NotificationsList data={notifys}/>
+            <NotificationsList data={notifys} />
           </List>
           <Box p={1} display="flex" justifyContent="center">
-            <Button size="small" component={Link} to={'/notifications'}>
+            <Button size="small" component={Link} to={"/notifications"}>
               Show all notifications
             </Button>
           </Box>

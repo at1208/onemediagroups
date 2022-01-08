@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
 import {
-
   Grid,
   Paper as MuiPaper,
   Table,
@@ -11,12 +10,11 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 
 const Paper = styled(MuiPaper)(spacing);
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -52,14 +50,8 @@ const headCells = [
   { id: "updatedBy", alignment: "right", label: "Updated By" },
 ];
 
-
-
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -67,7 +59,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -88,8 +79,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
-
 
 function EnhancedTable({ domains }) {
   const [order, setOrder] = React.useState("asc");
@@ -112,8 +101,6 @@ function EnhancedTable({ domains }) {
     }
     setSelected([]);
   };
-
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -165,8 +152,12 @@ function EnhancedTable({ domains }) {
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="left">{row.url}</TableCell>
 
-                      <TableCell align="right">{row.createdBy.full_name}</TableCell>
-                      <TableCell align="right">{row.updatedBy.full_name || "Deleted user"}</TableCell>
+                      <TableCell align="right">
+                        {row.createdBy.full_name}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.updatedBy.full_name || "Deleted user"}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -197,7 +188,7 @@ function DomainListing({ domainList }) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable domains={domainList}/>
+          <EnhancedTable domains={domainList} />
         </Grid>
       </Grid>
     </React.Fragment>

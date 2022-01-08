@@ -4,12 +4,12 @@ export function createBlog(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .post(`/blog/blog/write`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -26,12 +26,12 @@ export function filterBlog(credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .post(`/blog/filter/blog/read`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -47,13 +47,13 @@ export function filterBlog(credentials, token) {
 export function singleBlog(id, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/blog/single/${id}/blog/read`,{
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+      .get(`/blog/single/${id}/blog/read`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -69,13 +69,13 @@ export function singleBlog(id, token) {
 export function mySingleBlog(id, token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/blog/single/${id}/my_blogs/read`,{
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+      .get(`/blog/single/${id}/my_blogs/read`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -88,18 +88,16 @@ export function mySingleBlog(id, token) {
   });
 }
 
-
-
 export function reviewUpdate(blogId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .patch(`/blog/review/update/${blogId}/blog/update`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -115,13 +113,13 @@ export function reviewUpdate(blogId, credentials, token) {
 export function myBlogsList(token) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`/blog/my-blogs/my_blogs/read`,{
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+      .get(`/blog/my-blogs/my_blogs/read`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -138,12 +136,12 @@ export function updateBlog(blogId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .patch(`/blog/update/${blogId}/blog/update`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);
@@ -160,12 +158,12 @@ export function updateMyBlog(blogId, credentials, token) {
   return new Promise((resolve, reject) => {
     axios
       .patch(`/blog/update/${blogId}/my_blogs/update`, credentials, {
-          headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `Bearer ${token}`
-            }
-        })
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data);

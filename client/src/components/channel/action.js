@@ -1,17 +1,9 @@
 import React from "react";
-import {
-  Tooltip,
-  Menu,
-  MenuItem,
-  IconButton,
-} from "@material-ui/core";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
+import { Tooltip, Menu, MenuItem, IconButton } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 function UserDropdown() {
   const [anchorMenu, setAnchorMenu] = React.useState(null);
-
-
 
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
@@ -20,7 +12,6 @@ function UserDropdown() {
   const closeMenu = () => {
     setAnchorMenu(null);
   };
-
 
   return (
     <React.Fragment>
@@ -31,7 +22,7 @@ function UserDropdown() {
           onClick={toggleMenu}
           color="inherit"
         >
-          <MoreVertIcon style={{ color:"grey" }}/>
+          <MoreVertIcon style={{ color: "grey" }} />
         </IconButton>
       </Tooltip>
       <Menu

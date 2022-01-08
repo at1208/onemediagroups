@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { Snackbar } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { Snackbar } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 function SnackBar({ status, msg }) {
   const [open, setOpen] = React.useState(true);
@@ -10,7 +10,7 @@ function SnackBar({ status, msg }) {
   }, [status]);
 
   function handleClose(event, reason) {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -19,8 +19,8 @@ function SnackBar({ status, msg }) {
   return (
     <Snackbar
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={open}
       autoHideDuration={9000}

@@ -1,7 +1,6 @@
-
 import React from "react";
 import styled from "styled-components/macro";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import {
   Box,
@@ -17,18 +16,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel
+  TableSortLabel,
 } from "@material-ui/core";
 
-import {
-  RemoveRedEye as RemoveRedEyeIcon,
-} from "@material-ui/icons";
+import { RemoveRedEye as RemoveRedEyeIcon } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 
 const Paper = styled(MuiPaper)(spacing);
-
-
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -66,14 +60,8 @@ const headCells = [
   { id: "detail", alignment: "right", label: "Detail" },
 ];
 
-
-
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -81,7 +69,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -102,8 +89,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
-
 
 function EnhancedTable({ blogs }) {
   const [order, setOrder] = React.useState("asc");
@@ -127,8 +112,6 @@ function EnhancedTable({ blogs }) {
     }
     setSelected([]);
   };
-
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -161,63 +144,114 @@ function EnhancedTable({ blogs }) {
               onRequestSort={handleRequestSort}
               rowCount={blogs.length}
             />
-              {blogs.length === 0?<Box p={2}><Typography variant="h5">No Blog found</Typography></Box>:
-            <TableBody>
-              {stableSort(blogs, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+            {blogs.length === 0 ? (
+              <Box p={2}>
+                <Typography variant="h5">No Blog found</Typography>
+              </Box>
+            ) : (
+              <TableBody>
+                {stableSort(blogs, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
 
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={`${row.title}-${index}`}
+                        selected={isItemSelected}
+                      >
+                        <TableCell align="left">{row.title}</TableCell>
+                        <TableCell align="left">
+                          {row.task && row.task.task_id}
+                        </TableCell>
 
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={`${row.title}-${index}`}
-                      selected={isItemSelected}
-                    >
-                      <TableCell align="left">{row.title}</TableCell>
-                      <TableCell align="left">{row.task && row.task.task_id}</TableCell>
-
-                      <TableCell align="left">
-                      {
-                        row.status === true && (<Chip size="small" label={"ACTIVE"} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.status === false && (<Chip size="small" label={"INACTIVE"} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      </TableCell>
-                      <TableCell align="left">
-                      {
-                        row.approval === "WAITING" && (<Chip size="small" label={row.approval} style={{ background: "rgb(245, 124, 0)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.approval === "APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(76, 175, 80)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      {
-                        row.approval === "NOT APPROVED" && (<Chip size="small" label={row.approval} style={{ background: "rgb(244, 67, 54)", color:"rgb(255, 255, 255)" }} />)
-                      }
-                      </TableCell>
-                      <TableCell align="left">{ (row.domain && row.domain.name) || "Deleted"}</TableCell>
-                      <TableCell align="right">{(row.postedBy && row.postedBy.full_name) || "Deleted user"}</TableCell>
-                      <TableCell padding="none" align="right">
-                        <Box mr={2}>
-                          <IconButton aria-label="details" onClick={() => history.push(`/content/blog/detail/${row._id}`)}>
-                            <RemoveRedEyeIcon />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 20 * emptyRows }}>
-                  <TableCell colSpan={8} />
-                </TableRow>
-              )}
-            </TableBody>}
+                        <TableCell align="left">
+                          {row.status === true && (
+                            <Chip
+                              size="small"
+                              label={"ACTIVE"}
+                              style={{
+                                background: "rgb(76, 175, 80)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                          {row.status === false && (
+                            <Chip
+                              size="small"
+                              label={"INACTIVE"}
+                              style={{
+                                background: "rgb(244, 67, 54)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.approval === "WAITING" && (
+                            <Chip
+                              size="small"
+                              label={row.approval}
+                              style={{
+                                background: "rgb(245, 124, 0)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                          {row.approval === "APPROVED" && (
+                            <Chip
+                              size="small"
+                              label={row.approval}
+                              style={{
+                                background: "rgb(76, 175, 80)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                          {row.approval === "NOT APPROVED" && (
+                            <Chip
+                              size="small"
+                              label={row.approval}
+                              style={{
+                                background: "rgb(244, 67, 54)",
+                                color: "rgb(255, 255, 255)",
+                              }}
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="left">
+                          {(row.domain && row.domain.name) || "Deleted"}
+                        </TableCell>
+                        <TableCell align="right">
+                          {(row.postedBy && row.postedBy.full_name) ||
+                            "Deleted user"}
+                        </TableCell>
+                        <TableCell padding="none" align="right">
+                          <Box mr={2}>
+                            <IconButton
+                              aria-label="details"
+                              onClick={() =>
+                                history.push(`/content/blog/detail/${row._id}`)
+                              }
+                            >
+                              <RemoveRedEyeIcon />
+                            </IconButton>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 20 * emptyRows }}>
+                    <TableCell colSpan={8} />
+                  </TableRow>
+                )}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
         <TablePagination
@@ -239,7 +273,7 @@ function BlogListing({ blogs }) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable blogs={blogs}/>
+          <EnhancedTable blogs={blogs} />
         </Grid>
       </Grid>
     </React.Fragment>

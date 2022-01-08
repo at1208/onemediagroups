@@ -16,9 +16,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { MessageSquare } from "react-feather";
-import { unreadMessages } from '../../actions/privateChat'
-import { getCookie } from '../../actions/auth'
-
+import { unreadMessages } from "../../actions/privateChat";
+import { getCookie } from "../../actions/auth";
 
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
@@ -63,7 +62,7 @@ function Message({ title, description, image }) {
 
 function MessagesDropdown() {
   const ref = useRef(null);
-  const token = getCookie("token")
+  const token = getCookie("token");
   const [isOpen, setOpen] = React.useState(false);
   const [unreadMsgList, setUnReadMsgList] = React.useState();
   const [msgCount, setMsgCount] = useState(0);
@@ -77,19 +76,19 @@ function MessagesDropdown() {
   };
 
   React.useEffect(() => {
-     (async () => {
+    (async () => {
       let result = await unreadMessages(token);
-      setUnReadMsgList(result.messages)
-      setMsgCount(result.unread_count)
-     })()
-  }, [])
+      setUnReadMsgList(result.messages);
+      setMsgCount(result.unread_count);
+    })();
+  }, []);
 
   return (
     <React.Fragment>
       <Tooltip title="Messages">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
           <Indicator badgeContent={msgCount}>
-            <MessageSquare style={{ color:"grey"}}/>
+            <MessageSquare style={{ color: "grey" }} />
           </Indicator>
         </IconButton>
       </Tooltip>

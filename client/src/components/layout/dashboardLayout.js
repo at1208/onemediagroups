@@ -1,26 +1,25 @@
-import React from 'react';
-import Drawer from '../drawer';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { checkModulePermission } from '../../actions/employee';
-import { getCookie } from '../../actions/auth';
-import Forbidden from '../core/403'
+import React from "react";
+import Drawer from "../drawer";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { checkModulePermission } from "../../actions/employee";
+import { getCookie } from "../../actions/auth";
+import Forbidden from "../core/403";
 
 const theme = createMuiTheme({
   overrides: {
     MuiCssBaseline: {
-      '@global': {
-        body:{
-          backgroundColor:"rgb(247, 249, 252)"
+      "@global": {
+        body: {
+          backgroundColor: "rgb(247, 249, 252)",
         },
         html: {
-          WebkitFontSmoothing: 'auto',
+          WebkitFontSmoothing: "auto",
         },
       },
     },
   },
 });
-
 
 const DashboardLayout = ({ children, page, permission }) => {
   const token = getCookie("token");
@@ -28,21 +27,21 @@ const DashboardLayout = ({ children, page, permission }) => {
 
   React.useEffect(() => {
     (async () => {
-      if(page && permission){
+      if (page && permission) {
         let checkAccess = await checkModulePermission(page, permission, token);
-          setAccess(checkAccess)
+        setAccess(checkAccess);
       }
-    })()
+    })();
   }, []);
 
-
-
-  return <>
-          <ThemeProvider theme={theme}>
-             <CssBaseline />
-           </ThemeProvider>
-           <Drawer  children={children} access={access} forbidden={<Forbidden />}/>
-         </>
-}
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+      </ThemeProvider>
+      <Drawer children={children} access={access} forbidden={<Forbidden />} />
+    </>
+  );
+};
 
 export default DashboardLayout;
