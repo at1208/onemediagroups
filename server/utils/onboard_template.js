@@ -90,7 +90,7 @@ module.exports = ({ token, name }) => {
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;" >
                   <tr>
                       <td align="center" valign="top" style="padding: 40px 10px 40px 10px;">
-                           
+
                       </td>
                   </tr>
               </table>
@@ -159,7 +159,7 @@ module.exports = ({ token, name }) => {
                 <!-- COPY -->
                 <tr>
                   <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;" >
-                    <p style="margin: 0;">Cheers,<br>The Readifly Team</p>
+                    <p style="margin: 0;">Cheers,<br>The OMG Team</p>
                   </td>
                 </tr>
               </table>
@@ -188,7 +188,7 @@ module.exports = ({ token, name }) => {
                 <!-- ADDRESS -->
                 <tr>
                   <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
-                    <p style="margin: 0;">Readifly Technologies</p>
+                    <p style="margin: 0;">One Media Groups</p>
                   </td>
                 </tr>
               </table>
@@ -203,5 +203,5 @@ module.exports = ({ token, name }) => {
 
   </body>
   </html>
- `
-}
+ `;
+};
