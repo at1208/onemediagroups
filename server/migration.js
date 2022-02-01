@@ -167,7 +167,7 @@ model2.find().exec(async (err, result) => {
       const task_id = "GO-" + parseInt(i + 1);
       model3({
         task_id,
-        project_id: "61460d25179135f3cb9b179b",
+        project_id: "61f7cbf9b33c9ea1cd5d72f2",
         assignee: "60c101aab9467821193d871a",
         follower: "60bf01269476d13e0f6d3d0e",
         owner: "60bf01269476d13e0f6d3d0e",
@@ -185,7 +185,7 @@ model2.find().exec(async (err, result) => {
           mtitle: result[i].mtitle,
           mdesc: result[i].mdesc,
           postedBy: "60c101aab9467821193d871a",
-          domain: "60c045f5b9467821193d8708",
+          domain: "61f7cbc8b33c9ea1cd5d7039",
           approval: "APPROVED",
           views_count: result[i].views,
           task: task._id,
