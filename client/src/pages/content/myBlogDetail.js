@@ -265,7 +265,7 @@ const BlogDetail = ({
                 Updated By
               </Grid>
               <Grid item sm={9}>
-                {blog.updatedBy.full_name}
+                {blog.updatedBy && blog.updatedBy.full_name}
               </Grid>
             </Grid>
             <br />
@@ -310,14 +310,14 @@ const BlogDetail = ({
                   <Grid item>
                     <img
                       className={classes.headshot}
-                      src={blog.postedBy.headshot_url}
-                      alt={blog.postedBy.first_name}
+                      src={blog.postedBy && blog.postedBy.headshot_url}
+                      alt={blog.postedBy && blog.postedBy.first_name}
                     />
                   </Grid>
                   <Grid item sm={8} md={8}>
                     <Box pt={2} pl={2}>
                       <Typography variant="body1">
-                        {blog.postedBy.full_name}
+                        {blog.postedBy && blog.postedBy.full_name}
                       </Typography>
                       <Typography variant="body1">
                         {moment(blog && blog.createdAt).format("MMM D")} .{" "}
