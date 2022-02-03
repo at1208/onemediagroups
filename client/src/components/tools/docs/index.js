@@ -87,7 +87,14 @@ export default function Docs() {
   const classes = useStyles();
   const pdfExportComponent = useRef(null);
   const contentArea = useRef(null);
-  const { domain, title, primary, secondary, note, competitors } = state;
+  const { domain, title, primary, secondary, note, competitors } = state || {
+    domain: "",
+    title: "",
+    primary: [],
+    secondary: [],
+    note: "",
+    competitors: [],
+  };
 
   const handleChange = (e, name) => {
     if (name === "title") {
@@ -126,7 +133,8 @@ export default function Docs() {
       .catch((err) => {
         console.log(err);
       });
-    setState(JSON.parse(localStorage.getItem("keywordDoc")));
+    let localStorageState = JSON.parse(localStorage.getItem("keywordDoc"));
+    setState(localStorageState ? localStorageState : state);
   }, []);
 
   useEffect(() => {
@@ -161,9 +169,9 @@ export default function Docs() {
                   }
                 }}
                 closeIcon={<></>}
-                value={domain}
+                value={domain || {}}
                 size="small"
-                options={domainList}
+                options={domainList || []}
                 className={classes.domain}
                 getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
@@ -275,7 +283,7 @@ export default function Docs() {
                     </tr>
                     <tr>
                       <td className={classes.key}>Note</td>
-                      <td className={classes.value}>{state.note}</td>
+                      <td className={classes.value}>{note}</td>
                     </tr>
                     <tr>
                       <td className={classes.key}>Competitor Links</td>
