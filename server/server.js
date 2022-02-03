@@ -27,6 +27,7 @@ const privateChatRouter = require("./routers/private_chat_router");
 app.use(
   cors({
     origin: [
+      "https://geeksocean.com",
       "http://localhost:3000",
       "http://localhost:5000",
       "https://cms.readifly.com",
