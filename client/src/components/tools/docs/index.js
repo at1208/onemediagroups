@@ -151,7 +151,7 @@ export default function Docs() {
   };
 
   const handleExportWithFunction = (event) => {
-    savePDF(contentArea.current, { paperSize: "A4", fileName: "aman" });
+    savePDF(contentArea.current, { paperSize: "A4", fileName: title });
   };
 
   return (
@@ -320,7 +320,7 @@ export default function Docs() {
       </Grid>
 
       <div className={classes.buttonArea}>
-        <Button className={classes.button} Click={handleExportWithFunction}>
+        <Button className={classes.button} onClick={handleExportWithFunction}>
           Download as PDF
         </Button>
       </div>
