@@ -341,10 +341,11 @@ const EditTask = ({ editTask, reload }) => {
                             defaultValue={task.follower}
                             onChange={(e, val) => {
                               if (val) {
-                                let filterValue = val.map((member, i) => {
-                                  return member._id;
-                                });
-                                setTask({ ...task, follower: filterValue });
+                                // let filterValue = {};
+                                // val.map((member, i) => {
+                                //   return member._id;
+                                // });
+                                setTask({ ...task, follower: val._id });
                               }
                             }}
                             disabled={!updatetaskCheck}
