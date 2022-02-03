@@ -30,6 +30,7 @@ import EditBlog from "../pages/content/editBlog";
 import EditMyBlog from "../pages/content/myBlogEdit";
 import MyTasks from "../pages/tasks/myTasks";
 import Notifications from "../pages/notification";
+import Docs from "../pages/tools/docs";
 
 const Router = () => {
   return (
@@ -64,6 +65,7 @@ const Router = () => {
       <Private path="/my-tasks" exact component={MyTasks} />
       <Private path="/notifications" exact component={Notifications} />
       <Private path="/chats/:channel" exact component={ChannelChats} />
+      <Private path="/tools/docs" exact component={Docs} />
       <Auth path="/reset" exact component={Reset} />
       <Auth
         path="/auth/password/reset/:resetLink"

@@ -45,6 +45,8 @@ import {
   Pocket,
   Activity,
   Home,
+  Tool,
+  Book,
   BookOpen,
 } from "react-feather";
 import { isAuth } from "../../actions/auth";
@@ -198,6 +200,7 @@ const SideDrawer = ({ children, access, forbidden }) => {
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
   const [openContentCollapse, setOpenContentCollapse] = React.useState(true);
   const [openTaskCollapse, setOpenTaskCollapse] = React.useState(true);
+  const [openToolsCollapse, setOpenToolsCollapse] = React.useState(true);
 
   const handleChange = (name) => (e) => {
     if (name === "content") {
@@ -206,6 +209,8 @@ const SideDrawer = ({ children, access, forbidden }) => {
       setOpenEmployeeCollapse(!openEmployeeCollapse);
     } else if (name === "task") {
       setOpenTaskCollapse(!openTaskCollapse);
+    } else if (name === "tools") {
+      setOpenToolsCollapse(!openToolsCollapse);
     }
   };
 
@@ -659,6 +664,47 @@ const SideDrawer = ({ children, access, forbidden }) => {
                   </ListItem>
                 </Link>
               )}
+            </List>
+          </Collapse>
+
+          {
+            <ListItem button onClick={handleChange("tools")} className="mt-3">
+              {
+                <ListItemIcon>
+                  <Tool className={classes.sidebarIcons} />
+                </ListItemIcon>
+              }
+              <ListItemText>
+                <Typography className={classes.menutext}>Tools</Typography>
+              </ListItemText>
+              {openToolsCollapse ? (
+                <ExpandLess className={classes.direc} />
+              ) : (
+                <ExpandMore className={classes.direc} />
+              )}
+            </ListItem>
+          }
+          <Collapse in={openToolsCollapse} timeout="auto" unmountOnExit>
+            <List
+              component="div"
+              disablePadding
+              className={classes.collapseList}
+            >
+              <Link to="/tools/docs">
+                <ListItem button selected={currentTab("/tools/docs")}>
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <Book className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Keyword Docs
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>
             </List>
           </Collapse>
 
