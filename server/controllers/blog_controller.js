@@ -106,7 +106,7 @@ module.exports.filter_blog = (req, res) => {
 
   Blog.find(query)
     .sort({ updatedAt: -1 })
-    .populate("domain", "name")
+    .populate("domain", "name url")
     .populate("task", "task_id")
     .populate("categories", "name")
     .populate("postedBy", "first_name last_name full_name")

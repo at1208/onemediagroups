@@ -58,6 +58,7 @@ const headCells = [
   { id: "domain", alignment: "left", label: "Domain" },
   { id: "postedBy", alignment: "right", label: "Posted By" },
   { id: "detail", alignment: "right", label: "Detail" },
+  { id: "link", alignment: "right", label: "Link" },
 ];
 
 function EnhancedTableHead(props) {
@@ -154,7 +155,6 @@ function EnhancedTable({ blogs }) {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const isItemSelected = isSelected(row.id);
-
                     return (
                       <TableRow
                         hover
@@ -240,6 +240,20 @@ function EnhancedTable({ blogs }) {
                             >
                               <RemoveRedEyeIcon />
                             </IconButton>
+                          </Box>
+                        </TableCell>
+                        <TableCell padding="none" align="right">
+                          <Box mr={2}>
+                            {row.approval === "APPROVED" &&
+                              row.status === true && (
+                                <a
+                                  target="_blank"
+                                  href={row.domain.url}
+                                  style={{ color: "blue" }}
+                                >
+                                  Live
+                                </a>
+                              )}
                           </Box>
                         </TableCell>
                       </TableRow>
