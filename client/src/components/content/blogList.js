@@ -248,7 +248,7 @@ function EnhancedTable({ blogs }) {
                               row.status === true && (
                                 <a
                                   target="_blank"
-                                  href={row.domain.url}
+                                  href={`${row.domain.url}/${row.slug}`}
                                   style={{ color: "blue" }}
                                 >
                                   Live

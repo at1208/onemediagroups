@@ -110,7 +110,7 @@ module.exports.filter_blog = (req, res) => {
     .populate("task", "task_id")
     .populate("categories", "name")
     .populate("postedBy", "first_name last_name full_name")
-    .select("title postedBy status approval")
+    .select("title postedBy status approval slug")
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({
