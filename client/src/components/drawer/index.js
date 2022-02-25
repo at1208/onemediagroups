@@ -667,7 +667,8 @@ const SideDrawer = ({ children, access, forbidden }) => {
             </List>
           </Collapse>
 
-          {
+          {(checkVisiblityOnSidebar("tools") ||
+            checkVisiblityOnSidebar("keyword")) && (
             <ListItem button onClick={handleChange("tools")} className="mt-3">
               {
                 <ListItemIcon>
@@ -683,30 +684,33 @@ const SideDrawer = ({ children, access, forbidden }) => {
                 <ExpandMore className={classes.direc} />
               )}
             </ListItem>
-          }
-          <Collapse in={openToolsCollapse} timeout="auto" unmountOnExit>
-            <List
-              component="div"
-              disablePadding
-              className={classes.collapseList}
-            >
-              <Link to="/tools/docs">
-                <ListItem button selected={currentTab("/tools/docs")}>
-                  {<ListItemIcon></ListItemIcon>}
-                  <ListItemText>
-                    <Typography className={classes.menutext} variant="body1">
-                      <ListItemIcon>
-                        <Box>
-                          <Book className={classes.nestedSidebarIcon} />
-                        </Box>
-                      </ListItemIcon>
-                      Keyword Docs
-                    </Typography>
-                  </ListItemText>
-                </ListItem>
-              </Link>
-            </List>
-          </Collapse>
+          )}
+
+          {checkVisiblityOnSidebar("keyword") && (
+            <Collapse in={openToolsCollapse} timeout="auto" unmountOnExit>
+              <List
+                component="div"
+                disablePadding
+                className={classes.collapseList}
+              >
+                <Link to="/tools/docs">
+                  <ListItem button selected={currentTab("/tools/docs")}>
+                    {<ListItemIcon></ListItemIcon>}
+                    <ListItemText>
+                      <Typography className={classes.menutext} variant="body1">
+                        <ListItemIcon>
+                          <Box>
+                            <Book className={classes.nestedSidebarIcon} />
+                          </Box>
+                        </ListItemIcon>
+                        Keyword Docs
+                      </Typography>
+                    </ListItemText>
+                  </ListItem>
+                </Link>
+              </List>
+            </Collapse>
+          )}
 
           {
             <Link to="/notifications">
