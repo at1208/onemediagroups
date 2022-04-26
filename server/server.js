@@ -23,6 +23,7 @@ const uploadRouter = require("./routers/upload_file_router");
 const dashboardRouter = require("./routers/dashboard_router");
 const notificationRouter = require("./routers/notification_router");
 const privateChatRouter = require("./routers/private_chat_router");
+const salaryStructureRouter = require("./routers/salary_structure_router");
 
 app.use(
   cors({
@@ -64,6 +65,7 @@ app.use("/api", uploadRouter);
 app.use("/api", dashboardRouter);
 app.use("/api", notificationRouter);
 app.use("/api", privateChatRouter);
+app.use("/api", salaryStructureRouter);
 
 mongoose
   .connect(process.env.DATABASE, {
