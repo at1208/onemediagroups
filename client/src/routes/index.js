@@ -31,6 +31,9 @@ import EditMyBlog from "../pages/content/myBlogEdit";
 import MyTasks from "../pages/tasks/myTasks";
 import Notifications from "../pages/notification";
 import Docs from "../pages/tools/docs";
+import PayrollHome from "../pages/payroll/Home";
+import SalaryDetails from "../pages/payroll/SalaryDetails";
+import Accounts from "../pages/payroll/Accounts";
 
 const Router = () => {
   return (
@@ -66,6 +69,9 @@ const Router = () => {
       <Private path="/notifications" exact component={Notifications} />
       <Private path="/chats/:channel" exact component={ChannelChats} />
       <Private path="/tools/docs" exact component={Docs} />
+      <Private path="/payroll/home" exact component={PayrollHome} />
+      <Private path="/payroll/salary-details" exact component={SalaryDetails} />
+      <Private path="/payroll/accounts" exact component={Accounts} />
       <Auth path="/reset" exact component={Reset} />
       <Auth
         path="/auth/password/reset/:resetLink"

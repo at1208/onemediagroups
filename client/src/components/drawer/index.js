@@ -14,7 +14,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Divider, Collapse, Grid, Box } from "@material-ui/core";
+import { Collapse, Grid, Box } from "@material-ui/core";
 import Avatar from "../core/avatar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -341,6 +341,128 @@ const SideDrawer = ({ children, access, forbidden }) => {
               </ListItemText>
             </ListItem>
           </Link>
+
+          <ListItem button onClick={handleChange("content")} className="mt-3">
+            {
+              <ListItemIcon>
+                <Package className={classes.sidebarIcons} />
+              </ListItemIcon>
+            }
+            <ListItemText>
+              <Typography className={classes.menutext}>Payroll</Typography>
+            </ListItemText>
+            {openContentCollapse ? (
+              <ExpandLess className={classes.direc} />
+            ) : (
+              <ExpandMore className={classes.direc} />
+            )}
+          </ListItem>
+          <Collapse in={openContentCollapse} timeout="auto" unmountOnExit>
+            <List
+              component="div"
+              disablePadding
+              className={classes.collapseList}
+            >
+              {/*<Link to="/payroll/home">
+                <ListItem button selected={currentTab("/payroll/home")}>
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <Pocket className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Home
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>*/}
+
+              <Link to="/payroll/accounts">
+                <ListItem button selected={currentTab("/payroll/accounts")}>
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <Edit className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Accounts
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+
+              <Link to="/payroll/salary-details">
+                <ListItem
+                  button
+                  selected={currentTab("/payroll/salary-details")}
+                >
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <Edit className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Salary Details
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+
+              {/*<Link to="/content/blogs">
+                <ListItem button selected={currentTab("/content/blogs")}>
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <BookOpen className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Investments
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+
+              <Link to="/content/blogs">
+                <ListItem button selected={currentTab("/content/blogs")}>
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <BookOpen className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Reimbursements
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+
+              <Link to="/content/blogs">
+                <ListItem button selected={currentTab("/content/blogs")}>
+                  {<ListItemIcon></ListItemIcon>}
+                  <ListItemText>
+                    <Typography className={classes.menutext} variant="body1">
+                      <ListItemIcon>
+                        <Box>
+                          <BookOpen className={classes.nestedSidebarIcon} />
+                        </Box>
+                      </ListItemIcon>
+                      Form 16
+                    </Typography>
+                  </ListItemText>
+                </ListItem>
+              </Link>*/}
+            </List>
+          </Collapse>
 
           {checkVisiblityOnSidebar("project") && (
             <Link to="/projects">
