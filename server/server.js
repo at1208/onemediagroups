@@ -34,14 +34,10 @@ app.use(
       "https://cms.readifly.com",
       "https://www.cms.readifly.com",
       "https://www.travlojournal.com",
-      "https://www.fashiofly.com",
-      "https://www.elitegamezone.com",
-      "https://www.scientifly.com",
       "https://www.vedifly.com",
-      "https://www.artoftalk.in",
       "https://www.broocode.com",
       "https://www.99chill.com",
-      "https://readifly.netlify.app",
+      "https://99chill-stage.netlify.app",
     ],
   })
 );
