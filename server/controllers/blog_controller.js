@@ -190,11 +190,12 @@ module.exports.latest_authors_list_by_domain = (req, res) => {
 
 module.exports.trending_blogs_by_domain = (req, res) => {
   const { domainId } = req.params;
+  let limit = req.body.limit ? parseInt(req.body.limit) : 8;
   Blog.find({ status: true, domain: domainId, approval: "APPROVED" })
     .populate("categories", "name slug")
     .populate("postedBy", "full_name")
     .sort({ views_count: -1 })
-    .limit(6)
+    .limit(limit)
     .exec((err, result) => {
       if (err) {
         return res.status(400).json({
@@ -271,7 +272,7 @@ module.exports.blog_list_for_sitemap = (req, res) => {
 };
 
 module.exports.blog_list_by_category = (req, res) => {
-  const { category } = req.body;
+  const { category, limit } = req.body;
   const { domainId } = req.params;
 
   Category.findOne({ slug: category, domain: domainId }).exec((err, result) => {
@@ -283,7 +284,7 @@ module.exports.blog_list_by_category = (req, res) => {
 
     Blog.find({
       domain: { $eq: domainId },
-      categories: { $in: result._id },
+      categories: { $in: result?._id },
       approval: { $in: "APPROVED" },
       status: { $in: true },
     })
@@ -355,4 +356,111 @@ exports.update_blog = async (req, res) => {
       });
     });
   });
+};
+
+module.exports.blog_list_carousel_by_domain = (req, res) => {
+  const { domainId } = req.params;
+  let limit = req.body.limit ? parseInt(req.body.limit) : 5;
+  // let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
+  Blog.find({ status: true, domain: domainId, approval: "APPROVED" })
+    .sort({ updatedAt: -1 })
+    .select("featureImg")
+    // .skip(skip)
+    .limit(limit)
+    .exec((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: err,
+        });
+      }
+      res.json(result);
+    });
+};
+
+module.exports.blog_by_category = (req, res) => {
+  const { category, limit } = req.body;
+  const { domainId } = req.params;
+
+  Category.findOne({ slug: category, domain: domainId }).exec((err, result) => {
+    if (err) {
+      return res.status(400).json({
+        error: err,
+      });
+    }
+
+    Blog.find({
+      domain: { $eq: domainId },
+      categories: { $in: result?._id },
+      approval: { $in: "APPROVED" },
+      status: { $in: true },
+    })
+      .sort({ createdAt: -1 })
+      .populate("postedBy", "_id full_name")
+      .populate("categories", "name slug")
+      .select("title slug excerpt postedBy createdAt updatedAt featureImg body")
+      .limit(5)
+      .exec((err, blogs) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Blogs not found",
+          });
+        }
+        res.json(blogs);
+      });
+  });
+};
+
+module.exports.top_rated_list = (req, res) => {
+  let limit = req.body.limit ? parseInt(req.body.limit) : 5;
+  const { domainId } = req.params;
+
+  Blog.find({
+    domain: { $eq: domainId },
+    is_movie: { $in: true },
+    approval: { $in: "APPROVED" },
+    status: { $in: true },
+  })
+    .limit(limit)
+    .sort({ rating: -1 })
+    .populate("postedBy", "_id full_name")
+    .populate("categories", "name slug")
+    .select(
+      "title slug excerpt postedBy createdAt updatedAt featureImg body movie_name is_movie rating trailer_link"
+    )
+    .exec((err, blogs) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Blogs not found",
+        });
+      }
+      res.json(blogs);
+    });
+};
+
+module.exports.released_list = (req, res) => {
+  let limit = req.body.limit ? parseInt(req.body.limit) : 4;
+  const { domainId } = req.params;
+
+  Blog.find({
+    domain: { $eq: domainId },
+    is_movie: { $in: true },
+    approval: { $in: "APPROVED" },
+    status: { $in: true },
+  })
+    .limit(limit)
+    .sort({ release_date: 1 })
+    .populate("postedBy", "_id full_name")
+    .populate("categories", "name slug")
+    .select(
+      "title slug excerpt postedBy createdAt updatedAt featureImg body movie_name is_movie rating trailer_link"
+    )
+    .exec((err, blogs) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Blogs not found",
+        });
+      }
+      res.json(blogs);
+    });
 };

@@ -8,68 +8,88 @@ const blogSchema = mongoose.Schema(
       trim: true,
       min: 3,
       max: 400,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
       unique: true,
-      index: true
+      index: true,
     },
     body: {
       type: {},
       required: true,
       min: 200,
-      max: 2000000
+      max: 2000000,
     },
     excerpt: {
       type: String,
       max: 1000,
-      trim: true
+      trim: true,
     },
     mtitle: {
       type: String,
-      trim: true
+      trim: true,
     },
     mdesc: {
       type: String,
-      trim: true
+      trim: true,
     },
     featureImg: {
       type: String,
-      required: true
+      required: true,
     },
     categories: [{ type: ObjectId, ref: "Category", required: true }],
     postedBy: {
       type: ObjectId,
-      ref: "Employee"
+      ref: "Employee",
     },
     domain: {
       type: ObjectId,
-      ref: "Domain"
+      ref: "Domain",
     },
     status: {
       type: Boolean,
-      default: false
+      default: false,
     },
     approval: {
       type: String,
       enum: ["WAITING", "APPROVED", "NOT APPROVED"],
-      default: "WAITING"
+      default: "WAITING",
     },
     views_count: {
       type: Number,
-      default: 0
+      default: 0,
     },
     updatedBy: {
       type: ObjectId,
-      ref: "Employee"
+      ref: "Employee",
     },
     task: {
       type: ObjectId,
       ref: "Task",
       unique: true,
-      required: true
-    }
+      required: true,
+    },
+    rating: {
+      type: Number,
+      default: null,
+    },
+    is_movie: {
+      type: Boolean,
+      default: false,
+    },
+    movie_name: {
+      type: String,
+      default: null,
+    },
+    trailer_link: {
+      type: String,
+      default: null,
+    },
+    release_date: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

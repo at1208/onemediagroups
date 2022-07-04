@@ -73,7 +73,7 @@ module.exports.random_blog_categories = (req, res) => {
   let _id = mongoose.Types.ObjectId(domainId);
   Category.aggregate([
     { $match: { domain: { $in: [_id] } } },
-    { $sample: { size: 3 } },
+    { $sample: { size: 4 } },
   ]).exec((err, result) => {
     if (err) {
       res.status(400).json({
