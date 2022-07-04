@@ -284,7 +284,7 @@ module.exports.blog_list_by_category = (req, res) => {
 
     Blog.find({
       domain: { $eq: domainId },
-      categories: { $in: result?._id },
+      categories: { $in: result._id },
       approval: { $in: "APPROVED" },
       status: { $in: true },
     })
