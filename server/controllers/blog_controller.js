@@ -229,7 +229,6 @@ module.exports.related_blogs_by_domain = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 6;
   const { _id, categories } = req.body.blog;
   const { domainId } = req.params;
-
   Blog.find({
     _id: { $ne: _id },
     domain: { $eq: domainId },
@@ -248,7 +247,8 @@ module.exports.related_blogs_by_domain = (req, res) => {
           error: "Blogs not found",
         });
       }
-      res.json(blogs);
+
+      return res.json(blogs);
     });
 };
 
@@ -441,7 +441,6 @@ module.exports.top_rated_list = (req, res) => {
 module.exports.released_list = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 4;
   const { domainId } = req.params;
-
   Blog.find({
     domain: { $eq: domainId },
     is_movie: { $in: true },
